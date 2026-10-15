@@ -50,10 +50,10 @@
 
 - [x] 8.1 Add `.github/workflows/ci.yml` with required jobs: build+test, fmt, clippy (`-D warnings`), deny, layering, glossary, and public-API; every job takes the toolchain from the pin file, with no nightly
 - [x] 8.2 Verify locally that each job's command succeeds, and that an introduced clippy warning and an unformatted file each fail their job
-- [ ] 8.3 Confirm in the first pushed pull request that the workflow runs and reports a single overall status naming any failing gate
+- [x] 8.3 Confirm in the first pushed pull request that the workflow runs and reports a single overall status naming any failing gate
 
 ## 9. Documentation and review process
 
 - [x] 9.1 Write `README.md` (what Bleedthrough is, status, build instructions including the toolchain pin) and `CONTRIBUTING.md` (gates to run before a PR); verify the commands run as written
 - [x] 9.2 Write `docs/architecture.md` with the layer diagram (Mermaid) and a table of each SOLID/DDD principle with its verification method (CI check or review); verify it matches `architecture.toml` and design D4
-- [ ] 9.3 Write `docs/architecture-review.md` (checklist for SRP, ISP, LSP, OCP and DDD boundaries) and a pull-request template that references it; verify the template renders on a pull request
+- [x] 9.3 Write `docs/architecture-review.md` (checklist for SRP, ISP, LSP, OCP and DDD boundaries) and a pull-request template that references it; verify the template renders on a pull request
