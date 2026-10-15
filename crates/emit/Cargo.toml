@@ -11,6 +11,7 @@ publish.workspace = true
 [dependencies]
 bleedthrough-app = { path = "../app" }
 bleedthrough-findings = { path = "../findings" }
+bleedthrough-taxonomy = { path = "../taxonomy" }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1" }
 similar = "2"

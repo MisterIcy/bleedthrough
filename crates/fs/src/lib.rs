@@ -1,13 +1,13 @@
 //! **Layer:** Infrastructure.
 //!
-//! **Responsibility:** file-system access implementing application ports.
+//! **Responsibility:** file-system access implementing application ports, including loading rule
+//! files (TOML) through the port the rules crate owns.
 //!
 //! **Permitted workspace dependencies:** `bleedthrough-app`, `bleedthrough-rules`, `bleedthrough-packs`.
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn crate_is_part_of_the_workspace() {
-        assert_eq!(env!("CARGO_PKG_NAME"), "bleedthrough-fs");
-    }
-}
+mod rules_dir;
+mod toml_rules;
+
+pub use rules_dir::{
+    CheckStatus, LoadedRules, RETIRED_FILE, TomlRuleDir, check_rules, content_hash, load_rules,
+};

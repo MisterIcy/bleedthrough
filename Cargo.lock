@@ -120,6 +120,7 @@ version = "0.0.0"
 dependencies = [
  "bleedthrough-app",
  "bleedthrough-findings",
+ "bleedthrough-taxonomy",
  "jsonschema",
  "serde",
  "serde_json",
@@ -135,12 +136,19 @@ version = "0.0.0"
 name = "bleedthrough-findings"
 version = "0.0.0"
 dependencies = [
+ "bleedthrough-taxonomy",
  "sha2",
 ]
 
 [[package]]
 name = "bleedthrough-fs"
 version = "0.0.0"
+dependencies = [
+ "bleedthrough-rules",
+ "sha2",
+ "tempfile",
+ "toml",
+]
 
 [[package]]
 name = "bleedthrough-ir"
@@ -153,6 +161,9 @@ version = "0.0.0"
 [[package]]
 name = "bleedthrough-rules"
 version = "0.0.0"
+dependencies = [
+ "bleedthrough-taxonomy",
+]
 
 [[package]]
 name = "bleedthrough-symbols"
@@ -181,6 +192,10 @@ dependencies = [
  "mago-span",
  "mago-syntax",
 ]
+
+[[package]]
+name = "bleedthrough-taxonomy"
+version = "0.0.0"
 
 [[package]]
 name = "blink-alloc"

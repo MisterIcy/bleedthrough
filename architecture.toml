@@ -21,13 +21,17 @@ parser_backends = ["mago-*", "tree-sitter*", "php-parser-rs", "php-rs-parser"]
 layer = "domain"
 allow = []
 
-[crate.bleedthrough-rules]
+[crate.bleedthrough-taxonomy]
 layer = "domain"
 allow = []
 
+[crate.bleedthrough-rules]
+layer = "domain"
+allow = ["bleedthrough-taxonomy"]
+
 [crate.bleedthrough-findings]
 layer = "domain"
-allow = []
+allow = ["bleedthrough-taxonomy"]
 
 [crate.bleedthrough-symbols]
 layer = "domain"
@@ -45,7 +49,7 @@ allow = ["bleedthrough-rules"]
 layer = "domain"
 allow = [
   "bleedthrough-ir", "bleedthrough-symbols", "bleedthrough-syntax",
-  "bleedthrough-rules", "bleedthrough-packs", "bleedthrough-findings",
+  "bleedthrough-rules", "bleedthrough-packs", "bleedthrough-findings", "bleedthrough-taxonomy",
 ]
 
 # ---- Application ----
@@ -59,7 +63,7 @@ allow = [
 # ---- Infrastructure (implements ports owned by inner layers) ----
 [crate.bleedthrough-emit]
 layer = "infrastructure"
-allow = ["bleedthrough-app", "bleedthrough-findings"]
+allow = ["bleedthrough-app", "bleedthrough-findings", "bleedthrough-taxonomy"]
 
 [crate.bleedthrough-fs]
 layer = "infrastructure"

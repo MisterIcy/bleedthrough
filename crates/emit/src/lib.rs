@@ -2,7 +2,7 @@
 //!
 //! **Responsibility:** report emitters implementing application ports.
 //!
-//! **Permitted workspace dependencies:** `bleedthrough-app`, `bleedthrough-findings`.
+//! **Permitted workspace dependencies:** `bleedthrough-app`, `bleedthrough-findings`, `bleedthrough-taxonomy`.
 //!
 //! The one public entry is [`emitter_for`]; everything else is reached through the
 //! `bleedthrough_app::Emitter` port.

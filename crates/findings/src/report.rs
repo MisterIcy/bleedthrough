@@ -137,9 +137,10 @@ impl Report {
 mod tests {
     use super::*;
     use crate::{
-        Applicability, Confidence, Cwe, Edit, FindingParts, Fingerprint, FingerprintInput, Fix,
-        Location, Message, OwaspRef, Position, RelPath, RuleId, Severity, SeverityLevel, Taxonomy,
+        Applicability, Confidence, Edit, FindingParts, Fingerprint, FingerprintInput, Fix,
+        Location, Message, Position, RelPath, RuleId,
     };
+    use bleedthrough_taxonomy::{Cwe, OwaspRef, Severity, SeverityLevel, Taxonomy};
 
     fn finding(path: &str, line: u32, col: u32, rule: &str, symbol: &str) -> Finding {
         let rule = RuleId::new(rule).unwrap();

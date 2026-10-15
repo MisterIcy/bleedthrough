@@ -3,7 +3,8 @@
 use std::io::Write;
 
 use bleedthrough_app::{EmitContext, EmitError, EmitOutcome, Emitter, Format};
-use bleedthrough_findings::{Finding, Report, SeverityLevel};
+use bleedthrough_findings::{Finding, Report};
+use bleedthrough_taxonomy::SeverityLevel;
 
 use crate::summary;
 

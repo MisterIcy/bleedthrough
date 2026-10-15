@@ -1,4 +1,5 @@
-use crate::{Confidence, Fingerprint, Fix, Location, Message, RuleId, Severity, Taxonomy, Trace};
+use crate::{Confidence, Fingerprint, Fix, Location, Message, RuleId, Trace};
+use bleedthrough_taxonomy::{Severity, Taxonomy};
 
 /// Term: Finding
 ///
@@ -101,5 +102,63 @@ impl Finding {
     pub(crate) fn order_key(&self) -> impl Ord + '_ {
         let loc = self.location();
         (loc.path(), loc.start(), self.rule(), self.fingerprint())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{ConfidenceTier, FingerprintInput, Position, Reason, ReasonCode, RelPath};
+    use bleedthrough_taxonomy::{
+        AttackComplexity, AttackVector, Cwe, Impact, Metrics, OwaspRef, PrivilegesRequired, Scope,
+        SeverityLevel, UserInteraction,
+    };
+
+    fn finding(severity: Severity, confidence: Confidence) -> Finding {
+        let rule = RuleId::new("BT0001").unwrap();
+        let p = Position::new(1, 1).unwrap();
+        Finding::new(FindingParts {
+            fingerprint: Fingerprint::compute(&FingerprintInput::new(rule.clone(), "f", vec![], 0)),
+            rule,
+            message: Message::new("m").unwrap(),
+            location: Location::new(RelPath::new("a.php").unwrap(), p, p, 0, 0).unwrap(),
+            taxonomy: Taxonomy::new(
+                vec![Cwe::new(89).unwrap()],
+                vec![OwaspRef::new(2021, "A03").unwrap()],
+            )
+            .unwrap(),
+            severity,
+            confidence,
+            paranoid: false,
+            trace: None,
+            fix: None,
+        })
+    }
+
+    #[test]
+    fn severity_from_rule_metrics_is_independent_of_confidence() {
+        let metrics = Metrics {
+            attack_vector: AttackVector::Network,
+            attack_complexity: AttackComplexity::Low,
+            privileges_required: PrivilegesRequired::None,
+            user_interaction: UserInteraction::None,
+            scope: Scope::Unchanged,
+            confidentiality: Impact::High,
+            integrity: Impact::High,
+            availability: Impact::High,
+        };
+        let reason = Reason::new(ReasonCode::SourceInferred);
+        let low = Confidence::new(ConfidenceTier::Low, vec![reason]).unwrap();
+        let f = finding(Severity::from_metrics(&metrics), low);
+        assert_eq!(f.severity().level(), SeverityLevel::Critical);
+        assert_eq!(f.severity().score_text().unwrap(), "9.8");
+        assert_eq!(f.confidence().tier(), ConfidenceTier::Low);
+    }
+
+    #[test]
+    fn a_level_only_finding_is_valid() {
+        let high = Confidence::new(ConfidenceTier::High, vec![]).unwrap();
+        let f = finding(Severity::new(SeverityLevel::Low), high);
+        assert!(f.severity().score_tenths().is_none() && f.severity().vector().is_none());
     }
 }

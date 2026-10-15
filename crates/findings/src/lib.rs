@@ -2,7 +2,7 @@
 //!
 //! **Responsibility:** findings and their value objects (fingerprint, severity, confidence, coverage).
 //!
-//! **Permitted workspace dependencies:** none.
+//! **Permitted workspace dependencies:** `bleedthrough-taxonomy` only.
 //!
 //! Every value type validates at construction, so an invalid finding cannot reach an emitter.
 //! The domain carries no serialization: wire formats live in `bleedthrough-emit`.
@@ -18,8 +18,6 @@ mod fix;
 mod ids;
 mod location;
 mod report;
-mod severity;
-mod taxonomy;
 mod trace;
 
 pub use confidence::{Confidence, ConfidenceTier, Reason, ReasonCode};
@@ -33,6 +31,4 @@ pub use fix::{Applicability, Edit, Fix};
 pub use ids::{Message, RuleId};
 pub use location::{Location, Position, RelPath};
 pub use report::{REPORT_SCHEMA_VERSION, Report, RunInfo, RunOptions};
-pub use severity::{Severity, SeverityLevel};
-pub use taxonomy::{Cwe, OwaspRef, Taxonomy};
 pub use trace::{Step, StepKind, Trace};
