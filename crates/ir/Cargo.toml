@@ -1,0 +1,12 @@
+[package]
+name = "bleedthrough-ir"
+version = "0.0.0"
+description = "Bleedthrough domain layer: the intermediate representation and flow graphs analysed by the engine"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,12 @@
+[package]
+name = "bleedthrough-findings"
+version = "0.0.0"
+description = "Bleedthrough domain layer: findings and their value objects (fingerprint, severity, confidence, coverage)"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true

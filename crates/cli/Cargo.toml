@@ -1,0 +1,22 @@
+[package]
+name = "bleedthrough-cli"
+version = "0.0.0"
+description = "Bleedthrough delivery layer: the command-line front-end and composition root"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "bleedthrough"
+path = "src/main.rs"
+
+[dependencies]
+bleedthrough-app = { path = "../app" }
+bleedthrough-emit = { path = "../emit" }
+bleedthrough-fs = { path = "../fs" }
+bleedthrough-cache = { path = "../cache" }
+
+[lints]
+workspace = true

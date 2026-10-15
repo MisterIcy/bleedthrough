@@ -1,0 +1,12 @@
+[package]
+name = "bleedthrough-app"
+version = "0.0.0"
+description = "Bleedthrough application layer: scan use cases and the driven ports they need (sources, cache, lock files, emitters)"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true

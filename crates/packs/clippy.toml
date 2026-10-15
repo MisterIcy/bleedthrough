@@ -1,0 +1,50 @@
+# Domain crates are pure. Keep the limits in sync with the root clippy.toml (clippy reads only
+# the nearest file). See docs/architecture.md.
+cognitive-complexity-threshold = 15
+too-many-lines-threshold = 80
+too-many-arguments-threshold = 5
+type-complexity-threshold = 150
+
+disallowed-types = [
+  { path = "std::fs::File", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::OpenOptions", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::DirEntry", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::ReadDir", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::net::TcpStream", reason = "network access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::net::TcpListener", reason = "network access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::net::UdpSocket", reason = "network access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::process::Command", reason = "process spawning: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::process::Child", reason = "process spawning: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::time::SystemTime", reason = "wall-clock access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::time::Instant", reason = "clock access: domain crates are pure; use a port implemented in infrastructure" },
+]
+disallowed-methods = [
+  { path = "std::fs::read", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::read_to_string", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::write", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::read_dir", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::create_dir", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::create_dir_all", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::remove_file", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::remove_dir", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::remove_dir_all", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::copy", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::rename", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::metadata", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::canonicalize", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::read_link", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::fs::exists", reason = "file-system access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::var", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::vars", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::var_os", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::args", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::args_os", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::current_dir", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::set_var", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::remove_var", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::current_exe", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::env::temp_dir", reason = "environment access: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::thread::sleep", reason = "blocking sleep: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::process::exit", reason = "process control: domain crates are pure; use a port implemented in infrastructure" },
+  { path = "std::process::abort", reason = "process control: domain crates are pure; use a port implemented in infrastructure" },
+]

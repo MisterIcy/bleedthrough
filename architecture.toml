@@ -1,0 +1,80 @@
+# Layering declaration, checked by `cargo xtask check-layering`.
+# A workspace dependency is permitted only if listed in `allow`. New edges need a
+# comment justifying them (see docs/architecture.md and the review checklist).
+
+[policy]
+# Infrastructure crates banned from domain manifests (exact name or `prefix*`).
+# serde derive support is allowed: data-contract derives do no IO.
+domain_denied = [
+  "walkdir", "ignore", "glob", "globset", "notify",
+  "reqwest", "hyper", "ureq", "isahc", "curl", "attohttpc",
+  "tokio*", "async-std", "smol", "futures-executor", "rayon",
+  "serde_json", "toml", "toml_edit", "serde_yaml", "serde_yml", "yaml-rust*", "ron", "csv", "bincode",
+  "rusqlite", "sled", "redb", "rocksdb",
+  "tempfile", "dirs", "home", "which",
+]
+# Third-party PHP parser backends: reachable only from adapter crates, exact-pinned.
+parser_backends = ["mago-*", "tree-sitter*", "php-parser-rs", "php-rs-parser"]
+
+# ---- Domain (pure) ----
+[crate.bleedthrough-syntax]
+layer = "domain"
+allow = []
+
+[crate.bleedthrough-rules]
+layer = "domain"
+allow = []
+
+[crate.bleedthrough-findings]
+layer = "domain"
+allow = []
+
+[crate.bleedthrough-symbols]
+layer = "domain"
+allow = ["bleedthrough-syntax"]
+
+[crate.bleedthrough-ir]
+layer = "domain"
+allow = ["bleedthrough-symbols", "bleedthrough-syntax"]
+
+[crate.bleedthrough-packs]
+layer = "domain"
+allow = ["bleedthrough-rules"]
+
+[crate.bleedthrough-engine]
+layer = "domain"
+allow = [
+  "bleedthrough-ir", "bleedthrough-symbols", "bleedthrough-syntax",
+  "bleedthrough-rules", "bleedthrough-packs", "bleedthrough-findings",
+]
+
+# ---- Application ----
+[crate.bleedthrough-app]
+layer = "application"
+allow = [
+  "bleedthrough-engine", "bleedthrough-findings", "bleedthrough-syntax",
+  "bleedthrough-symbols", "bleedthrough-rules", "bleedthrough-packs",
+]
+
+# ---- Infrastructure (implements ports owned by inner layers) ----
+[crate.bleedthrough-emit]
+layer = "infrastructure"
+allow = ["bleedthrough-app", "bleedthrough-findings"]
+
+[crate.bleedthrough-fs]
+layer = "infrastructure"
+allow = ["bleedthrough-app", "bleedthrough-rules", "bleedthrough-packs"]
+
+[crate.bleedthrough-cache]
+layer = "infrastructure"
+allow = ["bleedthrough-app", "bleedthrough-engine", "bleedthrough-symbols"]
+
+# ---- Delivery (composition root) ----
+[crate.bleedthrough-cli]
+layer = "delivery"
+allow = ["bleedthrough-app", "bleedthrough-emit", "bleedthrough-fs", "bleedthrough-cache"]
+
+# ---- Tooling ----
+[crate.xtask]
+layer = "tooling"
+allow = []

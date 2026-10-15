@@ -1,0 +1,12 @@
+[package]
+name = "bleedthrough-packs"
+version = "0.0.0"
+description = "Bleedthrough domain layer: per-library knowledge packs expressed as plain serializable data"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true

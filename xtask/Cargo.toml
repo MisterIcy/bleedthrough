@@ -1,0 +1,18 @@
+[package]
+name = "xtask"
+version = "0.0.0"
+description = "Bleedthrough tooling: architecture checks run locally and in CI"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+quote = "1.0.47"
+serde_json = "1.0.154"
+syn = { version = "3.0.9", features = ["full", "parsing"] }
+toml = "1.1.8"
