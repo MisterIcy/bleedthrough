@@ -60,7 +60,7 @@
 
 - [x] 7.1 Extend the layering check with the reachability test over the resolved dependency graph (no `mago-*` crate reachable from any workspace crate other than the adapter); verify a temporary dependency of another crate on `mago-span` fails with a message naming the path
 - [x] 7.2 Update `deny.toml` for the direct Mago dependencies and run `cargo deny check` on the full closure; verify it passes, or record each failing advisory or licence in the spike report instead of ignoring it
-- [ ] 7.3 Add a CI job that re-verifies the ledger with `php -l` in the official container image for each obtainable PHP version (images pinned by digest where available), listing unobtainable versions as unverified, plus a job running the conformance suite; verify both run on a pull request and that a deliberately wrong ledger entry fails the verification job
+- [x] 7.3 Add a CI job that re-verifies the ledger with `php -l` in the official container image for each obtainable PHP version (images pinned by digest where available), listing unobtainable versions as unverified, plus a job running the conformance suite; verify both run on a pull request and that a deliberately wrong ledger entry fails the verification job
 - [x] 7.4 Update `docs/architecture.md`, `adapters/README.md` and the diagram with the adapter and the tooling crate; verify the diagram matches `architecture.toml`
 
 ## 8. Spike and review
