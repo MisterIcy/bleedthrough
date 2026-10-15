@@ -2,7 +2,7 @@
 //!
 //! **Responsibility:** the taint-analysis engine, usable as a library under any front-end.
 //!
-//! **Permitted workspace dependencies:** `bleedthrough-ir`, `bleedthrough-symbols`, `bleedthrough-syntax`, `bleedthrough-rules`, `bleedthrough-packs`, `bleedthrough-findings`.
+//! **Permitted workspace dependencies:** `bleedthrough-ir`, `bleedthrough-symbols`, `bleedthrough-syntax`, `bleedthrough-rules`, `bleedthrough-packs`, `bleedthrough-findings`, `bleedthrough-taxonomy`.
 
 #![warn(clippy::exhaustive_enums, clippy::exhaustive_structs)]
 

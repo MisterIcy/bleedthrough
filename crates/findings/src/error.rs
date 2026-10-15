@@ -1,5 +1,7 @@
 use std::fmt;
 
+use bleedthrough_taxonomy::TaxonomyError;
+
 /// Term: exempt
 ///
 /// Why a value of the finding model could not be constructed.
@@ -16,20 +18,12 @@ pub enum ModelError {
     InvalidRange(String),
     /// A byte offset did not fall on a character boundary or lay outside the text.
     InvalidOffset(usize),
-    /// A finding had no CWE identifier.
-    MissingCwe,
-    /// A finding had no OWASP Top 10 category.
-    MissingOwasp,
-    /// A CWE number was zero.
-    InvalidCwe,
-    /// An OWASP category was not of the form `A01` to `A99`.
-    InvalidOwasp(String),
+    /// A taxonomy tag or severity was invalid.
+    Taxonomy(TaxonomyError),
     /// A confidence below high carried no reason.
     MissingReason,
     /// A reason code is not part of the vocabulary.
     UnknownReasonCode(String),
-    /// A severity score was above 10.0.
-    InvalidScore(u16),
     /// A trace had fewer than two steps.
     TraceTooShort,
     /// A trace did not start at a source or did not end at a sink.
@@ -60,15 +54,9 @@ impl fmt::Display for ModelError {
                 f,
                 "byte offset {o} is not on a character boundary of the text"
             ),
-            Self::MissingCwe => f.write_str("finding has no CWE identifier (taxonomy kind: cwe)"),
-            Self::MissingOwasp => {
-                f.write_str("finding has no OWASP category (taxonomy kind: owasp)")
-            }
-            Self::InvalidCwe => f.write_str("CWE number must be positive"),
-            Self::InvalidOwasp(s) => write!(f, "invalid OWASP category {s:?}"),
+            Self::Taxonomy(e) => write!(f, "finding taxonomy: {e}"),
             Self::MissingReason => f.write_str("confidence below high needs at least one reason"),
             Self::UnknownReasonCode(s) => write!(f, "unknown reason code {s:?}"),
-            Self::InvalidScore(t) => write!(f, "severity score {t} tenths is above 10.0"),
             Self::TraceTooShort => f.write_str("trace needs at least a source and a sink"),
             Self::TraceNotSourceToSink => {
                 f.write_str("trace must start with a source and end with a sink")
@@ -83,3 +71,9 @@ impl fmt::Display for ModelError {
 }
 
 impl std::error::Error for ModelError {}
+
+impl From<TaxonomyError> for ModelError {
+    fn from(e: TaxonomyError) -> Self {
+        Self::Taxonomy(e)
+    }
+}

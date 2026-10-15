@@ -3,9 +3,8 @@
 //! Every struct serializes its fields in declaration order and holds no hash maps, so output
 //! never depends on iteration order. Optional values are written as `null`, never omitted.
 
-use bleedthrough_findings::{
-    CacheStats, Coverage, Finding, Report, RunInfo, Severity, Suppressed, Trace,
-};
+use bleedthrough_findings::{CacheStats, Coverage, Finding, Report, RunInfo, Suppressed, Trace};
+use bleedthrough_taxonomy::Severity;
 use serde::{Serialize, Serializer};
 
 /// Tenths of a score, written as a JSON number with one decimal place (`7.5`, `10.0`).

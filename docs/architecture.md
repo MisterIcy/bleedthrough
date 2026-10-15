@@ -30,6 +30,7 @@ flowchart TB
     rules["rules"]
     packs["packs"]
     findings["findings"]
+    taxonomy["taxonomy (CWE, OWASP, severity)"]
   end
   cli --> app
   cli --> emit
@@ -38,6 +39,9 @@ flowchart TB
   cli --> mago
   emit --> app
   fs --> app
+  fs -->|loads rule files through the RuleSource port| rules
+  emit --> findings
+  emit --> taxonomy
   cache --> app
   mago --> syntax
   mago -. dev-dependency .-> conformance
@@ -49,13 +53,16 @@ flowchart TB
   engine --> rules
   engine --> packs
   engine --> findings
+  engine --> taxonomy
+  rules --> taxonomy
+  findings --> taxonomy
   ir --> symbols
   symbols --> syntax
   packs --> rules
 ```
 
-Edges omitted for readability are listed in `architecture.toml`. `syntax`, `rules` and `findings`
-depend on no workspace crate. Tooling crates (`xtask`, `bleedthrough-syntax-conformance`) are never
+Edges omitted for readability are listed in `architecture.toml`. `syntax` and `taxonomy`
+depend on no workspace crate; `rules` and `findings` depend on `taxonomy` only. Tooling crates (`xtask`, `bleedthrough-syntax-conformance`) are never
 depended on by a normal dependency; a tooling crate may depend on domain crates only, and an adapter may
 use the conformance suite as a dev-dependency, which is exempt from the edge rule because it never
 reaches a shipped artefact.

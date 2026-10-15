@@ -8,7 +8,8 @@ use std::collections::BTreeMap;
 use std::io::Write;
 
 use bleedthrough_app::{EmitContext, EmitError, EmitOutcome, Emitter, Format};
-use bleedthrough_findings::{Finding, Location, Report, SeverityLevel};
+use bleedthrough_findings::{Finding, Location, Report};
+use bleedthrough_taxonomy::SeverityLevel;
 use serde_json::{Value, json};
 
 use crate::{summary, wire};

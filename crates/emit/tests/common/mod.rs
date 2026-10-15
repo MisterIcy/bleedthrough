@@ -6,6 +6,7 @@ use std::path::PathBuf;
 
 use bleedthrough_app::SourceText;
 use bleedthrough_findings::*;
+use bleedthrough_taxonomy::*;
 
 pub const DB: &str = "src/Db.php";
 pub const SHELL: &str = "lib/Shell.php";
@@ -120,6 +121,38 @@ fn step(kind: StepKind, needle: &str, label: &str) -> Step {
     Step::new(at(DB, DB_TEXT, needle), kind, label)
 }
 
+/// A registry with a second edition and a weakness outside v1, to exercise multi-edition output.
+fn two_edition_registry() -> Registry {
+    Registry::new(
+        vec![
+            WeaknessEntry {
+                number: 89,
+                name: "SQL injection",
+                catalog: "test",
+                categories: &[(2021, "A03")],
+            },
+            WeaknessEntry {
+                number: 943,
+                name: "Data query logic",
+                catalog: "test",
+                categories: &[(2025, "A05")],
+            },
+        ],
+        vec![
+            CategoryEntry {
+                edition: 2021,
+                id: "A03",
+                name: "Injection",
+            },
+            CategoryEntry {
+                edition: 2025,
+                id: "A05",
+                name: "Injection",
+            },
+        ],
+    )
+}
+
 /// One finding with every optional part: trace, fix with two edits, two editions, reasons, score.
 pub fn full() -> Report {
     let mut p = parts(
@@ -129,11 +162,15 @@ pub fn full() -> Report {
         SeverityLevel::Critical,
         ConfidenceTier::Medium,
     );
+    let registry = two_edition_registry();
     p.taxonomy = Taxonomy::new(
-        vec![Cwe::new(89).unwrap(), Cwe::new(943).unwrap()],
         vec![
-            OwaspRef::new(2021, "A03").unwrap(),
-            OwaspRef::new(2025, "A05").unwrap(),
+            Cwe::new_in(&registry, 89).unwrap(),
+            Cwe::new_in(&registry, 943).unwrap(),
+        ],
+        vec![
+            OwaspRef::new_in(&registry, 2021, "A03").unwrap(),
+            OwaspRef::new_in(&registry, 2025, "A05").unwrap(),
         ],
     )
     .unwrap();

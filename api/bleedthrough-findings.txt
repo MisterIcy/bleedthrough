@@ -8,6 +8,4 @@ crate::{use} use fix :: { Applicability , Edit , Fix }
 crate::{use} use ids :: { Message , RuleId }
 crate::{use} use location :: { Location , Position , RelPath }
 crate::{use} use report :: { REPORT_SCHEMA_VERSION , Report , RunInfo , RunOptions }
-crate::{use} use severity :: { Severity , SeverityLevel }
-crate::{use} use taxonomy :: { Cwe , OwaspRef , Taxonomy }
 crate::{use} use trace :: { Step , StepKind , Trace }

@@ -86,3 +86,23 @@ The complete, immutable result of one run: its findings in a fixed order, the co
 ## Trace
 
 The ordered steps of a flow from a source to a sink that explain why a finding was reported.
+
+## Weakness
+
+A kind of software flaw identified by a CWE number, such as CWE-89 for SQL injection. Only weaknesses in the registry can be used.
+
+## Category
+
+An OWASP Top 10 risk category, always qualified by its edition, such as `OWASP:2021:A03`.
+
+## Taxonomy
+
+The mandatory classification of a rule or finding: at least one weakness and at least one category.
+
+## Registry
+
+The curated, compiled-in list of supported weaknesses and categories, with their official names and the mapping between them. A tag outside the registry is rejected.
+
+## Severity metrics
+
+The eight CVSS 3.1 base metrics a rule declares, from which the score, the vector string and the severity level are derived by one fixed formula.
