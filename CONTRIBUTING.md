@@ -22,3 +22,5 @@ cargo xtask check-api            # public-API snapshots (use --update for intend
 - **Language:** a public type in a domain crate carries a doc line `Term: <glossary term>` or `Term: exempt`. Terms live in `docs/glossary.md`.
 - **No `unsafe`**, no new licenses outside the `deny.toml` allow-list, and parser backends only through an adapter crate at an exact version.
 - **Review:** the checklist in [docs/architecture-review.md](docs/architecture-review.md) covers what CI cannot prove.
+
+<!-- CI smoke test -->
