@@ -1,6 +1,6 @@
 ## 1. Repository, toolchain and policy files
 
-- [ ] 1.0 Initialize `bleedthrough/` as its own git repository on `main` (it is currently untracked inside the parent repo) with a `.gitignore` for Rust; verify `git rev-parse --show-toplevel` returns the bleedthrough directory. Creating the GitHub remote is outward-facing: confirm with the user before running it
+- [x] 1.0 Initialize `bleedthrough/` as its own git repository on `main` (it is currently untracked inside the parent repo) with a `.gitignore` for Rust; verify `git rev-parse --show-toplevel` returns the bleedthrough directory. Creating the GitHub remote is outward-facing: confirm with the user before running it
 - [x] 1.1 Add `rust-toolchain.toml` pinning `channel = "1.99.0"` with `rustfmt` and `clippy`; verify `cargo --version` inside the repo reports 1.99.0
 - [x] 1.2 Add `LICENSE-MIT` and `LICENSE-APACHE`; verify both exist and name the correct copyright holder
 - [x] 1.3 Add `rustfmt.toml` and a root `clippy.toml` with complexity, length and argument limits; verify `cargo fmt --check` and `cargo clippy` run clean on the empty workspace
