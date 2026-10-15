@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+ClassLike 7..162 Class "Point" modifiers=[]
+  Method 25..160 "__construct" by_ref=false modifiers=[Public]
+    Param 62..79 "x" by_ref=false variadic=false modifiers=[Public]
+      Builtin 69..72 Int
+      Literal 78..79 int "0"
+    Param 89..113 "y" by_ref=false variadic=false modifiers=[Protected]
+      Nullable 99..103
+        Builtin 100..103 Int
+      Literal 109..113 null
+    Param 123..150 "label" by_ref=false variadic=false modifiers=[Private]
+      Builtin 131..137 String
+      Literal 147..150 string Single "'p'"
+End 163

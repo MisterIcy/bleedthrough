@@ -1,0 +1,29 @@
+OpenTag 0..5 short=false
+Expr 7..64
+  Assign 7..63 Assign
+    Variable 7..12 "user"
+    Binary 15..63 Coalesce
+      Property 15..29 "user" nullsafe=false
+        Variable 15..23 "session"
+      Throw 33..63
+        New 39..63
+          Name 43..52 Unqualified "Exception"
+            Name 43..52 Unqualified "Exception"
+          Arg 53..62
+            Literal 53..62 string Single "'no user'"
+Expr 65..105
+  Assign 65..104 Assign
+    Variable 65..67 "f"
+    ArrowFn 70..104 static=false by_ref=false
+      Throw 78..104
+        New 84..104
+          Name 88..102 Unqualified "LogicException"
+            Name 88..102 Unqualified "LogicException"
+Expr 106..141
+  Binary 106..140 LowOr
+    Variable 106..108 "x"
+    Throw 112..140
+      New 118..140
+        Name 122..138 Unqualified "RuntimeException"
+          Name 122..138 Unqualified "RuntimeException"
+End 142

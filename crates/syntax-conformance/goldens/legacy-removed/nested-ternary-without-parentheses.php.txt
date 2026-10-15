@@ -1,0 +1,12 @@
+OpenTag 0..5 short=false
+Expr 7..38
+  Assign 7..37 Assign
+    Variable 7..9 "x"
+    Conditional 12..37
+      Conditional 12..25
+        Variable 12..14 "a"
+        Literal 17..20 string Single "'a'"
+        Variable 23..25 "b"
+      Literal 28..31 string Single "'b'"
+      Literal 34..37 string Single "'c'"
+End 39

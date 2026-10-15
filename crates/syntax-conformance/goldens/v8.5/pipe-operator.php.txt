@@ -1,0 +1,29 @@
+OpenTag 0..5 short=false
+Expr 7..46
+  Assign 7..45 Assign
+    Variable 7..14 "result"
+    Pipe 17..45
+      Literal 17..30 string Double "\"Hello World\""
+      CallableRef 34..45 function
+        Name 34..40 Unqualified "strlen"
+          Name 34..40 Unqualified "strlen"
+Expr 47..117
+  Assign 47..116 Assign
+    Variable 47..51 "out"
+    Pipe 54..116
+      Pipe 54..92
+        Pipe 54..73
+          Variable 54..60 "value"
+          CallableRef 64..73 function
+            Name 64..68 Unqualified "trim"
+              Name 64..68 Unqualified "trim"
+        CallableRef 77..92 function
+          Name 77..87 Unqualified "strtoupper"
+            Name 77..87 Unqualified "strtoupper"
+      Parenthesized 96..116
+        ArrowFn 97..115 static=false by_ref=false
+          Param 100..102 "s" by_ref=false variadic=false modifiers=[]
+          Binary 107..115 Concat
+            Variable 107..109 "s"
+            Literal 112..115 string Single "'!'"
+End 118

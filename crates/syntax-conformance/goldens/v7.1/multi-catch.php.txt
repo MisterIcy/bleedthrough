@@ -1,0 +1,19 @@
+OpenTag 0..5 short=false
+Try 7..89
+  Expr 17..23
+    Call 17..22 function
+      Name 17..20 Unqualified "run"
+        Name 17..20 Unqualified "run"
+  Catch 26..89 variable=Some("e")
+    Union 33..65
+      Named 33..47
+        Name 33..47 Unqualified "FirstException"
+      Named 50..65
+        Name 50..65 Unqualified "SecondException"
+    Expr 76..87
+      Call 76..86 function
+        Name 76..82 Unqualified "report"
+          Name 76..82 Unqualified "report"
+        Arg 83..85
+          Variable 83..85 "e"
+End 90

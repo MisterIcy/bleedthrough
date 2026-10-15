@@ -1,0 +1,10 @@
+OpenTag 0..5 short=false
+ClassLike 7..96 Class "Point" modifiers=[Readonly]
+  Method 34..94 "__construct" by_ref=false modifiers=[Public]
+    Param 62..75 "x" by_ref=false variadic=false modifiers=[Public]
+      Builtin 69..72 Int
+    Param 77..90 "y" by_ref=false variadic=false modifiers=[Public]
+      Builtin 84..87 Int
+ClassLike 98..125 Class "Fin" modifiers=[Final, Readonly]
+ClassLike 126..156 Class "Abs" modifiers=[Abstract, Readonly]
+End 157

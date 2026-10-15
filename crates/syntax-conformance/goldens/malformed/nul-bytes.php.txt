@@ -1,0 +1,12 @@
+OpenTag 0..5 short=false
+Function 7..41 "ok_before" by_ref=false modifiers=[]
+  Return 30..39
+    Literal 37..38 int "1"
+Error 43..52
+Expr 53..57
+  Unary 53..56 Plus
+    Literal 55..56 int "2"
+Function 59..92 "ok_after" by_ref=false modifiers=[]
+  Return 81..90
+    Literal 88..89 int "2"
+End 93

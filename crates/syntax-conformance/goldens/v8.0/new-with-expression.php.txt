@@ -1,0 +1,27 @@
+OpenTag 0..5 short=false
+Expr 7..35
+  Assign 7..34 Assign
+    Variable 7..9 "a"
+    New 12..34
+      Parenthesized 16..28
+        Variable 17..27 "className"
+      Arg 29..30
+        Literal 29..30 int "1"
+      Arg 32..33
+        Literal 32..33 int "2"
+Expr 36..63
+  Assign 36..62 Assign
+    Variable 36..38 "b"
+    New 41..62
+      Parenthesized 45..62
+        Binary 46..61 Concat
+          Literal 46..51 string Single "'Foo'"
+          Variable 54..61 "suffix"
+Expr 64..92
+  Assign 64..91 Assign
+    Variable 64..66 "c"
+    New 69..91
+      Parenthesized 73..91
+        Call 74..90 method "name" nullsafe=false
+          Variable 74..82 "factory"
+End 93

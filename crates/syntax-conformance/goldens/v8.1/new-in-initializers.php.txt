@@ -1,0 +1,36 @@
+OpenTag 0..5 short=false
+ClassLike 7..102 Class "Service" modifiers=[]
+  Method 27..100 "__construct" by_ref=false modifiers=[Public]
+    Param 55..96 "logger" by_ref=false variadic=false modifiers=[Private]
+      Named 63..69
+        Name 63..69 Unqualified "Logger"
+      New 80..96
+        Name 84..94 Unqualified "NullLogger"
+          Name 84..94 Unqualified "NullLogger"
+Function 104..148 "g" by_ref=false modifiers=[]
+  Param 115..144 "l" by_ref=false variadic=false modifiers=[]
+    Named 115..121
+      Name 115..121 Unqualified "Logger"
+    New 127..144
+      Name 131..141 Unqualified "NullLogger"
+        Name 131..141 Unqualified "NullLogger"
+      Arg 142..143
+        Literal 142..143 int "1"
+StaticVars 149..171
+  StaticVar 156..170 "s"
+    New 161..170
+      Name 165..168 Unqualified "Foo"
+        Name 165..168 Unqualified "Foo"
+Const 172..192
+  ConstItem 178..191 "C"
+    New 182..191
+      Name 186..189 Unqualified "Bar"
+        Name 186..189 Unqualified "Bar"
+Function 193..227 "h" by_ref=false modifiers=[]
+  Attribute 195..210
+    Name 195..199 Unqualified "Attr"
+    Arg 200..209
+      New 200..209
+        Name 204..207 Unqualified "Baz"
+          Name 204..207 Unqualified "Baz"
+End 228

@@ -1,0 +1,1367 @@
+# The PHP fixture corpus manifest. See fixtures/php/README.md for how to change it.
+
+breakage_classes = ["extreme-nesting", "inline-html-mixing", "invalid-attribute-syntax", "invalid-hook-syntax", "invalid-token", "invalid-type-syntax", "invalid-utf8", "misplaced-keyword", "nul-bytes", "truncated", "unbalanced-delimiter", "unterminated-comment", "unterminated-heredoc", "unterminated-string"]
+
+[[feature]]
+id = "v7.0-scalar-type-declarations"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.types.declarations.php"
+summary = "Scalar parameter types and strict_types"
+fixtures = ["v7.0/scalar-type-declarations.php"]
+
+[[feature]]
+id = "v7.0-return-type-declarations"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.types.declarations.php"
+summary = "Return type declarations"
+fixtures = ["v7.0/return-type-declarations.php"]
+
+[[feature]]
+id = "v7.0-null-coalescing"
+version = "7.0"
+doc = "https://www.php.net/manual/en/migration70.new-features.php"
+summary = "Null coalescing operator"
+fixtures = ["v7.0/null-coalescing.php"]
+
+[[feature]]
+id = "v7.0-spaceship-operator"
+version = "7.0"
+doc = "https://www.php.net/manual/en/migration70.new-features.php"
+summary = "Combined comparison operator"
+fixtures = ["v7.0/spaceship-operator.php"]
+
+[[feature]]
+id = "v7.0-anonymous-classes"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.oop5.anonymous.php"
+summary = "Anonymous classes"
+fixtures = ["v7.0/anonymous-classes.php"]
+
+[[feature]]
+id = "v7.0-unicode-escape"
+version = "7.0"
+doc = "https://www.php.net/manual/en/migration70.new-features.php"
+summary = "Unicode codepoint escape in strings"
+fixtures = ["v7.0/unicode-escape.php"]
+
+[[feature]]
+id = "v7.0-group-use"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.namespaces.importing.php"
+summary = "Group use declarations"
+fixtures = ["v7.0/group-use.php"]
+
+[[feature]]
+id = "v7.0-generator-return"
+version = "7.0"
+doc = "https://www.php.net/manual/en/migration70.new-features.php"
+summary = "Return values from generators"
+fixtures = ["v7.0/generator-return.php"]
+
+[[feature]]
+id = "v7.0-generator-delegation"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.generators.syntax.php"
+summary = "Generator delegation with yield from"
+fixtures = ["v7.0/generator-delegation.php"]
+
+[[feature]]
+id = "v7.0-clone-member-access"
+version = "7.0"
+doc = "https://www.php.net/manual/en/migration70.new-features.php"
+summary = "Member access on a clone expression"
+fixtures = ["v7.0/clone-member-access.php"]
+
+[[feature]]
+id = "v7.1-nullable-types"
+version = "7.1"
+doc = "https://www.php.net/manual/en/migration71.new-features.php"
+summary = "Nullable parameter and return types"
+fixtures = ["v7.1/nullable-types.php"]
+
+[[feature]]
+id = "v7.1-void-return-type"
+version = "7.1"
+doc = "https://www.php.net/manual/en/language.types.void.php"
+summary = "void return type"
+fixtures = ["v7.1/void-return-type.php"]
+
+[[feature]]
+id = "v7.1-short-list-syntax"
+version = "7.1"
+doc = "https://www.php.net/manual/en/function.list.php"
+summary = "Array destructuring with square brackets"
+fixtures = ["v7.1/short-list-syntax.php"]
+
+[[feature]]
+id = "v7.1-class-constant-visibility"
+version = "7.1"
+doc = "https://www.php.net/manual/en/migration71.new-features.php"
+summary = "Visibility on class constants"
+fixtures = ["v7.1/class-constant-visibility.php"]
+
+[[feature]]
+id = "v7.1-iterable-type"
+version = "7.1"
+doc = "https://www.php.net/manual/en/language.types.iterable.php"
+summary = "iterable pseudo-type"
+fixtures = ["v7.1/iterable-type.php"]
+
+[[feature]]
+id = "v7.1-multi-catch"
+version = "7.1"
+doc = "https://www.php.net/manual/en/migration71.new-features.php"
+summary = "Catching several exception types"
+fixtures = ["v7.1/multi-catch.php"]
+
+[[feature]]
+id = "v7.1-list-keys"
+version = "7.1"
+doc = "https://www.php.net/manual/en/function.list.php"
+summary = "Keys in list and short destructuring"
+fixtures = ["v7.1/list-keys.php"]
+
+[[feature]]
+id = "v7.1-negative-string-offsets"
+version = "7.1"
+doc = "https://www.php.net/manual/en/language.types.string.php"
+summary = "Negative string offsets"
+fixtures = ["v7.1/negative-string-offsets.php"]
+
+[[feature]]
+id = "v7.2-object-type"
+version = "7.2"
+doc = "https://www.php.net/manual/en/language.types.object.php"
+summary = "object type declaration"
+fixtures = ["v7.2/object-type.php"]
+
+[[feature]]
+id = "v7.2-group-use-trailing-comma"
+version = "7.2"
+doc = "https://www.php.net/manual/en/language.namespaces.php"
+summary = "Trailing comma in group use"
+fixtures = ["v7.2/group-use-trailing-comma.php"]
+
+[[feature]]
+id = "v7.3-flexible-heredoc"
+version = "7.3"
+doc = "https://www.php.net/manual/en/migration73.new-features.php"
+summary = "Indented closing marker for heredoc and nowdoc"
+fixtures = ["v7.3/flexible-heredoc.php"]
+
+[[feature]]
+id = "v7.3-destructuring-references"
+version = "7.3"
+doc = "https://www.php.net/manual/en/function.list.php"
+summary = "Reference assignment inside destructuring"
+fixtures = ["v7.3/destructuring-references.php"]
+
+[[feature]]
+id = "v7.3-instanceof-literals"
+version = "7.3"
+doc = "https://www.php.net/manual/en/migration73.new-features.php"
+summary = "Literals as the left operand of instanceof"
+fixtures = ["v7.3/instanceof-literals.php"]
+
+[[feature]]
+id = "v7.3-trailing-comma-calls"
+version = "7.3"
+doc = "https://www.php.net/manual/en/migration73.new-features.php"
+summary = "Trailing comma in call argument lists"
+fixtures = ["v7.3/trailing-comma-calls.php"]
+
+[[feature]]
+id = "v7.4-typed-properties"
+version = "7.4"
+doc = "https://www.php.net/manual/en/migration74.new-features.php"
+summary = "Typed class properties"
+fixtures = ["v7.4/typed-properties.php"]
+
+[[feature]]
+id = "v7.4-arrow-functions"
+version = "7.4"
+doc = "https://www.php.net/manual/en/functions.arrow.php"
+summary = "Arrow functions"
+fixtures = ["v7.4/arrow-functions.php"]
+
+[[feature]]
+id = "v7.4-null-coalescing-assignment"
+version = "7.4"
+doc = "https://www.php.net/manual/en/migration74.new-features.php"
+summary = "Null coalescing assignment"
+fixtures = ["v7.4/null-coalescing-assignment.php"]
+
+[[feature]]
+id = "v7.4-array-spread"
+version = "7.4"
+doc = "https://www.php.net/manual/en/migration74.new-features.php"
+summary = "Spread operator in array literals"
+fixtures = ["v7.4/array-spread.php"]
+
+[[feature]]
+id = "v7.4-numeric-literal-separator"
+version = "7.4"
+doc = "https://www.php.net/manual/en/migration74.new-features.php"
+summary = "Underscore in numeric literals"
+fixtures = ["v7.4/numeric-literal-separator.php"]
+
+[[feature]]
+id = "v8.0-named-arguments"
+version = "8.0"
+doc = "https://www.php.net/manual/en/functions.arguments.php"
+summary = "Named arguments"
+fixtures = ["v8.0/named-arguments.php"]
+
+[[feature]]
+id = "v8.0-attributes"
+version = "8.0"
+doc = "https://www.php.net/manual/en/language.attributes.php"
+summary = "Attributes"
+fixtures = ["v8.0/attributes.php"]
+
+[[feature]]
+id = "v8.0-constructor-promotion"
+version = "8.0"
+doc = "https://www.php.net/manual/en/language.oop5.decon.php"
+summary = "Constructor property promotion"
+fixtures = ["v8.0/constructor-promotion.php"]
+
+[[feature]]
+id = "v8.0-union-types"
+version = "8.0"
+doc = "https://www.php.net/manual/en/language.types.declarations.php"
+summary = "Union types"
+fixtures = ["v8.0/union-types.php"]
+
+[[feature]]
+id = "v8.0-match-expression"
+version = "8.0"
+doc = "https://www.php.net/manual/en/control-structures.match.php"
+summary = "match expressions"
+fixtures = ["v8.0/match-expression.php"]
+
+[[feature]]
+id = "v8.0-nullsafe-operator"
+version = "8.0"
+doc = "https://www.php.net/manual/en/language.oop5.basic.php"
+summary = "Nullsafe operator"
+fixtures = ["v8.0/nullsafe-operator.php"]
+
+[[feature]]
+id = "v8.0-static-return-type"
+version = "8.0"
+doc = "https://www.php.net/manual/en/migration80.new-features.php"
+summary = "static return type"
+fixtures = ["v8.0/static-return-type.php"]
+
+[[feature]]
+id = "v8.0-class-on-object"
+version = "8.0"
+doc = "https://www.php.net/manual/en/migration80.new-features.php"
+summary = "::class on objects"
+fixtures = ["v8.0/class-on-object.php"]
+
+[[feature]]
+id = "v8.0-new-with-expression"
+version = "8.0"
+doc = "https://www.php.net/manual/en/language.oop5.basic.php"
+summary = "new with an arbitrary expression"
+fixtures = ["v8.0/new-with-expression.php"]
+
+[[feature]]
+id = "v8.0-instanceof-expression"
+version = "8.0"
+doc = "https://www.php.net/manual/en/language.operators.type.php"
+summary = "instanceof with an arbitrary expression"
+fixtures = ["v8.0/instanceof-expression.php"]
+
+[[feature]]
+id = "v8.0-variable-syntax-consistency"
+version = "8.0"
+doc = "https://www.php.net/manual/en/migration80.new-features.php"
+summary = "Uniform variable syntax"
+fixtures = ["v8.0/variable-syntax-consistency.php"]
+
+[[feature]]
+id = "v8.0-abstract-private-trait-method"
+version = "8.0"
+doc = "https://www.php.net/manual/en/migration80.new-features.php"
+summary = "Abstract private methods in traits"
+fixtures = ["v8.0/abstract-private-trait-method.php"]
+
+[[feature]]
+id = "v8.0-throw-expression"
+version = "8.0"
+doc = "https://www.php.net/manual/en/migration80.new-features.php"
+summary = "throw as an expression"
+fixtures = ["v8.0/throw-expression.php"]
+
+[[feature]]
+id = "v8.0-trailing-comma-parameters"
+version = "8.0"
+doc = "https://www.php.net/manual/en/migration80.new-features.php"
+summary = "Trailing comma in parameter lists"
+fixtures = ["v8.0/trailing-comma-parameters.php"]
+
+[[feature]]
+id = "v8.0-non-capturing-catch"
+version = "8.0"
+doc = "https://www.php.net/manual/en/migration80.new-features.php"
+summary = "catch without a variable"
+fixtures = ["v8.0/non-capturing-catch.php"]
+
+[[feature]]
+id = "v8.0-mixed-type"
+version = "8.0"
+doc = "https://www.php.net/manual/en/language.types.mixed.php"
+summary = "mixed type"
+fixtures = ["v8.0/mixed-type.php"]
+
+[[feature]]
+id = "v8.1-octal-prefix"
+version = "8.1"
+doc = "https://www.php.net/manual/en/migration81.new-features.php"
+summary = "Explicit octal prefix 0o"
+fixtures = ["v8.1/octal-prefix.php"]
+
+[[feature]]
+id = "v8.1-array-unpack-string-keys"
+version = "8.1"
+doc = "https://www.php.net/manual/en/language.types.array.php"
+summary = "Spread with string keys in arrays"
+fixtures = ["v8.1/array-unpack-string-keys.php"]
+
+[[feature]]
+id = "v8.1-named-arguments-after-unpacking"
+version = "8.1"
+doc = "https://www.php.net/manual/en/migration81.new-features.php"
+summary = "Named arguments after unpacking"
+fixtures = ["v8.1/named-arguments-after-unpacking.php"]
+
+[[feature]]
+id = "v8.1-enumerations"
+version = "8.1"
+doc = "https://www.php.net/manual/en/language.enumerations.php"
+summary = "Enumerations"
+fixtures = ["v8.1/enumerations.php"]
+
+[[feature]]
+id = "v8.1-first-class-callable"
+version = "8.1"
+doc = "https://www.php.net/manual/en/functions.first_class_callable_syntax.php"
+summary = "First-class callable syntax"
+fixtures = ["v8.1/first-class-callable.php"]
+
+[[feature]]
+id = "v8.1-intersection-types"
+version = "8.1"
+doc = "https://www.php.net/manual/en/language.types.type-system.php"
+summary = "Intersection types"
+fixtures = ["v8.1/intersection-types.php"]
+
+[[feature]]
+id = "v8.1-never-return-type"
+version = "8.1"
+doc = "https://www.php.net/manual/en/language.types.never.php"
+summary = "never return type"
+fixtures = ["v8.1/never-return-type.php"]
+
+[[feature]]
+id = "v8.1-new-in-initializers"
+version = "8.1"
+doc = "https://www.php.net/manual/en/language.oop5.basic.php"
+summary = "new in initializers"
+fixtures = ["v8.1/new-in-initializers.php"]
+
+[[feature]]
+id = "v8.1-readonly-properties"
+version = "8.1"
+doc = "https://www.php.net/manual/en/language.oop5.properties.php"
+summary = "readonly properties"
+fixtures = ["v8.1/readonly-properties.php"]
+
+[[feature]]
+id = "v8.1-final-class-constants"
+version = "8.1"
+doc = "https://www.php.net/manual/en/language.oop5.final.php"
+summary = "final class constants"
+fixtures = ["v8.1/final-class-constants.php"]
+
+[[feature]]
+id = "v8.2-standalone-null-false-true-types"
+version = "8.2"
+doc = "https://www.php.net/manual/en/language.types.singleton.php"
+summary = "null, false and true as standalone types"
+fixtures = ["v8.2/standalone-null-false-true-types.php"]
+
+[[feature]]
+id = "v8.2-dnf-types"
+version = "8.2"
+doc = "https://www.php.net/manual/en/migration82.new-features.php"
+summary = "Disjunctive normal form types"
+fixtures = ["v8.2/dnf-types.php"]
+
+[[feature]]
+id = "v8.2-constants-in-traits"
+version = "8.2"
+doc = "https://www.php.net/manual/en/migration82.new-features.php"
+summary = "Constants in traits"
+fixtures = ["v8.2/constants-in-traits.php"]
+
+[[feature]]
+id = "v8.2-readonly-classes"
+version = "8.2"
+doc = "https://www.php.net/manual/en/language.oop5.basic.php"
+summary = "readonly classes"
+fixtures = ["v8.2/readonly-classes.php"]
+
+[[feature]]
+id = "v8.3-readonly-anonymous-classes"
+version = "8.3"
+doc = "https://www.php.net/manual/en/migration83.new-features.php"
+summary = "readonly anonymous classes"
+fixtures = ["v8.3/readonly-anonymous-classes.php"]
+
+[[feature]]
+id = "v8.3-typed-class-constants"
+version = "8.3"
+doc = "https://www.php.net/manual/en/migration83.new-features.php"
+summary = "Typed class constants"
+fixtures = ["v8.3/typed-class-constants.php"]
+
+[[feature]]
+id = "v8.3-dynamic-class-constant-fetch"
+version = "8.3"
+doc = "https://www.php.net/manual/en/migration83.new-features.php"
+summary = "Dynamic class constant fetch"
+fixtures = ["v8.3/dynamic-class-constant-fetch.php"]
+
+[[feature]]
+id = "v8.3-static-variable-initializers"
+version = "8.3"
+doc = "https://www.php.net/manual/en/migration83.new-features.php"
+summary = "Arbitrary expressions in static variable initializers"
+fixtures = ["v8.3/static-variable-initializers.php"]
+
+[[feature]]
+id = "v8.3-final-trait-method-import"
+version = "8.3"
+doc = "https://www.php.net/manual/en/migration83.new-features.php"
+summary = "final modifier when importing a trait method"
+fixtures = ["v8.3/final-trait-method-import.php"]
+
+[[feature]]
+id = "v8.4-property-hooks"
+version = "8.4"
+doc = "https://www.php.net/manual/en/migration84.new-features.php"
+summary = "Property hooks"
+fixtures = ["v8.4/property-hooks.php"]
+
+[[feature]]
+id = "v8.4-asymmetric-visibility"
+version = "8.4"
+doc = "https://www.php.net/manual/en/migration84.new-features.php"
+summary = "Asymmetric property visibility"
+fixtures = ["v8.4/asymmetric-visibility.php"]
+
+[[feature]]
+id = "v8.4-new-without-parentheses"
+version = "8.4"
+doc = "https://www.php.net/manual/en/language.oop5.basic.php"
+summary = "Member access on new without parentheses"
+fixtures = ["v8.4/new-without-parentheses.php"]
+
+[[feature]]
+id = "v8.5-pipe-operator"
+version = "8.5"
+doc = "https://www.php.net/manual/en/language.operators.functional.php"
+summary = "Pipe operator"
+fixtures = ["v8.5/pipe-operator.php"]
+
+[[feature]]
+id = "v8.5-closures-in-constant-expressions"
+version = "8.5"
+doc = "https://www.php.net/manual/en/functions.first_class_callable_syntax.php"
+summary = "Closures and first-class callables in constant expressions"
+fixtures = ["v8.5/closures-in-constant-expressions.php"]
+
+[[feature]]
+id = "v8.5-void-cast"
+version = "8.5"
+doc = "https://www.php.net/manual/en/migration85.new-features.php"
+summary = "(void) cast"
+fixtures = ["v8.5/void-cast.php"]
+
+[[feature]]
+id = "v8.5-attributes-on-constants"
+version = "8.5"
+doc = "https://www.php.net/manual/en/migration85.new-features.php"
+summary = "Attributes on non-class constants"
+fixtures = ["v8.5/attributes-on-constants.php"]
+
+[[feature]]
+id = "v8.5-override-on-properties"
+version = "8.5"
+doc = "https://www.php.net/manual/en/class.override.php"
+summary = "Override attribute on properties"
+fixtures = ["v8.5/override-on-properties.php"]
+
+[[feature]]
+id = "v8.5-static-asymmetric-visibility"
+version = "8.5"
+doc = "https://www.php.net/manual/en/language.oop5.visibility.php"
+summary = "Asymmetric visibility on static properties"
+fixtures = ["v8.5/static-asymmetric-visibility.php"]
+
+[[feature]]
+id = "v8.5-final-constructor-promotion"
+version = "8.5"
+doc = "https://www.php.net/manual/en/language.oop5.decon.php"
+summary = "final modifier on promoted properties"
+fixtures = ["v8.5/final-constructor-promotion.php"]
+
+[[feature]]
+id = "v8.5-casts-in-constant-expressions"
+version = "8.5"
+doc = "https://www.php.net/manual/en/migration85.new-features.php"
+summary = "Casts in constant expressions"
+fixtures = ["v8.5/casts-in-constant-expressions.php"]
+
+[[feature]]
+id = "v8.5-clone-with"
+version = "8.5"
+doc = "https://www.php.net/manual/en/language.oop5.cloning.php"
+summary = "clone with property overrides"
+fixtures = ["v8.5/clone-with.php"]
+
+[[feature]]
+id = "legacy-unset-cast"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.types.null.php"
+summary = "The (unset) cast, removed in PHP 8.0"
+fixtures = ["legacy-removed/unset-cast.php"]
+
+[[feature]]
+id = "legacy-real-cast"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.types.float.php"
+summary = "The (real) cast, removed in PHP 8.0"
+fixtures = ["legacy-removed/real-cast.php"]
+
+[[feature]]
+id = "legacy-brace-string-offset"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.types.string.php"
+summary = "Curly-brace string and array offsets, removed in PHP 8.0"
+fixtures = ["legacy-removed/brace-string-offset.php"]
+
+[[feature]]
+id = "legacy-nested-ternary-without-parentheses"
+version = "7.0"
+doc = "https://www.php.net/manual/en/language.operators.comparison.php"
+summary = "Unparenthesised nested ternary, rejected from PHP 8.0"
+fixtures = ["legacy-removed/nested-ternary-without-parentheses.php"]
+
+[[fixture]]
+path = "v7.0/scalar-type-declarations.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/return-type-declarations.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/null-coalescing.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/spaceship-operator.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/anonymous-classes.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/unicode-escape.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/group-use.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/generator-return.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/generator-delegation.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.0/clone-member-access.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/nullable-types.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/void-return-type.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/short-list-syntax.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/class-constant-visibility.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/iterable-type.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/multi-catch.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/list-keys.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.1/negative-string-offsets.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.2/object-type.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.2/group-use-trailing-comma.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.3/flexible-heredoc.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.3/destructuring-references.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.3/instanceof-literals.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.3/trailing-comma-calls.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.4/typed-properties.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.4/arrow-functions.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.4/null-coalescing-assignment.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.4/array-spread.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v7.4/numeric-literal-separator.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/named-arguments.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/attributes.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/constructor-promotion.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/union-types.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/match-expression.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/nullsafe-operator.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/static-return-type.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/class-on-object.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/new-with-expression.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/instanceof-expression.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/variable-syntax-consistency.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/abstract-private-trait-method.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/throw-expression.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/trailing-comma-parameters.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/non-capturing-catch.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.0/mixed-type.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/octal-prefix.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/array-unpack-string-keys.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/named-arguments-after-unpacking.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/enumerations.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/first-class-callable.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/intersection-types.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/never-return-type.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/new-in-initializers.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/readonly-properties.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.1/final-class-constants.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.2/standalone-null-false-true-types.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.2/dnf-types.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.2/constants-in-traits.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.2/readonly-classes.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.3/readonly-anonymous-classes.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.3/typed-class-constants.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.3/dynamic-class-constant-fetch.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.3/static-variable-initializers.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.3/final-trait-method-import.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.4/property-hooks.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.4/asymmetric-visibility.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.4/new-without-parentheses.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/pipe-operator.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/closures-in-constant-expressions.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/void-cast.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/attributes-on-constants.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/override-on-properties.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/static-asymmetric-visibility.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/final-constructor-promotion.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/casts-in-constant-expressions.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "v8.5/clone-with.php"
+group = "valid"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+
+[[fixture]]
+path = "legacy-removed/unset-cast.php"
+group = "legacy"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "parsed as a cast expression"
+
+
+[[fixture]]
+path = "legacy-removed/real-cast.php"
+group = "legacy"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "parsed as a float cast"
+
+
+[[fixture]]
+path = "legacy-removed/brace-string-offset.php"
+group = "legacy"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "parsed as an index expression"
+
+
+[[fixture]]
+path = "legacy-removed/nested-ternary-without-parentheses.php"
+group = "legacy"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "parsed as a nested conditional"
+
+
+[[fixture]]
+path = "malformed/extreme-nesting.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "extreme-nesting"
+codes = ["recursion_limit"]
+lines = [5, 6]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/inline-html-mixing.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "inline-html-mixing"
+codes = ["unexpected_eof"]
+lines = [5, 8]
+survivors = ["ok_before"]
+
+
+[[fixture]]
+path = "malformed/invalid-attribute.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "invalid-attribute-syntax"
+codes = ["unexpected_token"]
+lines = [5, 7]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/invalid-hook.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "invalid-hook-syntax"
+codes = ["unexpected_token"]
+lines = [5, 11]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/invalid-token.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "invalid-token"
+codes = ["unexpected_token"]
+lines = [5, 6]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/invalid-type.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "invalid-type-syntax"
+codes = ["unexpected_token"]
+lines = [5, 6]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/invalid-utf8.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "invalid-utf8"
+codes = ["unexpected_token"]
+lines = [5, 10]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/misplaced-keyword.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "misplaced-keyword"
+codes = ["unexpected_token"]
+lines = [5, 7]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/nul-bytes.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "nul-bytes"
+codes = ["unexpected_token"]
+lines = [5, 6]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/truncated.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "truncated"
+codes = ["unexpected_eof"]
+lines = [5, 6]
+survivors = ["ok_before"]
+
+
+[[fixture]]
+path = "malformed/unbalanced-brace.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "unbalanced-delimiter"
+codes = ["unexpected_eof"]
+lines = [5, 9]
+survivors = ["ok_before"]
+
+
+[[fixture]]
+path = "malformed/unbalanced-bracket.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "unbalanced-delimiter"
+codes = ["unexpected_token"]
+lines = [5, 6]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/unbalanced-paren.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "unbalanced-delimiter"
+codes = ["unexpected_token"]
+lines = [5, 6]
+survivors = ["ok_before", "ok_after"]
+
+
+[[fixture]]
+path = "malformed/unterminated-comment.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "unterminated-comment"
+codes = ["unexpected_eof"]
+lines = [5, 6]
+survivors = ["ok_before"]
+
+
+[[fixture]]
+path = "malformed/unterminated-heredoc.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "unterminated-heredoc"
+codes = ["unexpected_eof"]
+lines = [5, 7]
+survivors = ["ok_before"]
+
+
+[[fixture]]
+path = "malformed/unterminated-string.php"
+group = "malformed"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+
+[fixture.expect]
+class = "unterminated-string"
+codes = ["unclosed_string"]
+lines = [5, 6]
+survivors = ["ok_before"]
+
+
+[[fixture]]
+path = "realistic/controller.php"
+group = "realistic"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "An attribute-routed controller using promotion, match, throw expressions and named arguments"
+
+
+[[fixture]]
+path = "realistic/repository.php"
+group = "realistic"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "A PDO repository hierarchy with interfaces, generators, anonymous classes and destructuring"
+
+
+[[fixture]]
+path = "realistic/template.php"
+group = "realistic"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "An inline-HTML template mixing short echo tags with alternative control syntax"
+
+
+[[fixture]]
+path = "realistic/legacy-script.php"
+group = "realistic"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+purpose = "A procedural PHP 5-era page with globals, includes, switch and heredoc"
+

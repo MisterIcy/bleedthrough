@@ -1,0 +1,16 @@
+OpenTag 0..5 short=false
+Expr 7..29
+  Assign 7..28 Assign
+    Array 7..23 Short
+      ArrayItem 8..11
+        Unary 8..11 Reference
+          Variable 9..11 "a"
+      ArrayItem 13..22
+        Array 13..22 Short
+          ArrayItem 14..16
+            Variable 14..16 "b"
+          ArrayItem 18..21
+            Unary 18..21 Reference
+              Variable 19..21 "c"
+    Variable 26..28 "d"
+End 30

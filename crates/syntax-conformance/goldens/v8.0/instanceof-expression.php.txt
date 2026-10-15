@@ -1,0 +1,18 @@
+OpenTag 0..5 short=false
+Expr 7..42
+  Assign 7..41 Assign
+    Variable 7..10 "ok"
+    Binary 13..41 Instanceof
+      Variable 13..17 "obj"
+      Parenthesized 29..41
+        Variable 30..40 "className"
+Expr 43..76
+  Assign 43..75 Assign
+    Variable 43..47 "ok2"
+    Binary 50..75 Instanceof
+      Variable 50..54 "obj"
+      Parenthesized 66..75
+        Binary 67..74 Concat
+          Variable 67..69 "a"
+          Variable 72..74 "b"
+End 77

@@ -1,0 +1,10 @@
+OpenTag 0..5 short=false
+ClassLike 7..82 Class "Child" modifiers=[]
+  Name 27..31 Unqualified "Base"
+  Property 38..80 modifiers=[Public]
+    Attribute 40..49
+      Name 40..49 FullyQualified "Override"
+    Builtin 62..68 String
+    PropertyItem 69..79 "name"
+      Literal 77..79 string Single "''"
+End 83

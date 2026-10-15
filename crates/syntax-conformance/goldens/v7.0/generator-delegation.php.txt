@@ -1,0 +1,25 @@
+OpenTag 0..5 short=false
+Function 9..55 "inner" by_ref=false modifiers=[]
+  Expr 32..40
+    Yield 32..39
+      Literal 38..39 int "1"
+  Expr 45..53
+    Yield 45..52
+      Literal 51..52 int "2"
+Function 57..137 "outer" by_ref=false modifiers=[]
+  Expr 80..88
+    Yield 80..87
+      Literal 86..87 int "0"
+  Expr 93..112
+    YieldFrom 93..111
+      Call 104..111 function
+        Name 104..109 Unqualified "inner"
+          Name 104..109 Unqualified "inner"
+  Expr 117..135
+    YieldFrom 117..134
+      Array 128..134 Short
+        ArrayItem 129..130
+          Literal 129..130 int "3"
+        ArrayItem 132..133
+          Literal 132..133 int "4"
+End 138

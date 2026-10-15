@@ -1,0 +1,23 @@
+OpenTag 0..5 short=false
+Expr 7..23
+  Assign 7..22 Assign
+    Variable 7..9 "a"
+    Array 12..22 Short
+      ArrayItem 13..21
+        Literal 13..16 string Single "'a'"
+        Literal 20..21 int "1"
+Expr 24..62
+  Assign 24..61 Assign
+    Variable 24..26 "b"
+    Array 29..61 Short
+      ArrayItem 30..35 spread
+        Variable 33..35 "a"
+      ArrayItem 37..45
+        Literal 37..40 string Single "'c'"
+        Literal 44..45 int "3"
+      ArrayItem 47..60 spread
+        Array 50..60 Short
+          ArrayItem 51..59
+            Literal 51..54 string Single "'d'"
+            Literal 58..59 int "4"
+End 63

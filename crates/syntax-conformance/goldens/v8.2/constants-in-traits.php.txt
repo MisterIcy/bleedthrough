@@ -1,0 +1,9 @@
+OpenTag 0..5 short=false
+ClassLike 7..86 Trait "T" modifiers=[]
+  Const 21..46 modifiers=[Public]
+    ConstItem 34..45 "VERSION"
+      Literal 44..45 int "1"
+  Const 51..84 modifiers=[Final, Protected]
+    ConstItem 73..83 "HIDDEN"
+      Literal 82..83 int "2"
+End 87

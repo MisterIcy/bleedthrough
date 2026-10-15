@@ -1,0 +1,204 @@
+OpenTag 0..5 short=false
+Expr 87..110
+  Call 87..109 function
+    Name 87..102 Unqualified "error_reporting"
+      Name 87..102 Unqualified "error_reporting"
+    Arg 103..108
+      ConstFetch 103..108 Unqualified "E_ALL"
+        Name 103..108 Unqualified "E_ALL"
+Expr 111..127
+  Call 111..126 function
+    Name 111..124 Unqualified "session_start"
+      Name 111..124 Unqualified "session_start"
+Expr 129..155
+  Include 129..154 IncludeOnce
+    Literal 142..154 string Single "'config.php'"
+Expr 156..177
+  Include 156..176 Require
+    Literal 164..176 string Single "'lib/db.php'"
+Expr 179..247
+  Assign 179..246 Assign
+    Variable 179..186 "action"
+    Conditional 189..246
+      Isset 189..215
+        Index 195..214
+          Variable 195..204 "_REQUEST"
+          Literal 205..213 string Single "'action'"
+      Index 218..237
+        Variable 218..227 "_REQUEST"
+        Literal 228..236 string Single "'action'"
+      Literal 240..246 string Single "'list'"
+Expr 248..299
+  Assign 248..298 Assign
+    Variable 248..251 "id"
+    Conditional 254..298
+      Isset 254..272
+        Index 260..271
+          Variable 260..265 "_GET"
+          Literal 266..270 string Single "'id'"
+      Call 275..294 function
+        Name 275..281 Unqualified "intval"
+          Name 275..281 Unqualified "intval"
+        Arg 282..293
+          Index 282..293
+            Variable 282..287 "_GET"
+            Literal 288..292 string Single "'id'"
+      Literal 297..298 int "0"
+Function 301..544 "render_row" by_ref=false modifiers=[]
+  Param 321..325 "row" by_ref=false variadic=false modifiers=[]
+  Global 333..348
+    Variable 340..347 "config"
+  Expr 353..367
+    Assign 353..366 Assign
+      Variable 353..357 "out"
+      Literal 360..366 string Single "'<tr>'"
+  Foreach 372..515
+    Variable 381..385 "row"
+    Variable 389..393 "key"
+    Variable 397..403 "value"
+    If 415..448
+      Binary 419..437 Eq
+        Variable 419..423 "key"
+        Literal 427..437 string Single "'password'"
+      Continue 439..448
+    Expr 457..509
+      Assign 457..508 Concat
+        Variable 457..461 "out"
+        Binary 465..508 Concat
+          Binary 465..498 Concat
+            Literal 465..471 string Single "'<td>'"
+            Call 474..498 function
+              Name 474..490 Unqualified "htmlspecialchars"
+                Name 474..490 Unqualified "htmlspecialchars"
+              Arg 491..497
+                Variable 491..497 "value"
+          Literal 501..508 string Single "'</td>'"
+  Return 520..542
+    Binary 527..541 Concat
+      Variable 527..531 "out"
+      Literal 534..541 string Single "'</tr>'"
+Switch 546..1103
+  Variable 554..561 "action"
+  SwitchCase 569..739
+    Literal 574..580 string Single "'view'"
+    Expr 590..650
+      Assign 590..649 Assign
+        Variable 590..597 "result"
+        Call 600..649 function
+          Name 600..611 Unqualified "mysql_query"
+            Name 600..611 Unqualified "mysql_query"
+          Arg 612..648
+            Interpolated 612..648 DoubleQuoted
+              StringPart 613..644 text "SELECT * FROM items WHERE id = "
+              StringPart 644..647
+                Variable 644..647 "id"
+    Expr 659..693
+      Assign 659..692 Assign
+        Variable 659..663 "row"
+        Call 666..692 function
+          Name 666..683 Unqualified "mysql_fetch_assoc"
+            Name 666..683 Unqualified "mysql_fetch_assoc"
+          Arg 684..691
+            Variable 684..691 "result"
+    Echo 702..724 short_tag=false
+      Call 707..723 function
+        Name 707..717 Unqualified "render_row"
+          Name 707..717 Unqualified "render_row"
+        Arg 718..722
+          Variable 718..722 "row"
+    Break 733..739
+  SwitchCase 744..930
+    Literal 749..757 string Single "'delete'"
+    If 767..877
+      Binary 771..800 And
+        Binary 771..778 Gt
+          Variable 771..774 "id"
+          Literal 777..778 int "0"
+        Index 782..800
+          Variable 782..791 "_SESSION"
+          Literal 792..799 string Single "'admin'"
+      Expr 816..867
+        Call 816..866 function
+          Name 816..827 Unqualified "mysql_query"
+            Name 816..827 Unqualified "mysql_query"
+          Arg 828..865
+            Binary 828..865 Concat
+              Literal 828..859 string Single "'DELETE FROM items WHERE id = '"
+              Variable 862..865 "id"
+    Expr 886..916
+      Call 886..915 function
+        Name 886..892 Unqualified "header"
+          Name 886..892 Unqualified "header"
+        Arg 893..914
+          Literal 893..914 string Single "'Location: index.php'"
+    Expr 925..930
+      Exit 925..929 die=false
+  SwitchCase 935..1101
+    Expr 952..997
+      Assign 952..996 Assign
+        Variable 952..959 "result"
+        Call 962..996 function
+          Name 962..973 Unqualified "mysql_query"
+            Name 962..973 Unqualified "mysql_query"
+          Arg 974..995
+            Literal 974..995 string Single "'SELECT * FROM items'"
+    While 1006..1101
+      Assign 1013..1046 Assign
+        Variable 1013..1017 "row"
+        Call 1020..1046 function
+          Name 1020..1037 Unqualified "mysql_fetch_assoc"
+            Name 1020..1037 Unqualified "mysql_fetch_assoc"
+          Arg 1038..1045
+            Variable 1038..1045 "result"
+      Echo 1061..1083 short_tag=false
+        Call 1066..1082 function
+          Name 1066..1076 Unqualified "render_row"
+            Name 1066..1076 Unqualified "render_row"
+          Arg 1077..1081
+            Variable 1077..1081 "row"
+For 1105..1197
+  Assign 1110..1116 Assign
+    Variable 1110..1112 "i"
+    Literal 1115..1116 int "0"
+  Assign 1118..1139 Assign
+    Variable 1118..1120 "n"
+    Call 1123..1139 function
+      Name 1123..1128 Unqualified "count"
+        Name 1123..1128 Unqualified "count"
+      Arg 1129..1138
+        Variable 1129..1138 "_SESSION"
+  Binary 1141..1148 Lt
+    Variable 1141..1143 "i"
+    Variable 1146..1148 "n"
+  Unary 1150..1154 PostInc
+    Variable 1150..1152 "i"
+  Expr 1162..1195
+    Assign 1162..1194 Assign
+      Array 1162..1174 List
+        ArrayItem 1167..1169
+          Variable 1167..1169 "a"
+        ArrayItem 1171..1173
+          Variable 1171..1173 "b"
+      Array 1177..1194 Long
+        ArrayItem 1183..1185
+          Variable 1183..1185 "i"
+        ArrayItem 1187..1193
+          Binary 1187..1193 Mul
+            Variable 1187..1189 "i"
+            Literal 1192..1193 int "2"
+Expr 1199..1260
+  Assign 1199..1259 Assign
+    Variable 1199..1204 "text"
+    Interpolated 1207..1259 Heredoc
+      StringPart 1214..1221 text "Total: "
+      StringPart 1221..1225
+        Variable 1222..1224 "n"
+      StringPart 1225..1236 text " items for "
+      StringPart 1236..1255
+        Index 1237..1254
+          Variable 1237..1246 "_SESSION"
+          Literal 1247..1253 string Single "'user'"
+Echo 1261..1272 short_tag=false
+  Variable 1266..1271 "text"
+Comment Line 6..86 "// Legacy procedural page: globals, includes, alternative syntax, no namespaces."
+End 1273

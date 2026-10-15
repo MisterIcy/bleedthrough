@@ -14,13 +14,20 @@ allow = [
   "ISC",
   "Unicode-3.0",
   "Zlib",
+  # Public-domain dedication; reviewed 2026-10: needed by `notify` (via mago-database).
+  "CC0-1.0",
 ]
 confidence-threshold = 0.9
 unused-allowed-license = "allow"
 
 [advisories]
 # Fails on known vulnerabilities and unmaintained crates; ignore only with a recorded justification.
-ignore = []
+ignore = [
+  # `paste` is unmaintained (not a vulnerability); pulled in by mago-syntax, which is pinned and
+  # confined to the syntax-mago adapter. Reviewed 2026-10, see docs/spikes/syntax-mago.md. Revisit
+  # when Mago drops it.
+  { id = "RUSTSEC-2024-0436", reason = "unmaintained, no vulnerability; transitive via mago-syntax, isolated in the adapter" },
+]
 
 [bans]
 multiple-versions = "warn"
@@ -28,8 +35,16 @@ wildcards = "deny"
 allow-wildcard-paths = true
 # Parser backends are reachable only through adapter crates (exact pinning is checked by xtask).
 deny = [
+  # The Mago family may be depended on by the adapter and by its own members only (wrappers are
+  # the direct parents; a new parent after an upgrade must be reviewed here).
+  { crate = "mago-allocator", wrappers = ["bleedthrough-syntax-mago", "mago-syntax", "mago-syntax-core"] },
+  { crate = "mago-database", wrappers = ["bleedthrough-syntax-mago", "mago-reporting", "mago-span", "mago-syntax", "mago-syntax-core"] },
+  { crate = "mago-php-version", wrappers = ["mago-syntax"] },
+  { crate = "mago-reporting", wrappers = ["mago-syntax"] },
+  { crate = "mago-span", wrappers = ["bleedthrough-syntax-mago", "mago-reporting", "mago-syntax", "mago-syntax-core"] },
   { crate = "mago-syntax", wrappers = ["bleedthrough-syntax-mago"] },
-  { crate = "mago-database", wrappers = ["bleedthrough-syntax-mago"] },
+  { crate = "mago-syntax-core", wrappers = ["mago-syntax"] },
+  { crate = "mago-text-edit", wrappers = ["mago-reporting"] },
   { crate = "tree-sitter-php", wrappers = [] },
 ]
 

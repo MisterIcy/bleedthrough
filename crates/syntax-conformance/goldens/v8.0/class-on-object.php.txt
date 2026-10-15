@@ -1,0 +1,7 @@
+OpenTag 0..5 short=false
+Expr 7..30
+  Assign 7..29 Assign
+    Variable 7..12 "name"
+    ClassConst 15..29 "class"
+      Variable 15..22 "object"
+End 31

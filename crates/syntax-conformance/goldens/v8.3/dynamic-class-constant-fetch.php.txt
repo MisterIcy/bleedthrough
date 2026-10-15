@@ -1,0 +1,17 @@
+OpenTag 0..5 short=false
+Expr 7..22
+  Assign 7..21 Assign
+    Variable 7..12 "name"
+    Literal 15..21 string Single "'NAME'"
+Echo 23..41 short_tag=false
+  ClassConst 28..40 dynamic
+    Name 28..31 Unqualified "Foo"
+      Name 28..31 Unqualified "Foo"
+    Variable 34..39 "name"
+Echo 42..67 short_tag=false
+  ClassConst 47..66 dynamic
+    Variable 47..51 "obj"
+    Binary 54..65 Concat
+      Literal 54..57 string Single "'N'"
+      Literal 60..65 string Single "'AME'"
+End 68

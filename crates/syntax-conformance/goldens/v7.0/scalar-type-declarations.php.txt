@@ -1,0 +1,19 @@
+OpenTag 0..5 short=false
+Declare 7..31
+  Directive 15..29 "strict_types"
+    Literal 28..29 int "1"
+Function 33..114 "add" by_ref=false modifiers=[]
+  Param 46..52 "a" by_ref=false variadic=false modifiers=[]
+    Builtin 46..49 Int
+  Param 54..62 "b" by_ref=false variadic=false modifiers=[]
+    Builtin 54..59 Float
+  Param 64..73 "c" by_ref=false variadic=false modifiers=[]
+    Builtin 64..70 String
+  Param 75..82 "d" by_ref=false variadic=false modifiers=[]
+    Builtin 75..79 Bool
+  Builtin 85..90 Float
+  Return 97..112
+    Binary 104..111 Add
+      Variable 104..106 "a"
+      Variable 109..111 "b"
+End 115

@@ -1,0 +1,8 @@
+OpenTag 0..5 short=false
+Function 7..62 "anything" by_ref=false modifiers=[]
+  Param 25..34 "in" by_ref=false variadic=false modifiers=[]
+    Builtin 25..30 Mixed
+  Builtin 37..42 Mixed
+  Return 49..60
+    Variable 56..59 "in"
+End 63

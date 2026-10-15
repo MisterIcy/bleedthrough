@@ -1,0 +1,12 @@
+OpenTag 0..5 short=false
+Function 7..115 "each_item" by_ref=false modifiers=[]
+  Param 26..41 "items" by_ref=false variadic=false modifiers=[]
+    Builtin 26..34 Iterable
+  Builtin 44..52 Iterable
+  Foreach 59..113
+    Variable 68..74 "items"
+    Variable 78..83 "item"
+    Expr 95..107
+      Yield 95..106
+        Variable 101..106 "item"
+End 116

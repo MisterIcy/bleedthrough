@@ -1,0 +1,7 @@
+OpenTag 0..5 short=false
+ClassLike 7..88 Class "C" modifiers=[]
+  TraitUse 21..86
+    Name 25..26 Unqualified "T"
+    TraitAdaptation 37..50 alias "foo" Some(Final) None
+    TraitAdaptation 59..80 alias "bar" Some(Protected) Some("baz")
+End 89

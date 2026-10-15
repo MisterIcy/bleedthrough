@@ -155,6 +155,7 @@ mod tests {
                 .map(|(n, r)| Dependency {
                     name: (*n).into(),
                     req: (*r).into(),
+                    dev: false,
                 })
                 .collect(),
         }

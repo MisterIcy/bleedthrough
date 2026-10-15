@@ -1,0 +1,16 @@
+[package]
+name = "bleedthrough-syntax-conformance"
+version = "0.0.0"
+description = "Bleedthrough tooling: backend-agnostic conformance suite over the PHP fixture corpus"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bleedthrough-syntax = { path = "../syntax" }
+toml = "1.1.8"

@@ -1,0 +1,11 @@
+OpenTag 0..5 short=false
+Expr 7..14
+  Assign 7..13 Assign
+    Variable 7..9 "a"
+    Literal 12..13 int "1"
+Expr 15..31
+  Assign 15..30 Assign
+    Variable 15..17 "b"
+    Cast 20..30 Unset
+      Variable 28..30 "a"
+End 32

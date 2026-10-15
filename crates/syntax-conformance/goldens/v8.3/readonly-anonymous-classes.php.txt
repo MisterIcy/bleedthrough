@@ -1,0 +1,11 @@
+OpenTag 0..5 short=false
+Expr 7..91
+  Assign 7..90 Assign
+    Variable 7..11 "obj"
+    AnonymousClass 14..90
+      Arg 34..35
+        Literal 34..35 int "1"
+      Method 43..88 "__construct" by_ref=false modifiers=[Public]
+        Param 71..84 "x" by_ref=false variadic=false modifiers=[Public]
+          Builtin 78..81 Int
+End 92

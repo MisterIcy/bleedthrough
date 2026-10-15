@@ -1,0 +1,23 @@
+OpenTag 0..5 short=false
+Function 7..41 "ok_before" by_ref=false modifiers=[]
+  Return 30..39
+    Literal 37..38 int "1"
+Error 43..58
+Expr 58..59
+  Error 58..59
+Expr 59..65
+  ConstFetch 59..65 Unqualified "string"
+    Name 59..65 Unqualified "string"
+Expr 66..68
+  Variable 66..68 "a"
+Expr 68..69
+  Error 68..69
+Error 69..73
+Expr 73..76
+  ConstFetch 73..76 Unqualified "int"
+    Name 73..76 Unqualified "int"
+Block 77..79
+Function 81..114 "ok_after" by_ref=false modifiers=[]
+  Return 103..112
+    Literal 110..111 int "2"
+End 115

@@ -1,0 +1,15 @@
+OpenTag 0..5 short=false
+Function 7..57 "names" by_ref=false modifiers=[]
+  Builtin 25..30 Array
+  Return 37..55
+    Array 44..54 Short
+      ArrayItem 45..48
+        Literal 45..48 string Single "'a'"
+      ArrayItem 50..53
+        Literal 50..53 string Single "'b'"
+ClassLike 59..142 Class "Fluent" modifiers=[]
+  Method 78..140 "self" by_ref=false modifiers=[Public]
+    Builtin 102..106 SelfType
+    Return 121..134
+      Variable 128..133 "this"
+End 143

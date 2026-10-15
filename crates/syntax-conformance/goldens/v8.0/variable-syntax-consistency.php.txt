@@ -1,0 +1,18 @@
+OpenTag 0..5 short=false
+Expr 7..27
+  Assign 7..26 Assign
+    Variable 7..9 "v"
+    StaticProperty 12..26
+      ClassConst 12..20 "BAR"
+        Name 12..15 Unqualified "Foo"
+          Name 12..15 Unqualified "Foo"
+      Variable 22..26 "baz"
+Expr 28..44
+  Assign 28..43 Assign
+    Variable 28..30 "w"
+    StaticProperty 33..43
+      StaticProperty 33..39
+        Variable 33..35 "a"
+        Variable 37..39 "b"
+      Variable 41..43 "c"
+End 45

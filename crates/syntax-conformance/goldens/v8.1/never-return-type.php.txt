@@ -1,0 +1,9 @@
+OpenTag 0..5 short=false
+Function 7..60 "fail" by_ref=false modifiers=[]
+  Builtin 24..29 Never
+  Expr 36..58
+    Throw 36..57
+      New 42..57
+        Name 46..55 Unqualified "Exception"
+          Name 46..55 Unqualified "Exception"
+End 61

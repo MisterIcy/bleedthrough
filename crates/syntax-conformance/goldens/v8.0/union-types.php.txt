@@ -1,0 +1,19 @@
+OpenTag 0..5 short=false
+Function 7..93 "f" by_ref=false modifiers=[]
+  Param 18..31 "a" by_ref=false variadic=false modifiers=[]
+    Union 18..28
+      Builtin 18..21 Int
+      Builtin 22..28 String
+  Param 33..55 "b" by_ref=false variadic=false modifiers=[]
+    Union 33..44
+      Builtin 33..38 Array
+      Builtin 39..44 False
+    Literal 50..55 bool false
+  Union 58..72
+    Builtin 58..61 Int
+    Union 62..72
+      Builtin 62..67 Float
+      Builtin 68..72 Null
+  Return 79..91
+    Literal 86..90 null
+End 94

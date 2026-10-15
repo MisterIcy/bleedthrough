@@ -1,0 +1,34 @@
+OpenTag 0..5 short=false
+ClassLike 7..267 Enum "Suit" modifiers=[]
+  EnumCase 23..35 "Hearts"
+  EnumCase 40..52 "Spades"
+  Const 58..84 modifiers=[]
+    ConstItem 64..83 "Wild"
+      ClassConst 71..83 "Spades"
+        ClassRef 71..75 SelfRef
+  Method 90..170 "label" by_ref=false modifiers=[Public]
+    Builtin 115..121 String
+    Return 136..164
+      Call 143..163 function
+        Name 143..150 Unqualified "ucfirst"
+          Name 143..150 Unqualified "ucfirst"
+        Arg 151..162
+          Property 151..162 "name" nullsafe=false
+            Variable 151..156 "this"
+  Method 176..265 "fromChar" by_ref=false modifiers=[Public, Static]
+    Param 208..217 "c" by_ref=false variadic=false modifiers=[]
+      Builtin 208..214 String
+    Builtin 220..224 SelfType
+    Return 239..259
+      ClassConst 246..258 "Hearts"
+        ClassRef 246..250 SelfRef
+ClassLike 269..393 Enum "Status" modifiers=[]
+  Builtin 282..288 String
+  Name 300..308 Unqualified "HasLabel"
+  TraitUse 315..330
+    Name 319..329 Unqualified "LabelTrait"
+  EnumCase 336..359 "Active"
+    Literal 350..358 string Single "'active'"
+  EnumCase 364..391 "Archived"
+    Literal 380..390 string Single "'archived'"
+End 394

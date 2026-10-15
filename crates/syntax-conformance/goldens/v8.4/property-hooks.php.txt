@@ -1,0 +1,68 @@
+OpenTag 0..5 short=false
+ClassLike 7..387 Class "User" modifiers=[]
+  Property 24..210 modifiers=[Public]
+    Builtin 31..37 String
+    PropertyItem 38..47 "fullName"
+    Hook 58..98 "get" by_ref=false modifiers=[] expr
+      Binary 65..97 Concat
+        Binary 65..83 Concat
+          Property 65..77 "first" nullsafe=false
+            Variable 65..70 "this"
+          Literal 80..83 string Single "' '"
+        Property 86..97 "last" nullsafe=false
+          Variable 86..91 "this"
+    Hook 107..204 "set" by_ref=false modifiers=[] block
+      Param 111..124 "value" by_ref=false variadic=false modifiers=[]
+        Builtin 111..117 String
+      Expr 140..194
+        Assign 140..193 Assign
+          Array 140..167 Short
+            ArrayItem 141..153
+              Property 141..153 "first" nullsafe=false
+                Variable 141..146 "this"
+            ArrayItem 155..166
+              Property 155..166 "last" nullsafe=false
+                Variable 155..160 "this"
+          Call 170..193 function
+            Name 170..177 Unqualified "explode"
+              Name 170..177 Unqualified "explode"
+            Arg 178..181
+              Literal 178..181 string Single "' '"
+            Arg 183..189
+              Variable 183..189 "value"
+            Arg 191..192
+              Literal 191..192 int "2"
+  Property 216..296 modifiers=[Public]
+    Builtin 223..226 Int
+    PropertyItem 227..231 "age"
+    Hook 242..290 "set" by_ref=false modifiers=[] block
+      Expr 260..280
+        Assign 260..279 Assign
+          Property 260..270 "age" nullsafe=false
+            Variable 260..265 "this"
+          Variable 273..279 "value"
+  Method 302..385 "__construct" by_ref=false modifiers=[Public]
+    Param 330..355 "first" by_ref=false variadic=false modifiers=[Public]
+      Builtin 337..343 String
+      Literal 353..355 string Single "''"
+    Param 357..381 "last" by_ref=false variadic=false modifiers=[Public]
+      Builtin 364..370 String
+      Literal 379..381 string Single "''"
+ClassLike 389..443 Interface "HasName" modifiers=[]
+  Property 413..441 modifiers=[Public]
+    Builtin 420..426 String
+    PropertyItem 427..432 "name"
+    Hook 435..439 "get" by_ref=false modifiers=[] abstract
+ClassLike 445..565 Class "Base" modifiers=[Abstract]
+  Property 471..514 modifiers=[Abstract, Public]
+    Builtin 487..493 String
+    PropertyItem 494..500 "title"
+    Hook 503..507 "get" by_ref=false modifiers=[] abstract
+    Hook 508..512 "set" by_ref=false modifiers=[] abstract
+  Property 519..563 modifiers=[Public]
+    Builtin 526..532 String
+    PropertyItem 533..538 "both"
+    Hook 541..561 "get" by_ref=true modifiers=[] expr
+      Property 549..560 "both" nullsafe=false
+        Variable 549..554 "this"
+End 566

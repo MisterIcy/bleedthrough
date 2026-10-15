@@ -1,0 +1,11 @@
+OpenTag 0..5 short=false
+Expr 7..31
+  Assign 7..30 Assign
+    Variable 7..16 "elephant"
+    Literal 19..30 string Double "\"\\u{1F418}\""
+Expr 32..60
+  Assign 32..59 Assign
+    Variable 32..36 "doc"
+    Interpolated 39..59 Heredoc
+      StringPart 46..55 text "Caf\\u{e9}"
+End 61

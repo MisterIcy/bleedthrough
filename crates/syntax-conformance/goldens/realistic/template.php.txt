@@ -1,0 +1,78 @@
+OpenTag 0..5 short=false
+Expr 70..87
+  Assign 70..86 Assign
+    Variable 70..76 "title"
+    Literal 79..86 string Single "'Tasks'"
+CloseTag 88..90
+InlineHtml 90..169 shebang=false "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <title>"
+Echo 169..200 short_tag=true
+  Call 173..197 function
+    Name 173..189 Unqualified "htmlspecialchars"
+      Name 173..189 Unqualified "htmlspecialchars"
+    Arg 190..196
+      Variable 190..196 "title"
+InlineHtml 200..302 shebang=false "</title>\n    <style>\n        .done { text-decoration: line-through; }\n    </style>\n</head>\n<body>\n<h1>"
+Echo 302..333 short_tag=true
+  Call 306..330 function
+    Name 306..322 Unqualified "htmlspecialchars"
+      Name 306..322 Unqualified "htmlspecialchars"
+    Arg 323..329
+      Variable 323..329 "title"
+InlineHtml 333..339 shebang=false "</h1>\n"
+OpenTag 339..344 short=false
+If 345..656
+  Binary 349..368 Identical
+    Call 349..362 function
+      Name 349..354 Unqualified "count"
+        Name 349..354 Unqualified "count"
+      Arg 355..361
+        Variable 355..361 "tasks"
+    Literal 367..368 int "0"
+  CloseTag 371..373
+  InlineHtml 373..400 shebang=false "\n    <p>Nothing to do.</p>\n"
+  OpenTag 400..405 short=false
+  CloseTag 412..414
+  InlineHtml 414..428 shebang=false "\n    <ul>\n    "
+  OpenTag 428..433 short=false
+  Foreach 434..628
+    Variable 443..449 "tasks"
+    Variable 453..455 "i"
+    Variable 459..464 "task"
+    CloseTag 467..469
+    InlineHtml 469..489 shebang=false "\n        <li class=\""
+    Echo 489..523 short_tag=true
+      Conditional 493..520
+        Index 493..506
+          Variable 493..498 "task"
+          Literal 499..505 string Single "'done'"
+        Literal 509..515 string Single "'done'"
+        Literal 518..520 string Single "''"
+    InlineHtml 523..538 shebang=false "\">\n            "
+    Echo 538..551 short_tag=true
+      Binary 542..548 Add
+        Variable 542..544 "i"
+        Literal 547..548 int "1"
+    InlineHtml 551..553 shebang=false ". "
+    Echo 553..592 short_tag=true
+      Call 557..589 function
+        Name 557..573 Unqualified "htmlspecialchars"
+          Name 557..573 Unqualified "htmlspecialchars"
+        Arg 574..588
+          Index 574..588
+            Variable 574..579 "task"
+            Literal 580..587 string Single "'title'"
+    InlineHtml 592..611 shebang=false "\n        </li>\n    "
+    OpenTag 611..616 short=false
+  CloseTag 629..631
+  InlineHtml 631..642 shebang=false "\n    </ul>\n"
+  OpenTag 642..647 short=false
+InlineHtml 656..688 shebang=false "\n<script>\n    document.title = \""
+Echo 688..713 short_tag=true
+  Call 692..710 function
+    Name 692..702 Unqualified "addslashes"
+      Name 692..702 Unqualified "addslashes"
+    Arg 703..709
+      Variable 703..709 "title"
+InlineHtml 713..742 shebang=false "\";\n</script>\n</body>\n</html>\n"
+Comment Doc 6..69 "/** @var array<int, array{title: string, done: bool}> $tasks */"
+End 742

@@ -1,0 +1,9 @@
+OpenTag 0..5 short=false
+Use 7..50
+  UseItem 25..28 Class alias=None
+    Name 25..28 Qualified "Foo\\Bar\\Foo"
+  UseItem 34..37 Class alias=None
+    Name 34..37 Qualified "Foo\\Bar\\Bar"
+  UseItem 43..46 Class alias=None
+    Name 43..46 Qualified "Foo\\Bar\\Baz"
+End 51

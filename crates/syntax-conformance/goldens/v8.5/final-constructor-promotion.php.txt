@@ -1,0 +1,9 @@
+OpenTag 0..5 short=false
+ClassLike 7..106 Class "P" modifiers=[]
+  Method 21..104 "__construct" by_ref=false modifiers=[Public]
+    Param 49..68 "x" by_ref=false variadic=false modifiers=[Final, Public]
+      Builtin 62..65 Int
+    Param 70..100 "y" by_ref=false variadic=false modifiers=[Final, Protected]
+      Builtin 86..92 String
+      Literal 98..100 string Single "''"
+End 107

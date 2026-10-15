@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+Function 7..46 "a" by_ref=false modifiers=[]
+  Builtin 21..25 Null
+  Return 32..44
+    Literal 39..43 null
+Function 48..89 "b" by_ref=false modifiers=[]
+  Builtin 62..67 False
+  Return 74..87
+    Literal 81..86 bool false
+Function 91..130 "c" by_ref=false modifiers=[]
+  Builtin 105..109 True
+  Return 116..128
+    Literal 123..127 bool true
+End 131

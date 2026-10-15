@@ -1,0 +1,14 @@
+# The official PHP images the ledger is recorded and verified with, pinned by digest.
+# Update a digest deliberately (and re-run `ledger record`); see README.md.
+[images]
+"7.0" = "php@sha256:950fa73e35e650ee1d5fff5b053feadcd1dc8c6e83bba07d6c7fd17c44868e22"
+"7.1" = "php@sha256:e0e6ced092bbf073e4f3e48545a8e1a2592217b3346ef0cb8b18ecacf8ae1522"
+"7.2" = "php@sha256:42ffbc0798e4449bbd1e14fc4dcb87774aa1ad1900a09ef6a965bc0880aa2161"
+"7.3" = "php@sha256:bd6f2dc7a4e4537e927355c94a74c3022911aa504278f5f0fd94016c90dfaecc"
+"7.4" = "php@sha256:620a6b9f4d4feef2210026172570465e9d0c1de79766418d3affd09190a7fda5"
+"8.0" = "php@sha256:0569e384b9064c04dec55dc6e41be41b494a878dfbb6577a7d76bd50cfd5bc00"
+"8.1" = "php@sha256:76e563191d1ade120313a8736df24154d21da5155c0756f147c0b01bd19d9087"
+"8.2" = "php@sha256:118ef4fb1db5e866fb604f2f260da81f819a0a1eac87a4083f9194f48e00beee"
+"8.3" = "php@sha256:aafe21201943a8a6e497ddfb471e2ce68ada76adede38c7d61fede8918b24319"
+"8.4" = "php@sha256:1d2cf2b7d715b5b3aa959f0150ccbcc7b71e0181b637e443abf40a7fb56bf79a"
+"8.5" = "php@sha256:01a109229f4465bc9ef042d9198f09a4d9da7775a825dbd8572dcdbd8756c4d3"

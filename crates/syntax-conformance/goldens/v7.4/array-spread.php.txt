@@ -1,0 +1,20 @@
+OpenTag 0..5 short=false
+Expr 7..34
+  Assign 7..33 Assign
+    Variable 7..13 "parts"
+    Array 16..33 Short
+      ArrayItem 17..24
+        Literal 17..24 string Single "'apple'"
+      ArrayItem 26..32
+        Literal 26..32 string Single "'pear'"
+Expr 35..81
+  Assign 35..80 Assign
+    Variable 35..42 "fruits"
+    Array 45..80 Short
+      ArrayItem 46..54
+        Literal 46..54 string Single "'banana'"
+      ArrayItem 56..65 spread
+        Variable 59..65 "parts"
+      ArrayItem 67..79
+        Literal 67..79 string Single "'watermelon'"
+End 82
