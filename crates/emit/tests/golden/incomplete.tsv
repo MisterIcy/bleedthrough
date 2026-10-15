@@ -1,0 +1,2 @@
+path	line	column	end_line	end_column	rule	severity	confidence	cwe	owasp	fingerprint	message
+lib/Shell.php	2	6	2	30	php.cmdi	high	high	CWE-89	A03:2021	bt1:fc3a94b29d42e89efcd39b735c85941f	Tainted value reaches a sink in Shell::run

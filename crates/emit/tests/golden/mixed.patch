@@ -1,0 +1,18 @@
+diff --git a/lib/Shell.php b/lib/Shell.php
+--- a/lib/Shell.php
++++ b/lib/Shell.php
+@@ -1,2 +1,2 @@
+ <?php
+-echo shell_exec($_GET['cmd']);
+\ No newline at end of file
++echo shell_exec(escapeshellarg($_GET['cmd']));
+\ No newline at end of file
+diff --git a/src/Db.php b/src/Db.php
+--- a/src/Db.php
++++ b/src/Db.php
+@@ -1,4 +1,4 @@
+ <?php
+ $id = $_GET['id'];
+ $q = "SELECT * FROM t WHERE id = $id";
+-mysqli_query($db, $q);
++mysqli_execute($db, $q);

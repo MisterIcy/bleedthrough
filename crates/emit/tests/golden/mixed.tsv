@@ -1,0 +1,7 @@
+path	line	column	end_line	end_column	rule	severity	confidence	cwe	owasp	fingerprint	message
+lib/Shell.php	2	1	2	5	php.info	info	medium	CWE-89	A03:2021	bt1:98f654d34ecefca833ddd1e7df21d164	Tainted value reaches a sink in Shell::note
+lib/Shell.php	2	6	2	30	php.cmdi	high	high	CWE-89	A03:2021	bt1:fc3a94b29d42e89efcd39b735c85941f	Tainted value reaches a sink in Shell::run
+src/Db.php	2	1	2	7	php.xss	medium	low	CWE-89	A03:2021	bt1:d9a88889d50a42233b3212c858578ceb	Tainted value reaches a sink in Db::show
+src/Db.php	3	7	3	13	php.xss	low	high	CWE-89	A03:2021	bt1:a3e5deed15795c2677fa06c5e44e53c5	Tainted value reaches a sink in Db::list
+src/Db.php	4	1	4	22	php.sqli	critical	high	CWE-89	A03:2021	bt1:e564aeeed742a75aa6e9cfb564c59e5a	Tainted value reaches a sink in Db::find
+src/Db.php	4	14	4	21	php.sqli2	high	medium	CWE-89	A03:2021	bt1:b359d8ea0f220eb932f1ab9d4f67ba7d	Tainted value reaches a sink in Db::find2

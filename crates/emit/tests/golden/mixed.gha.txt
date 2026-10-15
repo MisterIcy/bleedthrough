@@ -1,0 +1,7 @@
+::notice file=lib/Shell.php,line=2,col=1,endLine=2,endColumn=5,title=php.info::Tainted value reaches a sink in Shell::note
+::error file=lib/Shell.php,line=2,col=6,endLine=2,endColumn=30,title=php.cmdi::Tainted value reaches a sink in Shell::run
+::warning file=src/Db.php,line=2,col=1,endLine=2,endColumn=7,title=php.xss::Tainted value reaches a sink in Db::show
+::notice file=src/Db.php,line=3,col=7,endLine=3,endColumn=13,title=php.xss::Tainted value reaches a sink in Db::list
+::error file=src/Db.php,line=4,col=1,endLine=4,endColumn=22,title=php.sqli::Tainted value reaches a sink in Db::find
+::error file=src/Db.php,line=4,col=14,endLine=4,endColumn=21,title=php.sqli2::Tainted value reaches a sink in Db::find2
+::notice title=bleedthrough%3A coverage::coverage: all 12 file(s) analysed; suppressed: 12 low and 3 medium confidence, 7 by baseline

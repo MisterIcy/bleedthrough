@@ -1,0 +1,2 @@
+::error file=src/Db.php,line=4,col=1,endLine=4,endColumn=22,title=php.sqli::Tainted value reaches a sink in Db::find
+::notice title=bleedthrough%3A coverage::coverage: all 12 file(s) analysed

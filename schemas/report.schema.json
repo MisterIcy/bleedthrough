@@ -1,0 +1,908 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MisterIcy/bleedthrough/schemas/report.schema.json",
+  "title": "Bleedthrough report, schema version 1.0",
+  "description": "Validates the `json` document and each `ndjson` record (run, finding, summary). Additive changes keep the major version; breaking changes bump it.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/document"
+    },
+    {
+      "$ref": "#/$defs/run_record"
+    },
+    {
+      "$ref": "#/$defs/finding_record"
+    },
+    {
+      "$ref": "#/$defs/summary_record"
+    }
+  ],
+  "$defs": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Relative to the project root, forward slashes, no '.' or '..' segments.",
+      "pattern": "^(?![A-Za-z]:)(?!/)([^/]+/)*[^/]+$",
+      "not": {
+        "pattern": "(^|/)\\.\\.?(/|$)"
+      }
+    },
+    "position": {
+      "type": "object",
+      "properties": {
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "line",
+        "column"
+      ],
+      "additionalProperties": false
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "start": {
+          "$ref": "#/$defs/position"
+        },
+        "end": {
+          "$ref": "#/$defs/position"
+        },
+        "byte_start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "byte_end": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path",
+        "start",
+        "end",
+        "byte_start",
+        "byte_end"
+      ],
+      "additionalProperties": false
+    },
+    "tool": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "confidence_threshold": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "paranoid": {
+          "type": "boolean"
+        },
+        "php_version": {
+          "type": "string"
+        },
+        "ruleset_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "confidence_threshold",
+        "paranoid",
+        "php_version",
+        "ruleset_id"
+      ],
+      "additionalProperties": false
+    },
+    "reason_code": {
+      "enum": [
+        "source_inferred",
+        "dynamic_dispatch_several_candidates",
+        "unresolved_callee_assumed_propagate",
+        "parse_recovered",
+        "type_unknown",
+        "analysis_widened",
+        "sanitizer_wrong_for_sink_context"
+      ]
+    },
+    "finding": {
+      "type": "object",
+      "properties": {
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "taxonomy": {
+          "type": "object",
+          "properties": {
+            "cwe": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^CWE-[1-9][0-9]*$"
+              }
+            },
+            "owasp": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "edition": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^A[0-9]{2}$"
+                  }
+                },
+                "required": [
+                  "edition",
+                  "id"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "cwe",
+            "owasp"
+          ],
+          "additionalProperties": false
+        },
+        "severity": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "enum": [
+                "info",
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ]
+            },
+            "score": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 10
+            },
+            "vector": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "level",
+            "score",
+            "vector"
+          ],
+          "additionalProperties": false
+        },
+        "confidence": {
+          "type": "object",
+          "properties": {
+            "tier": {
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "$ref": "#/$defs/reason_code"
+                  },
+                  "detail": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "code",
+                  "detail"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "tier",
+            "reasons"
+          ],
+          "additionalProperties": false
+        },
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^bt1:[0-9a-f]{32}$"
+        },
+        "paranoid": {
+          "type": "boolean"
+        },
+        "trace": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "truncated": {
+                  "type": "boolean"
+                },
+                "steps": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "enum": [
+                          "source",
+                          "propagation",
+                          "call",
+                          "sanitizer_considered",
+                          "sink"
+                        ]
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "$ref": "#/$defs/location"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "label",
+                      "location"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "truncated",
+                "steps"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "fix": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "applicability": {
+                  "enum": [
+                    "mechanical",
+                    "needs_review"
+                  ]
+                },
+                "edits": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "path": {
+                        "$ref": "#/$defs/path"
+                      },
+                      "byte_start": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "byte_end": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "expected": {
+                        "type": "string"
+                      },
+                      "replacement": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "byte_start",
+                      "byte_end",
+                      "expected",
+                      "replacement"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "description",
+                "applicability",
+                "edits"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "rule",
+        "message",
+        "location",
+        "taxonomy",
+        "severity",
+        "confidence",
+        "fingerprint",
+        "paranoid",
+        "trace",
+        "fix"
+      ],
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "files_clean": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "files_recovered": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "files_failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "skipped": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "$ref": "#/$defs/path"
+              },
+              "reason": {
+                "enum": [
+                  "excluded",
+                  "too_large",
+                  "unreadable",
+                  "not_utf8",
+                  "time_limit"
+                ]
+              }
+            },
+            "required": [
+              "path",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "limits_hit": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "per_file_time",
+                  "file_size",
+                  "call_depth",
+                  "total_time"
+                ]
+              },
+              "path": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/$defs/path"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "path"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "unresolved_includes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unresolved_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "packs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "version"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "php_version": {
+          "type": "string"
+        },
+        "cache": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "hits": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "misses": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "invalidations": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "hits",
+                "misses",
+                "invalidations"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "files_clean",
+        "files_recovered",
+        "files_failed",
+        "skipped",
+        "limits_hit",
+        "unresolved_includes",
+        "unresolved_calls",
+        "packs",
+        "php_version",
+        "cache"
+      ],
+      "additionalProperties": false
+    },
+    "suppressed": {
+      "type": "object",
+      "properties": {
+        "below_threshold_low": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "below_threshold_medium": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "baselined": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "below_threshold_low",
+        "below_threshold_medium",
+        "baselined"
+      ],
+      "additionalProperties": false
+    },
+    "document": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+$"
+        },
+        "tool": {
+          "$ref": "#/$defs/tool"
+        },
+        "options": {
+          "$ref": "#/$defs/options"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/finding"
+          }
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "suppressed": {
+          "$ref": "#/$defs/suppressed"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tool",
+        "options",
+        "findings",
+        "coverage",
+        "suppressed"
+      ],
+      "additionalProperties": false
+    },
+    "run_record": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "run"
+        },
+        "schema_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+$"
+        },
+        "tool": {
+          "$ref": "#/$defs/tool"
+        },
+        "options": {
+          "$ref": "#/$defs/options"
+        }
+      },
+      "required": [
+        "type",
+        "schema_version",
+        "tool",
+        "options"
+      ],
+      "additionalProperties": false
+    },
+    "finding_record": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "finding"
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "taxonomy": {
+          "type": "object",
+          "properties": {
+            "cwe": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^CWE-[1-9][0-9]*$"
+              }
+            },
+            "owasp": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "edition": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^A[0-9]{2}$"
+                  }
+                },
+                "required": [
+                  "edition",
+                  "id"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "cwe",
+            "owasp"
+          ],
+          "additionalProperties": false
+        },
+        "severity": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "enum": [
+                "info",
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ]
+            },
+            "score": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 10
+            },
+            "vector": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "level",
+            "score",
+            "vector"
+          ],
+          "additionalProperties": false
+        },
+        "confidence": {
+          "type": "object",
+          "properties": {
+            "tier": {
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "$ref": "#/$defs/reason_code"
+                  },
+                  "detail": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "code",
+                  "detail"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "tier",
+            "reasons"
+          ],
+          "additionalProperties": false
+        },
+        "fingerprint": {
+          "type": "string",
+          "pattern": "^bt1:[0-9a-f]{32}$"
+        },
+        "paranoid": {
+          "type": "boolean"
+        },
+        "trace": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "truncated": {
+                  "type": "boolean"
+                },
+                "steps": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "enum": [
+                          "source",
+                          "propagation",
+                          "call",
+                          "sanitizer_considered",
+                          "sink"
+                        ]
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "$ref": "#/$defs/location"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "label",
+                      "location"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "truncated",
+                "steps"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "fix": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "applicability": {
+                  "enum": [
+                    "mechanical",
+                    "needs_review"
+                  ]
+                },
+                "edits": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "path": {
+                        "$ref": "#/$defs/path"
+                      },
+                      "byte_start": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "byte_end": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "expected": {
+                        "type": "string"
+                      },
+                      "replacement": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "byte_start",
+                      "byte_end",
+                      "expected",
+                      "replacement"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "description",
+                "applicability",
+                "edits"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "rule",
+        "message",
+        "location",
+        "taxonomy",
+        "severity",
+        "confidence",
+        "fingerprint",
+        "paranoid",
+        "trace",
+        "fix"
+      ],
+      "additionalProperties": false
+    },
+    "summary_record": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "summary"
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "suppressed": {
+          "$ref": "#/$defs/suppressed"
+        }
+      },
+      "required": [
+        "type",
+        "coverage",
+        "suppressed"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,2 @@
+{"type":"run","schema_version":"1.0","tool":{"name":"bleedthrough","version":"0.0.0"},"options":{"confidence_threshold":"medium","paranoid":false,"php_version":"8.3","ruleset_id":"core-1"}}
+{"type":"summary","coverage":{"files_clean":12,"files_recovered":0,"files_failed":0,"skipped":[],"limits_hit":[],"unresolved_includes":0,"unresolved_calls":0,"packs":[{"name":"core","version":"1.0.0"},{"name":"symfony","version":"1.0.0"}],"php_version":"8.3","cache":{"hits":10,"misses":2,"invalidations":0}},"suppressed":{"below_threshold_low":0,"below_threshold_medium":0,"baselined":0}}

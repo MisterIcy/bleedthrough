@@ -1,0 +1,338 @@
+{
+  "schema_version": "1.0",
+  "tool": {
+    "name": "bleedthrough",
+    "version": "0.0.0"
+  },
+  "options": {
+    "confidence_threshold": "medium",
+    "paranoid": false,
+    "php_version": "8.3",
+    "ruleset_id": "core-1"
+  },
+  "findings": [
+    {
+      "rule": "php.info",
+      "message": "Tainted value reaches a sink in Shell::note",
+      "location": {
+        "path": "lib/Shell.php",
+        "start": {
+          "line": 2,
+          "column": 1
+        },
+        "end": {
+          "line": 2,
+          "column": 5
+        },
+        "byte_start": 6,
+        "byte_end": 10
+      },
+      "taxonomy": {
+        "cwe": [
+          "CWE-89"
+        ],
+        "owasp": [
+          {
+            "edition": 2021,
+            "id": "A03"
+          }
+        ]
+      },
+      "severity": {
+        "level": "info",
+        "score": null,
+        "vector": null
+      },
+      "confidence": {
+        "tier": "medium",
+        "reasons": [
+          {
+            "code": "type_unknown",
+            "detail": null
+          }
+        ]
+      },
+      "fingerprint": "bt1:98f654d34ecefca833ddd1e7df21d164",
+      "paranoid": false,
+      "trace": null,
+      "fix": null
+    },
+    {
+      "rule": "php.cmdi",
+      "message": "Tainted value reaches a sink in Shell::run",
+      "location": {
+        "path": "lib/Shell.php",
+        "start": {
+          "line": 2,
+          "column": 6
+        },
+        "end": {
+          "line": 2,
+          "column": 30
+        },
+        "byte_start": 11,
+        "byte_end": 35
+      },
+      "taxonomy": {
+        "cwe": [
+          "CWE-89"
+        ],
+        "owasp": [
+          {
+            "edition": 2021,
+            "id": "A03"
+          }
+        ]
+      },
+      "severity": {
+        "level": "high",
+        "score": null,
+        "vector": null
+      },
+      "confidence": {
+        "tier": "high",
+        "reasons": []
+      },
+      "fingerprint": "bt1:fc3a94b29d42e89efcd39b735c85941f",
+      "paranoid": false,
+      "trace": null,
+      "fix": {
+        "description": "Escape the argument",
+        "applicability": "mechanical",
+        "edits": [
+          {
+            "path": "lib/Shell.php",
+            "byte_start": 22,
+            "byte_end": 34,
+            "expected": "$_GET['cmd']",
+            "replacement": "escapeshellarg($_GET['cmd'])"
+          }
+        ]
+      }
+    },
+    {
+      "rule": "php.xss",
+      "message": "Tainted value reaches a sink in Db::show",
+      "location": {
+        "path": "src/Db.php",
+        "start": {
+          "line": 2,
+          "column": 1
+        },
+        "end": {
+          "line": 2,
+          "column": 7
+        },
+        "byte_start": 6,
+        "byte_end": 12
+      },
+      "taxonomy": {
+        "cwe": [
+          "CWE-89"
+        ],
+        "owasp": [
+          {
+            "edition": 2021,
+            "id": "A03"
+          }
+        ]
+      },
+      "severity": {
+        "level": "medium",
+        "score": null,
+        "vector": null
+      },
+      "confidence": {
+        "tier": "low",
+        "reasons": [
+          {
+            "code": "type_unknown",
+            "detail": null
+          }
+        ]
+      },
+      "fingerprint": "bt1:d9a88889d50a42233b3212c858578ceb",
+      "paranoid": false,
+      "trace": null,
+      "fix": null
+    },
+    {
+      "rule": "php.xss",
+      "message": "Tainted value reaches a sink in Db::list",
+      "location": {
+        "path": "src/Db.php",
+        "start": {
+          "line": 3,
+          "column": 7
+        },
+        "end": {
+          "line": 3,
+          "column": 13
+        },
+        "byte_start": 31,
+        "byte_end": 37
+      },
+      "taxonomy": {
+        "cwe": [
+          "CWE-89"
+        ],
+        "owasp": [
+          {
+            "edition": 2021,
+            "id": "A03"
+          }
+        ]
+      },
+      "severity": {
+        "level": "low",
+        "score": null,
+        "vector": null
+      },
+      "confidence": {
+        "tier": "high",
+        "reasons": []
+      },
+      "fingerprint": "bt1:a3e5deed15795c2677fa06c5e44e53c5",
+      "paranoid": false,
+      "trace": null,
+      "fix": null
+    },
+    {
+      "rule": "php.sqli",
+      "message": "Tainted value reaches a sink in Db::find",
+      "location": {
+        "path": "src/Db.php",
+        "start": {
+          "line": 4,
+          "column": 1
+        },
+        "end": {
+          "line": 4,
+          "column": 22
+        },
+        "byte_start": 64,
+        "byte_end": 85
+      },
+      "taxonomy": {
+        "cwe": [
+          "CWE-89"
+        ],
+        "owasp": [
+          {
+            "edition": 2021,
+            "id": "A03"
+          }
+        ]
+      },
+      "severity": {
+        "level": "critical",
+        "score": null,
+        "vector": null
+      },
+      "confidence": {
+        "tier": "high",
+        "reasons": []
+      },
+      "fingerprint": "bt1:e564aeeed742a75aa6e9cfb564c59e5a",
+      "paranoid": false,
+      "trace": null,
+      "fix": {
+        "description": "Use a prepared statement",
+        "applicability": "mechanical",
+        "edits": [
+          {
+            "path": "src/Db.php",
+            "byte_start": 64,
+            "byte_end": 85,
+            "expected": "mysqli_query($db, $q)",
+            "replacement": "mysqli_execute($db, $q)"
+          }
+        ]
+      }
+    },
+    {
+      "rule": "php.sqli2",
+      "message": "Tainted value reaches a sink in Db::find2",
+      "location": {
+        "path": "src/Db.php",
+        "start": {
+          "line": 4,
+          "column": 14
+        },
+        "end": {
+          "line": 4,
+          "column": 21
+        },
+        "byte_start": 77,
+        "byte_end": 84
+      },
+      "taxonomy": {
+        "cwe": [
+          "CWE-89"
+        ],
+        "owasp": [
+          {
+            "edition": 2021,
+            "id": "A03"
+          }
+        ]
+      },
+      "severity": {
+        "level": "high",
+        "score": null,
+        "vector": null
+      },
+      "confidence": {
+        "tier": "medium",
+        "reasons": [
+          {
+            "code": "type_unknown",
+            "detail": null
+          }
+        ]
+      },
+      "fingerprint": "bt1:b359d8ea0f220eb932f1ab9d4f67ba7d",
+      "paranoid": false,
+      "trace": null,
+      "fix": {
+        "description": "Overlaps the first fix",
+        "applicability": "mechanical",
+        "edits": [
+          {
+            "path": "src/Db.php",
+            "byte_start": 77,
+            "byte_end": 84,
+            "expected": "$db, $q",
+            "replacement": "$db"
+          }
+        ]
+      }
+    }
+  ],
+  "coverage": {
+    "files_clean": 12,
+    "files_recovered": 0,
+    "files_failed": 0,
+    "skipped": [],
+    "limits_hit": [],
+    "unresolved_includes": 0,
+    "unresolved_calls": 0,
+    "packs": [
+      {
+        "name": "core",
+        "version": "1.0.0"
+      },
+      {
+        "name": "symfony",
+        "version": "1.0.0"
+      }
+    ],
+    "php_version": "8.3",
+    "cache": null
+  },
+  "suppressed": {
+    "below_threshold_low": 12,
+    "below_threshold_medium": 3,
+    "baselined": 7
+  }
+}

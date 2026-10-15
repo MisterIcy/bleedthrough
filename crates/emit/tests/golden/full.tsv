@@ -1,0 +1,2 @@
+path	line	column	end_line	end_column	rule	severity	confidence	cwe	owasp	fingerprint	message
+src/Db.php	4	1	4	22	php.sqli	critical	medium	CWE-89,CWE-943	A03:2021,A05:2025	bt1:e564aeeed742a75aa6e9cfb564c59e5a	Tainted value reaches a sink in Db::find

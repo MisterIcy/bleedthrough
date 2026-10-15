@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "properties": {
+            "coverage": {
+              "cache": null,
+              "files_clean": 12,
+              "files_failed": 0,
+              "files_recovered": 0,
+              "limits_hit": [],
+              "packs": [
+                {
+                  "name": "core",
+                  "version": "1.0.0"
+                },
+                {
+                  "name": "symfony",
+                  "version": "1.0.0"
+                }
+              ],
+              "php_version": "8.3",
+              "skipped": [],
+              "unresolved_calls": 0,
+              "unresolved_includes": 0
+            },
+            "schemaVersion": "1.0",
+            "suppressed": {
+              "baselined": 0,
+              "below_threshold_low": 0,
+              "below_threshold_medium": 0
+            }
+          },
+          "toolExecutionNotifications": []
+        }
+      ],
+      "results": [
+        {
+          "codeFlows": [
+            {
+              "properties": {
+                "truncated": false
+              },
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "kinds": [
+                        "source"
+                      ],
+                      "location": {
+                        "message": {
+                          "text": "request parameter"
+                        },
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "src/Db.php",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "byteLength": 11,
+                            "byteOffset": 12,
+                            "endColumn": 18,
+                            "endLine": 2,
+                            "startColumn": 7,
+                            "startLine": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kinds": [
+                        "propagation"
+                      ],
+                      "location": {
+                        "message": {
+                          "text": "interpolated into string"
+                        },
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "src/Db.php",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "byteLength": 3,
+                            "byteOffset": 6,
+                            "endColumn": 4,
+                            "endLine": 2,
+                            "startColumn": 1,
+                            "startLine": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kinds": [
+                        "sink"
+                      ],
+                      "location": {
+                        "message": {
+                          "text": "executed as SQL"
+                        },
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "src/Db.php",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "byteLength": 21,
+                            "byteOffset": 64,
+                            "endColumn": 22,
+                            "endLine": 4,
+                            "startColumn": 1,
+                            "startLine": 4
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "src/Db.php",
+                    "uriBaseId": "%SRCROOT%"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "byteLength": 11,
+                        "byteOffset": 12
+                      },
+                      "insertedContent": {
+                        "text": "(int) $_GET['id']"
+                      }
+                    },
+                    {
+                      "deletedRegion": {
+                        "byteLength": 12,
+                        "byteOffset": 64
+                      },
+                      "insertedContent": {
+                        "text": "mysqli_query"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "description": {
+                "text": "Cast the id to an integer"
+              },
+              "properties": {
+                "applicability": "needs_review"
+              }
+            }
+          ],
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/Db.php",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "byteLength": 21,
+                  "byteOffset": 64,
+                  "endColumn": 22,
+                  "endLine": 4,
+                  "startColumn": 1,
+                  "startLine": 4
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Tainted value reaches a sink in Db::find"
+          },
+          "partialFingerprints": {
+            "bleedthrough/v1": "bt1:e564aeeed742a75aa6e9cfb564c59e5a"
+          },
+          "properties": {
+            "confidence": "medium",
+            "confidenceReasons": [
+              {
+                "code": "source_inferred",
+                "detail": null
+              },
+              {
+                "code": "dynamic_dispatch_several_candidates",
+                "detail": "3"
+              }
+            ],
+            "paranoid": true,
+            "securitySeverity": "9.5",
+            "severity": "critical",
+            "severityVector": "BT:1/AV:N"
+          },
+          "ruleId": "php.sqli",
+          "ruleIndex": 0
+        }
+      ],
+      "taxonomies": [
+        {
+          "name": "CWE",
+          "taxa": [
+            {
+              "id": "89"
+            },
+            {
+              "id": "943"
+            }
+          ]
+        },
+        {
+          "name": "OWASP Top 10 2021",
+          "taxa": [
+            {
+              "id": "A03"
+            }
+          ]
+        },
+        {
+          "name": "OWASP Top 10 2025",
+          "taxa": [
+            {
+              "id": "A05"
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "bleedthrough",
+          "rules": [
+            {
+              "id": "php.sqli",
+              "properties": {
+                "security-severity": "9.5",
+                "tags": [
+                  "external/cwe/cwe-89",
+                  "external/cwe/cwe-943",
+                  "security"
+                ]
+              },
+              "relationships": [
+                {
+                  "kinds": [
+                    "superset"
+                  ],
+                  "target": {
+                    "id": "89",
+                    "index": 0,
+                    "toolComponent": {
+                      "index": 0,
+                      "name": "CWE"
+                    }
+                  }
+                },
+                {
+                  "kinds": [
+                    "superset"
+                  ],
+                  "target": {
+                    "id": "943",
+                    "index": 1,
+                    "toolComponent": {
+                      "index": 0,
+                      "name": "CWE"
+                    }
+                  }
+                },
+                {
+                  "kinds": [
+                    "superset"
+                  ],
+                  "target": {
+                    "id": "A03",
+                    "index": 0,
+                    "toolComponent": {
+                      "index": 1,
+                      "name": "OWASP Top 10 2021"
+                    }
+                  }
+                },
+                {
+                  "kinds": [
+                    "superset"
+                  ],
+                  "target": {
+                    "id": "A05",
+                    "index": 0,
+                    "toolComponent": {
+                      "index": 2,
+                      "name": "OWASP Top 10 2025"
+                    }
+                  }
+                }
+              ],
+              "shortDescription": {
+                "text": "php.sqli"
+              }
+            }
+          ],
+          "version": "0.0.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}
