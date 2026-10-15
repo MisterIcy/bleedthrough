@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+Function 7..111 "text" by_ref=false modifiers=[]
+  Return 29..109
+    Interpolated 36..108 Heredoc
+      StringPart 51..65 text "Indented body\n"
+      StringPart 73..96 text "  keeps relative indent"
+Expr 113..168
+  Assign 113..167 Assign
+    Variable 113..117 "raw"
+    Binary 120..167 Concat
+      Interpolated 120..158 Nowdoc
+        StringPart 133..150 text "no $interpolation"
+      Literal 161..167 string Double "\"tail\""
+End 169

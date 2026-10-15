@@ -1,0 +1,30 @@
+OpenTag 0..5 short=false
+Expr 7..18
+  Assign 7..17 Assign
+    Variable 7..9 "s"
+    Literal 12..17 string Single "'abc'"
+Expr 19..30
+  Assign 19..30 Assign
+    Variable 19..25 "first"
+    Variable 28..30 "s"
+Block 30..33
+  Expr 31..32
+    Literal 31..32 int "0"
+Noop 33..34
+Expr 35..49
+  Assign 35..48 Assign
+    Variable 35..39 "arr"
+    Array 42..48 Short
+      ArrayItem 43..44
+        Literal 43..44 int "1"
+      ArrayItem 46..47
+        Literal 46..47 int "2"
+Expr 50..64
+  Assign 50..64 Assign
+    Variable 50..57 "second"
+    Variable 60..64 "arr"
+Block 64..67
+  Expr 65..66
+    Literal 65..66 int "1"
+Noop 67..68
+End 69

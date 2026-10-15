@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+Expr 7..43
+  Assign 7..42 Coalesce
+    Index 7..20
+      Variable 7..13 "array"
+      Literal 14..19 string Single "'key'"
+    Call 25..42 function
+      Name 25..40 Unqualified "compute_default"
+        Name 25..40 Unqualified "compute_default"
+Expr 44..58
+  Assign 44..57 Coalesce
+    Variable 44..49 "name"
+    Literal 54..57 string Single "'x'"
+End 59

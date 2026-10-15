@@ -1,6 +1,8 @@
 //! The `sarif` emitter: the SARIF 2.1.0 subset Bleedthrough produces.
 //!
-//! Built from `serde_json::Value`s, whose objects are ordered maps, so key order is stable.
+//! Built from `serde_json::Value`s. Whether a `Value` object keeps insertion order or sorts its keys
+//! depends on the `preserve_order` feature, which any crate in the build may switch on (the Mago
+//! parser does, through `schemars`), so the output sorts all objects itself and does not depend on it.
 
 use std::collections::BTreeMap;
 use std::io::Write;
@@ -311,8 +313,10 @@ impl Emitter for SarifEmitter {
         _: &EmitContext<'_>,
         out: &mut dyn Write,
     ) -> Result<EmitOutcome, EmitError> {
+        let mut document = log(report);
+        document.sort_all_objects();
         let mut bytes =
-            serde_json::to_vec_pretty(&log(report)).map_err(|e| EmitError::Io(e.into()))?;
+            serde_json::to_vec_pretty(&document).map_err(|e| EmitError::Io(e.into()))?;
         bytes.push(b'\n');
         out.write_all(&bytes)?;
         out.flush()?;

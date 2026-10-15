@@ -1,0 +1,18 @@
+OpenTag 0..5 short=false
+Function 7..86 "swap" by_ref=false modifiers=[]
+  Param 21..27 "left" by_ref=true variadic=false modifiers=[]
+  Param 29..36 "right" by_ref=true variadic=false modifiers=[]
+  Builtin 39..43 Void
+  Expr 50..84
+    Assign 50..83 Assign
+      Array 50..65 Short
+        ArrayItem 51..56
+          Variable 51..56 "left"
+        ArrayItem 58..64
+          Variable 58..64 "right"
+      Array 68..83 Short
+        ArrayItem 69..75
+          Variable 69..75 "right"
+        ArrayItem 77..82
+          Variable 77..82 "left"
+End 87

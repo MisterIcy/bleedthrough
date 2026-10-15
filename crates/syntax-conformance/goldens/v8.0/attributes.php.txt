@@ -1,0 +1,47 @@
+OpenTag 0..5 short=false
+ClassLike 7..122 Class "Route" modifiers=[]
+  Attribute 9..43
+    Name 9..18 Unqualified "Attribute"
+    Arg 19..42
+      ClassConst 19..42 "TARGET_CLASS"
+        Name 19..28 Unqualified "Attribute"
+          Name 19..28 Unqualified "Attribute"
+  Method 63..120 "__construct" by_ref=false modifiers=[Public]
+    Param 91..116 "path" by_ref=false variadic=false modifiers=[Public]
+      Builtin 98..104 String
+      Literal 113..116 string Single "'/'"
+ClassLike 124..319 Class "HomeController" modifiers=[]
+  Attribute 126..140
+    Name 126..131 Unqualified "Route"
+    Arg 132..139
+      Literal 132..139 string Single "'/home'"
+  Attribute 142..148
+    Name 142..148 Unqualified "Marker"
+  Attribute 152..185
+    Name 152..159 Unqualified "Another"
+    Arg 160..169 named "name"
+      Literal 166..169 string Single "'x'"
+    Arg 171..184 named "flags"
+      Array 178..184 Short
+        ArrayItem 179..180
+          Literal 179..180 int "1"
+        ArrayItem 182..183
+          Literal 182..183 int "2"
+  Property 214..244 modifiers=[Public]
+    Attribute 216..222
+      Name 216..222 Unqualified "Inject"
+    PropertyItem 235..243 "service"
+  Method 250..317 "index" by_ref=false modifiers=[Public]
+    Attribute 252..256
+      Name 252..256 Unqualified "Pure"
+    Param 284..313 "secret" by_ref=false variadic=false modifiers=[]
+      Attribute 286..304
+        Name 286..304 Unqualified "SensitiveParameter"
+Expr 321..346
+  Assign 321..345 Assign
+    Variable 321..323 "f"
+    ArrowFn 326..345 static=false by_ref=false
+      Attribute 328..334
+        Name 328..334 Unqualified "Marker"
+      Literal 344..345 int "1"
+End 347

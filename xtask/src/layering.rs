@@ -3,7 +3,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use crate::declaration::{Declaration, Layer};
-use crate::meta::Package;
+use crate::meta::{Dependency, Package};
 
 /// Returns every violation of the layering declaration.
 pub fn check(declaration: &Declaration, packages: &[Package]) -> Vec<String> {
@@ -20,6 +20,7 @@ pub fn check(declaration: &Declaration, packages: &[Package]) -> Vec<String> {
                     .dependencies
                     .iter()
                     .filter(|d| members.contains(d.name.as_str()))
+                    .filter(|d| !is_test_support_edge(declaration, d))
                 {
                     let allowed = declared.allow.contains(&dep.name);
                     errors.extend(edge_errors(declaration, &package.name, &dep.name, allowed));
@@ -38,6 +39,13 @@ pub fn check(declaration: &Declaration, packages: &[Package]) -> Vec<String> {
     }
     errors.extend(cycle_errors(packages, &members));
     errors
+}
+
+/// A dev-dependency on a tooling crate (for example the shared conformance suite) is exempt from the
+/// layer and `allow` rules: it never reaches a shipped artefact. A normal dependency on a tooling
+/// crate is still rejected by `layer_violation`.
+fn is_test_support_edge(declaration: &Declaration, dep: &Dependency) -> bool {
+    dep.dev && declaration.layer_of(&dep.name) == Some(Layer::Tooling)
 }
 
 fn edge_errors(declaration: &Declaration, from: &str, to: &str, allowed: bool) -> Vec<String> {
@@ -67,7 +75,8 @@ fn layer_violation(from: Layer, to: Layer) -> Option<&'static str> {
     use Layer::{Application, Delivery, Domain, Infrastructure, Tooling};
     match (from, to) {
         (_, Delivery | Tooling) => Some("nothing may depend on a delivery or tooling crate"),
-        (Tooling, _) => Some("tooling crates must not depend on product crates"),
+        (Tooling, Domain) => None,
+        (Tooling, _) => Some("tooling crates may depend on domain crates only"),
         (Domain, Domain) | (Application, Domain) | (Infrastructure, Domain | Application) => None,
         (Delivery, _) => None,
         (Infrastructure, Infrastructure) => None, // permitted only if declared; checked by caller
@@ -156,6 +165,7 @@ mod tests {
                 .map(|d| Dependency {
                     name: (*d).into(),
                     req: "*".into(),
+                    dev: false,
                 })
                 .collect(),
         }
@@ -239,6 +249,67 @@ mod tests {
                 .iter()
                 .any(|e| e.contains("cycle") && e.contains("d1") && e.contains("d2"))
         );
+    }
+
+    const TOOLING_DECL: &str = r#"
+        [crate.d1]
+        layer = "domain"
+        allow = []
+        [crate.app]
+        layer = "application"
+        allow = ["d1"]
+        [crate.i1]
+        layer = "infrastructure"
+        allow = ["d1"]
+        [crate.suite]
+        layer = "tooling"
+        allow = ["d1"]
+    "#;
+
+    fn dev(mut package: Package, name: &str) -> Package {
+        package.dependencies.push(Dependency {
+            name: name.into(),
+            req: "*".into(),
+            dev: true,
+        });
+        package
+    }
+
+    fn run_tooling(packages: &[Package]) -> Vec<String> {
+        check(&Declaration::parse(TOOLING_DECL).unwrap(), packages)
+    }
+
+    #[test]
+    fn tooling_may_depend_on_domain_and_be_a_dev_dependency() {
+        let packages = [
+            pkg("d1", &[]),
+            pkg("app", &["d1"]),
+            dev(pkg("i1", &["d1"]), "suite"),
+            pkg("suite", &["d1"]),
+        ];
+        assert!(run_tooling(&packages).is_empty());
+    }
+
+    #[test]
+    fn normal_dependency_on_tooling_fails() {
+        let packages = [
+            pkg("d1", &[]),
+            pkg("app", &["d1", "suite"]),
+            pkg("i1", &["d1"]),
+            pkg("suite", &["d1"]),
+        ];
+        assert_names(&run_tooling(&packages), "app", "suite");
+    }
+
+    #[test]
+    fn tooling_depending_on_application_fails() {
+        let packages = [
+            pkg("d1", &[]),
+            pkg("app", &["d1"]),
+            pkg("i1", &["d1"]),
+            pkg("suite", &["d1", "app"]),
+        ];
+        assert_names(&run_tooling(&packages), "suite", "app");
     }
 
     #[test]

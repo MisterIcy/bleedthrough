@@ -1,0 +1,167 @@
+OpenTag 0..5 short=false
+Declare 7..31
+  Directive 15..29 "strict_types"
+    Literal 28..29 int "1"
+Namespace 33..1614 "App\\Persistence" braced=false
+  Name 43..58 Qualified "App\\Persistence"
+  Use 61..69
+    UseItem 65..68 Class alias=None
+      Name 65..68 Unqualified "PDO"
+  Use 70..84
+    UseItem 74..83 Class alias=None
+      Name 74..83 Unqualified "Generator"
+  ClassLike 86..233 Interface "Repository" modifiers=[]
+    Method 113..151 "find" by_ref=false modifiers=[Public]
+      Param 134..141 "id" by_ref=false variadic=false modifiers=[]
+        Builtin 134..137 Int
+      Nullable 144..150
+        Builtin 145..150 Array
+    Method 198..231 "all" by_ref=false modifiers=[Public]
+      Named 221..230
+        Name 221..230 Unqualified "Generator"
+  ClassLike 235..962 Class "PdoRepository" modifiers=[Abstract]
+    Name 275..285 Unqualified "Repository"
+    Property 292..326 modifiers=[Protected, Static]
+      Builtin 309..312 Int
+      PropertyItem 313..325 "queries"
+        Literal 324..325 int "0"
+    Method 332..416 "__construct" by_ref=false modifiers=[Public]
+      Param 360..378 "pdo" by_ref=false variadic=false modifiers=[Protected]
+        Named 370..373
+          Name 370..373 Unqualified "PDO"
+      Param 380..403 "table" by_ref=false variadic=false modifiers=[Protected]
+        Builtin 390..396 String
+    Method 422..716 "find" by_ref=false modifiers=[Public]
+      Param 443..450 "id" by_ref=false variadic=false modifiers=[]
+        Builtin 443..446 Int
+      Nullable 453..459
+        Builtin 454..459 Array
+      Expr 474..549
+        Assign 474..548 Assign
+          Variable 474..479 "stmt"
+          Call 482..548 method "prepare" nullsafe=false
+            Property 482..492 "pdo" nullsafe=false
+              Variable 482..487 "this"
+            Arg 502..547
+              Interpolated 502..547 DoubleQuoted
+                StringPart 503..517 text "SELECT * FROM "
+                StringPart 517..531
+                  Property 518..530 "table" nullsafe=false
+                    Variable 518..523 "this"
+                StringPart 531..546 text " WHERE id = :id"
+      Expr 558..588
+        Call 558..587 method "execute" nullsafe=false
+          Variable 558..563 "stmt"
+          Arg 573..586
+            Array 573..586 Short
+              ArrayItem 574..585
+                Literal 574..578 string Single "'id'"
+                Variable 582..585 "id"
+      Expr 597..616
+        Unary 597..615 PostInc
+          StaticProperty 597..613
+            ClassRef 597..603 Static
+            Variable 605..613 "queries"
+      Expr 626..664
+        Assign 626..663 Assign
+          Variable 626..630 "row"
+          Call 633..663 method "fetch" nullsafe=false
+            Variable 633..638 "stmt"
+            Arg 646..662
+              ClassConst 646..662 "FETCH_ASSOC"
+                Name 646..649 Unqualified "PDO"
+                  Name 646..649 Unqualified "PDO"
+      Return 674..710
+        Conditional 681..709
+          Binary 681..695 Identical
+            Variable 681..685 "row"
+            Literal 690..695 bool false
+          Literal 698..702 null
+          Variable 705..709 "row"
+    Method 722..898 "all" by_ref=false modifiers=[Public]
+      Named 745..754
+        Name 745..754 Unqualified "Generator"
+      Foreach 769..892
+        Call 778..827 method "query" nullsafe=false
+          Property 778..788 "pdo" nullsafe=false
+            Variable 778..783 "this"
+          Arg 796..826
+            Interpolated 796..826 DoubleQuoted
+              StringPart 797..811 text "SELECT * FROM "
+              StringPart 811..825
+                Property 812..824 "table" nullsafe=false
+                  Variable 812..817 "this"
+        Variable 831..835 "row"
+        Expr 851..882
+          Yield 851..881
+            Cast 857..873 Int
+              Index 863..873
+                Variable 863..867 "row"
+                Literal 868..872 string Single "'id'"
+            Variable 877..881 "row"
+    Method 904..960 "hydrate" by_ref=false modifiers=[Abstract, Protected]
+      Param 940..950 "row" by_ref=false variadic=false modifiers=[]
+        Builtin 940..945 Array
+      Builtin 953..959 Object
+  ClassLike 964..1614 Class "UserRepository" modifiers=[Final]
+    Name 999..1012 Unqualified "PdoRepository"
+    Method 1019..1112 "__construct" by_ref=false modifiers=[Public]
+      Param 1047..1055 "pdo" by_ref=false variadic=false modifiers=[]
+        Named 1047..1050
+          Name 1047..1050 Unqualified "PDO"
+      Expr 1071..1106
+        Call 1071..1105 static "__construct"
+          ClassRef 1071..1077 Parent
+          Arg 1091..1095
+            Variable 1091..1095 "pdo"
+          Arg 1097..1104
+            Literal 1097..1104 string Single "'users'"
+    Method 1118..1415 "hydrate" by_ref=false modifiers=[Protected]
+      Param 1145..1155 "row" by_ref=false variadic=false modifiers=[]
+        Builtin 1145..1150 Array
+      Builtin 1158..1164 Object
+      Expr 1179..1252
+        Assign 1179..1251 Assign
+          Array 1179..1244 Short
+            ArrayItem 1193..1204
+              Literal 1193..1197 string Single "'id'"
+              Variable 1201..1204 "id"
+            ArrayItem 1218..1233
+              Literal 1218..1224 string Single "'name'"
+              Variable 1228..1233 "name"
+          Variable 1247..1251 "row"
+      Return 1262..1409
+        AnonymousClass 1269..1408
+          Arg 1280..1283
+            Variable 1280..1283 "id"
+          Arg 1285..1290
+            Variable 1285..1290 "name"
+          Method 1306..1398 "__construct" by_ref=false modifiers=[Public]
+            Param 1334..1348 "id" by_ref=false variadic=false modifiers=[Public]
+              Builtin 1341..1344 Int
+            Param 1350..1369 "name" by_ref=false variadic=false modifiers=[Public]
+              Builtin 1357..1363 String
+    Method 1421..1612 "names" by_ref=false modifiers=[Public]
+      Builtin 1446..1451 Array
+      Expr 1466..1478
+        Assign 1466..1477 Assign
+          Variable 1466..1472 "names"
+          Array 1475..1477 Short
+      Foreach 1487..1582
+        Call 1496..1508 method "all" nullsafe=false
+          Variable 1496..1501 "this"
+        Variable 1512..1515 "id"
+        Array 1519..1536 Short
+          ArrayItem 1520..1535
+            Literal 1520..1526 string Single "'name'"
+            Variable 1530..1535 "name"
+        Expr 1552..1572
+          Assign 1552..1571 Assign
+            Index 1552..1563
+              Variable 1552..1558 "names"
+              Variable 1559..1562 "id"
+            Variable 1566..1571 "name"
+      Return 1592..1606
+        Variable 1599..1605 "names"
+Comment Doc 157..193 "/** @return Generator<int, array> */"
+End 1615

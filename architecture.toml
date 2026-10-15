@@ -65,6 +65,13 @@ allow = ["bleedthrough-app", "bleedthrough-findings"]
 layer = "infrastructure"
 allow = ["bleedthrough-app", "bleedthrough-rules", "bleedthrough-packs"]
 
+# Parser adapter: the only crate that may depend on a third-party parser (exact pins).
+# The conformance suite is a dev-dependency only (exempt from the edge rule, see layering.rs).
+[crate.bleedthrough-syntax-mago]
+layer = "infrastructure"
+adapter = true
+allow = ["bleedthrough-syntax"]
+
 [crate.bleedthrough-cache]
 layer = "infrastructure"
 allow = ["bleedthrough-app", "bleedthrough-engine", "bleedthrough-symbols"]
@@ -72,9 +79,15 @@ allow = ["bleedthrough-app", "bleedthrough-engine", "bleedthrough-symbols"]
 # ---- Delivery (composition root) ----
 [crate.bleedthrough-cli]
 layer = "delivery"
-allow = ["bleedthrough-app", "bleedthrough-emit", "bleedthrough-fs", "bleedthrough-cache"]
+# The composition root wires the parser adapter (no Cargo edge exists until the CLI is built).
+allow = ["bleedthrough-app", "bleedthrough-emit", "bleedthrough-fs", "bleedthrough-cache", "bleedthrough-syntax-mago"]
 
 # ---- Tooling ----
+# Backend-agnostic conformance suite over the PHP fixture corpus; used by adapters as a dev-dependency.
+[crate.bleedthrough-syntax-conformance]
+layer = "tooling"
+allow = ["bleedthrough-syntax"]
+
 [crate.xtask]
 layer = "tooling"
 allow = []

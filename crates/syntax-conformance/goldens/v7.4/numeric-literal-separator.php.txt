@@ -1,0 +1,18 @@
+OpenTag 0..5 short=false
+Expr 7..28
+  Assign 7..27 Assign
+    Variable 7..13 "speed"
+    Literal 16..27 int "299_792_458"
+Expr 29..48
+  Assign 29..47 Assign
+    Variable 29..33 "hex"
+    Literal 36..47 int "0xCAFE_F00D"
+Expr 49..72
+  Assign 49..71 Assign
+    Variable 49..55 "float"
+    Literal 58..71 float "6.674_083e-11"
+Expr 73..92
+  Assign 73..91 Assign
+    Variable 73..77 "bin"
+    Literal 80..91 int "0b0101_1111"
+End 93

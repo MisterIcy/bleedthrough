@@ -1,0 +1,19 @@
+OpenTag 0..5 short=false
+ClassLike 7..148 Class "User" modifiers=[]
+  Property 24..39 modifiers=[Public]
+    Builtin 31..34 Int
+    PropertyItem 35..38 "id"
+  Property 44..75 modifiers=[Protected]
+    Nullable 54..61
+      Builtin 55..61 String
+    PropertyItem 62..74 "name"
+      Literal 70..74 null
+  Property 80..113 modifiers=[Private, Static]
+    Builtin 95..100 Array
+    PropertyItem 101..112 "cache"
+      Array 110..112 Short
+  Property 118..146 modifiers=[Public]
+    Builtin 125..133 Iterable
+    PropertyItem 134..145 "items"
+      Array 143..145 Short
+End 149

@@ -1,0 +1,11 @@
+OpenTag 0..5 short=false
+ClassLike 7..124 Class "Registry" modifiers=[]
+  Property 28..73 modifiers=[Public, PrivateSet, Static]
+    Builtin 55..60 Array
+    PropertyItem 61..72 "items"
+      Array 70..72 Short
+  Property 78..122 modifiers=[Public, Static, ProtectedSet]
+    Builtin 107..110 Int
+    PropertyItem 111..121 "count"
+      Literal 120..121 int "0"
+End 125

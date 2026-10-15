@@ -1,0 +1,10 @@
+OpenTag 0..5 short=false
+Expr 7..34
+  Call 7..33 function
+    Name 7..10 Unqualified "foo"
+      Name 7..10 Unqualified "foo"
+    Arg 11..19 spread
+      Variable 14..19 "args"
+    Arg 21..32 named "named"
+      Variable 28..32 "arg"
+End 35

@@ -1,0 +1,5 @@
+OpenTag 0..5 short=false
+ClassLike 7..63 Trait "T" modifiers=[]
+  Method 21..61 "hidden" by_ref=false modifiers=[Abstract, Private]
+    Builtin 57..60 Int
+End 64

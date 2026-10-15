@@ -1,0 +1,12 @@
+OpenTag 0..5 short=false
+Function 7..41 "ok_before" by_ref=false modifiers=[]
+  Return 30..39
+    Literal 37..38 int "1"
+ClassLike 43..117 Class "K" modifiers=[]
+  Method 57..79 "a" by_ref=false modifiers=[Public]
+  Error 84..88
+  Method 93..115 "b" by_ref=false modifiers=[Public]
+Function 119..152 "ok_after" by_ref=false modifiers=[]
+  Return 141..150
+    Literal 148..149 int "2"
+End 153

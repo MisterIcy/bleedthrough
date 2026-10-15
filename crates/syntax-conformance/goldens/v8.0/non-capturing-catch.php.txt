@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+Try 7..62
+  Expr 17..23
+    Call 17..22 function
+      Name 17..20 Unqualified "run"
+        Name 17..20 Unqualified "run"
+  Catch 26..62 variable=None
+    Named 33..42
+      Name 33..42 Unqualified "Exception"
+    Expr 50..60
+      Call 50..59 function
+        Name 50..57 Unqualified "recover"
+          Name 50..57 Unqualified "recover"
+End 63

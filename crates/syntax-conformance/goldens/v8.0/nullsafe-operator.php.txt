@@ -1,0 +1,12 @@
+OpenTag 0..5 short=false
+Expr 7..54
+  Assign 7..53 Assign
+    Variable 7..15 "country"
+    Property 18..53 "country" nullsafe=true
+      Property 18..43 "address" nullsafe=true
+        Property 18..33 "user" nullsafe=true
+          Variable 18..26 "session"
+Expr 55..74
+  Call 55..73 method "flush" nullsafe=true
+    Variable 55..63 "session"
+End 75

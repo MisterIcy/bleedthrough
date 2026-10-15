@@ -1,0 +1,9 @@
+OpenTag 0..5 short=false
+Expr 7..38
+  Assign 7..37 Assign
+    Variable 7..13 "never"
+    Binary 16..37 Instanceof
+      Literal 16..17 int "1"
+      Name 29..37 Unqualified "stdClass"
+        Name 29..37 Unqualified "stdClass"
+End 39

@@ -1,0 +1,10 @@
+OpenTag 0..5 short=false
+ClassLike 7..52 Interface "I" modifiers=[]
+  Const 25..50 modifiers=[Final, Public]
+    ConstItem 44..49 "X"
+      Literal 48..49 int "1"
+ClassLike 54..98 Class "A" modifiers=[]
+  Const 68..96 modifiers=[Final, Protected]
+    ConstItem 90..95 "Y"
+      Literal 94..95 int "2"
+End 99

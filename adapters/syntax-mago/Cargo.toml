@@ -1,0 +1,23 @@
+[package]
+name = "bleedthrough-syntax-mago"
+version = "0.0.0"
+description = "Bleedthrough infrastructure adapter: implements the parser-backend port with the Mago PHP parser"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bleedthrough-syntax = { path = "../../crates/syntax" }
+# Exact pins: all direct Mago crates move together (see docs/mago-upgrade.md).
+mago-syntax = "=1.57.0"
+mago-span = "=1.57.0"
+mago-database = "=1.57.0"
+mago-allocator = "=1.57.0"
+
+[dev-dependencies]
+bleedthrough-syntax-conformance = { path = "../../crates/syntax-conformance" }

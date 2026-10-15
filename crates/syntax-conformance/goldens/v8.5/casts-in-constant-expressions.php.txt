@@ -1,0 +1,15 @@
+OpenTag 0..5 short=false
+Const 7..28
+  ConstItem 13..27 "T1"
+    Cast 18..27 Int
+      Literal 24..27 float "0.3"
+Const 29..52
+  ConstItem 35..51 "T2"
+    Cast 40..51 String
+      Literal 49..51 int "12"
+ClassLike 53..88 Class "K" modifiers=[]
+  Const 67..86 modifiers=[]
+    ConstItem 73..85 "A"
+      Cast 77..85 Bool
+        Literal 84..85 int "1"
+End 89

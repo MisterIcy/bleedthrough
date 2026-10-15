@@ -1,0 +1,221 @@
+OpenTag 0..5 short=false
+Declare 7..31
+  Directive 15..29 "strict_types"
+    Literal 28..29 int "1"
+Namespace 33..1698 "App\\Http\\Controller" braced=false
+  Name 43..62 Qualified "App\\Http\\Controller"
+  Use 65..86
+    UseItem 69..85 Class alias=None
+      Name 69..85 Qualified "App\\Domain\\Order"
+  Use 87..118
+    UseItem 91..117 Class alias=None
+      Name 91..117 Qualified "App\\Domain\\OrderRepository"
+  Use 119..152
+    UseItem 133..140 Class alias=None
+      Name 133..140 Qualified "App\\Http\\Request"
+    UseItem 142..150 Class alias=None
+      Name 142..150 Qualified "App\\Http\\Response"
+  Use 153..182
+    UseItem 157..181 Class alias=None
+      Name 157..181 Unqualified "InvalidArgumentException"
+  ClassLike 184..1698 Class "OrderController" modifiers=[Final]
+    Attribute 186..202
+      Name 186..191 Unqualified "Route"
+      Arg 192..201
+        Literal 192..201 string Single "'/orders'"
+    Const 238..267 modifiers=[Private]
+      ConstItem 252..266 "PAGE_SIZE"
+        Literal 264..266 int "25"
+    Method 273..405 "__construct" by_ref=false modifiers=[Public]
+      Param 310..350 "orders" by_ref=false variadic=false modifiers=[Private, Readonly]
+        Named 327..342
+          Name 327..342 Unqualified "OrderRepository"
+      Param 360..390 "locale" by_ref=false variadic=false modifiers=[Private]
+        Nullable 368..375
+          Builtin 369..375 String
+        Literal 386..390 null
+    Method 411..786 "index" by_ref=false modifiers=[Public]
+      Attribute 413..441
+        Name 413..418 Unqualified "Route"
+        Arg 419..422
+          Literal 419..422 string Single "'/'"
+        Arg 424..440 named "methods"
+          Array 433..440 Short
+            ArrayItem 434..439
+              Literal 434..439 string Single "'GET'"
+      Param 469..485 "request" by_ref=false variadic=false modifiers=[]
+        Named 469..476
+          Name 469..476 Unqualified "Request"
+      Named 488..496
+        Name 488..496 Unqualified "Response"
+      Expr 511..564
+        Assign 511..563 Assign
+          Variable 511..516 "page"
+          Call 519..563 function
+            Name 519..522 Unqualified "max"
+              Name 519..522 Unqualified "max"
+            Arg 523..524
+              Literal 523..524 int "1"
+            Arg 526..562
+              Cast 526..562 Int
+                Parenthesized 532..562
+                  Binary 533..561 Coalesce
+                    Index 533..556
+                      Property 533..548 "query" nullsafe=false
+                        Variable 533..541 "request"
+                      Literal 549..555 string Single "'page'"
+                    Literal 560..561 int "1"
+      Expr 573..626
+        Assign 573..625 Assign
+          Variable 573..579 "items"
+          Call 582..625 method "page" nullsafe=false
+            Property 582..595 "orders" nullsafe=false
+              Variable 582..587 "this"
+            Arg 602..607
+              Variable 602..607 "page"
+            Arg 609..624
+              ClassConst 609..624 "PAGE_SIZE"
+                ClassRef 609..613 SelfRef
+      Return 636..780
+        Call 643..779 static "json"
+          Name 643..651 Unqualified "Response"
+            Name 643..651 Unqualified "Response"
+          Arg 658..778
+            Array 658..778 Short
+              ArrayItem 672..687
+                Literal 672..678 string Single "'page'"
+                Variable 682..687 "page"
+              ArrayItem 701..767
+                Literal 701..708 string Single "'items'"
+                Call 712..767 function
+                  Name 712..721 Unqualified "array_map"
+                    Name 712..721 Unqualified "array_map"
+                  Arg 722..758
+                    ArrowFn 722..758 static=false by_ref=false
+                      Param 725..733 "o" by_ref=false variadic=false modifiers=[]
+                        Named 725..730
+                          Name 725..730 Unqualified "Order"
+                      Builtin 736..741 Array
+                      Call 745..758 method "toArray" nullsafe=false
+                        Variable 745..747 "o"
+                  Arg 760..766
+                    Variable 760..766 "items"
+    Method 792..1242 "show" by_ref=false modifiers=[Public]
+      Attribute 794..826
+        Name 794..799 Unqualified "Route"
+        Arg 800..807
+          Literal 800..807 string Single "'/{id}'"
+        Arg 809..825 named "methods"
+          Array 818..825 Short
+            ArrayItem 819..824
+              Literal 819..824 string Single "'GET'"
+      Param 853..869 "request" by_ref=false variadic=false modifiers=[]
+        Named 853..860
+          Name 853..860 Unqualified "Request"
+      Param 871..878 "id" by_ref=false variadic=false modifiers=[]
+        Builtin 871..874 Int
+      Named 881..889
+        Name 881..889 Unqualified "Response"
+      Expr 904..992
+        Assign 904..991 Assign
+          Variable 904..910 "order"
+          Binary 913..991 Coalesce
+            Call 913..937 method "find" nullsafe=false
+              Property 913..926 "orders" nullsafe=false
+                Variable 913..918 "this"
+              Arg 933..936
+                Variable 933..936 "id"
+            Throw 941..991
+              New 947..991
+                Name 951..975 Unqualified "InvalidArgumentException"
+                  Name 951..975 Unqualified "InvalidArgumentException"
+                Arg 976..990
+                  Interpolated 976..990 DoubleQuoted
+                    StringPart 977..986 text "No order "
+                    StringPart 986..989
+                      Variable 986..989 "id"
+      Return 1002..1236
+        Match 1009..1235
+          Literal 1016..1020 bool true
+          MatchArm 1036..1077 default=false
+            Call 1036..1057 method "isCancelled" nullsafe=false
+              Variable 1036..1042 "order"
+            Call 1061..1077 static "gone"
+              Name 1061..1069 Unqualified "Response"
+                Name 1061..1069 Unqualified "Response"
+          MatchArm 1091..1144 default=false
+            Call 1091..1107 method "isPaid" nullsafe=false
+              Variable 1091..1097 "order"
+            Call 1111..1144 static "json"
+              Name 1111..1119 Unqualified "Response"
+                Name 1111..1119 Unqualified "Response"
+              Arg 1126..1143
+                Call 1126..1143 method "toArray" nullsafe=false
+                  Variable 1126..1132 "order"
+          MatchArm 1158..1224 default=true
+            Call 1169..1224 static "json"
+              Name 1169..1177 Unqualified "Response"
+                Name 1169..1177 Unqualified "Response"
+              Arg 1184..1223
+                Binary 1184..1223 Add
+                  Call 1184..1201 method "toArray" nullsafe=false
+                    Variable 1184..1190 "order"
+                  Array 1204..1223 Short
+                    ArrayItem 1205..1222
+                      Literal 1205..1214 string Single "'payable'"
+                      Literal 1218..1222 bool true
+    Method 1248..1696 "create" by_ref=false modifiers=[Public]
+      Param 1271..1287 "request" by_ref=false variadic=false modifiers=[]
+        Named 1271..1278
+          Name 1271..1278 Unqualified "Request"
+      Named 1290..1298
+        Name 1290..1298 Unqualified "Response"
+      Try 1313..1626
+        Expr 1331..1373
+          Assign 1331..1372 Assign
+            Variable 1331..1337 "order"
+            Call 1340..1372 static "fromInput"
+              Name 1340..1345 Unqualified "Order"
+                Name 1340..1345 Unqualified "Order"
+              Arg 1357..1371
+                Property 1357..1371 "body" nullsafe=false
+                  Variable 1357..1365 "request"
+        Expr 1386..1414
+          Call 1386..1413 method "save" nullsafe=false
+            Property 1386..1399 "orders" nullsafe=false
+              Variable 1386..1391 "this"
+            Arg 1406..1412
+              Variable 1406..1412 "order"
+        Catch 1425..1570 variable=Some("e")
+          Union 1432..1475
+            Named 1432..1456
+              Name 1432..1456 Unqualified "InvalidArgumentException"
+            Named 1459..1475
+              Name 1459..1475 FullyQualified "DomainException"
+          Return 1494..1560
+            Call 1501..1559 static "json"
+              Name 1501..1509 Unqualified "Response"
+                Name 1501..1509 Unqualified "Response"
+              Arg 1516..1545
+                Array 1516..1545 Short
+                  ArrayItem 1517..1544
+                    Literal 1517..1524 string Single "'error'"
+                    Call 1528..1544 method "getMessage" nullsafe=false
+                      Variable 1528..1530 "e"
+              Arg 1547..1558 named "status"
+                Literal 1555..1558 int "422"
+        Expr 1593..1616
+          Assign 1593..1615 Coalesce
+            Property 1593..1606 "locale" nullsafe=false
+              Variable 1593..1598 "this"
+            Literal 1611..1615 string Single "'en'"
+      Return 1636..1690
+        Call 1643..1689 static "json"
+          Name 1643..1651 Unqualified "Response"
+            Name 1643..1651 Unqualified "Response"
+          Arg 1658..1675
+            Call 1658..1675 method "toArray" nullsafe=false
+              Variable 1658..1664 "order"
+          Arg 1677..1688 named "status"
+            Literal 1685..1688 int "201"
+End 1699

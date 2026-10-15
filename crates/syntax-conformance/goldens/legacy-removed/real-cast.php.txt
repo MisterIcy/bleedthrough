@@ -1,0 +1,7 @@
+OpenTag 0..5 short=false
+Expr 7..25
+  Assign 7..24 Assign
+    Variable 7..9 "x"
+    Cast 12..24 Float
+      Literal 19..24 string Double "\"1.5\""
+End 26

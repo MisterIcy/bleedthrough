@@ -1,0 +1,24 @@
+OpenTag 0..5 short=false
+Expr 7..54
+  Assign 7..53 Assign
+    Variable 7..12 "copy"
+    Call 15..53 function
+      Name 15..20 Unqualified "clone"
+        Name 15..20 Unqualified "clone"
+      Arg 21..30
+        Variable 21..30 "original"
+      Arg 32..52
+        Array 32..52 Short
+          ArrayItem 33..41
+            Literal 33..36 string Single "'x'"
+            Literal 40..41 int "1"
+          ArrayItem 43..51
+            Literal 43..46 string Single "'y'"
+            Literal 50..51 int "2"
+Expr 55..80
+  Assign 55..79 Assign
+    Variable 55..60 "same"
+    Clone 63..79
+      Parenthesized 68..79
+        Variable 69..78 "original"
+End 81

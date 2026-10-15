@@ -1,0 +1,26 @@
+OpenTag 0..5 short=false
+ClassLike 7..63 Interface "Logger" modifiers=[]
+  Method 30..61 "log" by_ref=false modifiers=[Public]
+    Param 50..59 "m" by_ref=false variadic=false modifiers=[]
+      Builtin 50..56 String
+Expr 65..256
+  Assign 65..255 Assign
+    Variable 65..72 "logger"
+    AnonymousClass 75..255
+      Arg 86..87
+        Literal 86..87 int "1"
+      Name 100..106 Unqualified "Logger"
+      Property 113..127 modifiers=[Public]
+        PropertyItem 120..126 "level"
+      Method 133..215 "__construct" by_ref=false modifiers=[Public]
+        Param 161..171 "level" by_ref=false variadic=false modifiers=[]
+          Literal 170..171 int "0"
+        Expr 187..209
+          Assign 187..208 Assign
+            Property 187..199 "level" nullsafe=false
+              Variable 187..192 "this"
+            Variable 202..208 "level"
+      Method 220..253 "log" by_ref=false modifiers=[Public]
+        Param 240..249 "m" by_ref=false variadic=false modifiers=[]
+          Builtin 240..246 String
+End 257

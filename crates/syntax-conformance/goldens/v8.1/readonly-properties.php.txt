@@ -1,0 +1,15 @@
+OpenTag 0..5 short=false
+ClassLike 7..159 Class "Immutable" modifiers=[]
+  Property 29..53 modifiers=[Public, Readonly]
+    Builtin 45..48 Int
+    PropertyItem 49..52 "id"
+  Method 59..157 "__construct" by_ref=false modifiers=[Public]
+    Param 87..121 "name" by_ref=false variadic=false modifiers=[Public, Readonly]
+      Builtin 103..109 String
+      Literal 118..121 string Single "'x'"
+    Expr 137..151
+      Assign 137..150 Assign
+        Property 137..146 "id" nullsafe=false
+          Variable 137..142 "this"
+        Literal 149..150 int "1"
+End 160

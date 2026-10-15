@@ -1,0 +1,11 @@
+OpenTag 0..5 short=false
+Expr 7..31
+  Cast 7..30 Void
+    Call 14..30 function
+      Name 14..20 Unqualified "concat"
+        Name 14..20 Unqualified "concat"
+      Arg 21..24
+        Literal 21..24 string Double "\"a\""
+      Arg 26..29
+        Literal 26..29 string Double "\"b\""
+End 32

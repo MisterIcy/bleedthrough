@@ -1,0 +1,24 @@
+OpenTag 0..5 short=false
+Expr 7..24
+  Assign 7..23 Assign
+    Variable 7..9 "f"
+    CallableRef 12..23 function
+      Name 12..18 Unqualified "strlen"
+        Name 12..18 Unqualified "strlen"
+Expr 25..48
+  Assign 25..47 Assign
+    Variable 25..27 "g"
+    CallableRef 30..47 method "method" nullsafe=false
+      Variable 30..34 "obj"
+Expr 49..68
+  Assign 49..67 Assign
+    Variable 49..51 "h"
+    CallableRef 54..67 static "bar"
+      Name 54..57 Unqualified "Foo"
+        Name 54..57 Unqualified "Foo"
+Expr 69..89
+  Assign 69..88 Assign
+    Variable 69..71 "i"
+    CallableRef 74..88 function
+      Variable 74..83 "callable"
+End 90

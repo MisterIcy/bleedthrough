@@ -1,0 +1,22 @@
+OpenTag 0..5 short=false
+Expr 7..45
+  Assign 7..44 Assign
+    Array 7..37 Short
+      ArrayItem 8..19
+        Literal 8..12 string Single "'id'"
+        Variable 16..19 "id"
+      ArrayItem 21..36
+        Literal 21..27 string Single "'name'"
+        Variable 31..36 "name"
+    Variable 40..44 "row"
+Expr 46..81
+  Assign 46..80 Assign
+    Array 46..72 List
+      ArrayItem 51..60
+        Literal 51..54 string Single "'a'"
+        Variable 58..60 "x"
+      ArrayItem 62..71
+        Literal 62..65 string Single "'b'"
+        Variable 69..71 "y"
+    Variable 75..80 "pair"
+End 82

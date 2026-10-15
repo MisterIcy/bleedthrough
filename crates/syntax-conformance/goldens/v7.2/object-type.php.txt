@@ -1,0 +1,8 @@
+OpenTag 0..5 short=false
+Function 7..58 "show" by_ref=false modifiers=[]
+  Param 21..30 "o" by_ref=false variadic=false modifiers=[]
+    Builtin 21..27 Object
+  Builtin 33..39 Object
+  Return 46..56
+    Variable 53..55 "o"
+End 59

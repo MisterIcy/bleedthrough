@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+Expr 7..39
+  Assign 7..38 Assign
+    Variable 7..12 "copy"
+    Property 15..38 "name" nullsafe=false
+      Parenthesized 15..32
+        Clone 16..31
+          Variable 22..31 "original"
+Expr 40..67
+  Call 40..66 method "touch" nullsafe=false
+    Parenthesized 40..57
+      Clone 41..56
+        Variable 47..56 "original"
+End 68

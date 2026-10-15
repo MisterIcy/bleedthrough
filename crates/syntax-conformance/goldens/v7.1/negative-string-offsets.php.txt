@@ -1,0 +1,19 @@
+OpenTag 0..5 short=false
+Expr 7..18
+  Assign 7..17 Assign
+    Variable 7..9 "s"
+    Literal 12..17 string Single "'abc'"
+Echo 19..31 short_tag=false
+  Index 24..30
+    Variable 24..26 "s"
+    Unary 27..29 Neg
+      Literal 28..29 int "1"
+Echo 32..52 short_tag=false
+  Interpolated 37..51 DoubleQuoted
+    StringPart 38..44 text "last: "
+    StringPart 44..50
+      Index 44..50
+        Variable 44..46 "s"
+        Unary 47..49 Neg
+          Literal 48..49 int "1"
+End 53

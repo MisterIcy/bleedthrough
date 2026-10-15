@@ -1,0 +1,27 @@
+OpenTag 0..5 short=false
+Function 7..75 "make" by_ref=false modifiers=[]
+  Param 21..30 "size" by_ref=false variadic=false modifiers=[]
+    Builtin 21..24 Int
+  Param 32..51 "label" by_ref=false variadic=false modifiers=[]
+    Builtin 32..38 String
+    Literal 48..51 string Single "'x'"
+  Param 53..71 "flag" by_ref=false variadic=false modifiers=[]
+    Builtin 53..57 Bool
+    Literal 66..71 bool false
+Expr 77..103
+  Call 77..102 function
+    Name 77..81 Unqualified "make"
+      Name 77..81 Unqualified "make"
+    Arg 82..92 named "label"
+      Literal 89..92 string Single "'a'"
+    Arg 94..101 named "size"
+      Literal 100..101 int "3"
+Expr 104..124
+  Call 104..123 function
+    Name 104..108 Unqualified "make"
+      Name 104..108 Unqualified "make"
+    Arg 109..110
+      Literal 109..110 int "3"
+    Arg 112..122 named "flag"
+      Literal 118..122 bool true
+End 125

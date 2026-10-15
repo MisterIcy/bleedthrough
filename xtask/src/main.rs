@@ -7,6 +7,7 @@ mod glossary;
 mod layering;
 mod meta;
 mod policy;
+mod reach;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -28,6 +29,7 @@ struct Workspace {
     root: PathBuf,
     declaration: Declaration,
     packages: Vec<Package>,
+    graph: reach::Graph,
 }
 
 fn load() -> Result<Workspace, String> {
@@ -39,6 +41,7 @@ fn load() -> Result<Workspace, String> {
     Ok(Workspace {
         declaration: Declaration::parse(&text)?,
         packages: meta::load()?,
+        graph: meta::load_graph()?,
         root,
     })
 }
@@ -60,6 +63,8 @@ fn check_layering(ws: &Workspace) -> Result<Vec<String>, String> {
     )?));
     errors.extend(policy::check_purity(&ws.declaration, &ws.packages));
     errors.extend(policy::check_parser_backends(&ws.declaration, &ws.packages));
+    let members: Vec<String> = ws.packages.iter().map(|p| p.name.clone()).collect();
+    errors.extend(reach::check(&ws.declaration, &ws.graph, &members));
     Ok(errors)
 }
 

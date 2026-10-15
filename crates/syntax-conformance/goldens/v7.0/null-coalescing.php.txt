@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+Expr 7..62
+  Assign 7..61 Assign
+    Variable 7..12 "name"
+    Binary 15..61 Coalesce
+      Index 15..28
+        Variable 15..20 "_GET"
+        Literal 21..27 string Single "'name'"
+      Binary 32..61 Coalesce
+        Index 32..46
+          Variable 32..38 "_POST"
+          Literal 39..45 string Single "'name'"
+        Literal 50..61 string Single "'anonymous'"
+End 63

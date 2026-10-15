@@ -1,0 +1,32 @@
+OpenTag 0..5 short=false
+Expr 7..20
+  Assign 7..19 Assign
+    Variable 7..14 "factor"
+    Literal 17..19 int "10"
+Expr 21..53
+  Assign 21..52 Assign
+    Variable 21..27 "scale"
+    ArrowFn 30..52 static=false by_ref=false
+      Param 33..35 "n" by_ref=false variadic=false modifiers=[]
+      Binary 40..52 Mul
+        Variable 40..42 "n"
+        Variable 45..52 "factor"
+Expr 54..92
+  Assign 54..91 Assign
+    Variable 54..61 "nested"
+    ArrowFn 64..91 static=false by_ref=false
+      Param 67..69 "x" by_ref=false variadic=false modifiers=[]
+      ArrowFn 74..91 static=false by_ref=false
+        Param 77..79 "y" by_ref=false variadic=false modifiers=[]
+        Binary 84..91 Add
+          Variable 84..86 "x"
+          Variable 89..91 "y"
+Expr 93..124
+  Assign 93..123 Assign
+    Variable 93..99 "typed"
+    ArrowFn 102..123 static=false by_ref=false
+      Param 105..111 "x" by_ref=false variadic=false modifiers=[]
+        Builtin 105..108 Int
+      Builtin 114..117 Int
+      Variable 121..123 "x"
+End 125

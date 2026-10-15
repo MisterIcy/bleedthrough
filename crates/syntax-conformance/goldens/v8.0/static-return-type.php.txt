@@ -1,0 +1,8 @@
+OpenTag 0..5 short=false
+ClassLike 7..107 Class "Model" modifiers=[]
+  Method 25..105 "create" by_ref=false modifiers=[Public, Static]
+    Builtin 58..64 Static
+    Return 79..99
+      New 86..98
+        ClassRef 90..96 Static
+End 108

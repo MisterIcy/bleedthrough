@@ -1,0 +1,24 @@
+OpenTag 0..5 short=false
+ClassLike 7..151 Class "Handlers" modifiers=[]
+  Const 28..113 modifiers=[Public]
+    ConstItem 41..112 "FORMAT"
+      Closure 50..112 static=true by_ref=false
+        Param 67..76 "s" by_ref=false variadic=false modifiers=[]
+          Builtin 67..73 String
+        Builtin 79..85 String
+        Return 96..106
+          Variable 103..105 "s"
+  Const 118..149 modifiers=[Public]
+    ConstItem 131..148 "LEN"
+      CallableRef 137..148 function
+        Name 137..143 Unqualified "strlen"
+          Name 137..143 Unqualified "strlen"
+Function 153..218 "f" by_ref=false modifiers=[]
+  Param 164..214 "cb" by_ref=false variadic=false modifiers=[]
+    Closure 170..214 static=true by_ref=false
+      Param 187..193 "x" by_ref=false variadic=false modifiers=[]
+        Builtin 187..190 Int
+      Builtin 196..199 Int
+      Return 202..212
+        Variable 209..211 "x"
+End 219

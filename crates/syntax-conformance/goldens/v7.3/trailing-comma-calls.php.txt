@@ -1,0 +1,21 @@
+OpenTag 0..5 short=false
+Expr 7..18
+  Call 7..17 function
+    Name 7..10 Unqualified "foo"
+      Name 7..10 Unqualified "foo"
+    Arg 11..12
+      Literal 11..12 int "1"
+    Arg 14..15
+      Literal 14..15 int "2"
+Expr 19..31
+  Call 19..30 method "bar" nullsafe=false
+    Variable 19..21 "o"
+    Arg 27..28
+      Literal 27..28 int "3"
+Expr 32..45
+  Call 32..44 static "qux"
+    Name 32..35 Unqualified "Baz"
+      Name 32..35 Unqualified "Baz"
+    Arg 41..42
+      Literal 41..42 int "4"
+End 46

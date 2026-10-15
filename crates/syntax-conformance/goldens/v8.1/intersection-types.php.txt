@@ -1,0 +1,16 @@
+OpenTag 0..5 short=false
+Function 7..82 "f" by_ref=false modifiers=[]
+  Param 18..42 "x" by_ref=false variadic=false modifiers=[]
+    Intersection 18..39
+      Named 18..27
+        Name 18..27 Unqualified "Countable"
+      Named 28..39
+        Name 28..39 Unqualified "Traversable"
+  Intersection 45..63
+    Named 45..53
+      Name 45..53 Unqualified "Iterator"
+    Named 54..63
+      Name 54..63 Unqualified "Countable"
+  Return 70..80
+    Variable 77..79 "x"
+End 83

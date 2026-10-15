@@ -1,0 +1,19 @@
+OpenTag 0..5 short=false
+Namespace 7..122 "App" braced=false
+  Name 17..20 Unqualified "App"
+  Use 23..57
+    UseItem 36..42 Class alias=None
+      Name 36..42 Qualified "Some\\Ns\\ClassA"
+    UseItem 44..55 Class alias=Some("C")
+      Name 44..50 Qualified "Some\\Ns\\ClassB"
+  Use 58..92
+    UseItem 80..84 Function alias=None
+      Name 80..84 Qualified "Some\\Ns\\fn_a"
+    UseItem 86..90 Function alias=None
+      Name 86..90 Qualified "Some\\Ns\\fn_b"
+  Use 93..122
+    UseItem 112..115 Const alias=None
+      Name 112..115 Qualified "Some\\Ns\\ONE"
+    UseItem 117..120 Const alias=None
+      Name 117..120 Qualified "Some\\Ns\\TWO"
+End 123

@@ -1,0 +1,10 @@
+OpenTag 0..5 short=false
+Error 7..20
+Const 21..35
+  ConstItem 27..34 "OLD"
+    Literal 33..34 int "1"
+Error 37..51
+Const 52..64
+  ConstItem 58..63 "A"
+    Literal 62..63 int "1"
+End 65

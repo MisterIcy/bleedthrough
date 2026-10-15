@@ -1,0 +1,13 @@
+OpenTag 0..5 short=false
+Function 7..41 "ok_before" by_ref=false modifiers=[]
+  Return 30..39
+    Literal 37..38 int "1"
+ClassLike 43..61 Class "A" modifiers=[]
+  Attribute 45..56
+    Name 45..49 Unqualified "Attr"
+    Arg 50..50
+      Error 50..50
+Function 63..96 "ok_after" by_ref=false modifiers=[]
+  Return 85..94
+    Literal 92..93 int "2"
+End 97

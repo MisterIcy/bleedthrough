@@ -1,0 +1,15 @@
+OpenTag 0..5 short=false
+Function 7..81 "find" by_ref=false modifiers=[]
+  Param 21..29 "id" by_ref=false variadic=false modifiers=[]
+    Nullable 21..25
+      Builtin 22..25 Int
+  Nullable 32..39
+    Builtin 33..39 String
+  Return 46..79
+    Conditional 53..78
+      Binary 53..65 Identical
+        Variable 53..56 "id"
+        Literal 61..65 null
+      Literal 68..72 null
+      Literal 75..78 string Single "'x'"
+End 82

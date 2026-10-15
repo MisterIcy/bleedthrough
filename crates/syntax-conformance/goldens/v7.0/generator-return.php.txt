@@ -1,0 +1,11 @@
+OpenTag 0..5 short=false
+Function 7..65 "gen" by_ref=false modifiers=[]
+  Expr 28..36
+    Yield 28..35
+      Literal 34..35 int "1"
+  Expr 41..49
+    Yield 41..48
+      Literal 47..48 int "2"
+  Return 54..63
+    Literal 61..62 int "3"
+End 66

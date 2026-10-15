@@ -1,0 +1,14 @@
+OpenTag 0..5 short=false
+Function 7..47 "f" by_ref=false modifiers=[]
+  Param 23..29 "a" by_ref=false variadic=false modifiers=[]
+    Builtin 23..26 Int
+  Param 35..41 "b" by_ref=false variadic=false modifiers=[]
+    Builtin 35..38 Int
+Expr 49..86
+  Assign 49..85 Assign
+    Variable 49..51 "c"
+    Closure 54..85 static=false by_ref=false
+      Param 64..66 "a" by_ref=false variadic=false modifiers=[]
+      Param 68..70 "b" by_ref=false variadic=false modifiers=[]
+      ClosureUse 78..80 "x" by_ref=false
+End 87

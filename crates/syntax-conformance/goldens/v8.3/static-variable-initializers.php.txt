@@ -1,0 +1,17 @@
+OpenTag 0..5 short=false
+Function 7..109 "counter" by_ref=false modifiers=[]
+  StaticVars 32..59
+    StaticVar 39..58 "start"
+      Binary 48..58 Add
+        Binary 48..54 Mul
+          Literal 48..50 int "10"
+          Literal 53..54 int "2"
+        Literal 57..58 int "1"
+  StaticVars 64..88
+    StaticVar 71..87 "now"
+      Call 78..87 function
+        Name 78..85 Unqualified "compute"
+          Name 78..85 Unqualified "compute"
+  Return 93..107
+    Variable 100..106 "start"
+End 110

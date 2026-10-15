@@ -1,0 +1,32 @@
+OpenTag 0..5 short=false
+Expr 7..25
+  Assign 7..24 Assign
+    Array 7..15 Short
+      ArrayItem 8..10
+        Variable 8..10 "a"
+      ArrayItem 12..14
+        Variable 12..14 "b"
+    Array 18..24 Short
+      ArrayItem 19..20
+        Literal 19..20 int "1"
+      ArrayItem 22..23
+        Literal 22..23 int "2"
+Expr 26..47
+  Assign 26..46 Assign
+    Array 26..37 Short
+      ArrayItem 27..28 missing
+      ArrayItem 29..36
+        Variable 29..36 "second"
+    Array 40..46 Short
+      ArrayItem 41..42
+        Literal 41..42 int "1"
+      ArrayItem 44..45
+        Literal 44..45 int "2"
+Foreach 48..83
+  Variable 57..62 "rows"
+  Array 66..78 Short
+    ArrayItem 67..70
+      Variable 67..70 "id"
+    ArrayItem 72..77
+      Variable 72..77 "name"
+End 84

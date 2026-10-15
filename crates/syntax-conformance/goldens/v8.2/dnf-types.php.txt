@@ -1,0 +1,38 @@
+OpenTag 0..5 short=false
+Function 7..87 "f" by_ref=false modifiers=[]
+  Param 18..31 "x" by_ref=false variadic=false modifiers=[]
+    Union 18..28
+      Parenthesized 18..23
+        Intersection 19..22
+          Named 19..20
+            Name 19..20 Unqualified "A"
+          Named 21..22
+            Name 21..22 Unqualified "B"
+      Builtin 24..28 Null
+  Param 33..53 "y" by_ref=false variadic=false modifiers=[]
+    Union 33..50
+      Parenthesized 33..38
+        Intersection 34..37
+          Named 34..35
+            Name 34..35 Unqualified "A"
+          Named 36..37
+            Name 36..37 Unqualified "B"
+      Union 39..50
+        Parenthesized 39..44
+          Intersection 40..43
+            Named 40..41
+              Name 40..41 Unqualified "C"
+            Named 42..43
+              Name 42..43 Unqualified "D"
+        Builtin 45..50 False
+  Union 56..68
+    Parenthesized 56..61
+      Intersection 57..60
+        Named 57..58
+          Name 57..58 Unqualified "A"
+        Named 59..60
+          Name 59..60 Unqualified "B"
+    Builtin 62..68 String
+  Return 75..85
+    Variable 82..84 "x"
+End 88

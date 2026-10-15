@@ -64,11 +64,30 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo xtask check-api
 
+  conformance:
+    name: conformance suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --locked -p bleedthrough-syntax-mago --test conformance
+
+  # Re-runs `php -l` in the official image for every PHP version of the ledger (pinned by digest in
+  # fixtures/php/images.toml). A version that cannot be run is listed as unverified, never verified.
+  ledger:
+    name: fixture ledger
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - name: Verify the ledger against real interpreters
+        run: cargo run --locked -p bleedthrough-syntax-conformance --example ledger -- verify --docker | tee -a "$GITHUB_STEP_SUMMARY"
+
   # Single required status: configure branch protection to require only this job.
   ci:
     name: CI status
     if: always()
-    needs: [build-test, fmt, clippy, deny, layering, glossary, public-api]
+    needs: [build-test, fmt, clippy, deny, layering, glossary, public-api, conformance, ledger]
     runs-on: ubuntu-latest
     steps:
       - name: Report gates

@@ -1,0 +1,25 @@
+OpenTag 0..5 short=false
+Expr 7..36
+  Assign 7..35 Assign
+    Variable 7..9 "r"
+    Call 12..35 method "method" nullsafe=false
+      New 12..25
+        Name 16..19 Unqualified "Foo"
+          Name 16..19 Unqualified "Foo"
+        Arg 20..24
+          Variable 20..24 "arg"
+Expr 37..58
+  Assign 37..57 Assign
+    Variable 37..39 "p"
+    Property 42..57 "prop" nullsafe=false
+      New 42..51
+        Name 46..49 Unqualified "Foo"
+          Name 46..49 Unqualified "Foo"
+Expr 59..84
+  Assign 59..83 Assign
+    Variable 59..61 "c"
+    ClassConst 64..83 "CONSTANT"
+      New 64..73
+        Name 68..71 Unqualified "Foo"
+          Name 68..71 Unqualified "Foo"
+End 85

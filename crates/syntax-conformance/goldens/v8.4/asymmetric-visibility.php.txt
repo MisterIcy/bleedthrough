@@ -1,0 +1,20 @@
+OpenTag 0..5 short=false
+ClassLike 7..233 Class "Account" modifiers=[]
+  Property 27..66 modifiers=[Public, PrivateSet]
+    Builtin 47..53 String
+    PropertyItem 54..65 "owner"
+      Literal 63..65 string Single "''"
+  Property 71..110 modifiers=[Public, ProtectedSet]
+    Builtin 93..96 Int
+    PropertyItem 97..109 "balance"
+      Literal 108..109 int "0"
+  Property 115..159 modifiers=[Protected, PrivateSet]
+    Nullable 138..145
+      Builtin 139..145 String
+    PropertyItem 146..158 "note"
+      Literal 154..158 null
+  Method 164..231 "__construct" by_ref=false modifiers=[Public]
+    Param 192..227 "id" by_ref=false variadic=false modifiers=[Public, PrivateSet]
+      Builtin 212..218 String
+      Literal 225..227 string Single "''"
+End 234

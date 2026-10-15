@@ -1,0 +1,23 @@
+OpenTag 0..5 short=false
+ClassLike 7..131 Class "Foo" modifiers=[]
+  Const 23..49 modifiers=[]
+    Builtin 29..35 String
+    ConstItem 36..48 "NAME"
+      Literal 43..48 string Single "'foo'"
+  Const 54..83 modifiers=[Public]
+    Union 67..76
+      Builtin 67..70 Int
+      Builtin 71..76 Float
+    ConstItem 77..82 "N"
+      Literal 81..82 int "1"
+  Const 88..129 modifiers=[Final, Protected]
+    Nullable 110..116
+      Builtin 111..116 Array
+    ConstItem 117..128 "LIST"
+      Literal 124..128 null
+ClassLike 133..176 Interface "I" modifiers=[]
+  Const 151..174 modifiers=[]
+    Builtin 157..161 Bool
+    ConstItem 162..173 "FLAG"
+      Literal 169..173 bool true
+End 177
