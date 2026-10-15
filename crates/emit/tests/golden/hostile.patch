@@ -1,0 +1,8 @@
+diff --git a/views/dir:a,b/é page.php b/views/dir:a,b/é page.php
+--- a/views/dir:a,b/é page.php
++++ b/views/dir:a,b/é page.php
+@@ -1,3 +1,3 @@
+ <?php
+ // é 日本
+-echo $_GET['a'];
++echo htmlspecialchars($_GET['a']);

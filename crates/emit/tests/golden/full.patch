@@ -1,0 +1,9 @@
+diff --git a/src/Db.php b/src/Db.php
+--- a/src/Db.php
++++ b/src/Db.php
+@@ -1,4 +1,4 @@
+ <?php
+-$id = $_GET['id'];
++$id = (int) $_GET['id'];
+ $q = "SELECT * FROM t WHERE id = $id";
+ mysqli_query($db, $q);

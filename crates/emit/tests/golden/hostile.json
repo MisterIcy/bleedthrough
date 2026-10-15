@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "tool": {
+    "name": "bleedthrough",
+    "version": "0.0.0"
+  },
+  "options": {
+    "confidence_threshold": "medium",
+    "paranoid": false,
+    "php_version": "8.3",
+    "ruleset_id": "core-1"
+  },
+  "findings": [
+    {
+      "rule": "php.xss",
+      "message": "100% unsafe:\tcolumn\nnext line\r\\ back, é 日本 😀 ::set-output",
+      "location": {
+        "path": "views/dir:a,b/é page.php",
+        "start": {
+          "line": 3,
+          "column": 1
+        },
+        "end": {
+          "line": 3,
+          "column": 16
+        },
+        "byte_start": 19,
+        "byte_end": 34
+      },
+      "taxonomy": {
+        "cwe": [
+          "CWE-89"
+        ],
+        "owasp": [
+          {
+            "edition": 2021,
+            "id": "A03"
+          }
+        ]
+      },
+      "severity": {
+        "level": "medium",
+        "score": null,
+        "vector": null
+      },
+      "confidence": {
+        "tier": "high",
+        "reasons": []
+      },
+      "fingerprint": "bt1:7727420dfb8379b9a833c8e7fba6cd13",
+      "paranoid": false,
+      "trace": null,
+      "fix": {
+        "description": "Escape: <b>\t\"quoted\"\nline",
+        "applicability": "mechanical",
+        "edits": [
+          {
+            "path": "views/dir:a,b/é page.php",
+            "byte_start": 24,
+            "byte_end": 34,
+            "expected": "$_GET['a']",
+            "replacement": "htmlspecialchars($_GET['a'])"
+          }
+        ]
+      }
+    }
+  ],
+  "coverage": {
+    "files_clean": 12,
+    "files_recovered": 0,
+    "files_failed": 0,
+    "skipped": [],
+    "limits_hit": [],
+    "unresolved_includes": 0,
+    "unresolved_calls": 0,
+    "packs": [
+      {
+        "name": "core",
+        "version": "1.0.0"
+      },
+      {
+        "name": "symfony",
+        "version": "1.0.0"
+      }
+    ],
+    "php_version": "8.3",
+    "cache": null
+  },
+  "suppressed": {
+    "below_threshold_low": 0,
+    "below_threshold_medium": 0,
+    "baselined": 0
+  }
+}

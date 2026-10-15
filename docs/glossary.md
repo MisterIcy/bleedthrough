@@ -78,3 +78,11 @@ A suggested patch that would resolve a finding.
 ## Suppression
 
 A baseline entry that silences a finding, recorded with a reason.
+
+## Report
+
+The complete, immutable result of one run: its findings in a fixed order, the coverage, the suppressed counts and the run options, ready to be written in any output format.
+
+## Trace
+
+The ordered steps of a flow from a source to a sink that explain why a finding was reported.

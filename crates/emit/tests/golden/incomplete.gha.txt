@@ -1,0 +1,2 @@
+::error file=lib/Shell.php,line=2,col=6,endLine=2,endColumn=30,title=php.cmdi::Tainted value reaches a sink in Shell::run
+::notice title=bleedthrough%3A coverage::coverage: 4 file(s) not analysed (2 failed to parse, 2 skipped); 1 file(s) parsed with error recovery; 2 analysis limit(s) hit; 4 unresolved dynamic include(s), 9 unresolved dynamic call(s)

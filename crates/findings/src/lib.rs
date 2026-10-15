@@ -3,13 +3,36 @@
 //! **Responsibility:** findings and their value objects (fingerprint, severity, confidence, coverage).
 //!
 //! **Permitted workspace dependencies:** none.
+//!
+//! Every value type validates at construction, so an invalid finding cannot reach an emitter.
+//! The domain carries no serialization: wire formats live in `bleedthrough-emit`.
 
 #![warn(clippy::exhaustive_enums, clippy::exhaustive_structs)]
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn crate_is_part_of_the_workspace() {
-        assert_eq!(env!("CARGO_PKG_NAME"), "bleedthrough-findings");
-    }
-}
+mod confidence;
+mod coverage;
+mod error;
+mod finding;
+mod fingerprint;
+mod fix;
+mod ids;
+mod location;
+mod report;
+mod severity;
+mod taxonomy;
+mod trace;
+
+pub use confidence::{Confidence, ConfidenceTier, Reason, ReasonCode};
+pub use coverage::{
+    CacheStats, Coverage, LimitHit, LimitKind, PackRef, SkipReason, SkippedFile, Suppressed,
+};
+pub use error::ModelError;
+pub use finding::{Finding, FindingParts};
+pub use fingerprint::{FINGERPRINT_PREFIX, Fingerprint, FingerprintInput};
+pub use fix::{Applicability, Edit, Fix};
+pub use ids::{Message, RuleId};
+pub use location::{Location, Position, RelPath};
+pub use report::{REPORT_SCHEMA_VERSION, Report, RunInfo, RunOptions};
+pub use severity::{Severity, SeverityLevel};
+pub use taxonomy::{Cwe, OwaspRef, Taxonomy};
+pub use trace::{Step, StepKind, Trace};

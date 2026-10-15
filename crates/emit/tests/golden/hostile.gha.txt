@@ -1,0 +1,2 @@
+::warning file=views/dir%3Aa%2Cb/é page.php,line=3,col=1,endLine=3,endColumn=16,title=php.xss::100%25 unsafe:	column%0Anext line%0D\ back, é 日本 😀 ::set-output
+::notice title=bleedthrough%3A coverage::coverage: all 12 file(s) analysed
