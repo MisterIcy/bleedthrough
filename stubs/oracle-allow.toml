@@ -1,0 +1,9 @@
+# Differences between the generated data and the Reflection fixtures that are expected.
+# Each entry needs a reason. `symbol` is compared without case and may end in `*`; `field` (the
+# start of the field name) and `versions` narrow it. An entry that matches no difference is an
+# error, so the file cannot go stale.
+
+[[allow]]
+symbol = "Closure::__invoke"
+field = "presence"
+reason = "The engine synthesises Closure::__invoke for each closure and Reflection lists it; php-src declares no such method in any stub, so the data has none."

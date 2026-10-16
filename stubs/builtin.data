@@ -2,43 +2,43 @@ bleedthrough-builtins 1
 extension	imap	8.4-8.5
 extension	oci8	8.4-8.5
 extension	pspell	8.4-8.5
-const	ABDAY_1	8.0-8.1	8.0-8.1	standard				int	131072
+const	ABDAY_1	8.0-8.2	8.0-8.2	standard				int	131072
 const	ABDAY_1	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABDAY_1)		int	131072
-const	ABDAY_2	8.0-8.1	8.0-8.1	standard				int	131073
+const	ABDAY_2	8.0-8.2	8.0-8.2	standard				int	131073
 const	ABDAY_2	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABDAY_1)		int	131073
-const	ABDAY_3	8.0-8.1	8.0-8.1	standard				int	131074
+const	ABDAY_3	8.0-8.2	8.0-8.2	standard				int	131074
 const	ABDAY_3	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABDAY_1)		int	131074
-const	ABDAY_4	8.0-8.1	8.0-8.1	standard				int	131075
+const	ABDAY_4	8.0-8.2	8.0-8.2	standard				int	131075
 const	ABDAY_4	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABDAY_1)		int	131075
-const	ABDAY_5	8.0-8.1	8.0-8.1	standard				int	131076
+const	ABDAY_5	8.0-8.2	8.0-8.2	standard				int	131076
 const	ABDAY_5	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABDAY_1)		int	131076
-const	ABDAY_6	8.0-8.1	8.0-8.1	standard				int	131077
+const	ABDAY_6	8.0-8.2	8.0-8.2	standard				int	131077
 const	ABDAY_6	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABDAY_1)		int	131077
-const	ABDAY_7	8.0-8.1	8.0-8.1	standard				int	131078
+const	ABDAY_7	8.0-8.2	8.0-8.2	standard				int	131078
 const	ABDAY_7	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABDAY_1)		int	131078
-const	ABMON_1	8.0-8.1	8.0-8.1	standard				int	131086
+const	ABMON_1	8.0-8.2	8.0-8.2	standard				int	131086
 const	ABMON_1	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131086
-const	ABMON_10	8.0-8.1	8.0-8.1	standard				int	131095
+const	ABMON_10	8.0-8.2	8.0-8.2	standard				int	131095
 const	ABMON_10	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131095
-const	ABMON_11	8.0-8.1	8.0-8.1	standard				int	131096
+const	ABMON_11	8.0-8.2	8.0-8.2	standard				int	131096
 const	ABMON_11	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131096
-const	ABMON_12	8.0-8.1	8.0-8.1	standard				int	131097
+const	ABMON_12	8.0-8.2	8.0-8.2	standard				int	131097
 const	ABMON_12	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131097
-const	ABMON_2	8.0-8.1	8.0-8.1	standard				int	131087
+const	ABMON_2	8.0-8.2	8.0-8.2	standard				int	131087
 const	ABMON_2	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131087
-const	ABMON_3	8.0-8.1	8.0-8.1	standard				int	131088
+const	ABMON_3	8.0-8.2	8.0-8.2	standard				int	131088
 const	ABMON_3	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131088
-const	ABMON_4	8.0-8.1	8.0-8.1	standard				int	131089
+const	ABMON_4	8.0-8.2	8.0-8.2	standard				int	131089
 const	ABMON_4	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131089
-const	ABMON_5	8.0-8.1	8.0-8.1	standard				int	131090
+const	ABMON_5	8.0-8.2	8.0-8.2	standard				int	131090
 const	ABMON_5	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131090
-const	ABMON_6	8.0-8.1	8.0-8.1	standard				int	131091
+const	ABMON_6	8.0-8.2	8.0-8.2	standard				int	131091
 const	ABMON_6	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131091
-const	ABMON_7	8.0-8.1	8.0-8.1	standard				int	131092
+const	ABMON_7	8.0-8.2	8.0-8.2	standard				int	131092
 const	ABMON_7	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131092
-const	ABMON_8	8.0-8.1	8.0-8.1	standard				int	131093
+const	ABMON_8	8.0-8.2	8.0-8.2	standard				int	131093
 const	ABMON_8	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131093
-const	ABMON_9	8.0-8.1	8.0-8.1	standard				int	131094
+const	ABMON_9	8.0-8.2	8.0-8.2	standard				int	131094
 const	ABMON_9	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ABMON_1)		int	131094
 const	AF_DIVERT	8.3-8.5		sockets		defined(AF_DIVERT)		int	
 const	AF_INET	8.2-8.5		sockets				int	
@@ -59,26 +59,26 @@ const	AI_NUMERICSERV	8.2-8.5		sockets		defined(AI_NUMERICSERV)		int
 const	AI_PASSIVE	8.2-8.5		sockets				int	
 const	AI_V4MAPPED	8.2-8.3		sockets		HAVE_AI_V4MAPPED		int	
 const	AI_V4MAPPED	8.4-8.5		sockets		defined(AI_V4MAPPED)		int	
-const	ALT_DIGITS	8.0-8.1	8.0-8.1	standard				int	131119
+const	ALT_DIGITS	8.0-8.2	8.0-8.2	standard				int	131119
 const	ALT_DIGITS	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ALT_DIGITS)		int	131119
-const	AM_STR	8.0-8.1	8.0-8.1	standard				int	131110
+const	AM_STR	8.0-8.2	8.0-8.2	standard				int	131110
 const	AM_STR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(AM_STR)		int	131110
 const	APACHE_MAP	8.2-8.5		soap				int	
 const	ARRAY_FILTER_USE_BOTH	8.0-8.5	8.0-8.5	standard				int	1
 const	ARRAY_FILTER_USE_KEY	8.0-8.5	8.0-8.5	standard				int	2
-const	ASSERT_ACTIVE	8.0-8.1	8.0-8.1	standard				int	1
+const	ASSERT_ACTIVE	8.0-8.2	8.0-8.2	standard				int	1
 const	ASSERT_ACTIVE	8.3-8.4	8.3-8.4	standard			:	int	1
 const	ASSERT_ACTIVE	8.5	8.5	standard			8.3:as assert_options() is deprecated	int	1
-const	ASSERT_BAIL	8.0-8.1	8.0-8.1	standard				int	3
+const	ASSERT_BAIL	8.0-8.2	8.0-8.2	standard				int	3
 const	ASSERT_BAIL	8.3-8.4	8.3-8.4	standard			:	int	3
 const	ASSERT_BAIL	8.5	8.5	standard			8.3:as assert_options() is deprecated	int	3
-const	ASSERT_CALLBACK	8.0-8.1	8.0-8.1	standard				int	2
+const	ASSERT_CALLBACK	8.0-8.2	8.0-8.2	standard				int	2
 const	ASSERT_CALLBACK	8.3-8.4	8.3-8.4	standard			:	int	2
 const	ASSERT_CALLBACK	8.5	8.5	standard			8.3:as assert_options() is deprecated	int	2
-const	ASSERT_EXCEPTION	8.0-8.1	8.0-8.1	standard				int	5
+const	ASSERT_EXCEPTION	8.0-8.2	8.0-8.2	standard				int	5
 const	ASSERT_EXCEPTION	8.3-8.4	8.3-8.4	standard			:	int	5
 const	ASSERT_EXCEPTION	8.5	8.5	standard			8.3:as assert_options() is deprecated	int	5
-const	ASSERT_WARNING	8.0-8.1	8.0-8.1	standard				int	4
+const	ASSERT_WARNING	8.0-8.2	8.0-8.2	standard				int	4
 const	ASSERT_WARNING	8.3-8.4	8.3-8.4	standard			:	int	4
 const	ASSERT_WARNING	8.5	8.5	standard			8.3:as assert_options() is deprecated	int	4
 const	BUS_ADRALN	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(BUS_ADRALN)		int	
@@ -128,7 +128,7 @@ const	CLSCTX_LOCAL_SERVER	8.2-8.5		com_dotnet				int
 const	CLSCTX_REMOTE_SERVER	8.2-8.5		com_dotnet				int	
 const	CLSCTX_SERVER	8.2-8.5		com_dotnet				int	
 const	CL_EXPUNGE	8.2-8.3		imap				int	
-const	CODESET	8.0-8.1	8.0-8.1	standard				int	14
+const	CODESET	8.0-8.2	8.0-8.2	standard				int	14
 const	CODESET	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(CODESET)		int	14
 const	CONNECTION_ABORTED	8.0-8.5	8.0-8.5	standard				int	1
 const	CONNECTION_NORMAL	8.0-8.5	8.0-8.5	standard				int	0
@@ -144,28 +144,28 @@ const	CP_THREAD_ACP	8.2-8.5		com_dotnet				int
 const	CP_UID	8.2-8.3		imap				int	
 const	CP_UTF7	8.2-8.5		com_dotnet				int	
 const	CP_UTF8	8.2-8.5		com_dotnet				int	
-const	CREDITS_ALL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	4294967295
-const	CREDITS_DOCS	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	16
-const	CREDITS_FULLPAGE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	32
-const	CREDITS_GENERAL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	CREDITS_GROUP	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	CREDITS_MODULES	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	8
-const	CREDITS_QA	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	64
-const	CREDITS_SAPI	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	4
-const	CRNCYSTR	8.0-8.1	8.0-8.1	standard				int	262159
+const	CREDITS_ALL	8.0-8.5	8.0-8.5	standard				int	4294967295
+const	CREDITS_DOCS	8.0-8.5	8.0-8.5	standard				int	16
+const	CREDITS_FULLPAGE	8.0-8.5	8.0-8.5	standard				int	32
+const	CREDITS_GENERAL	8.0-8.5	8.0-8.5	standard				int	2
+const	CREDITS_GROUP	8.0-8.5	8.0-8.5	standard				int	1
+const	CREDITS_MODULES	8.0-8.5	8.0-8.5	standard				int	8
+const	CREDITS_QA	8.0-8.5	8.0-8.5	standard				int	64
+const	CREDITS_SAPI	8.0-8.5	8.0-8.5	standard				int	4
+const	CRNCYSTR	8.0-8.2	8.0-8.2	standard				int	262159
 const	CRNCYSTR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(CRNCYSTR)		int	262159
-const	CRYPT_BLOWFISH	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	standard				int	1
+const	CRYPT_BLOWFISH	8.0-8.4	8.0-8.4	standard				int	1
 const	CRYPT_BLOWFISH	8.5	8.5	standard					1
-const	CRYPT_EXT_DES	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	standard				int	1
+const	CRYPT_EXT_DES	8.0-8.4	8.0-8.4	standard				int	1
 const	CRYPT_EXT_DES	8.5	8.5	standard					1
-const	CRYPT_MD5	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	standard				int	1
+const	CRYPT_MD5	8.0-8.4	8.0-8.4	standard				int	1
 const	CRYPT_MD5	8.5	8.5	standard					1
-const	CRYPT_SALT_LENGTH	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	123
-const	CRYPT_SHA256	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	standard				int	1
+const	CRYPT_SALT_LENGTH	8.0-8.5	8.0-8.5	standard				int	123
+const	CRYPT_SHA256	8.0-8.4	8.0-8.4	standard				int	1
 const	CRYPT_SHA256	8.5	8.5	standard					1
-const	CRYPT_SHA512	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	standard				int	1
+const	CRYPT_SHA512	8.0-8.4	8.0-8.4	standard				int	1
 const	CRYPT_SHA512	8.5	8.5	standard					1
-const	CRYPT_STD_DES	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	standard				int	1
+const	CRYPT_STD_DES	8.0-8.4	8.0-8.4	standard				int	1
 const	CRYPT_STD_DES	8.5	8.5	standard					1
 const	CURLALTSVC_H1	8.2-8.5	8.2-8.5	curl		LIBCURL_VERSION_NUM >= 0x074001		int	8
 const	CURLALTSVC_H2	8.2-8.5	8.2-8.5	curl		LIBCURL_VERSION_NUM >= 0x074001		int	16
@@ -993,6 +993,7 @@ const	CURL_VERSION_UNIX_SOCKETS	8.0-8.1,8.4-8.5	8.0-8.1,8.4-8.5	curl				int	5242
 const	CURL_VERSION_UNIX_SOCKETS	8.2-8.3	8.2-8.3	curl		LIBCURL_VERSION_NUM >= 0x072800		int	524288
 const	CURL_VERSION_ZSTD	8.2-8.5	8.2-8.5	curl		LIBCURL_VERSION_NUM >= 0x074800		int	67108864
 const	CURL_WRITEFUNC_PAUSE	8.0-8.5	8.0-8.5	curl				int	268435457
+const	CURRENCY_SYMBOL	8.2	8.2	standard				int	262145
 const	CURRENCY_SYMBOL	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(CURRENCY_SYMBOL)		int	262145
 const	DATE_ATOM	8.0-8.4	8.0-8.4	date				string	'Y-m-d\\\\TH:i:sP'
 const	DATE_ATOM	8.5	8.5	date					'Y-m-d\\\\TH:i:sP'
@@ -1020,28 +1021,29 @@ const	DATE_RFC850	8.0-8.4	8.0-8.4	date				string	'l, d-M-y H:i:s T'
 const	DATE_RFC850	8.5	8.5	date					'l, d-M-y H:i:s T'
 const	DATE_RSS	8.0-8.5	8.0-8.5	date				string	'D, d M Y H:i:s O'
 const	DATE_W3C	8.0-8.5	8.0-8.5	date				string	'Y-m-d\\\\TH:i:sP'
-const	DAY_1	8.0-8.1	8.0-8.1	standard				int	131079
+const	DAY_1	8.0-8.2	8.0-8.2	standard				int	131079
 const	DAY_1	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DAY_1)		int	131079
-const	DAY_2	8.0-8.1	8.0-8.1	standard				int	131080
+const	DAY_2	8.0-8.2	8.0-8.2	standard				int	131080
 const	DAY_2	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DAY_1)		int	131080
-const	DAY_3	8.0-8.1	8.0-8.1	standard				int	131081
+const	DAY_3	8.0-8.2	8.0-8.2	standard				int	131081
 const	DAY_3	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DAY_1)		int	131081
-const	DAY_4	8.0-8.1	8.0-8.1	standard				int	131082
+const	DAY_4	8.0-8.2	8.0-8.2	standard				int	131082
 const	DAY_4	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DAY_1)		int	131082
-const	DAY_5	8.0-8.1	8.0-8.1	standard				int	131083
+const	DAY_5	8.0-8.2	8.0-8.2	standard				int	131083
 const	DAY_5	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DAY_1)		int	131083
-const	DAY_6	8.0-8.1	8.0-8.1	standard				int	131084
+const	DAY_6	8.0-8.2	8.0-8.2	standard				int	131084
 const	DAY_6	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DAY_1)		int	131084
-const	DAY_7	8.0-8.1	8.0-8.1	standard				int	131085
+const	DAY_7	8.0-8.2	8.0-8.2	standard				int	131085
 const	DAY_7	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DAY_1)		int	131085
 const	DBA_LMDB_NO_SUB_DIR	8.2-8.5		dba		defined(DBA_LMDB)		int	
 const	DBA_LMDB_USE_SUB_DIR	8.2-8.4		dba		defined(DBA_LMDB)		int	0
 const	DBA_LMDB_USE_SUB_DIR	8.5		dba		defined(DBA_LMDB)			0
-const	DEBUG_BACKTRACE_IGNORE_ARGS	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	2
-const	DEBUG_BACKTRACE_PROVIDE_OBJECT	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	1
+const	DEBUG_BACKTRACE_IGNORE_ARGS	8.0-8.5	8.0-8.5	core				int	2
+const	DEBUG_BACKTRACE_PROVIDE_OBJECT	8.0-8.5	8.0-8.5	core				int	1
+const	DECIMAL_POINT	8.2	8.2	standard				int	65536
 const	DECIMAL_POINT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(DECIMAL_POINT)		int	65536
-const	DEFAULT_INCLUDE_PATH	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	DIRECTORY_SEPARATOR	8.0-8.1,8.4-8.5	8.0-8.1,8.4-8.5	standard				string	'/'
+const	DEFAULT_INCLUDE_PATH	8.0-8.5	8.0-8.2	core				string	
+const	DIRECTORY_SEPARATOR	8.0-8.5	8.0-8.5	standard				string	'/'
 const	DISP_E_BADINDEX	8.2-8.5		com_dotnet				int	
 const	DISP_E_DIVBYZERO	8.2-8.5		com_dotnet				int	
 const	DISP_E_OVERFLOW	8.2-8.5		com_dotnet				int	
@@ -1095,9 +1097,9 @@ const	DOM_PHP_ERR	8.5	8.5	dom			8.4:as it is no longer used	int	0
 const	DOM_SYNTAX_ERR	8.0-8.5	8.0-8.5	dom				int	12
 const	DOM_VALIDATION_ERR	8.0-8.5	8.0-8.5	dom				int	16
 const	DOM_WRONG_DOCUMENT_ERR	8.0-8.5	8.0-8.5	dom				int	4
-const	D_FMT	8.0-8.1	8.0-8.1	standard				int	131113
+const	D_FMT	8.0-8.2	8.0-8.2	standard				int	131113
 const	D_FMT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(D_FMT)		int	131113
-const	D_T_FMT	8.0-8.1	8.0-8.1	standard				int	131112
+const	D_T_FMT	8.0-8.2	8.0-8.2	standard				int	131112
 const	D_T_FMT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(D_T_FMT)		int	131112
 const	Dom\\HIERARCHY_REQUEST_ERR	8.4-8.5	8.4-8.5	dom				int	3
 const	Dom\\HTML_NO_DEFAULT_NS	8.4-8.5	8.4-8.5	dom				int	2147483648
@@ -1125,24 +1127,25 @@ const	ENCHANT_MYSPELL	8.2-8.4		enchant			:	int
 const	ENCHANT_MYSPELL	8.5		enchant			8.0:as enchant_broker_get_dict_path() and enchant_broker_set_dict_path() are deprecated	int	
 const	ENCOTHER	8.2-8.3		imap				int	
 const	ENCQUOTEDPRINTABLE	8.2-8.3		imap				int	
-const	ENT_COMPAT	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	ENT_DISALLOWED	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	128
-const	ENT_HTML401	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	0
-const	ENT_HTML5	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	48
-const	ENT_IGNORE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	4
-const	ENT_NOQUOTES	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	0
-const	ENT_QUOTES	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	3
-const	ENT_SUBSTITUTE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	8
-const	ENT_XHTML	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	32
-const	ENT_XML1	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	16
-const	ERA	8.0-8.1	8.0-8.1	standard				int	131116
+const	ENT_COMPAT	8.0-8.5	8.0-8.5	standard				int	2
+const	ENT_DISALLOWED	8.0-8.5	8.0-8.5	standard				int	128
+const	ENT_HTML401	8.0-8.5	8.0-8.5	standard				int	0
+const	ENT_HTML5	8.0-8.5	8.0-8.5	standard				int	48
+const	ENT_IGNORE	8.0-8.5	8.0-8.5	standard				int	4
+const	ENT_NOQUOTES	8.0-8.5	8.0-8.5	standard				int	0
+const	ENT_QUOTES	8.0-8.5	8.0-8.5	standard				int	3
+const	ENT_SUBSTITUTE	8.0-8.5	8.0-8.5	standard				int	8
+const	ENT_XHTML	8.0-8.5	8.0-8.5	standard				int	32
+const	ENT_XML1	8.0-8.5	8.0-8.5	standard				int	16
+const	ERA	8.0-8.2	8.0-8.2	standard				int	131116
 const	ERA	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ERA)		int	131116
-const	ERA_D_FMT	8.0-8.1	8.0-8.1	standard				int	131118
+const	ERA_D_FMT	8.0-8.2	8.0-8.2	standard				int	131118
 const	ERA_D_FMT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ERA_D_FMT)		int	131118
-const	ERA_D_T_FMT	8.0-8.1	8.0-8.1	standard				int	131120
+const	ERA_D_T_FMT	8.0-8.2	8.0-8.2	standard				int	131120
 const	ERA_D_T_FMT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ERA_D_T_FMT)		int	131120
-const	ERA_T_FMT	8.0-8.1	8.0-8.1	standard				int	131121
+const	ERA_T_FMT	8.0-8.2	8.0-8.2	standard				int	131121
 const	ERA_T_FMT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ERA_T_FMT)		int	131121
+const	ERA_YEAR	8.2	8.2	standard				int	131117
 const	ERA_YEAR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(ERA_YEAR)		int	131117
 const	ETH_P_ALL	8.5		sockets		defined(ETH_P_ALL)		int	
 const	ETH_P_IP	8.5		sockets		defined(ETH_P_ALL)		int	
@@ -1176,7 +1179,7 @@ const	E_USER_ERROR	8.0-8.5	8.0-8.5	core				int	256
 const	E_USER_NOTICE	8.0-8.5	8.0-8.5	core				int	1024
 const	E_USER_WARNING	8.0-8.5	8.0-8.5	core				int	512
 const	E_WARNING	8.0-8.5	8.0-8.5	core				int	2
-const	FALSE	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	core				bool	false
+const	FALSE	8.0-8.4	8.0-8.4	core				bool	false
 const	FALSE	8.5	8.5	core					false
 const	FILEINFO_APPLE	8.2-8.5	8.2-8.5	fileinfo				int	2048
 const	FILEINFO_CONTINUE	8.0-8.5	8.0-8.5	fileinfo				int	32
@@ -1280,6 +1283,7 @@ const	FPE_FLTSUB	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGT
 const	FPE_FLTUND	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(FPE_FLTUND)		int	
 const	FPE_INTDIV	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(FPE_INTDIV)		int	
 const	FPE_INTOVF	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(FPE_INTOVF)		int	
+const	FRAC_DIGITS	8.2	8.2	standard				int	262152
 const	FRAC_DIGITS	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(FRAC_DIGITS)		int	262152
 const	FTP_ASCII	8.0-8.1	8.0-8.1	ftp				int	1
 const	FTP_ASCII	8.2-8.5		ftp				int	
@@ -1314,28 +1318,28 @@ const	GD_MAJOR_VERSION	8.2-8.5		gd		(defined(GD_MAJOR_VERSION) && defined(GD_MIN
 const	GD_MINOR_VERSION	8.2-8.5		gd		(defined(GD_MAJOR_VERSION) && defined(GD_MINOR_VERSION) && defined(GD_RELEASE_VERSION) && defined(GD_EXTRA_VERSION))		int	
 const	GD_RELEASE_VERSION	8.2-8.5		gd		(defined(GD_MAJOR_VERSION) && defined(GD_MINOR_VERSION) && defined(GD_RELEASE_VERSION) && defined(GD_EXTRA_VERSION))		int	
 const	GD_VERSION	8.2-8.5		gd		defined(GD_VERSION_STRING)		string	
-const	GLOB_AVAILABLE_FLAGS	8.0-8.1	8.0-8.1	standard				int	9303
+const	GLOB_AVAILABLE_FLAGS	8.0-8.3	8.0-8.3	standard				int	9303
 const	GLOB_AVAILABLE_FLAGS	8.4	8.4	standard		defined(HAVE_GLOB) && defined(GLOB_AVAILABLE_FLAGS)		int	9303
 const	GLOB_AVAILABLE_FLAGS	8.5	8.5	standard		defined(PHP_GLOB_AVAILABLE_FLAGS)		int	1073746108
-const	GLOB_BRACE	8.0-8.1	8.0-8.1	standard				int	1024
+const	GLOB_BRACE	8.0-8.3	8.0-8.3	standard				int	1024
 const	GLOB_BRACE	8.4	8.4	standard		defined(HAVE_GLOB) && (defined(GLOB_BRACE) && GLOB_BRACE != 0)		int	1024
 const	GLOB_BRACE	8.5	8.5	standard		(defined(PHP_GLOB_BRACE) && PHP_GLOB_BRACE != 0)		int	128
-const	GLOB_ERR	8.0-8.1	8.0-8.1	standard				int	1
+const	GLOB_ERR	8.0-8.3	8.0-8.3	standard				int	1
 const	GLOB_ERR	8.4	8.4	standard		defined(HAVE_GLOB) && (defined(GLOB_ERR) && GLOB_ERR != 0)		int	1
 const	GLOB_ERR	8.5	8.5	standard		(defined(PHP_GLOB_ERR) && PHP_GLOB_ERR != 0)		int	4
-const	GLOB_MARK	8.0-8.1	8.0-8.1	standard				int	2
+const	GLOB_MARK	8.0-8.3	8.0-8.3	standard				int	2
 const	GLOB_MARK	8.4	8.4	standard		defined(HAVE_GLOB) && (defined(GLOB_MARK) && GLOB_MARK != 0)		int	2
 const	GLOB_MARK	8.5	8.5	standard		(defined(PHP_GLOB_MARK) && PHP_GLOB_MARK != 0)		int	8
-const	GLOB_NOCHECK	8.0-8.1	8.0-8.1	standard				int	16
+const	GLOB_NOCHECK	8.0-8.3	8.0-8.3	standard				int	16
 const	GLOB_NOCHECK	8.4	8.4	standard		defined(HAVE_GLOB) && (defined(GLOB_NOCHECK) && GLOB_NOCHECK != 0)		int	16
 const	GLOB_NOCHECK	8.5	8.5	standard		(defined(PHP_GLOB_NOCHECK) && PHP_GLOB_NOCHECK != 0)		int	16
-const	GLOB_NOESCAPE	8.0-8.1	8.0-8.1	standard				int	64
+const	GLOB_NOESCAPE	8.0-8.3	8.0-8.3	standard				int	64
 const	GLOB_NOESCAPE	8.4	8.4	standard		defined(HAVE_GLOB) && (defined(GLOB_NOESCAPE) && GLOB_NOESCAPE != 0)		int	64
 const	GLOB_NOESCAPE	8.5	8.5	standard		(defined(PHP_GLOB_NOESCAPE) && PHP_GLOB_NOESCAPE != 0)		int	4096
-const	GLOB_NOSORT	8.0-8.1	8.0-8.1	standard				int	4
+const	GLOB_NOSORT	8.0-8.3	8.0-8.3	standard				int	4
 const	GLOB_NOSORT	8.4	8.4	standard		defined(HAVE_GLOB) && (defined(GLOB_NOSORT) && GLOB_NOSORT != 0)		int	4
 const	GLOB_NOSORT	8.5	8.5	standard		(defined(PHP_GLOB_NOSORT) && PHP_GLOB_NOSORT != 0)		int	32
-const	GLOB_ONLYDIR	8.0-8.1	8.0-8.1	standard				int	8192
+const	GLOB_ONLYDIR	8.0-8.3	8.0-8.3	standard				int	8192
 const	GLOB_ONLYDIR	8.4	8.4	standard		defined(HAVE_GLOB) && defined(GLOB_ONLYDIR)		int	8192
 const	GLOB_ONLYDIR	8.5	8.5	standard		(defined(PHP_GLOB_ONLYDIR) && PHP_GLOB_ONLYDIR != 0)		int	1073741824
 const	GMP_BIG_ENDIAN	8.2-8.5		gmp				int	
@@ -1351,6 +1355,7 @@ const	GMP_VERSION	8.2-8.5		gmp				string
 const	GRAPHEME_EXTR_COUNT	8.2-8.5		intl				int	
 const	GRAPHEME_EXTR_MAXBYTES	8.2-8.5		intl				int	
 const	GRAPHEME_EXTR_MAXCHARS	8.2-8.5		intl				int	
+const	GROUPING	8.2	8.2	standard				int	65538
 const	GROUPING	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(GROUPING)		int	65538
 const	GSLC_SSL_NO_AUTH	8.2-8.3		ldap		defined(ORALDAP)		int	
 const	GSLC_SSL_NO_AUTH	8.4		ldap		defined(HAVE_ORALDAP)		int	
@@ -1362,8 +1367,8 @@ const	GSLC_SSL_TWOWAY_AUTH	8.2-8.3		ldap		defined(ORALDAP)		int
 const	GSLC_SSL_TWOWAY_AUTH	8.4		ldap		defined(HAVE_ORALDAP)		int	
 const	GSLC_SSL_TWOWAY_AUTH	8.5		ldap		defined(HAVE_ORALDAP)	8.5:as it is broken since PHP 8.0	int	
 const	HASH_HMAC	8.0-8.5	8.0-8.5	hash				int	1
-const	HTML_ENTITIES	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	HTML_SPECIALCHARS	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	0
+const	HTML_ENTITIES	8.0-8.5	8.0-8.5	standard				int	1
+const	HTML_SPECIALCHARS	8.0-8.5	8.0-8.5	standard				int	0
 const	ICONV_IMPL	8.0-8.5	8.0-8.1	iconv				string	
 const	ICONV_MIME_DECODE_CONTINUE_ON_ERROR	8.0-8.5	8.0-8.5	iconv				int	2
 const	ICONV_MIME_DECODE_STRICT	8.0-8.5	8.0-8.5	iconv				int	1
@@ -1413,6 +1418,7 @@ const	IMAGETYPE_JPEG2000	8.0-8.5	8.0-8.5	standard				int	9
 const	IMAGETYPE_JPX	8.0-8.5	8.0-8.5	standard				int	11
 const	IMAGETYPE_PNG	8.0-8.5	8.0-8.5	standard				int	3
 const	IMAGETYPE_PSD	8.0-8.5	8.0-8.5	standard				int	5
+const	IMAGETYPE_SVG	8.5	8.5	standard				int	21
 const	IMAGETYPE_SWC	8.0-8.1	8.0-8.1	standard				int	13
 const	IMAGETYPE_SWC	8.2-8.5	8.2-8.5	standard		(defined(HAVE_ZLIB) && !defined(COMPILE_DL_ZLIB))		int	13
 const	IMAGETYPE_SWF	8.0-8.5	8.0-8.5	standard				int	4
@@ -1506,14 +1512,14 @@ const	IMG_WEBP_LOSSLESS	8.2-8.5		gd		defined(gdWebpLossless)		int
 const	IMG_WEIGHTED4	8.2-8.5		gd				int	
 const	IMG_XPM	8.2-8.5		gd				int	
 const	INF	8.0-8.5	8.0-8.5	standard				float	INF
-const	INFO_ALL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	4294967295
-const	INFO_CONFIGURATION	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	4
-const	INFO_CREDITS	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	INFO_ENVIRONMENT	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	16
-const	INFO_GENERAL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	INFO_LICENSE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	64
-const	INFO_MODULES	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	8
-const	INFO_VARIABLES	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	32
+const	INFO_ALL	8.0-8.5	8.0-8.5	standard				int	4294967295
+const	INFO_CONFIGURATION	8.0-8.5	8.0-8.5	standard				int	4
+const	INFO_CREDITS	8.0-8.5	8.0-8.5	standard				int	2
+const	INFO_ENVIRONMENT	8.0-8.5	8.0-8.5	standard				int	16
+const	INFO_GENERAL	8.0-8.5	8.0-8.5	standard				int	1
+const	INFO_LICENSE	8.0-8.5	8.0-8.5	standard				int	64
+const	INFO_MODULES	8.0-8.5	8.0-8.5	standard				int	8
+const	INFO_VARIABLES	8.0-8.5	8.0-8.5	standard				int	32
 const	INI_ALL	8.0-8.5	8.0-8.5	standard				int	7
 const	INI_PERDIR	8.0-8.5	8.0-8.5	standard				int	2
 const	INI_SCANNER_NORMAL	8.0-8.5	8.0-8.5	standard				int	0
@@ -1530,7 +1536,9 @@ const	INTL_ICU_DATA_VERSION	8.2-8.5		intl		defined(U_ICU_DATA_VERSION)		string
 const	INTL_ICU_VERSION	8.2-8.5		intl				string	
 const	INTL_IDNA_VARIANT_UTS46	8.2-8.5		intl				int	
 const	INTL_MAX_LOCALE_LEN	8.2-8.5		intl				int	
+const	INT_CURR_SYMBOL	8.2	8.2	standard				int	262144
 const	INT_CURR_SYMBOL	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(INT_CURR_SYMBOL)		int	262144
+const	INT_FRAC_DIGITS	8.2	8.2	standard				int	262151
 const	INT_FRAC_DIGITS	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(INT_FRAC_DIGITS)		int	262151
 const	IPPROTO_ICMP	8.5		sockets		defined(IPPROTO_ICMP) || defined(PHP_WIN32)		int	
 const	IPPROTO_ICMPV6	8.5		sockets		defined(IPPROTO_ICMPV6) || defined(PHP_WIN32)		int	
@@ -1824,72 +1832,75 @@ const	MCAST_JOIN_SOURCE_GROUP	8.2-8.5		sockets		defined(HAS_MCAST_EXT)		int
 const	MCAST_LEAVE_GROUP	8.2-8.5		sockets				int	
 const	MCAST_LEAVE_SOURCE_GROUP	8.2-8.5		sockets		defined(HAS_MCAST_EXT)		int	
 const	MCAST_UNBLOCK_SOURCE	8.2-8.5		sockets		defined(HAS_MCAST_EXT)		int	
-const	MHASH_ADLER32	8.0-8.1	8.0-8.1	hash				int	18
-const	MHASH_CRC32	8.0-8.1	8.0-8.1	hash				int	0
-const	MHASH_CRC32B	8.0-8.1	8.0-8.1	hash				int	9
-const	MHASH_CRC32C	8.0-8.1	8.0-8.1	hash				int	34
-const	MHASH_FNV132	8.0-8.1	8.0-8.1	hash				int	29
-const	MHASH_FNV164	8.0-8.1	8.0-8.1	hash				int	31
-const	MHASH_FNV1A32	8.0-8.1	8.0-8.1	hash				int	30
-const	MHASH_FNV1A64	8.0-8.1	8.0-8.1	hash				int	32
-const	MHASH_GOST	8.0-8.1	8.0-8.1	hash				int	8
-const	MHASH_HAVAL128	8.0-8.1	8.0-8.1	hash				int	13
-const	MHASH_HAVAL160	8.0-8.1	8.0-8.1	hash				int	12
-const	MHASH_HAVAL192	8.0-8.1	8.0-8.1	hash				int	11
-const	MHASH_HAVAL224	8.0-8.1	8.0-8.1	hash				int	10
-const	MHASH_HAVAL256	8.0-8.1	8.0-8.1	hash				int	3
-const	MHASH_JOAAT	8.0-8.1	8.0-8.1	hash				int	33
-const	MHASH_MD2	8.0-8.1	8.0-8.1	hash				int	28
-const	MHASH_MD4	8.0-8.1	8.0-8.1	hash				int	16
-const	MHASH_MD5	8.0-8.1	8.0-8.1	hash				int	1
-const	MHASH_MURMUR3A	8.1	8.1	hash				int	35
-const	MHASH_MURMUR3C	8.1	8.1	hash				int	36
-const	MHASH_MURMUR3F	8.1	8.1	hash				int	37
-const	MHASH_RIPEMD128	8.0-8.1	8.0-8.1	hash				int	23
-const	MHASH_RIPEMD160	8.0-8.1	8.0-8.1	hash				int	5
-const	MHASH_RIPEMD256	8.0-8.1	8.0-8.1	hash				int	24
-const	MHASH_RIPEMD320	8.0-8.1	8.0-8.1	hash				int	25
-const	MHASH_SHA1	8.0-8.1	8.0-8.1	hash				int	2
-const	MHASH_SHA224	8.0-8.1	8.0-8.1	hash				int	19
-const	MHASH_SHA256	8.0-8.1	8.0-8.1	hash				int	17
-const	MHASH_SHA384	8.0-8.1	8.0-8.1	hash				int	21
-const	MHASH_SHA512	8.0-8.1	8.0-8.1	hash				int	20
-const	MHASH_SNEFRU256	8.0-8.1	8.0-8.1	hash				int	27
-const	MHASH_TIGER	8.0-8.1	8.0-8.1	hash				int	7
-const	MHASH_TIGER128	8.0-8.1	8.0-8.1	hash				int	14
-const	MHASH_TIGER160	8.0-8.1	8.0-8.1	hash				int	15
-const	MHASH_WHIRLPOOL	8.0-8.1	8.0-8.1	hash				int	22
-const	MHASH_XXH128	8.1	8.1	hash				int	41
-const	MHASH_XXH3	8.1	8.1	hash				int	40
-const	MHASH_XXH32	8.1	8.1	hash				int	38
-const	MHASH_XXH64	8.1	8.1	hash				int	39
+const	MHASH_ADLER32	8.0-8.5	8.0-8.5	hash				int	18
+const	MHASH_CRC32	8.0-8.5	8.0-8.5	hash				int	0
+const	MHASH_CRC32B	8.0-8.5	8.0-8.5	hash				int	9
+const	MHASH_CRC32C	8.0-8.5	8.0-8.5	hash				int	34
+const	MHASH_FNV132	8.0-8.5	8.0-8.5	hash				int	29
+const	MHASH_FNV164	8.0-8.5	8.0-8.5	hash				int	31
+const	MHASH_FNV1A32	8.0-8.5	8.0-8.5	hash				int	30
+const	MHASH_FNV1A64	8.0-8.5	8.0-8.5	hash				int	32
+const	MHASH_GOST	8.0-8.5	8.0-8.5	hash				int	8
+const	MHASH_HAVAL128	8.0-8.5	8.0-8.5	hash				int	13
+const	MHASH_HAVAL160	8.0-8.5	8.0-8.5	hash				int	12
+const	MHASH_HAVAL192	8.0-8.5	8.0-8.5	hash				int	11
+const	MHASH_HAVAL224	8.0-8.5	8.0-8.5	hash				int	10
+const	MHASH_HAVAL256	8.0-8.5	8.0-8.5	hash				int	3
+const	MHASH_JOAAT	8.0-8.5	8.0-8.5	hash				int	33
+const	MHASH_MD2	8.0-8.5	8.0-8.5	hash				int	28
+const	MHASH_MD4	8.0-8.5	8.0-8.5	hash				int	16
+const	MHASH_MD5	8.0-8.5	8.0-8.5	hash				int	1
+const	MHASH_MURMUR3A	8.1-8.5	8.1-8.5	hash				int	35
+const	MHASH_MURMUR3C	8.1-8.5	8.1-8.5	hash				int	36
+const	MHASH_MURMUR3F	8.1-8.5	8.1-8.5	hash				int	37
+const	MHASH_RIPEMD128	8.0-8.5	8.0-8.5	hash				int	23
+const	MHASH_RIPEMD160	8.0-8.5	8.0-8.5	hash				int	5
+const	MHASH_RIPEMD256	8.0-8.5	8.0-8.5	hash				int	24
+const	MHASH_RIPEMD320	8.0-8.5	8.0-8.5	hash				int	25
+const	MHASH_SHA1	8.0-8.5	8.0-8.5	hash				int	2
+const	MHASH_SHA224	8.0-8.5	8.0-8.5	hash				int	19
+const	MHASH_SHA256	8.0-8.5	8.0-8.5	hash				int	17
+const	MHASH_SHA384	8.0-8.5	8.0-8.5	hash				int	21
+const	MHASH_SHA512	8.0-8.5	8.0-8.5	hash				int	20
+const	MHASH_SNEFRU256	8.0-8.5	8.0-8.5	hash				int	27
+const	MHASH_TIGER	8.0-8.5	8.0-8.5	hash				int	7
+const	MHASH_TIGER128	8.0-8.5	8.0-8.5	hash				int	14
+const	MHASH_TIGER160	8.0-8.5	8.0-8.5	hash				int	15
+const	MHASH_WHIRLPOOL	8.0-8.5	8.0-8.5	hash				int	22
+const	MHASH_XXH128	8.1-8.5	8.1-8.5	hash				int	41
+const	MHASH_XXH3	8.1-8.5	8.1-8.5	hash				int	40
+const	MHASH_XXH32	8.1-8.5	8.1-8.5	hash				int	38
+const	MHASH_XXH64	8.1-8.5	8.1-8.5	hash				int	39
 const	MK_E_UNAVAILABLE	8.2-8.5		com_dotnet				int	
-const	MON_1	8.0-8.1	8.0-8.1	standard				int	131098
+const	MON_1	8.0-8.2	8.0-8.2	standard				int	131098
 const	MON_1	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131098
-const	MON_10	8.0-8.1	8.0-8.1	standard				int	131107
+const	MON_10	8.0-8.2	8.0-8.2	standard				int	131107
 const	MON_10	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131107
-const	MON_11	8.0-8.1	8.0-8.1	standard				int	131108
+const	MON_11	8.0-8.2	8.0-8.2	standard				int	131108
 const	MON_11	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131108
-const	MON_12	8.0-8.1	8.0-8.1	standard				int	131109
+const	MON_12	8.0-8.2	8.0-8.2	standard				int	131109
 const	MON_12	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131109
-const	MON_2	8.0-8.1	8.0-8.1	standard				int	131099
+const	MON_2	8.0-8.2	8.0-8.2	standard				int	131099
 const	MON_2	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131099
-const	MON_3	8.0-8.1	8.0-8.1	standard				int	131100
+const	MON_3	8.0-8.2	8.0-8.2	standard				int	131100
 const	MON_3	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131100
-const	MON_4	8.0-8.1	8.0-8.1	standard				int	131101
+const	MON_4	8.0-8.2	8.0-8.2	standard				int	131101
 const	MON_4	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131101
-const	MON_5	8.0-8.1	8.0-8.1	standard				int	131102
+const	MON_5	8.0-8.2	8.0-8.2	standard				int	131102
 const	MON_5	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131102
-const	MON_6	8.0-8.1	8.0-8.1	standard				int	131103
+const	MON_6	8.0-8.2	8.0-8.2	standard				int	131103
 const	MON_6	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131103
-const	MON_7	8.0-8.1	8.0-8.1	standard				int	131104
+const	MON_7	8.0-8.2	8.0-8.2	standard				int	131104
 const	MON_7	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131104
-const	MON_8	8.0-8.1	8.0-8.1	standard				int	131105
+const	MON_8	8.0-8.2	8.0-8.2	standard				int	131105
 const	MON_8	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131105
-const	MON_9	8.0-8.1	8.0-8.1	standard				int	131106
+const	MON_9	8.0-8.2	8.0-8.2	standard				int	131106
 const	MON_9	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_1)		int	131106
+const	MON_DECIMAL_POINT	8.2	8.2	standard				int	262146
 const	MON_DECIMAL_POINT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_DECIMAL_POINT)		int	262146
+const	MON_GROUPING	8.2	8.2	standard				int	262148
 const	MON_GROUPING	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_GROUPING)		int	262148
+const	MON_THOUSANDS_SEP	8.2	8.2	standard				int	262147
 const	MON_THOUSANDS_SEP	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(MON_THOUSANDS_SEP)		int	262147
 const	MSG_CMSG_CLOEXEC	8.2-8.5		sockets		defined(MSG_CMSG_CLOEXEC)		int	
 const	MSG_CONFIRM	8.2-8.5		sockets		defined(MSG_CONFIRM)		int	
@@ -2103,9 +2114,10 @@ const	M_SQRT3	8.5	8.5	standard					1.7320508075688772
 const	M_SQRTPI	8.0-8.4	8.0-8.4	standard				float	1.772453850905516
 const	M_SQRTPI	8.5	8.5	standard					1.772453850905516
 const	NAN	8.0-8.5	8.0-8.5	standard				float	NAN
+const	NEGATIVE_SIGN	8.2	8.2	standard				int	262150
 const	NEGATIVE_SIGN	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(NEGATIVE_SIGN)		int	262150
 const	NIL	8.2-8.3		imap			:	int	
-const	NOEXPR	8.0-8.1	8.0-8.1	standard				int	327681
+const	NOEXPR	8.0-8.2	8.0-8.2	standard				int	327681
 const	NOEXPR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(NOEXPR)		int	327681
 const	NORM_IGNORECASE	8.2-8.5		com_dotnet				int	
 const	NORM_IGNOREKANATYPE	8.2-8.5		com_dotnet				int	
@@ -2113,11 +2125,15 @@ const	NORM_IGNOREKASHIDA	8.2-8.5		com_dotnet		defined(NORM_IGNOREKASHIDA)		int
 const	NORM_IGNORENONSPACE	8.2-8.5		com_dotnet				int	
 const	NORM_IGNORESYMBOLS	8.2-8.5		com_dotnet				int	
 const	NORM_IGNOREWIDTH	8.2-8.5		com_dotnet				int	
+const	NOSTR	8.2	8.2	standard				int	327683
 const	NOSTR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(NOSTR)		int	327683
-const	NULL	8.0-8.1,8.5	8.0-8.1,8.5	core					null
+const	NULL	8.0-8.2,8.5	8.0-8.2,8.5	core					null
 const	NULL	8.3-8.4	8.3-8.4	core				null	null
+const	N_CS_PRECEDES	8.2	8.2	standard				int	262155
 const	N_CS_PRECEDES	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(N_CS_PRECEDES)		int	262155
+const	N_SEP_BY_SPACE	8.2	8.2	standard				int	262156
 const	N_SEP_BY_SPACE	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(N_SEP_BY_SPACE)		int	262156
+const	N_SIGN_POSN	8.2	8.2	standard				int	262158
 const	N_SIGN_POSN	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(N_SIGN_POSN)		int	262158
 const	OCI_ASSOC	8.2-8.3		oci8				int	
 const	OCI_BOTH	8.2-8.3		oci8				int	
@@ -2246,33 +2262,33 @@ const	OP_READONLY	8.2-8.3		imap				int
 const	OP_SECURE	8.2-8.3		imap				int	
 const	OP_SHORTCACHE	8.2-8.3		imap				int	
 const	OP_SILENT	8.2-8.3		imap				int	
-const	PASSWORD_ARGON2I	8.0-8.1	8.0-8.1	standard				string	'argon2i'
+const	PASSWORD_ARGON2I	8.0-8.3	8.0-8.3	standard				string	'argon2i'
 const	PASSWORD_ARGON2I	8.4	8.4	standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)		string	'argon2i'
 const	PASSWORD_ARGON2I	8.5	8.5	standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)			'argon2i'
-const	PASSWORD_ARGON2ID	8.0-8.1	8.0-8.1	standard				string	'argon2id'
+const	PASSWORD_ARGON2ID	8.0-8.3	8.0-8.3	standard				string	'argon2id'
 const	PASSWORD_ARGON2ID	8.4	8.4	standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)		string	'argon2id'
 const	PASSWORD_ARGON2ID	8.5	8.5	standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)			'argon2id'
-const	PASSWORD_ARGON2_DEFAULT_MEMORY_COST	8.0-8.1	8.0-8.1	standard				int	65536
+const	PASSWORD_ARGON2_DEFAULT_MEMORY_COST	8.0-8.3	8.0-8.3	standard				int	65536
 const	PASSWORD_ARGON2_DEFAULT_MEMORY_COST	8.4-8.5	8.4-8.5	standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)		int	65536
-const	PASSWORD_ARGON2_DEFAULT_THREADS	8.0-8.1	8.0-8.1	standard				int	1
+const	PASSWORD_ARGON2_DEFAULT_THREADS	8.0-8.3	8.0-8.3	standard				int	1
 const	PASSWORD_ARGON2_DEFAULT_THREADS	8.4-8.5	8.4-8.5	standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)		int	1
-const	PASSWORD_ARGON2_DEFAULT_TIME_COST	8.0-8.1	8.0-8.1	standard				int	4
+const	PASSWORD_ARGON2_DEFAULT_TIME_COST	8.0-8.3	8.0-8.3	standard				int	4
 const	PASSWORD_ARGON2_DEFAULT_TIME_COST	8.4-8.5	8.4-8.5	standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)		int	4
-const	PASSWORD_ARGON2_PROVIDER	8.0-8.1	8.0-8.1	standard				string	
+const	PASSWORD_ARGON2_PROVIDER	8.0-8.3	8.0-8.3	standard				string	
 const	PASSWORD_ARGON2_PROVIDER	8.4		standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)		string	
 const	PASSWORD_ARGON2_PROVIDER	8.5		standard		SODIUM_LIBRARY_VERSION_MAJOR > 9 || (SODIUM_LIBRARY_VERSION_MAJOR == 9 && SODIUM_LIBRARY_VERSION_MINOR >= 6);defined(HAVE_ARGON2LIB);defined(HAVE_OPENSSL_ARGON2)			
-const	PASSWORD_BCRYPT	8.0-8.1,8.4	8.0-8.1,8.4	standard				string	'2y'
+const	PASSWORD_BCRYPT	8.0-8.4	8.0-8.4	standard				string	'2y'
 const	PASSWORD_BCRYPT	8.5	8.5	standard					'2y'
-const	PASSWORD_BCRYPT_DEFAULT_COST	8.0-8.1	8.0-8.1	standard				int	10
+const	PASSWORD_BCRYPT_DEFAULT_COST	8.0-8.3	8.0-8.3	standard				int	10
 const	PASSWORD_BCRYPT_DEFAULT_COST	8.4-8.5	8.4-8.5	standard				int	12
-const	PASSWORD_DEFAULT	8.0-8.1,8.4	8.0-8.1,8.4	standard				string	'2y'
+const	PASSWORD_DEFAULT	8.0-8.4	8.0-8.4	standard				string	'2y'
 const	PASSWORD_DEFAULT	8.5	8.5	standard					'2y'
 const	PATHINFO_ALL	8.0-8.5	8.0-8.5	standard				int	15
 const	PATHINFO_BASENAME	8.0-8.5	8.0-8.5	standard				int	2
 const	PATHINFO_DIRNAME	8.0-8.5	8.0-8.5	standard				int	1
 const	PATHINFO_EXTENSION	8.0-8.5	8.0-8.5	standard				int	4
 const	PATHINFO_FILENAME	8.0-8.5	8.0-8.5	standard				int	8
-const	PATH_SEPARATOR	8.0-8.1,8.4-8.5	8.0-8.1,8.4-8.5	standard				string	':'
+const	PATH_SEPARATOR	8.0-8.5	8.0-8.5	standard				string	':'
 const	PCNTL_E2BIG	8.2-8.5		pcntl		defined(E2BIG)		int	
 const	PCNTL_EACCES	8.2-8.5		pcntl		defined(EACCES)		int	
 const	PCNTL_EAGAIN	8.2-8.5		pcntl		defined(EAGAIN)		int	
@@ -2302,8 +2318,8 @@ const	PCRE_VERSION	8.0-8.5	8.0-8.1	pcre				string
 const	PCRE_VERSION_MAJOR	8.0-8.5	8.0-8.1	pcre				int	
 const	PCRE_VERSION_MINOR	8.0-8.5	8.0-8.1	pcre				int	
 const	PDO_ODBC_TYPE	8.3-8.5		pdo_odbc				string	
-const	PEAR_EXTENSION_DIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PEAR_INSTALL_DIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
+const	PEAR_EXTENSION_DIR	8.0-8.5	8.0-8.2	core				string	
+const	PEAR_INSTALL_DIR	8.0-8.5	8.0-8.2	core				string	
 const	PGSQL_ASSOC	8.2-8.5		pgsql				int	
 const	PGSQL_BAD_RESPONSE	8.2-8.5		pgsql				int	
 const	PGSQL_BOTH	8.2-8.5		pgsql				int	
@@ -2391,71 +2407,72 @@ const	PHPDBG_COLOR_ERROR	8.2-8.5		phpdbg	phpdbg			int
 const	PHPDBG_COLOR_NOTICE	8.2-8.5		phpdbg	phpdbg			int	
 const	PHPDBG_COLOR_PROMPT	8.2-8.5		phpdbg	phpdbg			int	
 const	PHPDBG_VERSION	8.2-8.5		phpdbg	phpdbg			string	
-const	PHP_BINARY	8.0-8.1,8.4-8.5	8.0-8.1	core				string	
+const	PHP_BINARY	8.0-8.5	8.0-8.3	core				string	
 const	PHP_BINARY_READ	8.2-8.5		sockets				int	
-const	PHP_BINDIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
+const	PHP_BINDIR	8.0-8.5	8.0-8.2	core				string	
 const	PHP_BUILD_DATE	8.5	8.5	core				string	'Oct  6 2026 01:22:31'
 const	PHP_BUILD_PROVIDER	8.5	8.5	core		defined(PHP_BUILD_PROVIDER)		string	'https://github.com/docker-library/php'
-const	PHP_CLI_PROCESS_TITLE	8.0-8.1	8.0-8.1	core				bool	true
-const	PHP_CONFIG_FILE_PATH	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_CONFIG_FILE_SCAN_DIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_DATADIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_DEBUG	8.0-8.1,8.3	8.0-8.1	core				int	
+const	PHP_CLI_PROCESS_TITLE	8.0-8.5	8.0-8.5	core				bool	true
+const	PHP_CONFIG_FILE_PATH	8.0-8.5	8.0-8.2	core				string	
+const	PHP_CONFIG_FILE_SCAN_DIR	8.0-8.5	8.0-8.2	core				string	
+const	PHP_DATADIR	8.0-8.5	8.0-8.2	core				string	
+const	PHP_DEBUG	8.0-8.3	8.0-8.2	core				int	
 const	PHP_DEBUG	8.4-8.5		core				bool	
-const	PHP_EOL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				string	"\\n"
-const	PHP_EXTENSION_DIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_EXTRA_VERSION	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_FD_SETSIZE	8.0-8.1,8.3-8.5	8.0-8.1	core				int	
-const	PHP_FLOAT_DIG	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	15
-const	PHP_FLOAT_EPSILON	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				float	2.220446049250313E-16
-const	PHP_FLOAT_MAX	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				float	1.7976931348623157E+308
-const	PHP_FLOAT_MIN	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				float	2.2250738585072014E-308
-const	PHP_INT_MAX	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	9223372036854775807
-const	PHP_INT_MIN	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	-9223372036854775808
-const	PHP_INT_SIZE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	8
-const	PHP_LIBDIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_LOCALSTATEDIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_MAJOR_VERSION	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	8
-const	PHP_MANDIR	8.0-8.1	8.0-8.1	core				string	
+const	PHP_EOL	8.0-8.5	8.0-8.5	core				string	"\\n"
+const	PHP_EXTENSION_DIR	8.0-8.5	8.0-8.2	core				string	
+const	PHP_EXTRA_VERSION	8.0-8.5	8.0-8.2	core				string	
+const	PHP_FD_SETSIZE	8.0-8.5	8.0-8.2	core				int	
+const	PHP_FLOAT_DIG	8.0-8.5	8.0-8.5	core				int	15
+const	PHP_FLOAT_EPSILON	8.0-8.5	8.0-8.5	core				float	2.220446049250313E-16
+const	PHP_FLOAT_MAX	8.0-8.5	8.0-8.5	core				float	1.7976931348623157E+308
+const	PHP_FLOAT_MIN	8.0-8.5	8.0-8.5	core				float	2.2250738585072014E-308
+const	PHP_INT_MAX	8.0-8.5	8.0-8.5	core				int	9223372036854775807
+const	PHP_INT_MIN	8.0-8.5	8.0-8.5	core				int	-9223372036854775808
+const	PHP_INT_SIZE	8.0-8.5	8.0-8.5	core				int	8
+const	PHP_LIBDIR	8.0-8.5	8.0-8.2	core				string	
+const	PHP_LOCALSTATEDIR	8.0-8.5	8.0-8.2	core				string	
+const	PHP_MAJOR_VERSION	8.0-8.5	8.0-8.5	core				int	8
+const	PHP_MANDIR	8.0-8.2	8.0-8.2	core				string	
 const	PHP_MANDIR	8.3-8.5		core		!defined(PHP_WIN32)		string	
-const	PHP_MAXPATHLEN	8.0-8.1,8.3-8.5	8.0-8.1	core				int	
+const	PHP_MAXPATHLEN	8.0-8.5	8.0-8.2	core				int	
 const	PHP_MINOR_VERSION	8.0	8.0	core				int	0
 const	PHP_MINOR_VERSION	8.1	8.1	core				int	1
+const	PHP_MINOR_VERSION	8.2	8.2	core				int	2
 const	PHP_MINOR_VERSION	8.3	8.3	core				int	3
 const	PHP_MINOR_VERSION	8.4	8.4	core				int	4
 const	PHP_MINOR_VERSION	8.5	8.5	core				int	5
 const	PHP_NORMAL_READ	8.2-8.5		sockets				int	
-const	PHP_OS	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_OS_FAMILY	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_OUTPUT_HANDLER_CLEAN	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	2
-const	PHP_OUTPUT_HANDLER_CLEANABLE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	16
-const	PHP_OUTPUT_HANDLER_CONT	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	0
-const	PHP_OUTPUT_HANDLER_DISABLED	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	8192
-const	PHP_OUTPUT_HANDLER_END	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	8
-const	PHP_OUTPUT_HANDLER_FINAL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	8
-const	PHP_OUTPUT_HANDLER_FLUSH	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	4
-const	PHP_OUTPUT_HANDLER_FLUSHABLE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	32
+const	PHP_OS	8.0-8.5	8.0-8.2	core				string	
+const	PHP_OS_FAMILY	8.0-8.5	8.0-8.2	core				string	
+const	PHP_OUTPUT_HANDLER_CLEAN	8.0-8.5	8.0-8.5	core				int	2
+const	PHP_OUTPUT_HANDLER_CLEANABLE	8.0-8.5	8.0-8.5	core				int	16
+const	PHP_OUTPUT_HANDLER_CONT	8.0-8.5	8.0-8.5	core				int	0
+const	PHP_OUTPUT_HANDLER_DISABLED	8.0-8.5	8.0-8.5	core				int	8192
+const	PHP_OUTPUT_HANDLER_END	8.0-8.5	8.0-8.5	core				int	8
+const	PHP_OUTPUT_HANDLER_FINAL	8.0-8.5	8.0-8.5	core				int	8
+const	PHP_OUTPUT_HANDLER_FLUSH	8.0-8.5	8.0-8.5	core				int	4
+const	PHP_OUTPUT_HANDLER_FLUSHABLE	8.0-8.5	8.0-8.5	core				int	32
 const	PHP_OUTPUT_HANDLER_PROCESSED	8.4-8.5	8.4-8.5	core				int	16384
-const	PHP_OUTPUT_HANDLER_REMOVABLE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	64
-const	PHP_OUTPUT_HANDLER_START	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	1
-const	PHP_OUTPUT_HANDLER_STARTED	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	4096
-const	PHP_OUTPUT_HANDLER_STDFLAGS	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	112
-const	PHP_OUTPUT_HANDLER_WRITE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	0
-const	PHP_PREFIX	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
+const	PHP_OUTPUT_HANDLER_REMOVABLE	8.0-8.5	8.0-8.5	core				int	64
+const	PHP_OUTPUT_HANDLER_START	8.0-8.5	8.0-8.5	core				int	1
+const	PHP_OUTPUT_HANDLER_STARTED	8.0-8.5	8.0-8.5	core				int	4096
+const	PHP_OUTPUT_HANDLER_STDFLAGS	8.0-8.5	8.0-8.5	core				int	112
+const	PHP_OUTPUT_HANDLER_WRITE	8.0-8.5	8.0-8.5	core				int	0
+const	PHP_PREFIX	8.0-8.5	8.0-8.2	core				string	
 const	PHP_QUERY_RFC1738	8.0-8.5	8.0-8.5	standard				int	1
 const	PHP_QUERY_RFC3986	8.0-8.5	8.0-8.5	standard				int	2
-const	PHP_RELEASE_VERSION	8.0-8.1,8.3-8.5	8.0-8.1	core				int	
+const	PHP_RELEASE_VERSION	8.0-8.5	8.0-8.2	core				int	
 const	PHP_ROUND_HALF_DOWN	8.0-8.5	8.0-8.5	standard				int	2
 const	PHP_ROUND_HALF_EVEN	8.0-8.5	8.0-8.5	standard				int	3
 const	PHP_ROUND_HALF_ODD	8.0-8.5	8.0-8.5	standard				int	4
 const	PHP_ROUND_HALF_UP	8.0-8.5	8.0-8.5	standard				int	1
-const	PHP_SAPI	8.0-8.1,8.4-8.5	8.0-8.1	core				string	
+const	PHP_SAPI	8.0-8.5	8.0-8.3	core				string	
 const	PHP_SBINDIR	8.4-8.5	8.4-8.5	core				string	'/usr/local/sbin'
 const	PHP_SESSION_ACTIVE	8.0-8.5	8.0-8.5	session				int	2
 const	PHP_SESSION_DISABLED	8.0-8.5	8.0-8.5	session				int	0
 const	PHP_SESSION_NONE	8.0-8.5	8.0-8.5	session				int	1
-const	PHP_SHLIB_SUFFIX	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_SYSCONFDIR	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
+const	PHP_SHLIB_SUFFIX	8.0-8.5	8.0-8.2	core				string	
+const	PHP_SYSCONFDIR	8.0-8.5	8.0-8.2	core				string	
 const	PHP_URL_FRAGMENT	8.0-8.5	8.0-8.5	standard				int	7
 const	PHP_URL_HOST	8.0-8.5	8.0-8.5	standard				int	1
 const	PHP_URL_PASS	8.0-8.5	8.0-8.5	standard				int	4
@@ -2464,8 +2481,8 @@ const	PHP_URL_PORT	8.0-8.5	8.0-8.5	standard				int	2
 const	PHP_URL_QUERY	8.0-8.5	8.0-8.5	standard				int	6
 const	PHP_URL_SCHEME	8.0-8.5	8.0-8.5	standard				int	0
 const	PHP_URL_USER	8.0-8.5	8.0-8.5	standard				int	3
-const	PHP_VERSION	8.0-8.1,8.3-8.5	8.0-8.1	core				string	
-const	PHP_VERSION_ID	8.0-8.1,8.3-8.5	8.0-8.1	core				int	
+const	PHP_VERSION	8.0-8.5	8.0-8.2	core				string	
+const	PHP_VERSION_ID	8.0-8.5	8.0-8.2	core				int	
 const	PHP_WINDOWS_NT_DOMAIN_CONTROLLER	8.3-8.5		core		defined(PHP_WIN32)		int	
 const	PHP_WINDOWS_NT_SERVER	8.3-8.5		core		defined(PHP_WIN32)		int	
 const	PHP_WINDOWS_NT_WORKSTATION	8.3-8.5		core		defined(PHP_WIN32)		int	
@@ -2477,7 +2494,7 @@ const	PHP_WINDOWS_VERSION_PRODUCTTYPE	8.3-8.5		core		defined(PHP_WIN32)		int
 const	PHP_WINDOWS_VERSION_SP_MAJOR	8.3-8.5		core		defined(PHP_WIN32)		int	
 const	PHP_WINDOWS_VERSION_SP_MINOR	8.3-8.5		core		defined(PHP_WIN32)		int	
 const	PHP_WINDOWS_VERSION_SUITEMASK	8.3-8.5		core		defined(PHP_WIN32)		int	
-const	PHP_ZTS	8.0-8.1,8.3	8.0-8.1	core				int	
+const	PHP_ZTS	8.0-8.3	8.0-8.2	core				int	
 const	PHP_ZTS	8.4-8.5		core				bool	
 const	PKCS7_BINARY	8.0-8.5	8.0-8.5	openssl				int	128
 const	PKCS7_CRLFEOL	8.5	8.5	openssl				int	2048
@@ -2493,7 +2510,7 @@ const	PKCS7_NOSMIMECAP	8.5	8.5	openssl				int	512
 const	PKCS7_NOVERIFY	8.0-8.5	8.0-8.5	openssl				int	32
 const	PKCS7_NO_DUAL_CONTENT	8.5	8.5	openssl				int	65536
 const	PKCS7_TEXT	8.0-8.5	8.0-8.5	openssl				int	1
-const	PM_STR	8.0-8.1	8.0-8.1	standard				int	131111
+const	PM_STR	8.0-8.2	8.0-8.2	standard				int	131111
 const	PM_STR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(PM_STR)		int	131111
 const	PNG_ALL_FILTERS	8.2-8.5		gd		defined(HAVE_GD_PNG)		int	0x08 | 0x10 | 0x20 | 0x40 | 0x80
 const	PNG_FILTER_AVG	8.2-8.4		gd		defined(HAVE_GD_PNG)		int	0x40
@@ -2514,6 +2531,7 @@ const	POLL_IN	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIME
 const	POLL_MSG	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(POLL_MSG)		int	
 const	POLL_OUT	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(POLL_OUT)		int	
 const	POLL_PRI	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(POLL_PRI)		int	
+const	POSITIVE_SIGN	8.2	8.2	standard				int	262149
 const	POSITIVE_SIGN	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(POSITIVE_SIGN)		int	262149
 const	POSIX_F_OK	8.0-8.5	8.0-8.5	posix				int	0
 const	POSIX_PC_ALLOC_SIZE_MIN	8.3-8.5	8.3-8.5	posix		defined(_PC_ALLOC_SIZE_MIN)		int	18
@@ -2602,28 +2620,31 @@ const	PRIO_DARWIN_THREAD	8.2-8.5		pcntl		((defined(HAVE_GETPRIORITY) || defined(
 const	PRIO_PGRP	8.2-8.5		pcntl		(defined(HAVE_GETPRIORITY) || defined(HAVE_SETPRIORITY))		int	
 const	PRIO_PROCESS	8.2-8.5		pcntl		(defined(HAVE_GETPRIORITY) || defined(HAVE_SETPRIORITY))		int	
 const	PRIO_USER	8.2-8.5		pcntl		(defined(HAVE_GETPRIORITY) || defined(HAVE_SETPRIORITY))		int	
-const	PSFS_ERR_FATAL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	0
-const	PSFS_FEED_ME	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	PSFS_FLAG_FLUSH_CLOSE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	PSFS_FLAG_FLUSH_INC	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	PSFS_FLAG_NORMAL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	0
-const	PSFS_PASS_ON	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
+const	PSFS_ERR_FATAL	8.0-8.5	8.0-8.5	standard				int	0
+const	PSFS_FEED_ME	8.0-8.5	8.0-8.5	standard				int	1
+const	PSFS_FLAG_FLUSH_CLOSE	8.0-8.5	8.0-8.5	standard				int	2
+const	PSFS_FLAG_FLUSH_INC	8.0-8.5	8.0-8.5	standard				int	1
+const	PSFS_FLAG_NORMAL	8.0-8.5	8.0-8.5	standard				int	0
+const	PSFS_PASS_ON	8.0-8.5	8.0-8.5	standard				int	2
 const	PSPELL_BAD_SPELLERS	8.2-8.3		pspell				int	
 const	PSPELL_FAST	8.2-8.3		pspell				int	
 const	PSPELL_NORMAL	8.2-8.3		pspell				int	
 const	PSPELL_RUN_TOGETHER	8.2-8.3		pspell				int	
 const	P_ALL	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_POSIX_IDTYPES)		int	
+const	P_CS_PRECEDES	8.2	8.2	standard				int	262153
 const	P_CS_PRECEDES	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(P_CS_PRECEDES)		int	262153
 const	P_GID	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_NETBSD_IDTYPES)		int	
 const	P_JAILID	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_FREEBSD_IDTYPES)		int	
 const	P_PGID	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_POSIX_IDTYPES)		int	
 const	P_PID	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_POSIX_IDTYPES)		int	
 const	P_PIDFD	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_LINUX_IDTYPES)		int	
+const	P_SEP_BY_SPACE	8.2	8.2	standard				int	262154
 const	P_SEP_BY_SPACE	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(P_SEP_BY_SPACE)		int	262154
 const	P_SID	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_NETBSD_IDTYPES)		int	
+const	P_SIGN_POSN	8.2	8.2	standard				int	262157
 const	P_SIGN_POSN	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(P_SIGN_POSN)		int	262157
 const	P_UID	8.4-8.5		pcntl		defined(HAVE_WAITID) && defined(HAVE_NETBSD_IDTYPES)		int	
-const	RADIXCHAR	8.0-8.1	8.0-8.1	standard				int	65536
+const	RADIXCHAR	8.0-8.2	8.0-8.2	standard				int	65536
 const	RADIXCHAR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(RADIXCHAR)		int	65536
 const	READLINE_LIB	8.0-8.5	8.0-8.5	readline				string	'readline'
 const	RFCFDG	8.2-8.5		pcntl		defined(HAVE_RFORK) && defined(RFCFDG)		int	
@@ -2639,9 +2660,9 @@ const	SA_RECENT	8.2-8.3		imap				int
 const	SA_UIDNEXT	8.2-8.3		imap				int	
 const	SA_UIDVALIDITY	8.2-8.3		imap				int	
 const	SA_UNSEEN	8.2-8.3		imap				int	
-const	SCANDIR_SORT_ASCENDING	8.0-8.1,8.4-8.5	8.0-8.1,8.4-8.5	standard				int	0
-const	SCANDIR_SORT_DESCENDING	8.0-8.1,8.4-8.5	8.0-8.1,8.4-8.5	standard				int	1
-const	SCANDIR_SORT_NONE	8.0-8.1,8.4-8.5	8.0-8.1,8.4-8.5	standard				int	2
+const	SCANDIR_SORT_ASCENDING	8.0-8.5	8.0-8.5	standard				int	0
+const	SCANDIR_SORT_DESCENDING	8.0-8.5	8.0-8.5	standard				int	1
+const	SCANDIR_SORT_NONE	8.0-8.5	8.0-8.5	standard				int	2
 const	SCM_CREDENTIALS	8.2-8.5		sockets		defined(SO_PASSCRED) && defined(SCM_CREDENTIALS)		int	
 const	SCM_CREDS	8.2-8.5		sockets		(!defined(LOCAL_CREDS_PERSISTENT) && defined(LOCAL_CREDS));defined(SO_PASSCRED) && !defined(SCM_CREDENTIALS)		int	
 const	SCM_CREDS2	8.2-8.5		sockets		defined(LOCAL_CREDS_PERSISTENT)		int	
@@ -3234,14 +3255,14 @@ const	SQL_WLONGVARCHAR	8.2-8.4		odbc		(defined(ODBCVER) && (ODBCVER >= 0x0300))	
 const	SQL_WLONGVARCHAR	8.5		odbc				int	
 const	SQL_WVARCHAR	8.2-8.4		odbc		(defined(ODBCVER) && (ODBCVER >= 0x0300))		int	
 const	SQL_WVARCHAR	8.5		odbc				int	
-const	STDERR	8.0-8.1	8.0-8.1	core					
-const	STDIN	8.0-8.1	8.0-8.1	core					
-const	STDOUT	8.0-8.1	8.0-8.1	core					
-const	STREAM_BUFFER_FULL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	STREAM_BUFFER_LINE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	STREAM_BUFFER_NONE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	0
-const	STREAM_CAST_AS_STREAM	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	0
-const	STREAM_CAST_FOR_SELECT	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	3
+const	STDERR	8.0-8.5	8.0-8.5	core					
+const	STDIN	8.0-8.5	8.0-8.5	core					
+const	STDOUT	8.0-8.5	8.0-8.5	core					
+const	STREAM_BUFFER_FULL	8.0-8.5	8.0-8.5	standard				int	2
+const	STREAM_BUFFER_LINE	8.0-8.5	8.0-8.5	standard				int	1
+const	STREAM_BUFFER_NONE	8.0-8.5	8.0-8.5	standard				int	0
+const	STREAM_CAST_AS_STREAM	8.0-8.5	8.0-8.5	standard				int	0
+const	STREAM_CAST_FOR_SELECT	8.0-8.5	8.0-8.5	standard				int	3
 const	STREAM_CLIENT_ASYNC_CONNECT	8.0-8.5	8.0-8.5	standard				int	2
 const	STREAM_CLIENT_CONNECT	8.0-8.5	8.0-8.5	standard				int	4
 const	STREAM_CLIENT_PERSISTENT	8.0-8.5	8.0-8.5	standard				int	1
@@ -3271,7 +3292,7 @@ const	STREAM_CRYPTO_PROTO_TLSv1_3	8.0-8.5	8.0-8.5	standard				int	64
 const	STREAM_FILTER_ALL	8.0-8.5	8.0-8.5	standard				int	3
 const	STREAM_FILTER_READ	8.0-8.5	8.0-8.5	standard				int	1
 const	STREAM_FILTER_WRITE	8.0-8.5	8.0-8.5	standard				int	2
-const	STREAM_IGNORE_URL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
+const	STREAM_IGNORE_URL	8.0-8.5	8.0-8.5	standard				int	2
 const	STREAM_IPPROTO_ICMP	8.0-8.1	8.0-8.1	standard				int	1
 const	STREAM_IPPROTO_ICMP	8.2-8.5	8.2-8.5	standard		(defined(IPPROTO_ICMP) || defined(PHP_WIN32))		int	1
 const	STREAM_IPPROTO_IP	8.0-8.1	8.0-8.1	standard				int	0
@@ -3282,15 +3303,15 @@ const	STREAM_IPPROTO_TCP	8.0-8.1	8.0-8.1	standard				int	6
 const	STREAM_IPPROTO_TCP	8.2-8.5	8.2-8.5	standard		(defined(IPPROTO_TCP) || defined(PHP_WIN32))		int	6
 const	STREAM_IPPROTO_UDP	8.0-8.1	8.0-8.1	standard				int	17
 const	STREAM_IPPROTO_UDP	8.2-8.5	8.2-8.5	standard		(defined(IPPROTO_UDP) || defined(PHP_WIN32))		int	17
-const	STREAM_IS_URL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	STREAM_META_ACCESS	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	6
-const	STREAM_META_GROUP	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	5
-const	STREAM_META_GROUP_NAME	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	4
-const	STREAM_META_OWNER	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	3
-const	STREAM_META_OWNER_NAME	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	STREAM_META_TOUCH	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	STREAM_MKDIR_RECURSIVE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	STREAM_MUST_SEEK	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	16
+const	STREAM_IS_URL	8.0-8.5	8.0-8.5	standard				int	1
+const	STREAM_META_ACCESS	8.0-8.5	8.0-8.5	standard				int	6
+const	STREAM_META_GROUP	8.0-8.5	8.0-8.5	standard				int	5
+const	STREAM_META_GROUP_NAME	8.0-8.5	8.0-8.5	standard				int	4
+const	STREAM_META_OWNER	8.0-8.5	8.0-8.5	standard				int	3
+const	STREAM_META_OWNER_NAME	8.0-8.5	8.0-8.5	standard				int	2
+const	STREAM_META_TOUCH	8.0-8.5	8.0-8.5	standard				int	1
+const	STREAM_MKDIR_RECURSIVE	8.0-8.5	8.0-8.5	standard				int	1
+const	STREAM_MUST_SEEK	8.0-8.5	8.0-8.5	standard				int	16
 const	STREAM_NOTIFY_AUTH_REQUIRED	8.0-8.5	8.0-8.5	standard				int	3
 const	STREAM_NOTIFY_AUTH_RESULT	8.0-8.5	8.0-8.5	standard				int	10
 const	STREAM_NOTIFY_COMPLETED	8.0-8.5	8.0-8.5	standard				int	8
@@ -3305,10 +3326,10 @@ const	STREAM_NOTIFY_SEVERITY_ERR	8.0-8.5	8.0-8.5	standard				int	2
 const	STREAM_NOTIFY_SEVERITY_INFO	8.0-8.5	8.0-8.5	standard				int	0
 const	STREAM_NOTIFY_SEVERITY_WARN	8.0-8.5	8.0-8.5	standard				int	1
 const	STREAM_OOB	8.0-8.5	8.0-8.5	standard				int	1
-const	STREAM_OPTION_BLOCKING	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	STREAM_OPTION_READ_BUFFER	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	STREAM_OPTION_READ_TIMEOUT	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	4
-const	STREAM_OPTION_WRITE_BUFFER	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	3
+const	STREAM_OPTION_BLOCKING	8.0-8.5	8.0-8.5	standard				int	1
+const	STREAM_OPTION_READ_BUFFER	8.0-8.5	8.0-8.5	standard				int	2
+const	STREAM_OPTION_READ_TIMEOUT	8.0-8.5	8.0-8.5	standard				int	4
+const	STREAM_OPTION_WRITE_BUFFER	8.0-8.5	8.0-8.5	standard				int	3
 const	STREAM_PEEK	8.0-8.5	8.0-8.5	standard				int	2
 const	STREAM_PF_INET	8.0-8.1	8.0-8.1	standard				int	2
 const	STREAM_PF_INET	8.2-8.5	8.2-8.5	standard		(!defined(PF_INET) && defined(AF_INET));defined(PF_INET)		int	2
@@ -3316,7 +3337,7 @@ const	STREAM_PF_INET6	8.0-8.1	8.0-8.1	standard				int	10
 const	STREAM_PF_INET6	8.2-8.5	8.2-8.5	standard		defined(HAVE_IPV6) && (!defined(PF_INET6) && defined(AF_INET6));defined(HAVE_IPV6) && defined(PF_INET6)		int	10
 const	STREAM_PF_UNIX	8.0-8.1	8.0-8.1	standard				int	1
 const	STREAM_PF_UNIX	8.2-8.5	8.2-8.5	standard		(!defined(PF_UNIX) && defined(AF_UNIX));defined(PF_UNIX)		int	1
-const	STREAM_REPORT_ERRORS	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	8
+const	STREAM_REPORT_ERRORS	8.0-8.5	8.0-8.5	standard				int	8
 const	STREAM_SERVER_BIND	8.0-8.5	8.0-8.5	standard				int	4
 const	STREAM_SERVER_LISTEN	8.0-8.5	8.0-8.5	standard				int	8
 const	STREAM_SHUT_RD	8.0-8.5	8.0-8.5	standard				int	0
@@ -3330,9 +3351,9 @@ const	STREAM_SOCK_RDM	8.2-8.5	8.2-8.5	standard		defined(SOCK_RDM)		int	4
 const	STREAM_SOCK_SEQPACKET	8.0-8.1	8.0-8.1	standard				int	5
 const	STREAM_SOCK_SEQPACKET	8.2-8.5	8.2-8.5	standard		defined(SOCK_SEQPACKET)		int	5
 const	STREAM_SOCK_STREAM	8.0-8.5	8.0-8.5	standard				int	1
-const	STREAM_URL_STAT_LINK	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
-const	STREAM_URL_STAT_QUIET	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	2
-const	STREAM_USE_PATH	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	standard				int	1
+const	STREAM_URL_STAT_LINK	8.0-8.5	8.0-8.5	standard				int	1
+const	STREAM_URL_STAT_QUIET	8.0-8.5	8.0-8.5	standard				int	2
+const	STREAM_USE_PATH	8.0-8.5	8.0-8.5	standard				int	1
 const	STR_PAD_BOTH	8.0-8.5	8.0-8.5	standard				int	2
 const	STR_PAD_LEFT	8.0-8.5	8.0-8.5	standard				int	0
 const	STR_PAD_RIGHT	8.0-8.5	8.0-8.5	standard				int	1
@@ -3365,8 +3386,9 @@ const	TCP_REUSPORT_LB_NUMA	8.5		sockets		defined(TCP_REUSPORT_LB_NUMA)		int
 const	TCP_REUSPORT_LB_NUMA_CURDOM	8.5		sockets		defined(TCP_REUSPORT_LB_NUMA)		int	
 const	TCP_REUSPORT_LB_NUMA_NODOM	8.5		sockets		defined(TCP_REUSPORT_LB_NUMA)		int	
 const	TCP_SYNCNT	8.4-8.5		sockets		defined(TCP_SYNCNT)		int	
+const	THOUSANDS_SEP	8.2	8.2	standard				int	65537
 const	THOUSANDS_SEP	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(THOUSANDS_SEP)		int	65537
-const	THOUSEP	8.0-8.1	8.0-8.1	standard				int	65537
+const	THOUSEP	8.0-8.2	8.0-8.2	standard				int	65537
 const	THOUSEP	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(THOUSEP)		int	65537
 const	TIDY_NODETYPE_ASP	8.2-8.5		tidy				int	
 const	TIDY_NODETYPE_CDATA	8.2-8.5		tidy				int	
@@ -3532,7 +3554,7 @@ const	TIDY_TAG_XMP	8.2-8.5		tidy				int
 const	TOKEN_PARSE	8.0-8.5	8.0-8.5	tokenizer				int	1
 const	TRAP_BRKPT	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(TRAP_BRKPT)		int	
 const	TRAP_TRACE	8.2-8.5		pcntl		(defined(HAVE_SIGWAITINFO) && defined(HAVE_SIGTIMEDWAIT)) && defined(TRAP_TRACE)		int	
-const	TRUE	8.0-8.1,8.3-8.4	8.0-8.1,8.3-8.4	core				bool	true
+const	TRUE	8.0-8.4	8.0-8.4	core				bool	true
 const	TRUE	8.5	8.5	core					true
 const	TYPEAPPLICATION	8.2-8.3		imap				int	
 const	TYPEAUDIO	8.2-8.3		imap				int	
@@ -3679,9 +3701,9 @@ const	T_FILE	8.1-8.3	8.1-8.3	tokenizer				int	344
 const	T_FILE	8.4-8.5	8.4-8.5	tokenizer				int	347
 const	T_FINAL	8.0-8.5	8.0-8.5	tokenizer				int	323
 const	T_FINALLY	8.0-8.5	8.0-8.5	tokenizer				int	316
-const	T_FMT	8.0-8.1	8.0-8.1	standard				int	131114
+const	T_FMT	8.0-8.2	8.0-8.2	standard				int	131114
 const	T_FMT	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(T_FMT)		int	131114
-const	T_FMT_AMPM	8.0-8.1	8.0-8.1	standard				int	131115
+const	T_FMT_AMPM	8.0-8.2	8.0-8.2	standard				int	131115
 const	T_FMT_AMPM	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(T_FMT_AMPM)		int	131115
 const	T_FN	8.0-8.5	8.0-8.5	tokenizer				int	311
 const	T_FOR	8.0-8.5	8.0-8.5	tokenizer				int	295
@@ -3885,14 +3907,14 @@ const	UDP_SEGMENT	8.5		sockets		defined(UDP_SEGMENT)		int
 const	ULOC_ACTUAL_LOCALE	8.2-8.5		intl				int	
 const	ULOC_VALID_LOCALE	8.2-8.5		intl				int	
 const	UNKNOWN_TYPE	8.2-8.5		soap				int	
-const	UPLOAD_ERR_CANT_WRITE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	7
-const	UPLOAD_ERR_EXTENSION	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	8
-const	UPLOAD_ERR_FORM_SIZE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	2
-const	UPLOAD_ERR_INI_SIZE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	1
-const	UPLOAD_ERR_NO_FILE	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	4
-const	UPLOAD_ERR_NO_TMP_DIR	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	6
-const	UPLOAD_ERR_OK	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	0
-const	UPLOAD_ERR_PARTIAL	8.0-8.1,8.3-8.5	8.0-8.1,8.3-8.5	core				int	3
+const	UPLOAD_ERR_CANT_WRITE	8.0-8.5	8.0-8.5	core				int	7
+const	UPLOAD_ERR_EXTENSION	8.0-8.5	8.0-8.5	core				int	8
+const	UPLOAD_ERR_FORM_SIZE	8.0-8.5	8.0-8.5	core				int	2
+const	UPLOAD_ERR_INI_SIZE	8.0-8.5	8.0-8.5	core				int	1
+const	UPLOAD_ERR_NO_FILE	8.0-8.5	8.0-8.5	core				int	4
+const	UPLOAD_ERR_NO_TMP_DIR	8.0-8.5	8.0-8.5	core				int	6
+const	UPLOAD_ERR_OK	8.0-8.5	8.0-8.5	core				int	0
+const	UPLOAD_ERR_PARTIAL	8.0-8.5	8.0-8.5	core				int	3
 const	U_AMBIGUOUS_ALIAS_WARNING	8.2-8.5		intl				int	
 const	U_BAD_VARIABLE_DEFINITION	8.2-8.5		intl				int	
 const	U_BRK_ASSIGN_ERROR	8.2-8.5		intl				int	
@@ -4140,7 +4162,7 @@ const	XML_OPTION_SKIP_TAGSTART	8.0-8.5	8.0-8.5	xml				int	3
 const	XML_OPTION_SKIP_WHITE	8.0-8.5	8.0-8.5	xml				int	4
 const	XML_OPTION_TARGET_ENCODING	8.0-8.5	8.0-8.5	xml				int	2
 const	XML_PI_NODE	8.0-8.5	8.0-8.5	dom				int	7
-const	XML_SAX_IMPL	8.0-8.1,8.3-8.5	8.0-8.1	xml				string	
+const	XML_SAX_IMPL	8.0-8.5	8.0-8.2	xml				string	
 const	XML_TEXT_NODE	8.0-8.5	8.0-8.5	dom				int	3
 const	XSD_1999_NAMESPACE	8.2-8.5		soap				string	
 const	XSD_1999_TIMEINSTANT	8.2-8.5		soap				int	
@@ -4204,11 +4226,12 @@ const	XSL_SECPREF_READ_FILE	8.2-8.5		xsl				int
 const	XSL_SECPREF_READ_NETWORK	8.2-8.5		xsl				int	
 const	XSL_SECPREF_WRITE_FILE	8.2-8.5		xsl				int	
 const	XSL_SECPREF_WRITE_NETWORK	8.2-8.5		xsl				int	
-const	YESEXPR	8.0-8.1	8.0-8.1	standard				int	327680
+const	YESEXPR	8.0-8.2	8.0-8.2	standard				int	327680
 const	YESEXPR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(YESEXPR)		int	327680
+const	YESSTR	8.2	8.2	standard				int	327682
 const	YESSTR	8.3-8.5	8.3-8.5	standard		defined(HAVE_NL_LANGINFO) && defined(YESSTR)		int	327682
-const	ZEND_DEBUG_BUILD	8.0-8.1,8.3-8.5	8.0-8.1	core				bool	
-const	ZEND_THREAD_SAFE	8.0-8.1,8.3-8.5	8.0-8.1	core				bool	
+const	ZEND_DEBUG_BUILD	8.0-8.5	8.0-8.2	core				bool	
+const	ZEND_THREAD_SAFE	8.0-8.5	8.0-8.2	core				bool	
 const	ZEND_VERIFY_TYPE_INFERENCE	8.4-8.5		core		defined(ZEND_VERIFY_TYPE_INFERENCE)		bool	
 const	ZEND_VM_KIND	8.5	8.5	core				string	'ZEND_VM_KIND_HYBRID'
 const	ZLIB_BLOCK	8.0-8.5	8.0-8.5	zlib				int	5
@@ -7780,7 +7803,7 @@ function	zip_read	8.4-8.5		zip			8.0:use ZipArchive::statIndex() instead			zip@@
 function	zlib_decode	8.0-8.5		zlib						data@@string@@;max_length@o@int@@0	string|false		
 function	zlib_encode	8.0-8.5		zlib						data@@string@@;encoding@@int@@;level@o@int@@-1	string|false		
 function	zlib_get_coding_type	8.0-8.5		zlib							string|false		
-class	__PHP_Incomplete_Class	8.1-8.5		standard				final			
+class	__PHP_Incomplete_Class	8.0-8.5	8.0	standard				final			
 class	AddressInfo	8.0-8.5		sockets				final			
 class	AllowDynamicProperties	8.2-8.5		core				final			
 class	AppendIterator	8.0-8.5		spl					IteratorIterator		
@@ -7788,10 +7811,10 @@ class	ArgumentCountError	8.0-8.5		core					TypeError
 class	ArithmeticError	8.0-8.5		core					Error		
 class	ArrayIterator	8.0-8.5		spl						SeekableIterator,ArrayAccess,Serializable,Countable	
 class	ArrayObject	8.0-8.5		spl						IteratorAggregate,ArrayAccess,Serializable,Countable	
-class	AssertionError	8.1-8.5		standard					Error		
+class	AssertionError	8.0-8.5	8.0	standard					Error		
 class	Attribute	8.0-8.5		core				final			
-class	BadFunctionCallException	8.1-8.5		spl					LogicException		
-class	BadMethodCallException	8.1-8.5		spl					BadFunctionCallException		
+class	BadFunctionCallException	8.0-8.5	8.0	spl					LogicException		
+class	BadMethodCallException	8.0-8.5	8.0	spl					BadFunctionCallException		
 class	BcMath\\Number	8.4-8.5		bcmath				final,readonly		Stringable	
 class	CachingIterator	8.0		spl					IteratorIterator	ArrayAccess,Countable	
 class	CachingIterator	8.1-8.5		spl					IteratorIterator	ArrayAccess,Countable,Stringable	
@@ -7859,7 +7882,7 @@ class	Dom\\Text	8.4-8.5		dom					Dom\\CharacterData
 class	Dom\\TokenList	8.4-8.5		dom				final		IteratorAggregate,Countable	
 class	Dom\\XMLDocument	8.4-8.5		dom				final	Dom\\Document		
 class	Dom\\XPath	8.4-8.5		dom		defined(LIBXML_XPATH_ENABLED)		final			
-class	DomainException	8.1-8.5		spl					LogicException		
+class	DomainException	8.0-8.5	8.0	spl					LogicException		
 class	DOMAttr	8.0-8.5		dom					DOMNode		
 class	DOMCdataSection	8.0-8.5		dom					DOMText		
 class	DOMCharacterData	8.0-8.5		dom					DOMNode	DOMChildNode	
@@ -7927,17 +7950,17 @@ class	IntlListFormatter	8.5		intl				final
 class	IntlPartsIterator	8.0-8.5		intl					IntlIterator		
 class	IntlRuleBasedBreakIterator	8.0-8.5		intl					IntlBreakIterator		
 class	IntlTimeZone	8.0-8.5		intl							
-class	InvalidArgumentException	8.1-8.5		spl					LogicException		
+class	InvalidArgumentException	8.0-8.5	8.0	spl					LogicException		
 class	IteratorIterator	8.0-8.5		spl						OuterIterator	
 class	JsonException	8.0-8.5		json					Exception		
 class	LDAP\\Connection	8.1-8.5		ldap				final			
 class	LDAP\\Result	8.1-8.5		ldap				final			
 class	LDAP\\ResultEntry	8.1-8.5		ldap				final			
-class	LengthException	8.1-8.5		spl					LogicException		
+class	LengthException	8.0-8.5	8.0	spl					LogicException		
 class	LibXMLError	8.0-8.5		libxml							
 class	LimitIterator	8.0-8.5		spl					IteratorIterator		
 class	Locale	8.0-8.5		intl							
-class	LogicException	8.1-8.5		spl					Exception		
+class	LogicException	8.0-8.5	8.0	spl					Exception		
 class	MessageFormatter	8.0-8.5		intl							
 class	MultipleIterator	8.0-8.5		spl						Iterator	
 class	mysqli	8.0-8.5		mysqli							
@@ -7957,9 +7980,9 @@ class	Odbc\\Result	8.4-8.5		odbc
 class	OpenSSLAsymmetricKey	8.0-8.5		openssl				final			
 class	OpenSSLCertificate	8.0-8.5		openssl				final			
 class	OpenSSLCertificateSigningRequest	8.0-8.5		openssl				final			
-class	OutOfBoundsException	8.1-8.5		spl					RuntimeException		
-class	OutOfRangeException	8.1-8.5		spl					LogicException		
-class	OverflowException	8.1-8.5		spl					RuntimeException		
+class	OutOfBoundsException	8.0-8.5	8.0	spl					RuntimeException		
+class	OutOfRangeException	8.0-8.5	8.0	spl					LogicException		
+class	OverflowException	8.0-8.5	8.0	spl					RuntimeException		
 class	Override	8.3-8.5		core				final			
 class	ParentIterator	8.0-8.5		spl					RecursiveFilterIterator		
 class	ParseError	8.0-8.5		core					CompileError		
@@ -7994,7 +8017,7 @@ class	Random\\Engine\\Xoshiro256StarStar	8.2-8.5		random				final		Random\\Engin
 class	Random\\RandomError	8.2-8.5		random					Error		
 class	Random\\RandomException	8.2-8.5		random					Exception		
 class	Random\\Randomizer	8.2-8.5		random				final			
-class	RangeException	8.1-8.5		spl					RuntimeException		
+class	RangeException	8.0-8.5	8.0	spl					RuntimeException		
 class	RecursiveArrayIterator	8.0-8.5		spl					ArrayIterator	RecursiveIterator	
 class	RecursiveCachingIterator	8.0-8.5		spl					CachingIterator	RecursiveIterator	
 class	RecursiveCallbackFilterIterator	8.0-8.5		spl					CallbackFilterIterator	RecursiveIterator	
@@ -8033,7 +8056,7 @@ class	RegexIterator	8.0-8.5		spl					FilterIterator
 class	RequestParseBodyException	8.4-8.5		core					Exception		
 class	ResourceBundle	8.0-8.5		intl						IteratorAggregate,Countable	
 class	ReturnTypeWillChange	8.1-8.5		core				final			
-class	RuntimeException	8.1-8.5		spl					Exception		
+class	RuntimeException	8.0-8.5	8.0	spl					Exception		
 class	SensitiveParameter	8.2-8.5		core				final			
 class	SensitiveParameterValue	8.2-8.5		core				final			
 class	SessionHandler	8.0-8.5		session						SessionHandlerInterface,SessionIdInterface	
@@ -8072,7 +8095,7 @@ class	SQLite3	8.0-8.5		sqlite3
 class	SQLite3Exception	8.3-8.5		sqlite3					Exception		
 class	SQLite3Result	8.0-8.5		sqlite3							
 class	SQLite3Stmt	8.0-8.5		sqlite3							
-class	stdClass	8.1-8.5		core							
+class	stdClass	8.0-8.5	8.0	core							
 class	StreamBucket	8.4-8.5		standard				final			
 class	SysvMessageQueue	8.0-8.5		sysvmsg				final			
 class	SysvSemaphore	8.0-8.5		sysvsem				final			
@@ -8082,8 +8105,8 @@ class	tidyNode	8.0-8.5		tidy				final
 class	Transliterator	8.0-8.5		intl							
 class	TypeError	8.0-8.5		core					Error		
 class	UConverter	8.0-8.5		intl							
-class	UnderflowException	8.1-8.5		spl					RuntimeException		
-class	UnexpectedValueException	8.1-8.5		spl					RuntimeException		
+class	UnderflowException	8.0-8.5	8.0	spl					RuntimeException		
+class	UnexpectedValueException	8.0-8.5	8.0	spl					RuntimeException		
 class	UnhandledMatchError	8.0-8.5		core					Error		
 class	Uri\\InvalidUriException	8.5		uri					Uri\\UriException		
 class	Uri\\Rfc3986\\Uri	8.5		uri				final,readonly			
@@ -9433,13 +9456,13 @@ classconst	PDO::PARAM_STR_CHAR	8.0-8.1	8.0-8.1	pdo				public		536870912
 classconst	PDO::PARAM_STR_CHAR	8.2-8.5	8.2-8.5	pdo				public	int	536870912
 classconst	PDO::PARAM_STR_NATL	8.0-8.1	8.0-8.1	pdo				public		1073741824
 classconst	PDO::PARAM_STR_NATL	8.2-8.5	8.2-8.5	pdo				public	int	1073741824
-classconst	PDO::SQLITE_ATTR_EXTENDED_RESULT_CODES	8.0-8.1	8.0-8.1	pdo				public		1002
-classconst	PDO::SQLITE_ATTR_OPEN_FLAGS	8.0-8.1	8.0-8.1	pdo				public		1000
-classconst	PDO::SQLITE_ATTR_READONLY_STATEMENT	8.0-8.1	8.0-8.1	pdo				public		1001
-classconst	PDO::SQLITE_DETERMINISTIC	8.0-8.1	8.0-8.1	pdo				public		2048
-classconst	PDO::SQLITE_OPEN_CREATE	8.0-8.1	8.0-8.1	pdo				public		4
-classconst	PDO::SQLITE_OPEN_READONLY	8.0-8.1	8.0-8.1	pdo				public		1
-classconst	PDO::SQLITE_OPEN_READWRITE	8.0-8.1	8.0-8.1	pdo				public		2
+classconst	PDO::SQLITE_ATTR_EXTENDED_RESULT_CODES	8.0-8.5	8.0-8.5	pdo				public		1002
+classconst	PDO::SQLITE_ATTR_OPEN_FLAGS	8.0-8.5	8.0-8.5	pdo				public		1000
+classconst	PDO::SQLITE_ATTR_READONLY_STATEMENT	8.0-8.5	8.0-8.5	pdo				public		1001
+classconst	PDO::SQLITE_DETERMINISTIC	8.0-8.5	8.0-8.5	pdo				public		2048
+classconst	PDO::SQLITE_OPEN_CREATE	8.0-8.5	8.0-8.5	pdo				public		4
+classconst	PDO::SQLITE_OPEN_READONLY	8.0-8.5	8.0-8.5	pdo				public		1
+classconst	PDO::SQLITE_OPEN_READWRITE	8.0-8.5	8.0-8.5	pdo				public		2
 classconst	Pdo\\Dblib::ATTR_CONNECTION_TIMEOUT	8.4-8.5		pdo_dblib				public	int	
 classconst	Pdo\\Dblib::ATTR_DATETIME_CONVERT	8.4-8.5		pdo_dblib				public	int	
 classconst	Pdo\\Dblib::ATTR_QUERY_TIMEOUT	8.4-8.5		pdo_dblib				public	int	
@@ -10028,8 +10051,8 @@ case	Uri\\WhatWg\\UrlValidationErrorType::PortInvalid	8.5		uri
 case	Uri\\WhatWg\\UrlValidationErrorType::PortOutOfRange	8.5		uri				
 case	Uri\\WhatWg\\UrlValidationErrorType::SpecialSchemeMissingFollowingSolidus	8.5		uri				
 property	Attribute::flags	8.0-8.5	8.0	core				public	int		
-property	BcMath\\Number::scale	8.4-8.5		bcmath				public,virtual	int		
-property	BcMath\\Number::value	8.4-8.5		bcmath				public,virtual	string		
+property	BcMath\\Number::scale	8.4-8.5		bcmath				public,readonly,virtual	int		
+property	BcMath\\Number::value	8.4-8.5		bcmath				public,readonly,virtual	string		
 property	CURLFile::mime	8.0	8.0	curl				public			
 property	CURLFile::mime	8.1-8.5		curl				public	string		""
 property	CURLFile::name	8.0	8.0	curl				public			
@@ -10058,6 +10081,8 @@ property	Deprecated::message	8.4-8.5		core				public,readonly	?string
 property	Deprecated::since	8.4-8.5		core				public,readonly	?string		
 property	Directory::handle	8.1-8.5		standard				public,readonly	mixed	resource	
 property	Directory::path	8.1-8.5		standard				public,readonly	string		
+property	Dom\\AdjacentPosition::name	8.4-8.5	8.4-8.5	dom				public,readonly	string		
+property	Dom\\AdjacentPosition::value	8.4-8.5	8.4-8.5	dom				public,readonly	string		
 property	Dom\\Attr::localName	8.4-8.5		dom				public,readonly,virtual	string		
 property	Dom\\Attr::name	8.4-8.5		dom				public,readonly,virtual	string		
 property	Dom\\Attr::namespaceURI	8.4-8.5		dom				public,readonly,virtual	?string		
@@ -10117,9 +10142,9 @@ property	Dom\\Entity::publicId	8.4-8.5		dom				public,readonly,virtual	?string
 property	Dom\\Entity::systemId	8.4-8.5		dom				public,readonly,virtual	?string		
 property	Dom\\HTMLCollection::length	8.4-8.5		dom				public,readonly,virtual	int		
 property	Dom\\NamedNodeMap::length	8.4-8.5		dom				public,readonly,virtual	int		
-property	Dom\\NamespaceInfo::element	8.4-8.5		dom				public	Dom\\Element		
-property	Dom\\NamespaceInfo::namespaceURI	8.4-8.5		dom				public	?string		
-property	Dom\\NamespaceInfo::prefix	8.4-8.5		dom				public	?string		
+property	Dom\\NamespaceInfo::element	8.4-8.5		dom				public,readonly	Dom\\Element		
+property	Dom\\NamespaceInfo::namespaceURI	8.4-8.5		dom				public,readonly	?string		
+property	Dom\\NamespaceInfo::prefix	8.4-8.5		dom				public,readonly	?string		
 property	Dom\\Node::baseURI	8.4-8.5		dom				public,readonly,virtual	string		
 property	Dom\\Node::childNodes	8.4-8.5		dom				public,readonly,virtual	Dom\\NodeList		
 property	Dom\\Node::firstChild	8.4-8.5		dom				public,readonly,virtual	?Dom\\Node		
@@ -10427,6 +10452,9 @@ property	PhpToken::id	8.0-8.5	8.0	tokenizer				public	int
 property	PhpToken::line	8.0-8.5	8.0	tokenizer				public	int		
 property	PhpToken::pos	8.0-8.5	8.0	tokenizer				public	int		
 property	PhpToken::text	8.0-8.5	8.0	tokenizer				public	string		
+property	PropertyHookType::name	8.4-8.5	8.4-8.5	reflection				public,readonly	string		
+property	PropertyHookType::value	8.4-8.5	8.4-8.5	reflection				public,readonly	string		
+property	Random\\IntervalBoundary::name	8.3-8.5	8.3-8.5	random				public,readonly	string		
 property	Random\\Randomizer::engine	8.2-8.5		random				public,readonly	Random\\Engine		
 property	ReflectionAttribute::name	8.4-8.5		reflection				public	string		
 property	ReflectionClass::name	8.0	8.0	reflection				public			
@@ -10454,6 +10482,7 @@ property	ReflectionZendExtension::name	8.0	8.0	reflection				public
 property	ReflectionZendExtension::name	8.1-8.5		reflection				public	string		
 property	RegexIterator::replacement	8.0	8.0	spl				public			
 property	RegexIterator::replacement	8.1-8.5		spl				public	?string		null
+property	RoundingMode::name	8.4-8.5	8.4-8.5	standard				public,readonly	string		
 property	SensitiveParameterValue::value	8.2-8.5		core				private,readonly	mixed		
 property	SNMP::enum_print	8.1-8.5		snmp				public	bool		
 property	SNMP::exceptions_enabled	8.1-8.5		snmp				public	int		
@@ -10542,10 +10571,12 @@ property	tidyNode::type	8.2-8.5		tidy				public,readonly	int
 property	tidyNode::value	8.2-8.5		tidy				public,readonly	string		
 property	Transliterator::id	8.1		intl				public	string		
 property	Transliterator::id	8.2-8.5		intl				public,readonly	string		
+property	Uri\\UriComparisonMode::name	8.5	8.5	uri				public,readonly	string		
 property	Uri\\WhatWg\\InvalidUrlException::errors	8.5		uri				public,readonly	array		
-property	Uri\\WhatWg\\UrlValidationError::context	8.5		uri				public	string		
-property	Uri\\WhatWg\\UrlValidationError::failure	8.5		uri				public	bool		
-property	Uri\\WhatWg\\UrlValidationError::type	8.5		uri				public	Uri\\WhatWg\\UrlValidationErrorType		
+property	Uri\\WhatWg\\UrlValidationError::context	8.5		uri				public,readonly	string		
+property	Uri\\WhatWg\\UrlValidationError::failure	8.5		uri				public,readonly	bool		
+property	Uri\\WhatWg\\UrlValidationError::type	8.5		uri				public,readonly	Uri\\WhatWg\\UrlValidationErrorType		
+property	Uri\\WhatWg\\UrlValidationErrorType::name	8.5	8.5	uri				public,readonly	string		
 property	XMLReader::attributeCount	8.1-8.3		xmlreader				public	int		
 property	XMLReader::attributeCount	8.4-8.5		xmlreader				public,virtual	int		
 property	XMLReader::baseURI	8.1-8.3		xmlreader				public	string		

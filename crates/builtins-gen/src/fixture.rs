@@ -3,13 +3,15 @@
 //!
 //! The fixtures are what the interpreters of the pinned images report about their built-in
 //! symbols. They complete the data in two ways: constant values (the stubs never have them), and
-//! the constants and properties of PHP 8.0 and 8.1 (whose stubs declare almost none). Everything
-//! taken from a fixture is marked in the record's `reflected` mask.
+//! the classes, constants and properties that the stubs of a version do not declare (those of PHP
+//! 8.0 and 8.1 declare almost no constants, and every release registers some symbols in C only).
+//! Everything taken from a fixture is marked in the record's `reflected` mask.
 
 use std::collections::{BTreeMap, BTreeSet};
 
 use bleedthrough_builtins::{
-    ConstantDetail, Detail, PhpVersion, PropertyDetail, Record, VersionMask, Visibility,
+    ClassDetail, ConstantDetail, Detail, PhpVersion, PropertyDetail, Record, VersionMask,
+    Visibility,
 };
 use serde_json::Value;
 
@@ -385,7 +387,9 @@ pub fn build_specific(name: &str) -> Option<&'static str> {
 pub struct FillReport {
     /// Constant values (global or class) written from the fixture.
     pub values: usize,
-    /// Global constants added because the stubs have none for the version.
+    /// Classes, interfaces, traits and enums added because the stubs do not declare them.
+    pub classes_added: usize,
+    /// Global constants added likewise.
     pub constants_added: usize,
     /// Class constants added likewise.
     pub class_constants_added: usize,
@@ -395,11 +399,6 @@ pub struct FillReport {
     pub extensions: usize,
     /// Global constants left without a value because it depends on the build.
     pub build_specific: usize,
-}
-
-/// The versions whose stubs lack constants and most properties.
-fn stubs_lack_members(version: PhpVersion) -> bool {
-    version.minor() <= 1
 }
 
 fn visibility(text: &str) -> Visibility {
@@ -436,10 +435,7 @@ struct Declared {
 pub fn fill(fixture: &Fixture, items: &mut Vec<Extracted>) -> FillReport {
     let mut report = FillReport::default();
     let declared = fill_known(fixture, items, &mut report);
-    if stubs_lack_members(fixture.version) {
-        let added = add_missing(fixture, &declared, &mut report);
-        items.extend(added);
-    }
+    items.extend(add_missing(fixture, declared, &mut report));
     report
 }
 
@@ -506,6 +502,60 @@ fn fill_known(fixture: &Fixture, items: &mut [Extracted], report: &mut FillRepor
     declared
 }
 
+/// The classes the fixture has and the stubs lack. Their parent and interfaces are the ones
+/// Reflection reports, the interfaces without those the parent already has.
+fn missing_classes(fixture: &Fixture, declared: &Declared, report: &mut FillReport) -> Vec<Record> {
+    let mark = VersionMask::of(fixture.version);
+    let mut records = Vec::new();
+    for (name, class) in &fixture.classes {
+        let Some(extension) = extension_name(&class.extension) else {
+            continue;
+        };
+        if declared.classes.contains(&name.to_ascii_lowercase()) {
+            continue;
+        }
+        let inherited: BTreeSet<&String> = fixture
+            .classes
+            .get(&class.parent)
+            .map(|p| p.interfaces.iter().collect())
+            .unwrap_or_default();
+        let interfaces: Vec<String> = class
+            .interfaces
+            .iter()
+            .filter(|i| !inherited.contains(i))
+            .cloned()
+            .collect();
+        let detail = ClassDetail {
+            is_abstract: class.is_abstract,
+            is_final: class.is_final,
+            is_readonly: class.is_readonly,
+            extends: if class.kind == "interface" {
+                interfaces.clone()
+            } else {
+                Some(class.parent.clone())
+                    .filter(|p| !p.is_empty())
+                    .into_iter()
+                    .collect()
+            },
+            implements: if class.kind == "interface" {
+                Vec::new()
+            } else {
+                interfaces
+            },
+            backing_type: class.backing_type.clone(),
+        };
+        let detail = match class.kind.as_str() {
+            "interface" => Detail::Interface(detail),
+            "trait" => Detail::Trait(detail),
+            "enum" => Detail::Enum(detail),
+            _ => Detail::Class(detail),
+        };
+        report.classes_added += 1;
+        records.push(Record::new(name.clone(), mark, extension, detail));
+    }
+    records
+}
+
 /// The global constants the fixture has and the stubs lack.
 fn missing_constants(
     fixture: &Fixture,
@@ -543,9 +593,13 @@ fn missing_constants(
     records
 }
 
-/// The records the fixture has and the stubs lack: global constants, and the constants and
-/// properties of classes the stubs do declare.
-fn add_missing(fixture: &Fixture, declared: &Declared, report: &mut FillReport) -> Vec<Extracted> {
+/// The records the fixture has and the stubs lack: classes, global constants, and the constants
+/// and properties of classes.
+fn add_missing(
+    fixture: &Fixture,
+    mut declared: Declared,
+    report: &mut FillReport,
+) -> Vec<Extracted> {
     let mark = VersionMask::of(fixture.version);
     let file = format!("stubs/reflection/php-{}.json", fixture.version);
     let mut added = Vec::new();
@@ -557,7 +611,11 @@ fn add_missing(fixture: &Fixture, declared: &Declared, report: &mut FillReport) 
             guard: None,
         });
     };
-    for record in missing_constants(fixture, declared, report) {
+    for record in missing_constants(fixture, &declared, report) {
+        push(record);
+    }
+    for record in missing_classes(fixture, &declared, report) {
+        declared.classes.insert(record.name.to_ascii_lowercase());
         push(record);
     }
     for (class_name, class) in &fixture.classes {
@@ -611,6 +669,7 @@ fn add_missing(fixture: &Fixture, declared: &Declared, report: &mut FillReport) 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use bleedthrough_builtins::Kind;
 
     fn fixture(version: &str, constants: &str, classes: &str) -> Fixture {
         Fixture::parse(&format!(
@@ -659,27 +718,45 @@ mod tests {
     }
 
     #[test]
-    fn members_of_known_classes_are_added_in_8_0_and_8_1_only() {
-        let fx = fixture("8.1", "", CLASS);
-        let mut items = vec![class_item("Foo", "8.1")];
-        let report = fill(&fx, &mut items);
-        assert_eq!(
-            (report.class_constants_added, report.properties_added),
-            (1, 1)
-        );
-        assert!(items.iter().any(|i| i.record.name == "Foo::BAR"));
-        let fx = fixture("8.2", "", CLASS);
-        let mut items = vec![class_item("Foo", "8.2")];
-        assert_eq!(fill(&fx, &mut items), FillReport::default());
-        assert_eq!(items.len(), 1);
+    fn members_of_known_classes_are_added_in_every_version() {
+        for version in ["8.1", "8.5"] {
+            let fx = fixture(version, "", CLASS);
+            let mut items = vec![class_item("Foo", version)];
+            let report = fill(&fx, &mut items);
+            assert_eq!(
+                (report.class_constants_added, report.properties_added),
+                (1, 1)
+            );
+            assert!(items.iter().any(|i| i.record.name == "Foo::BAR"));
+            let mark = VersionMask::of(v(version));
+            assert!(
+                items
+                    .iter()
+                    .all(|i| i.record.name == "Foo" || i.record.reflected == mark)
+            );
+        }
     }
 
     #[test]
-    fn a_class_the_stubs_lack_gets_no_members() {
+    fn a_class_the_stubs_lack_is_added_with_its_members() {
         let fx = fixture("8.0", "", CLASS);
         let mut items = Vec::new();
-        assert_eq!(fill(&fx, &mut items).class_constants_added, 0);
-        assert!(items.is_empty());
+        let report = fill(&fx, &mut items);
+        assert_eq!(
+            (
+                report.classes_added,
+                report.class_constants_added,
+                report.properties_added
+            ),
+            (1, 1, 1)
+        );
+        let class = &items
+            .iter()
+            .find(|i| i.record.name == "Foo")
+            .unwrap()
+            .record;
+        assert_eq!(class.kind(), Kind::Class);
+        assert_eq!(class.reflected, VersionMask::of(v("8.0")));
     }
 
     #[test]

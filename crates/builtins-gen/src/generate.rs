@@ -10,6 +10,7 @@ use crate::bundling::Bundling;
 use crate::conflicts::Conflicts;
 use crate::fixture::{FillReport, Fixture, fill};
 use crate::merge::merge;
+use crate::oracle::not_covered;
 use crate::release::{NamedRelease, extract_release};
 
 /// The two generated files.
@@ -75,6 +76,7 @@ pub fn generate(
     }
 
     let total = records.len();
+    let uncovered = coverage_gaps(fixtures, &records);
     let data = BuiltinData::new(bundling.records(), records)
         .map_err(|e| vec![format!("the merged data is invalid: {e}")])?;
     let text = format_write(&data);
@@ -103,6 +105,7 @@ pub fn generate(
     for alias in &merge_report.unresolved_aliases {
         let _ = writeln!(report, "  {alias}");
     }
+    report.push_str(&uncovered);
     let _ = writeln!(report, "\n== Bundling");
     for entry in &bundling.extensions {
         let _ = writeln!(
@@ -117,13 +120,32 @@ pub fn generate(
     })
 }
 
+/// The report section on symbols the Reflection fixtures cannot check: those of extensions the
+/// images do not load. The cross-check says nothing about them; the stubs alone vouch for them.
+fn coverage_gaps(fixtures: &[Fixture], records: &[bleedthrough_builtins::Record]) -> String {
+    let mut text = String::from("\n== Not covered by the Reflection oracle\n");
+    text.push_str("Symbols (functions, constants, classes) of extensions the pinned image does not load, per PHP version.\n");
+    for fixture in fixtures {
+        let counts = not_covered(fixture, records);
+        let total: usize = counts.values().sum();
+        let _ = write!(text, "PHP {}: {total} symbol(s)", fixture.version);
+        let list: Vec<String> = counts.iter().map(|(e, n)| format!("{e}={n}")).collect();
+        if !list.is_empty() {
+            let _ = write!(text, " in {}", list.join(", "));
+        }
+        text.push('\n');
+    }
+    text
+}
+
 fn write_fill_report(report: &mut String, fixture: &Fixture, filled: &FillReport) {
     let _ = writeln!(
         report,
-        "Reflection fill from {} ({}): values={}, constants added={}, class constants added={}, properties added={}, SAPI functions given their extension={}, build-specific values left empty={}",
+        "Reflection fill from {} ({}): values={}, classes added={}, constants added={}, class constants added={}, properties added={}, SAPI functions given their extension={}, build-specific values left empty={}",
         fixture.php_version,
         fixture.image,
         filled.values,
+        filled.classes_added,
         filled.constants_added,
         filled.class_constants_added,
         filled.properties_added,

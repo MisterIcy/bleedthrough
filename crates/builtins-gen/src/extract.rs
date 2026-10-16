@@ -95,6 +95,7 @@ pub fn extract_file(
         namespace: String::new(),
         uses: BTreeMap::new(),
         consumed: BTreeSet::new(),
+        readonly_class: false,
         out: FileExtraction::default(),
     };
     cx.statements(parsed.tree().statements());
@@ -114,6 +115,8 @@ struct Cx<'a> {
     uses: BTreeMap<String, String>,
     /// Start offsets of the docblocks attached to a declaration.
     consumed: BTreeSet<u32>,
+    /// Inside a `readonly` class, whose properties are all readonly.
+    readonly_class: bool,
     out: FileExtraction,
 }
 
@@ -543,9 +546,11 @@ impl Cx<'_> {
         let deprecation = Self::deprecation_of(&attrs, &doc);
         let record = Record::new(name.clone(), self.mask, "", detail);
         self.push(record, guard, deprecation);
+        self.readonly_class = class.modifiers.contains(&Modifier::Readonly);
         for member in &class.members {
             self.member(&name, member);
         }
+        self.readonly_class = false;
     }
 
     fn member(&mut self, class: &str, member: &Member) {
@@ -636,7 +641,9 @@ impl Cx<'_> {
                 default: item.default.as_ref().and_then(|d| self.value_text(d)),
                 visibility: visibility(modifiers),
                 is_static: modifiers.contains(&Modifier::Static),
-                is_readonly: modifiers.contains(&Modifier::Readonly) || doc.has("readonly"),
+                is_readonly: self.readonly_class
+                    || modifiers.contains(&Modifier::Readonly)
+                    || doc.has("readonly"),
                 is_virtual: doc.has("virtual"),
             };
             let record = Record::new(

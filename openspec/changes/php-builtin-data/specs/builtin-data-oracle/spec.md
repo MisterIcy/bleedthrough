@@ -19,11 +19,19 @@ The dump SHALL contain, per version: functions with parameters (name, type text,
 - **THEN** its value and type are included
 
 ### Requirement: Fixtures fill what the stubs lack
-For PHP 8.0 and 8.1, whose stubs contain no constants and few properties, the generated data SHALL take constants and properties from the fixtures. For all versions, constant values SHALL come from the fixtures where available. Every record or field derived this way SHALL be marked as Reflection-derived.
+For every version, the generated data SHALL take from the fixture the classes, interfaces, traits, enums, global constants, class constants and properties that the stubs of that version do not declare (the stubs of PHP 8.0 and 8.1 declare almost no constants, and every release registers some symbols in C only), and constant values SHALL come from the fixtures where available, except for constants whose value depends on the build or the image (listed and reasoned in the generator). Every record or field derived this way SHALL be marked as Reflection-derived.
 
 #### Scenario: 8.0 constant
 - **WHEN** an 8.0 global constant is absent from the stubs
 - **THEN** it appears in the data from the fixture, marked as Reflection-derived
+
+#### Scenario: Class the stubs lack
+- **WHEN** a class the fixture reports (such as `stdClass` in 8.0) has no declaration in the stubs of that version
+- **THEN** it appears in the data from the fixture, marked as Reflection-derived
+
+#### Scenario: Build-specific value
+- **WHEN** a constant's value depends on the build (such as `PHP_OS` or `PHP_BINARY`)
+- **THEN** the data records the constant without a value
 
 ### Requirement: The generated data is cross-checked against the fixtures
 A test SHALL compare the generated data with the fixtures for each version: every function, class and constant present in a fixture SHALL be present in the data with equal parameter count, by-reference flags, optional and variadic flags, return and tentative types, parents, interfaces and constant values, apart from reviewed allowances. Differences SHALL fail the test and name the symbol and the field.

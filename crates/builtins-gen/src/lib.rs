@@ -19,6 +19,7 @@ pub mod fixture;
 pub mod generate;
 pub mod guards;
 pub mod merge;
+pub mod oracle;
 pub mod origin;
 pub mod release;
 

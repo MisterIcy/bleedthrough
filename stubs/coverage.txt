@@ -111,7 +111,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: function=11/11
-Reflection fill from 8.0.30 (php@sha256:0569e384b9064c04dec55dc6e41be41b494a878dfbb6577a7d76bd50cfd5bc00): values=0, constants added=1665, class constants added=265, properties added=47, SAPI functions given their extension=2, build-specific values left empty=48
+Reflection fill from 8.0.30 (php@sha256:0569e384b9064c04dec55dc6e41be41b494a878dfbb6577a7d76bd50cfd5bc00): values=0, classes added=16, constants added=1665, class constants added=265, properties added=47, SAPI functions given their extension=2, build-specific values left empty=48
 
 == php-8.1.34
 stub files: 116, excluded: 5, records: 4739
@@ -231,7 +231,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: function=11/11
-Reflection fill from 8.1.34 (php@sha256:76e563191d1ade120313a8736df24154d21da5155c0756f147c0b01bd19d9087): values=0, constants added=1693, class constants added=269, properties added=0, SAPI functions given their extension=2, build-specific values left empty=48
+Reflection fill from 8.1.34 (php@sha256:76e563191d1ade120313a8736df24154d21da5155c0756f147c0b01bd19d9087): values=0, classes added=0, constants added=1693, class constants added=269, properties added=0, SAPI functions given their extension=2, build-specific values left empty=48
 
 == php-8.2.34
 stub files: 120, excluded: 5, records: 9203
@@ -355,7 +355,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
-Reflection fill from 8.2.34 (php@sha256:118ef4fb1db5e866fb604f2f260da81f819a0a1eac87a4083f9194f48e00beee): values=1759, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=18
+Reflection fill from 8.2.34 (php@sha256:118ef4fb1db5e866fb604f2f260da81f819a0a1eac87a4083f9194f48e00beee): values=1759, classes added=0, constants added=275, class constants added=7, properties added=0, SAPI functions given their extension=2, build-specific values left empty=48
 
 == php-8.3.35
 stub files: 124, excluded: 6, records: 9556
@@ -483,7 +483,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
-Reflection fill from 8.3.35 (php@sha256:aafe21201943a8a6e497ddfb471e2ce68ada76adede38c7d61fede8918b24319): values=1971, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=45
+Reflection fill from 8.3.35 (php@sha256:aafe21201943a8a6e497ddfb471e2ce68ada76adede38c7d61fede8918b24319): values=1971, classes added=0, constants added=67, class constants added=7, properties added=1, SAPI functions given their extension=2, build-specific values left empty=48
 
 == php-8.4.26
 stub files: 129, excluded: 6, records: 9834
@@ -616,7 +616,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
-Reflection fill from 8.4.26 (php@sha256:1d2cf2b7d715b5b3aa959f0150ccbcc7b71e0181b637e443abf40a7fb56bf79a): values=2075, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=50
+Reflection fill from 8.4.26 (php@sha256:1d2cf2b7d715b5b3aa959f0150ccbcc7b71e0181b637e443abf40a7fb56bf79a): values=2075, classes added=0, constants added=43, class constants added=7, properties added=6, SAPI functions given their extension=2, build-specific values left empty=50
 
 == php-8.5.11
 stub files: 131, excluded: 6, records: 10065
@@ -751,14 +751,23 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
-Reflection fill from 8.5.11 (php@sha256:01a109229f4465bc9ef042d9198f09a4d9da7775a825dbd8572dcdbd8756c4d3): values=2114, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=50
+Reflection fill from 8.5.11 (php@sha256:01a109229f4465bc9ef042d9198f09a4d9da7775a825dbd8572dcdbd8756c4d3): values=2114, classes added=0, constants added=44, class constants added=7, properties added=8, SAPI functions given their extension=2, build-specific values left empty=50
 
 == Merge
-records: 14416
+records: 14447
 symbols declared more than once in a version and merged: 61
 conflict resolved: function ldap_connect (ext/ldap declares ldap_connect twice: a five-parameter, deprecated form for the Oracle LDAP library (HAVE_ORALDAP) and the two-parameter form for OpenLDAP. Default builds use OpenLDAP.)
 conflict resolved: function apache_response_headers (the litespeed SAPI declares the return type array|false while apache2handler, cgi and cli declare array; the common form is kept and the litespeed difference is not recorded.)
 alias targets that name no record: 0
+
+== Not covered by the Reflection oracle
+Symbols (functions, constants, classes) of extensions the pinned image does not load, per PHP version.
+PHP 8.0: 1238 symbol(s) in apache2handler=10, bcmath=10, bz2=10, calendar=18, cgi=1, com_dotnet=37, dba=15, enchant=25, exif=4, ffi=5, fpm=2, gd=107, gettext=10, gmp=52, imap=74, intl=201, ldap=57, litespeed=3, mysqli=110, oci8=125, odbc=45, opcache=6, pcntl=25, pdo_pgsql=1, pgsql=114, phpdbg=11, pspell=19, shmop=7, snmp=26, soap=8, sockets=41, sysvmsg=8, sysvsem=5, sysvshm=8, tidy=26, xsl=1, zip=11
+PHP 8.1: 1248 symbol(s) in apache2handler=10, bcmath=10, bz2=10, calendar=18, cgi=1, com_dotnet=38, dba=15, enchant=25, exif=4, ffi=5, fpm=2, gd=110, gettext=10, gmp=52, imap=75, intl=202, ldap=60, litespeed=3, mysqli=111, oci8=125, odbc=45, pcntl=26, pdo_pgsql=1, pgsql=117, phpdbg=11, pspell=21, shmop=7, snmp=26, soap=8, sockets=41, sysvmsg=8, sysvsem=5, sysvshm=8, tidy=26, xsl=1, zip=11
+PHP 8.2: 2800 symbol(s) in apache2handler=10, bcmath=10, bz2=10, calendar=39, cgi=1, com_dotnet=93, dba=17, enchant=28, exif=5, ffi=5, fpm=2, ftp=48, gd=199, gettext=10, gmp=62, imap=144, intl=372, ldap=157, litespeed=3, mysqli=226, oci8=199, odbc=105, pcntl=162, pdo_pgsql=1, pgsql=187, phpdbg=15, pspell=25, shmop=7, snmp=47, soap=89, sockets=283, sysvmsg=13, sysvsem=5, sysvshm=8, tidy=187, xsl=15, zip=11
+PHP 8.3: 2834 symbol(s) in apache2handler=10, bcmath=10, bz2=10, calendar=39, cgi=1, com_dotnet=93, dba=17, enchant=28, exif=5, ffi=5, fpm=2, ftp=48, gd=199, gettext=10, gmp=62, imap=144, intl=372, ldap=159, litespeed=3, mysqli=226, oci8=199, odbc=105, pcntl=163, pdo_odbc=1, pdo_pgsql=1, pgsql=194, phpdbg=15, pspell=25, shmop=7, snmp=47, soap=89, sockets=306, sysvmsg=13, sysvsem=5, sysvshm=8, tidy=187, xsl=15, zip=11
+PHP 8.4: 2524 symbol(s) in apache2handler=10, bcmath=15, bz2=10, calendar=39, cgi=1, com_dotnet=93, dba=18, enchant=28, exif=5, ffi=5, fpm=2, ftp=48, gd=199, gettext=10, gmp=62, intl=374, ldap=161, litespeed=3, mysqli=222, odbc=107, pcntl=184, pdo_dblib=1, pdo_firebird=1, pdo_mysql=1, pdo_odbc=2, pdo_pgsql=2, pgsql=202, phpdbg=15, shmop=7, snmp=47, soap=91, sockets=320, sysvmsg=13, sysvsem=5, sysvshm=8, tidy=187, xsl=15, zip=11
+PHP 8.5: 2552 symbol(s) in apache2handler=10, bcmath=15, bz2=10, calendar=39, cgi=1, com_dotnet=93, dba=18, enchant=30, exif=5, ffi=5, fpm=2, ftp=48, gd=199, gettext=10, gmp=62, intl=379, ldap=161, litespeed=3, mysqli=222, odbc=107, pcntl=184, pdo_dblib=1, pdo_firebird=1, pdo_mysql=1, pdo_odbc=2, pdo_pgsql=2, pgsql=204, phpdbg=15, shmop=7, snmp=47, soap=91, sockets=339, sysvmsg=13, sysvsem=5, sysvshm=8, tidy=187, xsl=15, zip=11
 
 == Bundling
 imap: unbundled 8.4-8.5 (https://www.php.net/manual/en/migration84.removed-extensions.php (moved to PECL in PHP 8.4))
