@@ -38,7 +38,7 @@
 
 - [x] 5.1 Implement result comparison (medians, noise from base samples, threshold, environment match, `--force`) and verify the spec scenarios (within noise, clear regression, different machines) with unit tests on synthetic samples
 - [x] 5.2 Implement `cargo xtask bench-compare <base> <head>` building both revisions into separate target directories and running alternately; verify on two local commits
-- [ ] 5.3 Add `.github/workflows/bench.yml` (schedule and manual dispatch): fetch cached corpus, run the comparison against the last successful scheduled commit, upload result documents, write the step summary; verify with a manual dispatch run and confirm it is not in the `ci` job's `needs`
+- [x] 5.3 Add `.github/workflows/bench.yml` (schedule and manual dispatch): fetch cached corpus, run the comparison against the last successful scheduled commit, upload result documents, write the step summary; verify with a manual dispatch run and confirm it is not in the `ci` job's `needs`
 - [x] 5.4 Document each stage's timed region and the three metric kinds in `docs/benchmarks.md`, and verify the document states what is inside and outside every stage
 
 ## 6. Real-world corpus
