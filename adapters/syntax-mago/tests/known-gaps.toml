@@ -3,9 +3,5 @@
 # These are findings for the spike report (docs/spikes/syntax-mago.md), not exemptions.
 
 [[allowance]]
-fixture = "v8.5/attributes-on-constants.php"
-reason = "Mago 1.57 drops attributes written before a non-class `const` statement (PHP 8.5)"
-
-[[allowance]]
 fixture = "legacy-removed/brace-string-offset.php"
 reason = "Mago rejects `$s{0}`, so the project's lenient-acceptance policy for removed syntax is not met"

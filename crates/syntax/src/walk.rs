@@ -392,7 +392,13 @@ fn stmt_children<'a>(out: &mut Out<'a>, kind: &'a StmtKind) {
         S::Use { items } => out.extend(items.iter().map(NodeRef::UseItem)),
         S::ClassLike(c) => class_like(out, c),
         S::Function(f) => function_like(out, f),
-        S::Const { items } => out.extend(items.iter().map(NodeRef::ConstItem)),
+        S::Const {
+            attributes: a,
+            items,
+        } => {
+            attributes(out, a);
+            out.extend(items.iter().map(NodeRef::ConstItem));
+        }
         S::Block(b) => stmts(out, b),
         S::Expr(e) => out.push(NodeRef::Expr(e)),
         S::Echo { values, .. } | S::Global(values) | S::Unset(values) => exprs(out, values),

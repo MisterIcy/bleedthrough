@@ -13,6 +13,21 @@ use mago_syntax::cst::{
 use super::Cx;
 use crate::errors::span;
 
+/// `at`, widened to start at the first attribute list when there is one. Mago's spans for some
+/// declarations (constants) start after their attributes, which would leave those attributes
+/// looking like unconverted source.
+pub(crate) fn with_attributes(
+    at: bleedthrough_syntax::Span,
+    lists: &mago_syntax::cst::Sequence<'_, AttributeList<'_>>,
+) -> bleedthrough_syntax::Span {
+    match lists.first() {
+        Some(first) => {
+            bleedthrough_syntax::Span::new(span(first.span()).start.min(at.start), at.end)
+        }
+        None => at,
+    }
+}
+
 pub(crate) fn text(bytes: &[u8]) -> Box<str> {
     String::from_utf8_lossy(bytes).into()
 }

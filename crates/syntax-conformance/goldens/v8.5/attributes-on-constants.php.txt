@@ -1,10 +1,14 @@
 OpenTag 0..5 short=false
-Error 7..20
-Const 21..35
+Const 7..35
+  Attribute 9..19
+    Name 9..19 Unqualified "Deprecated"
   ConstItem 27..34 "OLD"
     Literal 33..34 int "1"
-Error 37..51
-Const 52..64
+Const 37..64
+  Attribute 39..50
+    Name 39..45 Unqualified "Marker"
+    Arg 46..49
+      Literal 46..49 string Single "'x'"
   ConstItem 58..63 "A"
     Literal 62..63 int "1"
 End 65

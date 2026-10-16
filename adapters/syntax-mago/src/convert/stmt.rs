@@ -12,7 +12,7 @@ use mago_syntax::cst::{
 };
 
 use super::Cx;
-use super::common::{name, text, variable_name};
+use super::common::{name, text, variable_name, with_attributes};
 use crate::errors::span;
 
 fn use_kind(kind: Option<&UseType<'_>>) -> UseKind {
@@ -37,6 +37,10 @@ impl Cx<'_> {
     /// The span of a statement, excluding a missing terminator's unreliable range.
     pub(super) fn stmt_span(&self, statement: &Statement<'_>) -> Span {
         let whole = span(statement.span());
+        if let Statement::Constant(c) = statement {
+            // Mago's span for a constant starts at `const`, leaving its attributes outside it.
+            return with_attributes(whole, &c.attribute_lists);
+        }
         if let Statement::Expression(e) = statement {
             let start = span(e.expression.span());
             return match terminator_end(&e.terminator) {
@@ -138,6 +142,7 @@ impl Cx<'_> {
 
     fn constant(&mut self, c: &mago_syntax::cst::Constant<'_>) -> StmtKind {
         StmtKind::Const {
+            attributes: self.attributes(c.attribute_lists.iter()),
             items: c
                 .items
                 .iter()

@@ -15,7 +15,7 @@ use mago_syntax::cst::{
 };
 
 use super::Cx;
-use super::common::{name, text, variable_name};
+use super::common::{name, text, variable_name, with_attributes};
 use crate::errors::span;
 
 pub(super) fn modifier(m: &MagoModifier<'_>) -> Modifier {
@@ -285,7 +285,7 @@ impl Cx<'_> {
         inside: Span,
     ) -> Vec<Member> {
         let list: Vec<&ClassLikeMember<'_>> = members.iter().collect();
-        let starts: Vec<u32> = list.iter().map(|m| span(m.span()).start).collect();
+        let starts: Vec<u32> = list.iter().map(|m| member_span(m).start).collect();
         let converted = self.each_bounded(&list, &starts, inside.end, |cx, m| cx.member(m));
         self.with_gaps(converted, inside, |diagnostic| MemberKind::Error {
             diagnostic,
@@ -293,7 +293,7 @@ impl Cx<'_> {
     }
 
     fn member(&mut self, member: &ClassLikeMember<'_>) -> Member {
-        let at = self.fit(span(member.span()));
+        let at = self.fit(member_span(member));
         let kind = self.bounded(at.end, |cx| match member {
             ClassLikeMember::TraitUse(t) => cx.trait_use(t),
             ClassLikeMember::Constant(c) => cx.class_const(c),
@@ -385,6 +385,18 @@ impl Cx<'_> {
 }
 
 /// The source strictly between a pair of braces.
+/// A member's span including its attributes.
+fn member_span(member: &ClassLikeMember<'_>) -> Span {
+    let at = span(member.span());
+    match member {
+        ClassLikeMember::Constant(c) => with_attributes(at, &c.attribute_lists),
+        ClassLikeMember::TraitUse(_)
+        | ClassLikeMember::Property(_)
+        | ClassLikeMember::EnumCase(_)
+        | ClassLikeMember::Method(_) => at,
+    }
+}
+
 fn braces(left: mago_span::Span, right: mago_span::Span) -> Span {
     Span::new(left.end.offset, right.start.offset)
 }

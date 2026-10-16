@@ -319,3 +319,18 @@ fn a_missing_terminator_in_a_list_item_does_not_overlap_its_successor() {
     );
     assert_well_formed_when_broken("<?php\nswitch ($a) { case 1: echo 1 case 2: echo 2; }\n");
 }
+
+#[test]
+fn attributes_on_constants_are_kept_and_not_reported_as_dropped_source() {
+    let source = "<?php\n#[\\Deprecated(since: '8.4')]\nconst A = UNKNOWN;\nclass C {\n    #[\\Deprecated]\n    public const int X = 1;\n    public const int Y = 2;\n}\n";
+    let parsed = parse(source, &ParseOptions::default());
+    assert_eq!(parsed.quality(), ParseQuality::Clean);
+    assert!(check_invariants(parsed.tree(), source.as_bytes()).is_empty());
+    let mut attributes = 0;
+    bleedthrough_syntax::visit_tree(parsed.tree(), &mut |node| {
+        if matches!(node, NodeRef::Attribute(_)) {
+            attributes += 1;
+        }
+    });
+    assert_eq!(attributes, 2);
+}

@@ -45,7 +45,7 @@ non-PHP files in `vendor/`). The project run is local and uncommitted; no projec
 ## Findings
 
 ### Mago coverage gaps (listed in `adapters/syntax-mago/tests/known-gaps.toml`)
-1. **PHP 8.5 attributes on non-class `const` are dropped** (`v8.5/attributes-on-constants.php`). The tree parses clean but loses the attribute silently.
+1. **PHP 8.5 attributes on non-class `const` were dropped** (`v8.5/attributes-on-constants.php`). Mago's span for a constant excludes its attributes, so the adapter saw them as unconverted source and the attribute became an error node. Fixed in the adapter (spans now include attribute lists and the `Const` statement carries `attributes`); the known-gap entry is gone.
 2. **Removed brace string offset `$s{0}` is rejected** (`legacy-removed/brace-string-offset.php`). The lenient-acceptance policy for removed 7.x syntax is therefore not met for this construct, so task 6.4 is not ticked.
 
 ### Recovery visibility
@@ -82,6 +82,6 @@ advisory with a recorded reason (unmaintained, not a vulnerability), or wait for
 2. **Licence:** CC0-1.0 is allowed in `deny.toml`, for `notify` (and the other CC0 crates already in the tree).
 3. **Advisory:** RUSTSEC-2024-0436 (`paste`, unmaintained) is ignored in `deny.toml` with the recorded reason; revisit when Mago drops it. `cargo deny check` now passes.
 4. **Depth cap raised from 300 to 512.** The converter margin is thinner at 512: the 2 MiB-stack clone/compare/drop test of a capped tree still passes in debug and release.
-5. **Mago gaps accepted as known gaps** (`tests/known-gaps.toml`): attributes dropped on non-class `const`, and the rejected `$s{0}`. Task 6.4 is closed on that basis.
+5. **Mago gaps accepted as known gaps** (`tests/known-gaps.toml`): the rejected `$s{0}` (the attribute-on-`const` gap was later fixed in the adapter). Task 6.4 is closed on that basis.
 
 **Decision: accept Mago as the first backend.**

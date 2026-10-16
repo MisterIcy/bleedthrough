@@ -4,7 +4,7 @@
     reason = "variants and fields are named after the PHP grammar"
 )]
 
-use crate::decl::{ClassLike, ConstItem, FunctionLike};
+use crate::decl::{Attribute, ClassLike, ConstItem, FunctionLike};
 use crate::expr::Expr;
 use crate::node::{Name, Node};
 use crate::span::Span;
@@ -115,6 +115,7 @@ pub enum StmtKind {
     ClassLike(Box<ClassLike>),
     Function(Box<FunctionLike>),
     Const {
+        attributes: Vec<Attribute>,
         items: Vec<ConstItem>,
     },
     Block(Vec<Stmt>),
