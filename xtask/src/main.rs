@@ -2,16 +2,20 @@
 
 mod api;
 mod apiscan;
+mod coverage;
 mod declaration;
 mod glossary;
 mod layering;
 mod manifest;
 mod meta;
+mod mutants;
 mod notice;
 mod policy;
 mod reach;
 mod reflection;
 mod release;
+mod spectrace;
+mod testcheck;
 mod tools;
 mod vendor;
 
@@ -46,6 +50,12 @@ commands:
   check-corpus     vulnerability corpus: files, labels, twins, CWEs, licences, sizes (offline)
   eval             score the binary's json report on fixtures/vuln against fixtures/vuln/expectations.toml
                    (`--update`, `--ci`, `--json FILE`; exit 0 pass, 1 fail, 3 not evaluated)
+  check-tests      ignored tests carry reasons; no default test runs PHP or Docker; lists ignored tests
+  coverage         line coverage per crate/file, changed-line report and floors (needs cargo-llvm-cov;
+                   `coverage --help`)
+  mutants          mutation testing of the domain crates and the survivor ledger (needs cargo-mutants;
+                   `mutants --help`)
+  spec-trace       advisory report: which spec requirements have a marked test (`spec-trace --help`)
   check-all        every check above
   vendor-php-src   fetch one php-src release's stubs into third_party/ and the manifest (network;
                    `vendor-php-src --help`)";
@@ -162,6 +172,9 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
         println!("{}", api::HELP);
         return Ok(Vec::new());
     }
+    if let Some(result) = run_testing_command(command, rest) {
+        return result;
+    }
     if command == "vendor-php-src" {
         if rest.iter().any(|a| a == "--help") {
             println!("{}", vendor::HELP);
@@ -195,6 +208,7 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
         "check-glossary" => check_glossary(&ws),
         "check-builtins" => check_builtins(&ws),
         "gen-builtins" => gen_builtins(&ws),
+        "check-tests" => testcheck::run(&ws.root),
         "check-release" => Ok(release::check_decision(&ws.root)),
         "gen-notice" => {
             notice::write(&ws.root, &manifest::load(&ws.root)?)?;
@@ -205,6 +219,7 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
             errors.extend(api::run(&ws.declaration, &ws.packages, &ws.root, false));
             errors.extend(check_glossary(&ws)?);
             errors.extend(check_builtins(&ws)?);
+            errors.extend(testcheck::run(&ws.root)?);
             if tools::check_corpus(&ws.root) != 0 {
                 errors.push("check-corpus failed (see above)".to_string());
             }
@@ -218,6 +233,27 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
         }
         other => Err(format!("unknown command `{other}`\n{USAGE}")),
     }
+}
+
+/// `coverage`, `spec-trace` and `mutants` (docs/testing.md); `None` for any other command.
+fn run_testing_command(command: &str, rest: &[String]) -> Option<Result<Vec<String>, String>> {
+    let help = match command {
+        "coverage" => coverage::HELP,
+        "spec-trace" => spectrace::HELP,
+        "mutants" => mutants::HELP,
+        _ => return None,
+    };
+    if rest.iter().any(|a| a == "--help") {
+        println!("{help}");
+        return Some(Ok(Vec::new()));
+    }
+    Some(match command {
+        "coverage" => {
+            load().and_then(|ws| coverage::run(&ws.root, &ws.declaration, &ws.packages, rest))
+        }
+        "spec-trace" => spectrace::run(&repo_root(), rest),
+        _ => mutants::run(&repo_root(), rest),
+    })
 }
 
 fn repo_root() -> PathBuf {

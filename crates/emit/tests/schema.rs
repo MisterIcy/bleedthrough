@@ -17,6 +17,7 @@ fn the_schema_is_itself_a_valid_2020_12_schema() {
     jsonschema::meta::validate(&schema()).expect("schema validates against the metaschema");
 }
 
+/// spec: report-emitters/Output conforms to the published schema and golden files
 #[test]
 fn json_documents_and_ndjson_records_validate() {
     let validator = jsonschema::validator_for(&schema()).unwrap();

@@ -1,0 +1,66 @@
+name: coverage
+
+# Line coverage per crate: published as a job summary on every pull request together with the change
+# against the target branch and the lines the pull request adds that no test executes. The floor check
+# for the domain crates runs here, outside the required `ci` status (see docs/testing.md for the measured
+# cost and the rule for moving it into `ci`). Nothing here blocks a merge.
+on:
+  pull_request:
+  schedule:
+    - cron: "41 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  # Exact versions of the external tool; bump like any pinned tool (docs/testing.md).
+  CARGO_LLVM_COV_VERSION: "0.9.1"
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: Swatinem/rust-cache@v2
+      - name: Install cargo-llvm-cov
+        run: cargo install cargo-llvm-cov --version "$CARGO_LLVM_COV_VERSION" --locked
+
+      # The target branch's figures, for the per-crate comparison. The base may predate `xtask coverage`
+      # (the first pull request that adds it), in which case there is no comparison.
+      - name: Coverage of the target branch
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        run: |
+          git worktree add "$RUNNER_TEMP/base" "origin/${{ github.base_ref }}"
+          (cd "$RUNNER_TEMP/base" && cargo xtask coverage --out "$RUNNER_TEMP/base-coverage")
+
+      - name: Coverage report
+        shell: bash
+        run: |
+          args=(--out target/coverage)
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            args+=(--base "$(git merge-base "origin/${{ github.base_ref }}" HEAD)")
+            if [ -f "$RUNNER_TEMP/base-coverage/coverage.json" ]; then
+              args+=(--compare "$RUNNER_TEMP/base-coverage/coverage.json")
+            fi
+          fi
+          cargo xtask coverage "${args[@]}"
+          cat target/coverage/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Floors of the domain crates
+        run: cargo xtask coverage --from-lcov target/coverage/lcov.info --out target/coverage-check --check
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: |
+            target/coverage/coverage.json
+            target/coverage/summary.md
+            target/coverage/changed-lines.txt
+            target/coverage/lcov.info

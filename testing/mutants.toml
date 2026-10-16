@@ -1,0 +1,25 @@
+# Configuration of `cargo xtask mutants` (docs/testing.md, spec `mutation-testing`).
+
+# Domain crates that are mutated. Placeholder crates (ir, packs, engine) join when they have code.
+crates = [
+  "bleedthrough-taxonomy",
+  "bleedthrough-builtins",
+  "bleedthrough-syntax",
+  "bleedthrough-rules",
+  "bleedthrough-findings",
+  "bleedthrough-symbols",
+]
+
+# Per-mutant timeout in seconds. Fixed (not derived from the baseline) so that runs are reproducible.
+timeout_secs = 60
+
+# Mutants whose name matches any of these regexes are not generated: formatting traits, which tests
+# check by golden output elsewhere, and logging. cargo-mutants already skips `#[cfg(test)]` and `#[test]`.
+exclude_re = [
+  '<impl (std::)?(fmt::)?(Display|Debug) for',
+  'tracing::',
+  'log::',
+]
+
+# Files that are not product logic: test code, generated code and vendored data.
+exclude_globs = ["**/tests/**", "**/examples/**", "**/benches/**", "**/generated/**"]

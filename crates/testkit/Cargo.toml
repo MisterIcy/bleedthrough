@@ -1,0 +1,16 @@
+[package]
+name = "bleedthrough-testkit"
+version = "0.0.0"
+description = "Bleedthrough tooling: shared test support (generic proptest strategies, seed and case-count settings); a dev-dependency only"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# Test-only: no product crate depends on this one except as a dev-dependency (docs/testing.md).
+proptest = { version = "1.12.0", default-features = false, features = ["std"] }

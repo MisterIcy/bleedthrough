@@ -152,6 +152,7 @@ impl Confidence {
 mod tests {
     use super::*;
 
+    /// spec: finding-model/Confidence is a tier with documented reasons
     #[test]
     fn sub_high_needs_a_reason() {
         assert_eq!(
@@ -180,6 +181,7 @@ mod tests {
         assert!(ReasonCode::from_code("made_up").is_err());
     }
 
+    /// spec: finding-model/Confidence is a tier with documented reasons
     #[test]
     fn reasons_are_canonical_and_keep_detail() {
         let c = Confidence::new(

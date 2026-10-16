@@ -128,6 +128,7 @@ mod tests {
         }
     }
 
+    /// spec: report-emitters/TSV format
     #[test]
     fn documented_escapes() {
         assert_eq!(escape("a\tb\nc\r\\"), "a\\tb\\nc\\r\\\\");

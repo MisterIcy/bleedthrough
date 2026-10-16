@@ -49,6 +49,7 @@ fn the_evaluator_loads_every_planted_pattern() {
     );
 }
 
+/// spec: accuracy-evaluation/The scorer is itself tested
 #[test]
 fn a_perfect_stand_in_report_scores_every_planted_pattern() {
     let (dir, planted) = generated("labels-score");

@@ -49,6 +49,15 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo xtask check-layering
 
+  hygiene:
+    name: test hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      # Ignored tests carry reasons and no default test runs PHP or Docker; prints the ignored count.
+      - run: cargo xtask check-tests | tee -a "$GITHUB_STEP_SUMMARY"
+
   glossary:
     runs-on: ubuntu-latest
     steps:
@@ -132,7 +141,7 @@ jobs:
   ci:
     name: CI status
     if: always()
-    needs: [build-test, fmt, clippy, deny, layering, glossary, public-api, conformance, ledger, corpus, bench-counters, accuracy]
+    needs: [build-test, fmt, clippy, deny, layering, hygiene, glossary, public-api, conformance, ledger, corpus, bench-counters, accuracy]
     runs-on: ubuntu-latest
     steps:
       - name: Report gates

@@ -1,0 +1,76 @@
+name: mutants
+
+# Mutation testing of the domain crates (docs/testing.md, spec `mutation-testing`). Never part of the required
+# `ci` status: it runs weekly, on demand, and on a pull request only when the `run-mutants` label is added
+# (then limited to the code the pull request changes). One job per crate; each publishes its report and fails
+# when a surviving mutant is not in testing/mutants-survivors.toml or a ledger entry is stale.
+on:
+  schedule:
+    - cron: "23 2 * * 0"
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Mutate only this crate (default: all)"
+        required: false
+      base:
+        description: "Mutate only code changed since this revision (default: everything)"
+        required: false
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  # Exact version of the external tool; bump like any pinned tool (docs/testing.md).
+  CARGO_MUTANTS_VERSION: "27.1.0"
+
+jobs:
+  mutants:
+    if: github.event_name != 'pull_request' || github.event.label.name == 'run-mutants'
+    name: mutants (${{ matrix.crate }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        crate:
+          - bleedthrough-taxonomy
+          - bleedthrough-builtins
+          - bleedthrough-syntax
+          - bleedthrough-rules
+          - bleedthrough-findings
+          - bleedthrough-symbols
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: Swatinem/rust-cache@v2
+      - name: Install cargo-mutants
+        run: cargo install cargo-mutants --version "$CARGO_MUTANTS_VERSION" --locked
+      - name: Mutate
+        id: run
+        shell: bash
+        run: |
+          args=(--package "${{ matrix.crate }}" --jobs 2 --out target/mutants)
+          only="${{ github.event.inputs.package }}"
+          if [ -n "$only" ] && [ "$only" != "${{ matrix.crate }}" ]; then
+            echo "skipped: $only was requested"; exit 0
+          fi
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            args+=(--in-diff "$(git merge-base "origin/${{ github.base_ref }}" HEAD)")
+          elif [ -n "${{ github.event.inputs.base }}" ]; then
+            args+=(--in-diff "${{ github.event.inputs.base }}")
+          fi
+          cargo xtask mutants "${args[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mutants-${{ matrix.crate }}
+          path: |
+            target/mutants/report.json
+            target/mutants/outcomes.txt
+            target/mutants/mutants.out/outcomes.json
+            target/mutants/mutants.out/missed.txt
+            target/mutants/mutants.out/timeout.txt

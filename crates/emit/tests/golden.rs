@@ -5,6 +5,7 @@ mod common;
 
 use bleedthrough_app::Format;
 
+/// spec: report-emitters/Output conforms to the published schema and golden files
 #[test]
 fn output_matches_the_golden_files() {
     let bless = std::env::var_os("BLESS").is_some();

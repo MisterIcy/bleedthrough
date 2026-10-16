@@ -113,6 +113,7 @@ mod tests {
         }
     }
 
+    /// spec: report-emitters/GitHub Actions format
     #[test]
     fn documented_escapes() {
         assert_eq!(escape_message("100%\nx:y"), "100%25%0Ax:y");

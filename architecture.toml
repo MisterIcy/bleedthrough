@@ -131,6 +131,12 @@ allow = ["bleedthrough-taxonomy"]
 layer = "tooling"
 allow = ["bleedthrough-syntax"]
 
+# Shared test support (proptest strategies, seed and case-count settings). No workspace dependencies, so any
+# crate may use it as a dev-dependency without a cycle; it is never a normal dependency (docs/testing.md).
+[crate.bleedthrough-testkit]
+layer = "tooling"
+allow = []
+
 [crate.xtask]
 layer = "tooling"
 allow = []

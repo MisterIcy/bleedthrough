@@ -42,6 +42,7 @@ impl Write for Failing {
     }
 }
 
+/// spec: report-emitters/Emission failures are reported
 #[test]
 fn every_emitter_errors_when_the_writer_fails() {
     let src = common::sources();

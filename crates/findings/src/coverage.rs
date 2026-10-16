@@ -240,6 +240,7 @@ pub struct Suppressed {
 mod tests {
     use super::*;
 
+    /// spec: finding-model/Coverage states what was and was not analysed
     #[test]
     fn default_is_complete_and_failed_files_make_it_incomplete() {
         let mut c = Coverage::new("8.3");

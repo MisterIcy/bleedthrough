@@ -74,6 +74,7 @@ fn a_complete_rule_validates_and_derives_its_severity() {
     assert!(matches!(rule.body(), RuleBody::Taint(_)));
 }
 
+/// spec: rule-schema/Every rule has complete metadata
 #[test]
 fn missing_remediation_names_the_rule_and_the_field() {
     let mut d = draft("BT0001");
@@ -90,6 +91,7 @@ fn a_bad_identifier_is_named() {
     assert!(errors[0].message().contains("XX1"));
 }
 
+/// spec: rule-schema/Rules are tagged or rejected
 #[test]
 fn an_untagged_rule_is_rejected() {
     let mut d = draft("BT0001");
@@ -98,6 +100,7 @@ fn an_untagged_rule_is_rejected() {
     assert_eq!(fields(&errors), ["cwe", "owasp"]);
 }
 
+/// spec: rule-schema/Rules are tagged or rejected
 #[test]
 fn unregistered_and_inconsistent_tags_are_rejected() {
     let mut d = draft("BT0001");
@@ -252,6 +255,7 @@ fn at(rule: Rule, file: &str, line: u32) -> Rule {
     })
 }
 
+/// spec: rule-schema/Every rule has complete metadata
 #[test]
 fn duplicate_identifiers_name_both_locations() {
     let a = at(draft("BT0001").validate().unwrap(), "a.toml", 3);
@@ -261,6 +265,7 @@ fn duplicate_identifiers_name_both_locations() {
     assert!(errors[0].message().contains("a.toml:3") && errors[0].message().contains("b.toml:9"));
 }
 
+/// spec: rule-schema/Loading is deterministic and hashable
 #[test]
 fn the_canonical_form_ignores_insertion_order_and_origin() {
     let make = |ids: &[&str], file: &str| {

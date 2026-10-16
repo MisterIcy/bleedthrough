@@ -11,5 +11,8 @@ publish.workspace = true
 [dependencies]
 bleedthrough-taxonomy = { path = "../taxonomy" }
 
+[dev-dependencies]
+bleedthrough-testkit = { path = "../testkit" }
+
 [lints]
 workspace = true

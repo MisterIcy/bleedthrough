@@ -1,0 +1,15 @@
+# Exclusions for `cargo xtask coverage` (docs/testing.md). Paths are matched as substrings of the
+# repository-relative path, written with a leading `/` so that `/tests/` matches a directory only.
+# This is the only place the exclusion list lives.
+
+[exclude]
+# Test code, examples of tooling crates, and benches.
+paths = ["/tests/", "/examples/", "/benches/", "/build.rs"]
+# The xtask crate itself.
+crates = ["xtask"]
+# Vendored upstream files and generated data (not crates; listed for completeness).
+vendored = ["third_party/", "stubs/"]
+# Generated Rust code: none today.
+generated = []
+# `#[cfg(test)]` items and `#[test]` functions inside product files are excluded too (found by parsing
+# each source file), so test code never counts as covered code.

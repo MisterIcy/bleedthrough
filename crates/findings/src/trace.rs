@@ -138,6 +138,7 @@ mod tests {
         assert_eq!((t.steps().len(), t.truncated()), (4, false));
     }
 
+    /// spec: finding-model/Traces explain the flow
     #[test]
     fn over_limit_trace_keeps_both_ends_and_is_marked() {
         for max in [2, 3, 6] {

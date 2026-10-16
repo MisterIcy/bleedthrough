@@ -356,6 +356,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "needs a local PHP interpreter; run with `cargo test -- --ignored` where php is installed"]
     fn the_local_interpreter_gives_real_verdicts_when_php_is_installed() {
         let Some((version, full)) = local_version() else {
             eprintln!("php is not installed here; skipping");
