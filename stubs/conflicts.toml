@@ -9,13 +9,6 @@ keep_guard = "!defined(HAVE_ORALDAP)"
 reason = "ext/ldap declares ldap_connect twice: a five-parameter, deprecated form for the Oracle LDAP library (HAVE_ORALDAP) and the two-parameter form for OpenLDAP. Default builds use OpenLDAP."
 
 [[conflict]]
-kind = "const"
-name = "PASSWORD_ARGON2_PROVIDER"
-clear_value = true
-extension = "standard"
-reason = "ext/standard, ext/openssl and ext/sodium each declare it with their own name as the value, under mutually exclusive guards; which one applies is a build choice, so no value is recorded."
-
-[[conflict]]
 kind = "function"
 name = "apache_response_headers"
 drop_sapi = "litespeed"

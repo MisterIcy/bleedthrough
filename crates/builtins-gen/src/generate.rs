@@ -8,6 +8,7 @@ use bleedthrough_syntax::ParserBackend;
 
 use crate::bundling::Bundling;
 use crate::conflicts::Conflicts;
+use crate::fixture::{FillReport, Fixture, fill};
 use crate::merge::merge;
 use crate::release::{NamedRelease, extract_release};
 
@@ -20,14 +21,16 @@ pub struct Generated {
     pub coverage: String,
 }
 
-/// Generates the data and the coverage report from vendored stubs only.
+/// Generates the data and the coverage report from the vendored stubs and the Reflection fixtures.
 ///
-/// `releases` pairs each input with its directory name (for example `php-8.5.11`).
+/// `releases` pairs each input with its directory name (for example `php-8.5.11`); `fixtures` are
+/// the parsed Reflection fixtures, one per version.
 pub fn generate(
     backend: &dyn ParserBackend,
     releases: &[NamedRelease],
     conflicts_text: &str,
     bundling_text: &str,
+    fixtures: &[Fixture],
 ) -> Result<Generated, Vec<String>> {
     let mut conflicts = Conflicts::parse(conflicts_text).map_err(|e| vec![e])?;
     let bundling = Bundling::parse(bundling_text).map_err(|e| vec![e])?;
@@ -49,7 +52,15 @@ pub fn generate(
         let out = extract_release(backend, input);
         problems.extend(out.errors.iter().map(ToString::to_string));
         write_release_report(&mut report, name, &out);
-        extracted.push((input.version, out.items));
+        let mut items = out.items;
+        match fixtures.iter().find(|f| f.version == input.version) {
+            Some(fixture) => write_fill_report(&mut report, fixture, &fill(fixture, &mut items)),
+            None => problems.push(format!(
+                "no Reflection fixture for PHP {}; run `cargo xtask refresh-reflection --run`",
+                input.version
+            )),
+        }
+        extracted.push((input.version, items));
     }
     if !problems.is_empty() {
         return Err(problems);
@@ -104,6 +115,21 @@ pub fn generate(
         data: text,
         coverage: report,
     })
+}
+
+fn write_fill_report(report: &mut String, fixture: &Fixture, filled: &FillReport) {
+    let _ = writeln!(
+        report,
+        "Reflection fill from {} ({}): values={}, constants added={}, class constants added={}, properties added={}, SAPI functions given their extension={}, build-specific values left empty={}",
+        fixture.php_version,
+        fixture.image,
+        filled.values,
+        filled.constants_added,
+        filled.class_constants_added,
+        filled.properties_added,
+        filled.extensions,
+        filled.build_specific
+    );
 }
 
 fn write_release_report(report: &mut String, name: &str, out: &crate::release::ReleaseExtraction) {

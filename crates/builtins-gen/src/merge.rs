@@ -212,10 +212,14 @@ pub fn merge(
             let same = merged.iter_mut().find(|m| {
                 let mut other = record.clone();
                 other.mask = m.mask;
+                other.reflected = m.reflected;
                 **m == other
             });
             match same {
-                Some(existing) => existing.mask = existing.mask.union(mask),
+                Some(existing) => {
+                    existing.mask = existing.mask.union(mask);
+                    existing.reflected = existing.reflected.union(record.reflected);
+                }
                 None => merged.push(record),
             }
         }

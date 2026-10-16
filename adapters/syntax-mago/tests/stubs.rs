@@ -440,6 +440,58 @@ fn real_stubs_of_each_extension_family_match_hand_checked_facts() {
     });
 }
 
+/// A small fixture of `version` with the given global constants (JSON object members).
+fn fixture(version: &str, constants: &str) -> bleedthrough_builtins_gen::fixture::Fixture {
+    bleedthrough_builtins_gen::fixture::Fixture::parse(&format!(
+        r#"{{"php_version":"{version}.1","image":"php@sha256:aa","extensions":["Core"],"functions":{{}},"classes":{{}},"constants":{{{constants}}}}}"#
+    ))
+    .unwrap()
+}
+
+#[test]
+fn an_8_0_constant_comes_from_the_fixture_and_is_marked() {
+    use bleedthrough_builtins_gen::generate::generate;
+    use bleedthrough_builtins_gen::release::ReleaseInput;
+
+    let root = std::env::temp_dir().join(format!("reflected-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&root);
+    let dir = root.join("php-8.0.0");
+    std::fs::create_dir_all(dir.join("Zend")).unwrap();
+    std::fs::write(
+        dir.join("Zend/zend.stub.php"),
+        "<?php\nfunction f(): void {}\n",
+    )
+    .unwrap();
+    let releases = vec![(
+        "php-8.0.0".to_string(),
+        ReleaseInput {
+            version: v("8.0"),
+            root: dir,
+        },
+    )];
+    let constant = r#""E_ALL":{"extension":"Core","type":"int","value":"32767"}"#;
+    let generated = generate(
+        &MagoBackend::new(),
+        &releases,
+        "",
+        "",
+        &[fixture("8.0", constant)],
+    )
+    .unwrap();
+    let data = model::format::read(&generated.data).unwrap();
+    let model::Lookup::Found(record) = data.lookup(model::Kind::Constant, "E_ALL", v("8.0")) else {
+        panic!("E_ALL not found");
+    };
+    assert_eq!(record.reflected, model::VersionMask::of(v("8.0")));
+    // A release without a fixture is an error, not a silent gap.
+    let errors = generate(&MagoBackend::new(), &releases, "", "", &[]).unwrap_err();
+    assert!(
+        errors.iter().any(|e| e.contains("no Reflection fixture")),
+        "{errors:?}"
+    );
+    let _ = std::fs::remove_dir_all(root);
+}
+
 #[test]
 fn bundling_must_agree_with_the_stubs() {
     use bleedthrough_builtins_gen::generate::generate;
@@ -464,9 +516,10 @@ fn bundling_must_agree_with_the_stubs() {
             },
         ));
     }
+    let fixtures = [fixture("8.3", ""), fixture("8.4", "")];
     let bundling = "[[extension]]\nname = \"imap\"\nunbundled = \"8.4-8.5\"\nsource = \"s\"\n";
     // The 8.4 tree still has imap stubs: the file and the stubs disagree.
-    let errors = generate(&MagoBackend::new(), &releases, "", bundling).unwrap_err();
+    let errors = generate(&MagoBackend::new(), &releases, "", bundling, &fixtures).unwrap_err();
     assert!(
         errors
             .iter()
@@ -475,7 +528,7 @@ fn bundling_must_agree_with_the_stubs() {
     );
     // With the stubs gone from 8.4 the data is generated and lookups say "unbundled".
     std::fs::remove_dir_all(root.join("php-8.4.0/ext/imap")).unwrap();
-    let generated = generate(&MagoBackend::new(), &releases, "", bundling).unwrap();
+    let generated = generate(&MagoBackend::new(), &releases, "", bundling, &fixtures).unwrap();
     let data = model::format::read(&generated.data).unwrap();
     assert_eq!(
         data.lookup(model::Kind::Function, "imap_x", v("8.4")),

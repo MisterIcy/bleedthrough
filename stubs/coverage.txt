@@ -111,6 +111,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: function=11/11
+Reflection fill from 8.0.30 (php@sha256:0569e384b9064c04dec55dc6e41be41b494a878dfbb6577a7d76bd50cfd5bc00): values=0, constants added=1665, class constants added=265, properties added=47, SAPI functions given their extension=2, build-specific values left empty=48
 
 == php-8.1.34
 stub files: 116, excluded: 5, records: 4739
@@ -230,6 +231,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: function=11/11
+Reflection fill from 8.1.34 (php@sha256:76e563191d1ade120313a8736df24154d21da5155c0756f147c0b01bd19d9087): values=0, constants added=1693, class constants added=269, properties added=0, SAPI functions given their extension=2, build-specific values left empty=48
 
 == php-8.2.34
 stub files: 120, excluded: 5, records: 9203
@@ -353,6 +355,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
+Reflection fill from 8.2.34 (php@sha256:118ef4fb1db5e866fb604f2f260da81f819a0a1eac87a4083f9194f48e00beee): values=1759, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=18
 
 == php-8.3.35
 stub files: 124, excluded: 6, records: 9556
@@ -480,6 +483,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
+Reflection fill from 8.3.35 (php@sha256:aafe21201943a8a6e497ddfb471e2ce68ada76adede38c7d61fede8918b24319): values=1971, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=45
 
 == php-8.4.26
 stub files: 129, excluded: 6, records: 9834
@@ -612,6 +616,7 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
+Reflection fill from 8.4.26 (php@sha256:1d2cf2b7d715b5b3aa959f0150ccbcc7b71e0181b637e443abf40a7fb56bf79a): values=2075, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=50
 
 == php-8.5.11
 stub files: 131, excluded: 6, records: 10065
@@ -746,12 +751,12 @@ sapi/cli/php_cli_server.stub.php: function=3/3
 sapi/fpm/fpm/fpm_main.stub.php: function=4/4
 sapi/litespeed/lsapi_main.stub.php: function=7/7
 sapi/phpdbg/phpdbg.stub.php: const=4/4 function=11/11
+Reflection fill from 8.5.11 (php@sha256:01a109229f4465bc9ef042d9198f09a4d9da7775a825dbd8572dcdbd8756c4d3): values=2114, constants added=0, class constants added=0, properties added=0, SAPI functions given their extension=2, build-specific values left empty=50
 
 == Merge
-records: 13635
+records: 14416
 symbols declared more than once in a version and merged: 61
 conflict resolved: function ldap_connect (ext/ldap declares ldap_connect twice: a five-parameter, deprecated form for the Oracle LDAP library (HAVE_ORALDAP) and the two-parameter form for OpenLDAP. Default builds use OpenLDAP.)
-conflict resolved: const PASSWORD_ARGON2_PROVIDER (ext/standard, ext/openssl and ext/sodium each declare it with their own name as the value, under mutually exclusive guards; which one applies is a build choice, so no value is recorded.)
 conflict resolved: function apache_response_headers (the litespeed SAPI declares the return type array|false while apache2handler, cgi and cli declare array; the common form is kept and the litespeed difference is not recorded.)
 alias targets that name no record: 0
 

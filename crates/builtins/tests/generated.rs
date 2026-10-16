@@ -184,3 +184,25 @@ fn members_of_a_class_depend_on_the_version() {
     assert!(names.contains(&"DateTimeInterface::ATOM"));
     assert!(names.contains(&"DateTimeInterface::format"));
 }
+
+#[test]
+fn constants_carry_reflection_values_and_the_mark() {
+    // https://www.php.net/manual/en/errorfunc.constants.php : E_ALL is 32767 before 8.4, 30719 from 8.4.
+    let value = |version: &str| match &found(Kind::Constant, "E_ALL", version).detail {
+        Detail::Constant(d) => d.value.clone(),
+        other => panic!("{other:?}"),
+    };
+    assert_eq!(value("8.0").as_deref(), Some("32767"));
+    assert_eq!(value("8.4").as_deref(), Some("30719"));
+    // The 8.0 stubs declare no constants: the record exists only through the fixture.
+    assert!(
+        found(Kind::Constant, "E_ALL", "8.0")
+            .reflected
+            .contains(v("8.0"))
+    );
+    // A value that depends on the build is left empty.
+    match &found(Kind::Constant, "PHP_OS", "8.0").detail {
+        Detail::Constant(d) => assert_eq!(d.value, None),
+        other => panic!("{other:?}"),
+    }
+}

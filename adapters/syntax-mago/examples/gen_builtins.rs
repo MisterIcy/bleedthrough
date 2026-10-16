@@ -4,7 +4,8 @@
 //! cargo run -p bleedthrough-syntax-mago --example gen_builtins -- [--root DIR] [--out DIR]
 //! ```
 //!
-//! Reads `third_party/php-src/php-8.N.*`, `stubs/conflicts.toml` and `stubs/bundling.toml` under
+//! Reads `third_party/php-src/php-8.N.*`, `stubs/conflicts.toml` and `stubs/bundling.toml` and
+//! `stubs/reflection/php-8.N.json` under
 //! the root (default: the current directory) and writes `builtin.data` and `coverage.txt` into
 //! the output directory (default: `<root>/stubs`). `cargo xtask gen-builtins` runs this.
 
@@ -12,6 +13,7 @@ use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 use bleedthrough_builtins_gen::PhpVersion;
+use bleedthrough_builtins_gen::fixture::Fixture;
 use bleedthrough_builtins_gen::generate::generate;
 use bleedthrough_builtins_gen::release::{NamedRelease, ReleaseInput};
 use bleedthrough_syntax_mago::MagoBackend;
@@ -60,11 +62,19 @@ fn run() -> Result<(), Vec<String>> {
     let read =
         |p: PathBuf| std::fs::read_to_string(&p).map_err(|e| vec![format!("{}: {e}", p.display())]);
     let releases = releases(&root).map_err(|e| vec![e])?;
+    let mut fixtures = Vec::new();
+    for (_, release) in &releases {
+        let path = root.join(format!("stubs/reflection/php-{}.json", release.version));
+        let fixture = Fixture::parse(&read(path.clone())?)
+            .map_err(|e| vec![format!("{}: {e}", path.display())])?;
+        fixtures.push(fixture);
+    }
     let generated = generate(
         &MagoBackend::new(),
         &releases,
         &read(root.join("stubs/conflicts.toml"))?,
         &read(root.join("stubs/bundling.toml"))?,
+        &fixtures,
     )?;
     std::fs::create_dir_all(&out).map_err(|e| vec![e.to_string()])?;
     for (name, text) in [

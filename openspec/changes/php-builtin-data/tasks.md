@@ -45,7 +45,7 @@
 - [x] 6.1 Write `stubs/reflection/dump.php` (facts only, canonical JSON) and review it line by line; verify by running it with the local PHP 8.4 on a scratch copy and inspecting the output shape
 - [x] 6.2 Implement `cargo xtask refresh-reflection` that prints the images and digests it will run, requires explicit invocation, and writes `stubs/reflection/php-<v>.json` with version, digest and loaded extensions; verify the dry-run output without executing images
 - [x] 6.3 Run the refresh for PHP 8.0 to 8.5 with the owner's go-ahead and commit the fixtures; verify each records version, digest and extensions
-- [ ] 6.4 Implement fixture reading and gap filling (8.0/8.1 constants and properties, all constant values) with Reflection provenance marks; verify an 8.0 constant appears marked
+- [x] 6.4 Implement fixture reading and gap filling (8.0/8.1 constants and properties, all constant values) with Reflection provenance marks; verify an 8.0 constant appears marked
 - [ ] 6.5 Implement the type-spelling normaliser and the cross-check test with `stubs/oracle-allow.toml` and stale-allowance failure; verify the wrong-by-reference-flag and stale-allowance scenarios with injected differences
 - [ ] 6.6 Triage the real differences from the first full cross-check: fix generator bugs, add reasoned allowances; verify the cross-check passes with every allowance explained
 - [ ] 6.7 Report symbols not covered by the oracle (extensions not in the images) in `stubs/coverage.txt`; verify the section appears

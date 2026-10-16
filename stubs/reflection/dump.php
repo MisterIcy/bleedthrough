@@ -24,14 +24,55 @@ function bt_type(?ReflectionType $type): string
     return $type === null ? '' : (string) $type;
 }
 
-/** A value as PHP source text, newlines collapsed (arrays can span lines). */
+/** A string as a PHP literal on one line: single-quoted when printable ASCII, else double-quoted with escapes. */
+function bt_string(string $value): string
+{
+    if (preg_match('/^[\x20-\x7e]*$/D', $value) === 1) {
+        return "'" . addcslashes($value, "'\\") . "'";
+    }
+    $escapes = ["\n" => '\n', "\r" => '\r', "\t" => '\t', "\v" => '\v', "\e" => '\e', "\f" => '\f', '\\' => '\\\\', '"' => '\\"', '$' => '\\$'];
+    $out = '';
+    foreach (str_split($value) as $byte) {
+        $code = ord($byte);
+        $out .= $escapes[$byte] ?? ($code >= 0x20 && $code <= 0x7e ? $byte : sprintf('\\x%02X', $code));
+    }
+    return '"' . $out . '"';
+}
+
+/**
+ * A constant's value as PHP literal text on one line, with no tab or newline in it; empty for a value that
+ * has no literal form (a resource or an object).
+ */
 function bt_value(mixed $value): string
 {
-    if (is_resource($value)) {
-        return '';
+    if ($value === null) {
+        return 'null';
     }
-    $text = var_export($value, true);
-    return preg_replace('/\s+/', ' ', $text) ?? $text;
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
+    }
+    if (is_int($value)) {
+        return (string) $value;
+    }
+    if (is_float($value)) {
+        return var_export($value, true);
+    }
+    if (is_string($value)) {
+        return bt_string($value);
+    }
+    if (is_array($value)) {
+        $items = [];
+        $list = array_is_list($value);
+        foreach ($value as $key => $item) {
+            $text = bt_value($item);
+            if ($text === '') {
+                return '';
+            }
+            $items[] = $list ? $text : bt_value($key) . ' => ' . $text;
+        }
+        return '[' . implode(', ', $items) . ']';
+    }
+    return '';
 }
 
 /** @return list<array<string, mixed>> */
