@@ -340,4 +340,10 @@ mod tests {
             TaxonomyError::EmptyReason("OWASP:2021:A02".into())
         );
     }
+
+    #[test]
+    fn owasp_category_id_is_exposed() {
+        assert_eq!(owasp("A03").id(), "A03");
+        assert_eq!(owasp("A01").id(), "A01");
+    }
 }

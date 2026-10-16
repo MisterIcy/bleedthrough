@@ -382,4 +382,20 @@ mod tests {
         assert_eq!(Scope::Changed.letter(), 'C');
         assert_eq!(Impact::words(), ["none", "low", "high"]);
     }
+
+    #[test]
+    fn roundup_rounds_to_five_decimals_before_taking_the_next_tenth() {
+        let scaled = |micro: i128| micro * (ONE / 1_000_000);
+        // exactly on a tenth stays
+        assert_eq!(roundup_tenths(scaled(4_100_000)), 41);
+        // below half of the fifth decimal rounds down to the tenth
+        assert_eq!(roundup_tenths(scaled(4_100_004) + ONE / 10_000_000), 41);
+        // from half of the fifth decimal upwards rounds the input up first, so the tenth moves on
+        assert_eq!(roundup_tenths(scaled(4_100_005)), 42);
+        assert_eq!(roundup_tenths(scaled(4_100_009) + ONE / 10_000_000 * 6), 42);
+        assert_eq!(roundup_tenths(scaled(4_100_010)), 42);
+        // a value that rounds up to the tenth is still that tenth
+        assert_eq!(roundup_tenths(scaled(4_099_996)), 41);
+        assert_eq!(roundup_tenths(0), 0);
+    }
 }

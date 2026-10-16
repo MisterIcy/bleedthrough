@@ -170,4 +170,19 @@ mod tests {
                 && SeverityLevel::Low > SeverityLevel::Info
         );
     }
+
+    #[test]
+    fn wire_names_are_the_lowercase_level() {
+        let names: Vec<_> = [
+            SeverityLevel::Info,
+            SeverityLevel::Low,
+            SeverityLevel::Medium,
+            SeverityLevel::High,
+            SeverityLevel::Critical,
+        ]
+        .iter()
+        .map(SeverityLevel::as_str)
+        .collect();
+        assert_eq!(names, ["info", "low", "medium", "high", "critical"]);
+    }
 }
