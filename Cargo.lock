@@ -101,6 +101,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "bleedthrough-builtins"
+version = "0.0.0"
+
+[[package]]
 name = "bleedthrough-cache"
 version = "0.0.0"
 
@@ -1778,6 +1782,7 @@ version = "0.0.0"
 dependencies = [
  "quote",
  "serde_json",
+ "sha2",
  "syn 3.0.9",
  "toml",
 ]

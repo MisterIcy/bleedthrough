@@ -106,3 +106,15 @@ The curated, compiled-in list of supported weaknesses and categories, with their
 ## Severity metrics
 
 The eight CVSS 3.1 base metrics a rule declares, from which the score, the vector string and the severity level are derived by one fixed formula.
+
+## Built-in data
+
+What is known about PHP's own functions, classes, interfaces, traits, enums and constants for each supported version: names, signatures, by-reference and optional flags, type text, deprecations and the extension that provides them. It is generated from PHP's stub files and checked against real interpreters, never written by hand, and holds facts only.
+
+## Version mask
+
+The set of PHP versions (8.0 to 8.5) for which a built-in record applies. A symbol whose signature changes between versions has one record per form, each with its own mask.
+
+## Oracle
+
+A real PHP interpreter's Reflection output, kept as checked-in fixtures, used to fill what the stubs lack and to verify the generated built-in data. It is never needed to run the product.

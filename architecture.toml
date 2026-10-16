@@ -25,6 +25,11 @@ allow = []
 layer = "domain"
 allow = []
 
+# PHP built-in symbol data: record model, version masks, text format and the source port.
+[crate.bleedthrough-builtins]
+layer = "domain"
+allow = []
+
 [crate.bleedthrough-rules]
 layer = "domain"
 allow = ["bleedthrough-taxonomy"]
