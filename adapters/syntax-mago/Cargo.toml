@@ -24,6 +24,7 @@ bleedthrough-syntax-conformance = { path = "../../crates/syntax-conformance" }
 bleedthrough-builtins-gen = { path = "../../crates/builtins-gen" }
 bleedthrough-eval = { path = "../../crates/eval" }
 bleedthrough-bench = { path = "../../crates/bench" }
+bleedthrough-symbols-suite = { path = "../../crates/symbols-suite" }
 # Allocation counting for the `bench_alloc` example: the counting allocator lives in this crate, so
 # no `unsafe` appears in ours (see docs/benchmarks.md).
 dhat = "0.3"

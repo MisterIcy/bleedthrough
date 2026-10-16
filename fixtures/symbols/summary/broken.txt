@@ -1,0 +1,4 @@
+file broken.php
+incomplete
+class Broken\Intact []
+  method ok($a: int (native)) -> string (native) [public] declared

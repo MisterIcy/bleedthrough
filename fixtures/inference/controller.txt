@@ -1,0 +1,20 @@
+== App\Response::json
+new static() :: new -> resolved [] : static(App\Response)
+stats: calls resolved=1 unresolved=0 dynamic=0 unknown_exprs=0/2 limit_hit=false
+== App\UserController::show
+$this->users->find($id) :: call -> resolved [method App\UserRepository::find implementors(App\CachedUserRepository, App\SqlUserRepository)] : App\User|null
+Response::json(['error' => 'missing']) :: call -> resolved [method App\Response::json] : App\Response
+$user->name() :: call -> resolved [method App\User::name] : string
+Response::json(['name' => $name, 'id' => $user->id]) :: call -> resolved [method App\Response::json] : App\Response
+stats: calls resolved=4 unresolved=0 dynamic=0 unknown_exprs=0/26 limit_hit=false
+== App\UserController::index
+$this->users->all() :: call -> resolved [method App\UserRepository::all implementors(App\CachedUserRepository, App\SqlUserRepository)] : list<App\User>
+$user->name() :: call -> resolved [method App\User::name] : string
+Response::json($out) :: call -> resolved [method App\Response::json] : App\Response
+stats: calls resolved=3 unresolved=0 dynamic=0 unknown_exprs=0/15 limit_hit=false
+== App\UserController::dynamic
+$handler->handle() :: call -> unresolved(unknown_receiver_type) : unknown
+$this->$method() :: call -> dynamic(variable_method) : unknown
+$this->missing() :: call -> unresolved(method_not_found) : unknown
+strtoupper('x') :: call -> resolved [function strtoupper] : string
+stats: calls resolved=1 unresolved=2 dynamic=1 unknown_exprs=5/10 limit_hit=false

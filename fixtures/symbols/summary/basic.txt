@@ -1,0 +1,28 @@
+file basic.php
+class App\Model\User [final]
+  extends App\Model\Base
+  implements App\Contracts\Entity, Countable
+  templates T
+  attributes Attribute
+  use App\Model\Greets, App\Model\Logs
+    App\Model\Greets::hello insteadof App\Model\Logs
+    App\Model\Logs::hello as protected logHello
+  const ROLE [public]: 'user'
+  const LIMIT [private]: int
+  property $tags [protected default] declared: list<string> (docblock)
+  property $shared [public static default] declared: App\Support\Arr|null (native)
+  property $age [private readonly] promoted: int (native)
+  property $key [public] promoted: int|string (native)
+  property $name [protected] promoted: App\Support\Str|null (native)
+  property $id [public readonly] docblock: int (docblock)
+  method __construct($age: int (native); $key: int|string (native) =; $name: App\Support\Str|null (native) =) -> unknown (absent) [public] declared
+  method find($map: array<string, int> (docblock); ...$rest: int (native)) -> T|null (docblock) [public] declared
+  method hidden() -> static(App\Model\User) (native) [protected abstract] declared
+  method count() -> int (native) [public] declared
+  method make($attrs: array<string, mixed> (docblock)) -> App\Model\User (docblock) [public static] docblock
+function App\Model\top($x: unknown|int (native); $untyped: unknown (absent) =) -> void (native)
+constant App\Model\VERSION [const]: '1.0'
+constant App\Model\LEGACY [define]: 3
+references classes: App\Contracts\Entity, App\Model\Base, App\Model\Child, App\Model\Greets, App\Model\Logs, App\Model\User, App\Support\Arr, App\Support\Str, Attribute, Countable
+references in declarations: App\Contracts\Entity, App\Model\Base, App\Model\Greets, App\Model\Logs, App\Model\User, App\Support\Arr, App\Support\Str, Attribute, Countable
+references functions: App\Model\define | define, App\Model\strlen | strlen, App\Support\helper

@@ -1,0 +1,17 @@
+[package]
+name = "bleedthrough-symbols-suite"
+version = "0.0.0"
+description = "Bleedthrough tooling: PHP-source scenarios and golden dumps for names, the symbol table, types and inference"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bleedthrough-syntax = { path = "../syntax" }
+bleedthrough-symbols = { path = "../symbols" }
+bleedthrough-builtins = { path = "../builtins" }

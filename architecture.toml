@@ -38,9 +38,11 @@ allow = ["bleedthrough-taxonomy"]
 layer = "domain"
 allow = ["bleedthrough-taxonomy"]
 
+# Names, symbol table, types and local inference. The built-in data enters through the
+# `BuiltinDataSource` model the builtins crate owns (symbols converts it, never reads it).
 [crate.bleedthrough-symbols]
 layer = "domain"
-allow = ["bleedthrough-syntax"]
+allow = ["bleedthrough-syntax", "bleedthrough-builtins"]
 
 [crate.bleedthrough-ir]
 layer = "domain"
@@ -70,9 +72,14 @@ allow = [
 layer = "infrastructure"
 allow = ["bleedthrough-app", "bleedthrough-findings", "bleedthrough-taxonomy"]
 
+# fs implements the class-locator port the symbols crate owns (Composer autoload) and embeds the
+# built-in data behind the `BuiltinDataSource` port the builtins crate owns.
 [crate.bleedthrough-fs]
 layer = "infrastructure"
-allow = ["bleedthrough-app", "bleedthrough-rules", "bleedthrough-packs"]
+allow = [
+  "bleedthrough-app", "bleedthrough-rules", "bleedthrough-packs",
+  "bleedthrough-symbols", "bleedthrough-builtins",
+]
 
 # Parser adapter: the only crate that may depend on a third-party parser (exact pins).
 # The conformance suite is a dev-dependency only (exempt from the edge rule, see layering.rs).
@@ -102,6 +109,13 @@ allow = ["bleedthrough-syntax"]
 [crate.bleedthrough-builtins-gen]
 layer = "tooling"
 allow = ["bleedthrough-syntax", "bleedthrough-builtins"]
+
+# The symbols suite: PHP-source-driven scenarios and golden dumps for names, the symbol table, types and
+# inference. Generic over the parser backend (the Mago adapter runs it as a dev-dependency), so the
+# domain crates need no parser to be tested end to end.
+[crate.bleedthrough-symbols-suite]
+layer = "tooling"
+allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins"]
 
 # The accuracy evaluator: loads the vulnerability corpus, scores a `json` report against its labels
 # and compares the result with the committed expectations. It reads the report as text (it never links

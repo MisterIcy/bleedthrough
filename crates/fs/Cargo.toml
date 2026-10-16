@@ -10,6 +10,10 @@ publish.workspace = true
 
 [dependencies]
 bleedthrough-rules = { path = "../rules" }
+bleedthrough-builtins = { path = "../builtins" }
+bleedthrough-symbols = { path = "../symbols" }
+# Reads composer.json and composer.lock; infrastructure only, no derive (the values are walked by hand).
+serde_json = "1"
 # Hashing of the canonical rule set; the same crate and version the findings crate uses.
 sha2 = "0.11"
 # Spanned TOML parsing for line numbers in rule errors; no serde (infrastructure only).

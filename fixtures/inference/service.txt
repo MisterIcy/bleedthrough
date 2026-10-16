@@ -1,0 +1,14 @@
+== Billing\Stripe::charge
+$this->log('stripe') :: call -> resolved [method Billing\BaseGateway::log] : void
+stats: calls resolved=1 unresolved=0 dynamic=0 unknown_exprs=0/4 limit_hit=false
+== Billing\Invoice::pay
+$this->gateway->charge($cents) :: call -> resolved [method Billing\Gateway::charge implementors(Billing\BaseGateway, Billing\Paypal, Billing\Stripe)] : bool
+$this->magic->anything() :: call -> unresolved(magic_method) : unknown
+$format($total) :: call -> resolved [closure {closure}] : string
+$fn($label) :: call -> resolved [function strlen; function strtoupper] : int|string
+new Stripe() :: new -> resolved [] : Billing\Stripe
+$make(1) :: call -> dynamic(variable_function) : unknown
+stats: calls resolved=4 unresolved=1 dynamic=1 unknown_exprs=2/51 limit_hit=false
+== {closure}@885
+sprintf('%d', $n) :: call -> resolved [function sprintf] : string
+stats: calls resolved=1 unresolved=0 dynamic=0 unknown_exprs=0/4 limit_hit=false
