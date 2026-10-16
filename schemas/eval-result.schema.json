@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MisterIcy/bleedthrough/schemas/eval-result.schema.json",
+  "title": "Accuracy evaluation result, schema version 1",
+  "description": "Written by `cargo xtask eval --json`. Undefined metrics are null, never zero or one. A `not-evaluated` result carries a reason and no metrics.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "const": "1" },
+    "verdict": { "enum": ["pass", "fail", "not-evaluated"] },
+    "reason": { "type": ["string", "null"] },
+    "problems": { "type": "array", "items": { "type": "string" } },
+    "totals": { "$ref": "#/$defs/counts" },
+    "per_cwe": { "type": "object", "additionalProperties": { "$ref": "#/$defs/counts" } },
+    "per_rule": { "type": "object", "additionalProperties": { "$ref": "#/$defs/rule_counts" } },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "cwe": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "known_gap": { "type": "boolean" },
+          "tp": { "type": "integer", "minimum": 0 },
+          "fp": { "type": "integer", "minimum": 0 },
+          "fn": { "type": "integer", "minimum": 0 }
+        },
+        "required": ["id", "cwe", "passed", "known_gap", "tp", "fp", "fn"],
+        "additionalProperties": false
+      }
+    },
+    "known_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "cwe": { "type": "string" },
+          "reason": { "type": "string" },
+          "tracking": { "type": "string" }
+        },
+        "required": ["id", "cwe", "reason", "tracking"],
+        "additionalProperties": false
+      }
+    },
+    "unlabelled": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "line": { "type": "integer", "minimum": 1 },
+          "rule": { "type": "string" },
+          "cwe": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["path", "line", "rule", "cwe"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["schema_version", "verdict", "reason", "problems"],
+  "additionalProperties": false,
+  "$defs": {
+    "ratio": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "tp": { "type": "integer", "minimum": 0 },
+        "fp": { "type": "integer", "minimum": 0 },
+        "fn": { "type": "integer", "minimum": 0 },
+        "known_gaps": { "type": "integer", "minimum": 0 },
+        "precision": { "$ref": "#/$defs/ratio" },
+        "recall": { "$ref": "#/$defs/ratio" }
+      },
+      "required": ["tp", "fp", "fn", "known_gaps", "precision", "recall"],
+      "additionalProperties": false
+    },
+    "rule_counts": {
+      "type": "object",
+      "description": "False negatives and recall belong to no rule and are always null.",
+      "properties": {
+        "tp": { "type": "integer", "minimum": 0 },
+        "fp": { "type": "integer", "minimum": 0 },
+        "fn": { "type": "null" },
+        "precision": { "$ref": "#/$defs/ratio" },
+        "recall": { "type": "null" }
+      },
+      "required": ["tp", "fp", "fn", "precision", "recall"],
+      "additionalProperties": false
+    }
+  }
+}

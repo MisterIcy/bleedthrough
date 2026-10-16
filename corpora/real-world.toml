@@ -1,0 +1,67 @@
+# The real-world corpus: third-party PHP projects the parser and, later, the scanner are exercised
+# against for robustness, determinism and parse-failure budgets. Pinned by exact commit and by the
+# SHA-256 of the GitHub archive of that commit. Fetched on demand (`cargo xtask fetch-corpus`) into
+# a cache outside version control; nothing fetched is committed, packaged or redistributed.
+#
+# Selection criteria: actively used and of the PHP 8 era; permissively licensed, or at least
+# source-available (analysed, never redistributed); a mix of framework, non-framework and legacy
+# procedural code; spanning the size tiers. Tiers count `.php` files: small < 100, medium 100 to 999,
+# large 1000 or more. Replacing a project is a reviewed edit of this file.
+#
+# A `sha256` that no longer matches is a loud failure, not a refresh: GitHub has changed archive bytes
+# before, and the fix is a reviewed edit of the pin.
+
+[[project]]
+id = "fastroute"
+repository = "https://github.com/nikic/FastRoute"
+commit = "181d480e08d9476e61381e04a71b34dc0432e812"
+sha256 = "c07116f65ae11cb8367faace1f2293cfe7ee0fd964c8426c4e1bc37a8fbf3c17"
+licence = "BSD-3-Clause"
+php = ["5.4", "8.x"]
+tier = "small"
+style = "non-framework"
+reason = "v1.3.0. A tiny library of dense, hand-tuned PHP: the smallest end of the range, with no framework conventions."
+
+[[project]]
+id = "slim"
+repository = "https://github.com/slimphp/Slim"
+commit = "33230063420c2a4185a4145cb4693219d53adc2d"
+sha256 = "39f919ffdfeccd90eefae5f1150350d81f55d51ed45a8486b3c0e5e2e94620c5"
+licence = "MIT"
+php = ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
+tier = "small"
+style = "framework"
+reason = "4.15.3. A micro-framework: PSR-7 request handling, middleware and routing, modern typed PHP."
+
+[[project]]
+id = "twig"
+repository = "https://github.com/twigphp/Twig"
+commit = "4a7e8e2a2b8bb9b1f5c3776aa47588b554287f59"
+sha256 = "977297d0a893a8b1cddb53264d3a7e13e0657ad68e311af6882c0166a58aba94"
+licence = "BSD-3-Clause"
+php = ["8.1"]
+tier = "medium"
+style = "non-framework"
+reason = "v3.30.0. A template engine: a lexer, parser and compiler written in plain PHP, with heavy use of generated code and string building."
+
+[[project]]
+id = "laravel-framework"
+repository = "https://github.com/laravel/framework"
+commit = "685f8d6c2ab4547287500bc80ccdf2ca12635109"
+sha256 = "54015e3455711ea6a1eab7649f73390a04913c3d4a47700ae00534fa3ac2382e"
+licence = "MIT"
+php = ["8.3"]
+tier = "large"
+style = "framework"
+reason = "v13.37.0. The most widely deployed PHP framework: facades, a container, an ORM, and the dynamic dispatch a taint analysis must cope with."
+
+[[project]]
+id = "wordpress"
+repository = "https://github.com/WordPress/WordPress"
+commit = "fc9832bef919c2a08541248db23af90d14ffb082"
+sha256 = "b48237e6bfc6f58c61251e03db7b2bb54c5291e582be3b43d01c3bfbb0d4de38"
+licence = "GPL-2.0-or-later"
+php = ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]
+tier = "large"
+style = "legacy"
+reason = "7.1.3. Two decades of procedural code: globals, includes, hooks and mixed HTML. Source-available; it is fetched for analysis only and never redistributed."

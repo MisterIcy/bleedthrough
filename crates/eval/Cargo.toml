@@ -1,0 +1,22 @@
+[package]
+name = "bleedthrough-eval"
+version = "0.0.0"
+description = "Bleedthrough tooling: the vulnerability corpus loader and the accuracy evaluator that scores a scan report against it"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bleedthrough-taxonomy = { path = "../taxonomy" }
+serde_json = "1.0.154"
+toml = "1.1.8"
+# Report validation is offline: no HTTP resolver for remote `$ref`s.
+jsonschema = { version = "0.33.0", default-features = false }
+
+[dev-dependencies]
+bleedthrough-bench = { path = "../bench" }

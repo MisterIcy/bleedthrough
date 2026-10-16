@@ -1,0 +1,38 @@
+# Accuracy expectations: the ratchet `cargo xtask eval` compares against.
+# Change only with `cargo xtask eval --update` and review the printed diff.
+
+[eval]
+# Records that the `bleedthrough` binary has a scan command. While false, an evaluation
+# that reports `not evaluated` passes CI; once true it fails. The change that adds the
+# scan command must flip it (see docs/evaluation.md).
+scan-switch = false
+
+[cwe."CWE-22"]
+min_tp = 0
+max_fp = 0
+known_gaps = []
+
+[cwe."CWE-502"]
+min_tp = 0
+max_fp = 0
+known_gaps = []
+
+[cwe."CWE-601"]
+min_tp = 0
+max_fp = 0
+known_gaps = []
+
+[cwe."CWE-78"]
+min_tp = 0
+max_fp = 0
+known_gaps = []
+
+[cwe."CWE-89"]
+min_tp = 0
+max_fp = 0
+known_gaps = []
+
+[cwe."CWE-918"]
+min_tp = 0
+max_fp = 0
+known_gaps = []

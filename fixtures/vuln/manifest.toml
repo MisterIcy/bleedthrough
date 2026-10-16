@@ -1,0 +1,1637 @@
+# Manifest of the vulnerability fixture corpus (see README.md and schemas/vuln-manifest.schema.json).
+# Cases are generated once from templates and then maintained by hand; expectations name CWEs, never rules.
+
+# The closed vocabulary of flow shapes. `correct-sanitizer` is covered by safe twins.
+shapes = ["direct", "local-flow", "array-element", "user-function", "method", "cross-file-include", "autoload-class", "framework-request", "correct-sanitizer", "wrong-sanitizer"]
+
+# ---- CWE-89: SQL injection ----
+[[case]]
+id = "cwe89-direct"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: the query parameter is used directly in the sink (a SQL query string)."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe89-direct-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-direct/index.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-direct/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-direct-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-direct: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe89-direct"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-direct-safe/index.php"]
+
+[[case]]
+id = "cwe89-local-flow"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: the query parameter flows through two local variables into the sink (a SQL query string)."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe89-local-flow-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-local-flow/index.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-local-flow/index.php"
+lines = [6, 6]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-local-flow-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-local-flow: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe89-local-flow"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-local-flow-safe/index.php"]
+
+[[case]]
+id = "cwe89-array-element"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: the query parameter is stored in an array element and read back at the sink (a SQL query string)."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe89-array-element-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-array-element/index.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-array-element/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-array-element-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-array-element: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe89-array-element"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-array-element-safe/index.php"]
+
+[[case]]
+id = "cwe89-user-function"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: the query parameter is passed to a user function whose body holds the sink (a SQL query string)."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe89-user-function-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-user-function/index.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-user-function/index.php"
+lines = [6, 6]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-user-function-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-user-function: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe89-user-function"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-user-function-safe/index.php"]
+
+[[case]]
+id = "cwe89-method"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: the query parameter is passed to a method whose body holds the sink (a SQL query string)."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe89-method-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-method/index.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-method/index.php"
+lines = [8, 8]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-method-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-method: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe89-method"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-method-safe/index.php"]
+
+[[case]]
+id = "cwe89-cross-file-include"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: index.php includes lib.php and passes the query parameter to a function defined there (a SQL query string)."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe89-cross-file-include-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-cross-file-include/index.php", "cwe-89/cwe89-cross-file-include/lib.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-cross-file-include/lib.php"
+lines = [6, 6]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-cross-file-include-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-cross-file-include: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe89-cross-file-include"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-cross-file-include-safe/index.php", "cwe-89/cwe89-cross-file-include-safe/lib.php"]
+
+[[case]]
+id = "cwe89-autoload-class"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: index.php autoloads a class from Handler.php and passes the query parameter to its method (a SQL query string)."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe89-autoload-class-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-autoload-class/index.php", "cwe-89/cwe89-autoload-class/Handler.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-autoload-class/Handler.php"
+lines = [8, 8]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-autoload-class-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-autoload-class: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe89-autoload-class"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-autoload-class-safe/index.php", "cwe-89/cwe89-autoload-class-safe/Handler.php"]
+
+[[case]]
+id = "cwe89-framework-request"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: the value comes from a framework-style Request object (stub in the case) and reaches the sink (a SQL query string)."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe89-framework-request-safe"
+fix = "a parameterised query in place of string concatenation"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-framework-request/index.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-framework-request/index.php"
+lines = [13, 13]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-framework-request-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-framework-request: same flow, fixed with a parameterised query in place of string concatenation."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe89-framework-request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-framework-request-safe/index.php"]
+
+[[case]]
+id = "cwe89-wrong-sanitizer"
+cwe = "CWE-89"
+label = "vulnerable"
+description = "SQL injection: the query parameter passes through HTML escaping, which does nothing for SQL before the sink (a SQL query string)."
+php = "8.0+"
+shapes = ["wrong-sanitizer"]
+twin = "cwe89-wrong-sanitizer-safe"
+fix = "an integer cast, which is correct for a numeric SQL context"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-wrong-sanitizer/index.php"]
+
+[[case.expect]]
+file = "cwe-89/cwe89-wrong-sanitizer/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe89-wrong-sanitizer-safe"
+cwe = "CWE-89"
+label = "safe"
+description = "Safe twin of cwe89-wrong-sanitizer: same flow, fixed with an integer cast, which is correct for a numeric SQL context."
+php = "8.0+"
+shapes = ["correct-sanitizer"]
+twin = "cwe89-wrong-sanitizer"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-89/cwe89-wrong-sanitizer-safe/index.php"]
+
+
+# ---- CWE-78: OS command injection ----
+[[case]]
+id = "cwe78-direct"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: the query parameter is used directly in the sink (a shell command)."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe78-direct-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-direct/index.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-direct/index.php"
+lines = [3, 3]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-direct-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-direct: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe78-direct"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-direct-safe/index.php"]
+
+[[case]]
+id = "cwe78-local-flow"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: the query parameter flows through two local variables into the sink (a shell command)."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe78-local-flow-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-local-flow/index.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-local-flow/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-local-flow-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-local-flow: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe78-local-flow"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-local-flow-safe/index.php"]
+
+[[case]]
+id = "cwe78-array-element"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: the query parameter is stored in an array element and read back at the sink (a shell command)."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe78-array-element-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-array-element/index.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-array-element/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-array-element-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-array-element: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe78-array-element"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-array-element-safe/index.php"]
+
+[[case]]
+id = "cwe78-user-function"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: the query parameter is passed to a user function whose body holds the sink (a shell command)."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe78-user-function-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-user-function/index.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-user-function/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-user-function-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-user-function: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe78-user-function"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-user-function-safe/index.php"]
+
+[[case]]
+id = "cwe78-method"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: the query parameter is passed to a method whose body holds the sink (a shell command)."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe78-method-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-method/index.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-method/index.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-method-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-method: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe78-method"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-method-safe/index.php"]
+
+[[case]]
+id = "cwe78-cross-file-include"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: index.php includes lib.php and passes the query parameter to a function defined there (a shell command)."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe78-cross-file-include-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-cross-file-include/index.php", "cwe-78/cwe78-cross-file-include/lib.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-cross-file-include/lib.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-cross-file-include-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-cross-file-include: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe78-cross-file-include"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-cross-file-include-safe/index.php", "cwe-78/cwe78-cross-file-include-safe/lib.php"]
+
+[[case]]
+id = "cwe78-autoload-class"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: index.php autoloads a class from Handler.php and passes the query parameter to its method (a shell command)."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe78-autoload-class-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-autoload-class/index.php", "cwe-78/cwe78-autoload-class/Handler.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-autoload-class/Handler.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-autoload-class-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-autoload-class: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe78-autoload-class"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-autoload-class-safe/index.php", "cwe-78/cwe78-autoload-class-safe/Handler.php"]
+
+[[case]]
+id = "cwe78-framework-request"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: the value comes from a framework-style Request object (stub in the case) and reaches the sink (a shell command)."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe78-framework-request-safe"
+fix = "escapeshellarg on the argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-framework-request/index.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-framework-request/index.php"
+lines = [12, 12]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-framework-request-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-framework-request: same flow, fixed with escapeshellarg on the argument."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe78-framework-request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-framework-request-safe/index.php"]
+
+[[case]]
+id = "cwe78-wrong-sanitizer"
+cwe = "CWE-78"
+label = "vulnerable"
+description = "OS command injection: the query parameter passes through HTML escaping, which does nothing for a shell before the sink (a shell command)."
+php = "8.0+"
+shapes = ["wrong-sanitizer"]
+twin = "cwe78-wrong-sanitizer-safe"
+fix = "escapeshellarg, which is correct for a shell argument"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-wrong-sanitizer/index.php"]
+
+[[case.expect]]
+file = "cwe-78/cwe78-wrong-sanitizer/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe78-wrong-sanitizer-safe"
+cwe = "CWE-78"
+label = "safe"
+description = "Safe twin of cwe78-wrong-sanitizer: same flow, fixed with escapeshellarg, which is correct for a shell argument."
+php = "8.0+"
+shapes = ["correct-sanitizer"]
+twin = "cwe78-wrong-sanitizer"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-78/cwe78-wrong-sanitizer-safe/index.php"]
+
+
+# ---- CWE-22: path traversal ----
+[[case]]
+id = "cwe22-direct"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: the query parameter is used directly in the sink (a file read)."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe22-direct-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-direct/index.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-direct/index.php"
+lines = [3, 3]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-direct-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-direct: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe22-direct"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-direct-safe/index.php"]
+
+[[case]]
+id = "cwe22-local-flow"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: the query parameter flows through two local variables into the sink (a file read)."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe22-local-flow-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-local-flow/index.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-local-flow/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-local-flow-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-local-flow: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe22-local-flow"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-local-flow-safe/index.php"]
+
+[[case]]
+id = "cwe22-array-element"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: the query parameter is stored in an array element and read back at the sink (a file read)."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe22-array-element-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-array-element/index.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-array-element/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-array-element-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-array-element: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe22-array-element"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-array-element-safe/index.php"]
+
+[[case]]
+id = "cwe22-user-function"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: the query parameter is passed to a user function whose body holds the sink (a file read)."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe22-user-function-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-user-function/index.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-user-function/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-user-function-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-user-function: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe22-user-function"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-user-function-safe/index.php"]
+
+[[case]]
+id = "cwe22-method"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: the query parameter is passed to a method whose body holds the sink (a file read)."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe22-method-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-method/index.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-method/index.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-method-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-method: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe22-method"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-method-safe/index.php"]
+
+[[case]]
+id = "cwe22-cross-file-include"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: index.php includes lib.php and passes the query parameter to a function defined there (a file read)."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe22-cross-file-include-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-cross-file-include/index.php", "cwe-22/cwe22-cross-file-include/lib.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-cross-file-include/lib.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-cross-file-include-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-cross-file-include: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe22-cross-file-include"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-cross-file-include-safe/index.php", "cwe-22/cwe22-cross-file-include-safe/lib.php"]
+
+[[case]]
+id = "cwe22-autoload-class"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: index.php autoloads a class from Handler.php and passes the query parameter to its method (a file read)."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe22-autoload-class-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-autoload-class/index.php", "cwe-22/cwe22-autoload-class/Handler.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-autoload-class/Handler.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-autoload-class-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-autoload-class: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe22-autoload-class"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-autoload-class-safe/index.php", "cwe-22/cwe22-autoload-class-safe/Handler.php"]
+
+[[case]]
+id = "cwe22-framework-request"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: the value comes from a framework-style Request object (stub in the case) and reaches the sink (a file read)."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe22-framework-request-safe"
+fix = "basename on the file name"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-framework-request/index.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-framework-request/index.php"
+lines = [12, 12]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-framework-request-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-framework-request: same flow, fixed with basename on the file name."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe22-framework-request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-framework-request-safe/index.php"]
+
+[[case]]
+id = "cwe22-wrong-sanitizer"
+cwe = "CWE-22"
+label = "vulnerable"
+description = "Path traversal: the query parameter passes through a single non-recursive replacement of ../, which is bypassed by ....// before the sink (a file read)."
+php = "8.0+"
+shapes = ["wrong-sanitizer"]
+twin = "cwe22-wrong-sanitizer-safe"
+fix = "basename, which drops every directory component"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-wrong-sanitizer/index.php"]
+
+[[case.expect]]
+file = "cwe-22/cwe22-wrong-sanitizer/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe22-wrong-sanitizer-safe"
+cwe = "CWE-22"
+label = "safe"
+description = "Safe twin of cwe22-wrong-sanitizer: same flow, fixed with basename, which drops every directory component."
+php = "8.0+"
+shapes = ["correct-sanitizer"]
+twin = "cwe22-wrong-sanitizer"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-22/cwe22-wrong-sanitizer-safe/index.php"]
+
+
+# ---- CWE-502: unsafe deserialization ----
+[[case]]
+id = "cwe502-direct"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: the query parameter is used directly in the sink (unserialize)."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe502-direct-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-direct/index.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-direct/index.php"
+lines = [3, 3]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-direct-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-direct: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe502-direct"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-direct-safe/index.php"]
+
+[[case]]
+id = "cwe502-local-flow"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: the query parameter flows through two local variables into the sink (unserialize)."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe502-local-flow-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-local-flow/index.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-local-flow/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-local-flow-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-local-flow: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe502-local-flow"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-local-flow-safe/index.php"]
+
+[[case]]
+id = "cwe502-array-element"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: the query parameter is stored in an array element and read back at the sink (unserialize)."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe502-array-element-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-array-element/index.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-array-element/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-array-element-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-array-element: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe502-array-element"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-array-element-safe/index.php"]
+
+[[case]]
+id = "cwe502-user-function"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: the query parameter is passed to a user function whose body holds the sink (unserialize)."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe502-user-function-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-user-function/index.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-user-function/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-user-function-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-user-function: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe502-user-function"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-user-function-safe/index.php"]
+
+[[case]]
+id = "cwe502-method"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: the query parameter is passed to a method whose body holds the sink (unserialize)."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe502-method-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-method/index.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-method/index.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-method-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-method: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe502-method"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-method-safe/index.php"]
+
+[[case]]
+id = "cwe502-cross-file-include"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: index.php includes lib.php and passes the query parameter to a function defined there (unserialize)."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe502-cross-file-include-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-cross-file-include/index.php", "cwe-502/cwe502-cross-file-include/lib.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-cross-file-include/lib.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-cross-file-include-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-cross-file-include: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe502-cross-file-include"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-cross-file-include-safe/index.php", "cwe-502/cwe502-cross-file-include-safe/lib.php"]
+
+[[case]]
+id = "cwe502-autoload-class"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: index.php autoloads a class from Handler.php and passes the query parameter to its method (unserialize)."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe502-autoload-class-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-autoload-class/index.php", "cwe-502/cwe502-autoload-class/Handler.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-autoload-class/Handler.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-autoload-class-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-autoload-class: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe502-autoload-class"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-autoload-class-safe/index.php", "cwe-502/cwe502-autoload-class-safe/Handler.php"]
+
+[[case]]
+id = "cwe502-framework-request"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: the value comes from a framework-style Request object (stub in the case) and reaches the sink (unserialize)."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe502-framework-request-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-framework-request/index.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-framework-request/index.php"
+lines = [12, 12]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-framework-request-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-framework-request: same flow, fixed with allowed_classes set to false."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe502-framework-request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-framework-request-safe/index.php"]
+
+[[case]]
+id = "cwe502-wrong-sanitizer"
+cwe = "CWE-502"
+label = "vulnerable"
+description = "Unsafe deserialization: the query parameter passes through addslashes, which does not make serialized data trusted before the sink (unserialize)."
+php = "8.0+"
+shapes = ["wrong-sanitizer"]
+twin = "cwe502-wrong-sanitizer-safe"
+fix = "allowed_classes set to false"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-wrong-sanitizer/index.php"]
+
+[[case.expect]]
+file = "cwe-502/cwe502-wrong-sanitizer/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe502-wrong-sanitizer-safe"
+cwe = "CWE-502"
+label = "safe"
+description = "Safe twin of cwe502-wrong-sanitizer: same flow, fixed with allowed_classes set to false; the escaping does not matter."
+php = "8.0+"
+shapes = ["correct-sanitizer"]
+twin = "cwe502-wrong-sanitizer"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-502/cwe502-wrong-sanitizer-safe/index.php"]
+
+
+# ---- CWE-918: server-side request forgery ----
+[[case]]
+id = "cwe918-direct"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: the query parameter is used directly in the sink (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe918-direct-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-direct/index.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-direct/index.php"
+lines = [3, 3]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-direct-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-direct: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe918-direct"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-direct-safe/index.php"]
+
+[[case]]
+id = "cwe918-local-flow"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: the query parameter flows through two local variables into the sink (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe918-local-flow-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-local-flow/index.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-local-flow/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-local-flow-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-local-flow: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe918-local-flow"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-local-flow-safe/index.php"]
+
+[[case]]
+id = "cwe918-array-element"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: the query parameter is stored in an array element and read back at the sink (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe918-array-element-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-array-element/index.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-array-element/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-array-element-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-array-element: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe918-array-element"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-array-element-safe/index.php"]
+
+[[case]]
+id = "cwe918-user-function"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: the query parameter is passed to a user function whose body holds the sink (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe918-user-function-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-user-function/index.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-user-function/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-user-function-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-user-function: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe918-user-function"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-user-function-safe/index.php"]
+
+[[case]]
+id = "cwe918-method"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: the query parameter is passed to a method whose body holds the sink (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe918-method-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-method/index.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-method/index.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-method-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-method: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe918-method"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-method-safe/index.php"]
+
+[[case]]
+id = "cwe918-cross-file-include"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: index.php includes lib.php and passes the query parameter to a function defined there (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe918-cross-file-include-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-cross-file-include/index.php", "cwe-918/cwe918-cross-file-include/lib.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-cross-file-include/lib.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-cross-file-include-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-cross-file-include: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe918-cross-file-include"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-cross-file-include-safe/index.php", "cwe-918/cwe918-cross-file-include-safe/lib.php"]
+
+[[case]]
+id = "cwe918-autoload-class"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: index.php autoloads a class from Handler.php and passes the query parameter to its method (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe918-autoload-class-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-autoload-class/index.php", "cwe-918/cwe918-autoload-class/Handler.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-autoload-class/Handler.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-autoload-class-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-autoload-class: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe918-autoload-class"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-autoload-class-safe/index.php", "cwe-918/cwe918-autoload-class-safe/Handler.php"]
+
+[[case]]
+id = "cwe918-framework-request"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: the value comes from a framework-style Request object (stub in the case) and reaches the sink (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe918-framework-request-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-framework-request/index.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-framework-request/index.php"
+lines = [12, 12]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-framework-request-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-framework-request: same flow, fixed with a host allow-list check before the request."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe918-framework-request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-framework-request-safe/index.php"]
+
+[[case]]
+id = "cwe918-wrong-sanitizer"
+cwe = "CWE-918"
+label = "vulnerable"
+description = "Server-side request forgery: the query parameter passes through a URL syntax check, which accepts internal addresses before the sink (an outgoing HTTP request)."
+php = "8.0+"
+shapes = ["wrong-sanitizer"]
+twin = "cwe918-wrong-sanitizer-safe"
+fix = "a host allow-list check before the request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-wrong-sanitizer/index.php"]
+
+[[case.expect]]
+file = "cwe-918/cwe918-wrong-sanitizer/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe918-wrong-sanitizer-safe"
+cwe = "CWE-918"
+label = "safe"
+description = "Safe twin of cwe918-wrong-sanitizer: same flow, fixed with a host allow-list check; the syntax filter does not matter."
+php = "8.0+"
+shapes = ["correct-sanitizer"]
+twin = "cwe918-wrong-sanitizer"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-918/cwe918-wrong-sanitizer-safe/index.php"]
+
+
+# ---- CWE-601: open redirect ----
+[[case]]
+id = "cwe601-direct"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: the query parameter is used directly in the sink (a Location header)."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe601-direct-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-direct/index.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-direct/index.php"
+lines = [3, 3]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-direct-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-direct: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["direct"]
+twin = "cwe601-direct"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-direct-safe/index.php"]
+
+[[case]]
+id = "cwe601-local-flow"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: the query parameter flows through two local variables into the sink (a Location header)."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe601-local-flow-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-local-flow/index.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-local-flow/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-local-flow-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-local-flow: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["local-flow"]
+twin = "cwe601-local-flow"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-local-flow-safe/index.php"]
+
+[[case]]
+id = "cwe601-array-element"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: the query parameter is stored in an array element and read back at the sink (a Location header)."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe601-array-element-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-array-element/index.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-array-element/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-array-element-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-array-element: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["array-element"]
+twin = "cwe601-array-element"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-array-element-safe/index.php"]
+
+[[case]]
+id = "cwe601-user-function"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: the query parameter is passed to a user function whose body holds the sink (a Location header)."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe601-user-function-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-user-function/index.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-user-function/index.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-user-function-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-user-function: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["user-function"]
+twin = "cwe601-user-function"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-user-function-safe/index.php"]
+
+[[case]]
+id = "cwe601-method"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: the query parameter is passed to a method whose body holds the sink (a Location header)."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe601-method-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-method/index.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-method/index.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-method-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-method: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["method"]
+twin = "cwe601-method"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-method-safe/index.php"]
+
+[[case]]
+id = "cwe601-cross-file-include"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: index.php includes lib.php and passes the query parameter to a function defined there (a Location header)."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe601-cross-file-include-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-cross-file-include/index.php", "cwe-601/cwe601-cross-file-include/lib.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-cross-file-include/lib.php"
+lines = [5, 5]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-cross-file-include-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-cross-file-include: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["cross-file-include"]
+twin = "cwe601-cross-file-include"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-cross-file-include-safe/index.php", "cwe-601/cwe601-cross-file-include-safe/lib.php"]
+
+[[case]]
+id = "cwe601-autoload-class"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: index.php autoloads a class from Handler.php and passes the query parameter to its method (a Location header)."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe601-autoload-class-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-autoload-class/index.php", "cwe-601/cwe601-autoload-class/Handler.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-autoload-class/Handler.php"
+lines = [7, 7]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-autoload-class-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-autoload-class: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["autoload-class"]
+twin = "cwe601-autoload-class"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-autoload-class-safe/index.php", "cwe-601/cwe601-autoload-class-safe/Handler.php"]
+
+[[case]]
+id = "cwe601-framework-request"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: the value comes from a framework-style Request object (stub in the case) and reaches the sink (a Location header)."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe601-framework-request-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-framework-request/index.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-framework-request/index.php"
+lines = [12, 12]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-framework-request-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-framework-request: same flow, fixed with requiring a local path before redirecting."
+php = "8.0+"
+shapes = ["framework-request"]
+twin = "cwe601-framework-request"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-framework-request-safe/index.php"]
+
+[[case]]
+id = "cwe601-wrong-sanitizer"
+cwe = "CWE-601"
+label = "vulnerable"
+description = "Open redirect: the query parameter passes through HTML escaping, which does nothing for a redirect target before the sink (a Location header)."
+php = "8.0+"
+shapes = ["wrong-sanitizer"]
+twin = "cwe601-wrong-sanitizer-safe"
+fix = "requiring a local path before redirecting"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-wrong-sanitizer/index.php"]
+
+[[case.expect]]
+file = "cwe-601/cwe601-wrong-sanitizer/index.php"
+lines = [4, 4]
+min_confidence = "medium"
+
+[[case]]
+id = "cwe601-wrong-sanitizer-safe"
+cwe = "CWE-601"
+label = "safe"
+description = "Safe twin of cwe601-wrong-sanitizer: same flow, fixed with requiring a local path; the escaping does not matter."
+php = "8.0+"
+shapes = ["correct-sanitizer"]
+twin = "cwe601-wrong-sanitizer"
+provenance = "original"
+licence = "MIT OR Apache-2.0"
+files = ["cwe-601/cwe601-wrong-sanitizer-safe/index.php"]
+

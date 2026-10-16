@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MisterIcy/bleedthrough/schemas/vuln-manifest.schema.json",
+  "title": "Vulnerability corpus manifest (fixtures/vuln/manifest.toml, read as JSON)",
+  "description": "Structure only. `cargo xtask check-corpus` also checks files, pairing, CWE validity against the taxonomy, licences, sizes and line ranges.",
+  "type": "object",
+  "properties": {
+    "shapes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "minItems": 1 },
+    "class": {
+      "type": "array",
+      "description": "Weakness classes for which some flow shapes do not exist.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "cwe": { "$ref": "#/$defs/cwe" },
+          "not_applicable": { "type": "array", "items": { "type": "string" } },
+          "reason": { "type": "string" }
+        },
+        "required": ["cwe", "not_applicable", "reason"],
+        "additionalProperties": false
+      }
+    },
+    "case": { "type": "array", "items": { "$ref": "#/$defs/case" } }
+  },
+  "required": ["shapes", "case"],
+  "additionalProperties": false,
+  "$defs": {
+    "cwe": { "type": "string", "pattern": "^CWE-[1-9][0-9]*$" },
+    "path": { "type": "string", "pattern": "^[^/].*\\.php$" },
+    "lines": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 2, "maxItems": 2 },
+    "range": {
+      "type": "object",
+      "properties": { "file": { "$ref": "#/$defs/path" }, "lines": { "$ref": "#/$defs/lines" } },
+      "required": ["file", "lines"]
+    },
+    "case": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "cwe": { "$ref": "#/$defs/cwe" },
+        "label": { "enum": ["vulnerable", "safe"] },
+        "description": { "type": "string", "minLength": 1 },
+        "php": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\+|-[0-9]+\\.[0-9]+)$" },
+        "shapes": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "twin": { "type": "string" },
+        "fix": { "type": "string", "description": "What the safe twin changes; required on vulnerable cases." },
+        "standalone": { "type": "string", "description": "Why a safe case has no twin." },
+        "provenance": { "type": "string", "minLength": 1 },
+        "licence": { "type": "string", "minLength": 1 },
+        "files": { "type": "array", "items": { "$ref": "#/$defs/path" }, "minItems": 1 },
+        "known_gap": {
+          "type": "object",
+          "properties": { "reason": { "type": "string", "minLength": 1 }, "tracking": { "type": "string", "minLength": 1 } },
+          "required": ["reason", "tracking"],
+          "additionalProperties": false
+        },
+        "expect": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "file": { "$ref": "#/$defs/path" },
+              "lines": { "$ref": "#/$defs/lines" },
+              "cwe": { "$ref": "#/$defs/cwe" },
+              "min_confidence": { "enum": ["low", "medium", "high"] }
+            },
+            "required": ["file", "lines", "min_confidence"],
+            "additionalProperties": false
+          }
+        },
+        "protect": { "type": "array", "items": { "$ref": "#/$defs/range" } }
+      },
+      "required": ["id", "cwe", "label", "description", "php", "shapes", "provenance", "licence", "files"],
+      "additionalProperties": false
+    }
+  }
+}

@@ -19,6 +19,8 @@ flowchart TB
   subgraph TOOLING["Tooling (never shipped)"]
     conformance["bleedthrough-syntax-conformance (fixture suite)"]
     gen["bleedthrough-builtins-gen (built-in data generator)"]
+    eval["bleedthrough-eval (accuracy evaluator, vulnerability corpus)"]
+    bench["bleedthrough-bench (benchmark harness, synthetic generator, real-world corpus)"]
   end
   subgraph APP["Application"]
     app["bleedthrough-app (use cases, driven ports)"]
@@ -67,7 +69,7 @@ flowchart TB
 ```
 
 Edges omitted for readability are listed in `architecture.toml`. `syntax` and `taxonomy`
-depend on no workspace crate; `rules` and `findings` depend on `taxonomy` only. Tooling crates (`xtask`, `bleedthrough-syntax-conformance`, `bleedthrough-builtins-gen`) are never
+depend on no workspace crate; `rules` and `findings` depend on `taxonomy` only. Tooling crates (`xtask`, `bleedthrough-syntax-conformance`, `bleedthrough-builtins-gen`, `bleedthrough-eval`, `bleedthrough-bench`) are never
 depended on by a normal dependency; a tooling crate may depend on domain crates only, and an adapter may
 use the conformance suite and the built-in data generator as dev-dependencies, which is exempt from the edge rule because it never
 reaches a shipped artefact.
@@ -76,7 +78,7 @@ A language-server front-end is **reserved and not created**; like the CLI it wou
 - **Domain** is pure: no file system, network, process, environment or clock, and no format or async-runtime crates.
 - **Application** holds the scan use cases and owns the ports for sources, caching, lock files and emitting reports.
 - **Infrastructure** implements ports. Parser adapters (today `bleedthrough-syntax-mago`, in `adapters/`) are the only crates allowed to depend on a third-party PHP parser, at an exact version. The check follows the resolved dependency graph, so a parser cannot be reached through another crate either.
-- **Tooling** (the conformance suite over `fixtures/php/`, the built-in data generator described in [builtin-data.md](builtin-data.md), `xtask`) supports development and is not part of the product. Any parser backend is judged against the same corpus; see [fixtures/php/README.md](../fixtures/php/README.md).
+- **Tooling** (the conformance suite over `fixtures/php/`, the built-in data generator described in [builtin-data.md](builtin-data.md), the accuracy evaluator and vulnerability corpus described in [evaluation.md](evaluation.md), the benchmark harness and real-world corpus described in [benchmarks.md](benchmarks.md), `xtask`) supports development and is not part of the product. Any parser backend is judged against the same corpus; see [fixtures/php/README.md](../fixtures/php/README.md).
 - **Delivery** chooses and wires concrete implementations. Nothing depends on it.
 
 Ports are owned by the inner layer, so the dependency direction in Cargo is the direction of the abstraction.
@@ -94,6 +96,10 @@ Ports are owned by the inner layer, so the dependency direction in Cargo is the 
 | Parser isolation and pinning | CI | `cargo xtask check-layering` (direct and transitive reachability, exact pins), `cargo deny` bans |
 | Parser conformance | CI | conformance suite over the fixture corpus, and the ledger re-verified with `php -l` in the official images |
 | Licenses, advisories, sources | CI | `cargo deny check` |
+| Vulnerability corpus well-formed (labels, twins, CWEs, licences) | CI | `cargo xtask check-corpus`, and every case parsed by Mago and `php -l` |
+| Detection accuracy does not regress | CI (`not evaluated` passes only while `scan-switch` is false) | `cargo xtask eval --ci` against `fixtures/vuln/expectations.toml` |
+| Allocation and input counters do not drift | CI | `cargo xtask bench-counters` against `benchmarks/baselines.toml` |
+| Wall time does not regress, real-world parse budget, robustness | Scheduled / manual workflow | `.github/workflows/bench.yml` (`bench-compare`, `parse-budget`, `check-robustness`) |
 | Single responsibility | Review | [architecture-review.md](architecture-review.md) |
 | Interface segregation | Review | [architecture-review.md](architecture-review.md) |
 | Liskov substitution | Review | [architecture-review.md](architecture-review.md) |

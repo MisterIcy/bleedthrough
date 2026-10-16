@@ -12,6 +12,7 @@ mod policy;
 mod reach;
 mod reflection;
 mod release;
+mod tools;
 mod vendor;
 
 use std::fs;
@@ -36,6 +37,15 @@ commands:
   refresh-reflection  record Reflection fixtures from the pinned PHP images (manual; dry run unless
                    --run; needs Docker; `refresh-reflection --help`)
   gen-notice       rewrite NOTICE from the vendored licence files
+  bench-counters   parse-stage allocation/input counters vs benchmarks/baselines.toml (offline; --update)
+  bench-compare    <base> <head>: build both, measure alternately, compare wall time (this machine)
+  check-corpora    pinned real-world project list: pins, licences, tiers (offline)
+  fetch-corpus     download, hash-verify and extract the pinned projects into the cache (network)
+  parse-budget     parse failures on fetched projects vs corpora/parse-budget.toml (--update)
+  check-robustness scan fetched projects twice with different worker counts (needs a scan)
+  check-corpus     vulnerability corpus: files, labels, twins, CWEs, licences, sizes (offline)
+  eval             score the binary's json report on fixtures/vuln against fixtures/vuln/expectations.toml
+                   (`--update`, `--ci`, `--json FILE`; exit 0 pass, 1 fail, 3 not evaluated)
   check-all        every check above
   vendor-php-src   fetch one php-src release's stubs into third_party/ and the manifest (network;
                    `vendor-php-src --help`)";
@@ -195,10 +205,43 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
             errors.extend(api::run(&ws.declaration, &ws.packages, &ws.root, false));
             errors.extend(check_glossary(&ws)?);
             errors.extend(check_builtins(&ws)?);
+            if tools::check_corpus(&ws.root) != 0 {
+                errors.push("check-corpus failed (see above)".to_string());
+            }
+            if tools::check_corpora(&ws.root) != 0 {
+                errors.push("check-corpora failed (see above)".to_string());
+            }
+            if tools::bench_counters(&ws.root, &[]) != 0 {
+                errors.push("bench-counters failed (see above)".to_string());
+            }
             Ok(errors)
         }
         other => Err(format!("unknown command `{other}`\n{USAGE}")),
     }
+}
+
+fn repo_root() -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .map(PathBuf::from)
+        .unwrap_or_default()
+}
+
+/// Commands whose exit status is the status of the tool they run.
+fn run_tool(command: &str, rest: &[String]) -> Option<ExitCode> {
+    let root = repo_root();
+    let code = match command {
+        "check-corpus" => tools::check_corpus(&root),
+        "eval" => tools::eval(&root, rest),
+        "check-corpora" => tools::check_corpora(&root),
+        "fetch-corpus" => tools::fetch_corpus(&root, rest),
+        "parse-budget" => tools::parse_budget(&root, rest),
+        "check-robustness" => tools::check_robustness(&root, rest),
+        "bench-counters" => tools::bench_counters(&root, rest),
+        "bench-compare" => tools::bench_compare(&root, rest),
+        _ => return None,
+    };
+    Some(ExitCode::from(u8::try_from(code).unwrap_or(1)))
 }
 
 fn main() -> ExitCode {
@@ -207,6 +250,9 @@ fn main() -> ExitCode {
         eprintln!("{USAGE}");
         return ExitCode::FAILURE;
     };
+    if let Some(code) = run_tool(command, rest) {
+        return code;
+    }
     match run(command, rest) {
         Ok(errors) if errors.is_empty() => {
             println!("{command}: ok");

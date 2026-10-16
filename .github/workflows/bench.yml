@@ -1,0 +1,66 @@
+name: bench
+
+# Wall-time comparison of a revision against a base. Runs on demand and weekly, never on pull
+# requests: shared runners are too noisy to gate on. Both builds are measured on the same runner in
+# alternating rounds (`cargo xtask bench-compare`); a regression is reported, and the result
+# documents are kept as artifacts.
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Base revision (default: the previous commit)
+        required: false
+  schedule:
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: Swatinem/rust-cache@v2
+      - name: Cache the real-world corpus
+        uses: actions/cache@v4
+        with:
+          path: target/corpus
+          key: corpus-${{ hashFiles('corpora/real-world.toml') }}
+      - name: Fetch the real-world corpus
+        run: cargo xtask fetch-corpus
+      - name: Parse-failure budget
+        run: cargo xtask parse-budget
+      - name: Robustness and determinism
+        shell: bash
+        # Exit 3 means unavailable (no scan command yet), which is not a failure of this workflow.
+        run: |
+          set +e
+          cargo xtask check-robustness
+          code=$?
+          [ "$code" -eq 3 ] && exit 0
+          exit "$code"
+      - name: Compare
+        shell: bash
+        env:
+          BASE: ${{ inputs.base }}
+        run: |
+          base="${BASE:-HEAD~1}"
+          cargo xtask bench-compare "$base" HEAD \
+            --input "synthetic:seed=1,files=2000,avg_bytes=2048,class_pm=600,depth=3,include_pm=100,vuln_pm=0" \
+            | tee bench-report.txt
+      - name: Step summary
+        if: always()
+        shell: bash
+        run: |
+          { echo '```'; cat bench-report.txt 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-results
+          path: |
+            bench-report.txt
+            target/bench-compare/*.json

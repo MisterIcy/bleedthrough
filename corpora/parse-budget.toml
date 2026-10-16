@@ -1,0 +1,24 @@
+# Parse-failure budget per real-world project: files the parser recovered from and files it
+# failed on, excluding files real PHP rejects (with the verdict as the reason).
+# A run fails above the budget and below it; lower it deliberately with
+# `cargo xtask parse-budget --update` and review the printed diff.
+
+[project.fastroute]
+recovered = 0
+failed = 0
+
+[project.laravel-framework]
+recovered = 0
+failed = 0
+
+[project.slim]
+recovered = 0
+failed = 0
+
+[project.twig]
+recovered = 0
+failed = 0
+
+[project.wordpress]
+recovered = 0
+failed = 0

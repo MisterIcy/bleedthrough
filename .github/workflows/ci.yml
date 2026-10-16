@@ -81,6 +81,42 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --locked -p bleedthrough-syntax-mago --test conformance
 
+  corpus:
+    name: vulnerability corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      # Offline: manifest, files, twins, CWEs, licences and sizes; no scan, no network.
+      - run: cargo xtask check-corpus
+      # The pinned real-world list only; nothing is fetched in required CI.
+      - run: cargo xtask check-corpora
+      - run: cargo test --locked -p bleedthrough-syntax-mago --test vuln_corpus
+
+  bench-counters:
+    name: benchmark counters
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      # Deterministic allocation and input counters against benchmarks/baselines.toml; wall time is
+      # never gated here (it is noisy on shared runners; see docs/benchmarks.md).
+      - run: cargo xtask bench-counters
+
+  accuracy:
+    name: accuracy evaluation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - name: Scorer tests
+        run: cargo test --locked -p bleedthrough-eval
+      # `not evaluated` passes only while `scan-switch` in fixtures/vuln/expectations.toml is false.
+      - name: Evaluate
+        shell: bash # pipefail, so the verdict's exit status survives `tee`
+        run: cargo xtask eval --ci --json "$RUNNER_TEMP/eval.json" | tee -a "$GITHUB_STEP_SUMMARY"
+
   # Re-runs `php -l` in the official image for every PHP version of the ledger (pinned by digest in
   # fixtures/php/images.toml). A version that cannot be run is listed as unverified, never verified.
   ledger:
@@ -96,7 +132,7 @@ jobs:
   ci:
     name: CI status
     if: always()
-    needs: [build-test, fmt, clippy, deny, layering, glossary, public-api, conformance, ledger]
+    needs: [build-test, fmt, clippy, deny, layering, glossary, public-api, conformance, ledger, corpus, bench-counters, accuracy]
     runs-on: ubuntu-latest
     steps:
       - name: Report gates

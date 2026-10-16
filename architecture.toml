@@ -103,6 +103,20 @@ allow = ["bleedthrough-syntax"]
 layer = "tooling"
 allow = ["bleedthrough-syntax", "bleedthrough-builtins"]
 
+# The accuracy evaluator: loads the vulnerability corpus, scores a `json` report against its labels
+# and compares the result with the committed expectations. It reads the report as text (it never links
+# the engine or the CLI); xtask runs it as a subprocess, like the built-in data generator.
+[crate.bleedthrough-eval]
+layer = "tooling"
+allow = ["bleedthrough-taxonomy"]
+
+# The benchmark harness and the synthetic tree generator. The parse stage is generic over the parser
+# backend (the Mago adapter binds it in an example); the end-to-end stage runs the built binary as a
+# subprocess, so no tooling crate depends on the CLI or an adapter.
+[crate.bleedthrough-bench]
+layer = "tooling"
+allow = ["bleedthrough-syntax"]
+
 [crate.xtask]
 layer = "tooling"
 allow = []

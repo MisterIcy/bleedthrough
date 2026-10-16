@@ -1,0 +1,23 @@
+[package]
+name = "bleedthrough-bench"
+version = "0.0.0"
+description = "Bleedthrough tooling: the benchmark harness (stages, metrics, results, comparison) and the deterministic synthetic PHP tree generator"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bleedthrough-syntax = { path = "../syntax" }
+serde_json = "1.0.154"
+flate2 = "1.1.10"
+sha2 = "0.11.1"
+tar = "0.4.46"
+toml = "1.1.8"
+
+[dev-dependencies]
+jsonschema = { version = "0.33.0", default-features = false }
