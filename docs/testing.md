@@ -170,7 +170,7 @@ numbers: two runs on one commit are byte-identical) to `target/mutants/`. Option
   lookups, name and type resolution. A survivor there is killed with a test; the ledger accepts only mutants
   proved equivalent, and says why.
 - **Where it runs.** `mutants.yml`: weekly, on demand, and on a pull request labelled `run-mutants` (limited to the
-  changed code); one job per crate. It is never part of the required `ci` status. A full run of the six crates
+  changed code); one job per crate. It is never part of the required `ci` status. On GitHub runners (2 jobs each) a manual dispatch took 2 to 9 minutes per crate, but about 84 minutes for symbols. A full run of the six crates
   took about 20 minutes with 8 parallel jobs on a development machine.
 - **Baseline debt.** When mutation testing was introduced, 1482 survivors were recorded in the ledger with
   `baseline = true` and no analysis. Such entries are tolerated even in critical code, still go stale when their
