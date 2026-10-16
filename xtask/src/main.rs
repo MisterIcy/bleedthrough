@@ -28,7 +28,8 @@ commands:
   check-layering   layer rule, workspace inheritance, domain purity, parser isolation and pins
   check-api        public-API snapshots (--update to rewrite; `check-api --help` for limits)
   check-glossary   public domain types name a glossary term
-  check-builtins   vendored sources match the manifest (more as the pipeline grows)
+  check-builtins   manifest, NOTICE, packaging, and stubs/builtin.data + coverage.txt regenerate
+                   byte for byte from the vendored sources and fixtures (offline)
   check-release    pre-release gate: the licensing decision on the built-in data is recorded
                    (not part of check-all; fails until the owner decides)
   gen-builtins     regenerate stubs/builtin.data and stubs/coverage.txt from the vendored stubs
@@ -103,6 +104,9 @@ fn check_builtins(ws: &Workspace) -> Result<Vec<String>, String> {
     let mut errors = manifest::verify(&ws.root, &releases)?;
     errors.extend(notice::verify(&ws.root, &releases)?);
     errors.extend(release::check_packaging(&ws.root));
+    if errors.is_empty() {
+        errors.extend(run_generator(ws, &["--check"])?);
+    }
     Ok(errors)
 }
 
@@ -114,6 +118,11 @@ fn gen_builtins(ws: &Workspace) -> Result<Vec<String>, String> {
     if !problems.is_empty() {
         return Ok(problems);
     }
+    run_generator(ws, &[])
+}
+
+/// Runs the generator example (offline: `--locked`, no network) with extra arguments.
+fn run_generator(ws: &Workspace, extra: &[&str]) -> Result<Vec<String>, String> {
     let status = std::process::Command::new("cargo")
         .args([
             "run",
@@ -127,6 +136,7 @@ fn gen_builtins(ws: &Workspace) -> Result<Vec<String>, String> {
         ])
         .arg("--root")
         .arg(&ws.root)
+        .args(extra)
         .current_dir(&ws.root)
         .status()
         .map_err(|e| format!("cannot run cargo: {e}"))?;

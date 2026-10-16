@@ -18,6 +18,7 @@ flowchart TB
   end
   subgraph TOOLING["Tooling (never shipped)"]
     conformance["bleedthrough-syntax-conformance (fixture suite)"]
+    gen["bleedthrough-builtins-gen (built-in data generator)"]
   end
   subgraph APP["Application"]
     app["bleedthrough-app (use cases, driven ports)"]
@@ -27,6 +28,7 @@ flowchart TB
     ir["ir"]
     symbols["symbols"]
     syntax["syntax (AST, parser-backend port)"]
+    builtins["builtins (PHP built-in data, source port)"]
     rules["rules"]
     packs["packs"]
     findings["findings"]
@@ -46,6 +48,9 @@ flowchart TB
   mago --> syntax
   mago -. dev-dependency .-> conformance
   conformance --> syntax
+  mago -. dev-dependency .-> gen
+  gen --> syntax
+  gen --> builtins
   app --> engine
   app --> findings
   engine --> ir
@@ -62,16 +67,16 @@ flowchart TB
 ```
 
 Edges omitted for readability are listed in `architecture.toml`. `syntax` and `taxonomy`
-depend on no workspace crate; `rules` and `findings` depend on `taxonomy` only. Tooling crates (`xtask`, `bleedthrough-syntax-conformance`) are never
+depend on no workspace crate; `rules` and `findings` depend on `taxonomy` only. Tooling crates (`xtask`, `bleedthrough-syntax-conformance`, `bleedthrough-builtins-gen`) are never
 depended on by a normal dependency; a tooling crate may depend on domain crates only, and an adapter may
-use the conformance suite as a dev-dependency, which is exempt from the edge rule because it never
+use the conformance suite and the built-in data generator as dev-dependencies, which is exempt from the edge rule because it never
 reaches a shipped artefact.
 A language-server front-end is **reserved and not created**; like the CLI it would be a thin delivery crate.
 
 - **Domain** is pure: no file system, network, process, environment or clock, and no format or async-runtime crates.
 - **Application** holds the scan use cases and owns the ports for sources, caching, lock files and emitting reports.
 - **Infrastructure** implements ports. Parser adapters (today `bleedthrough-syntax-mago`, in `adapters/`) are the only crates allowed to depend on a third-party PHP parser, at an exact version. The check follows the resolved dependency graph, so a parser cannot be reached through another crate either.
-- **Tooling** (the conformance suite over `fixtures/php/`, `xtask`) supports development and is not part of the product. Any parser backend is judged against the same corpus; see [fixtures/php/README.md](../fixtures/php/README.md).
+- **Tooling** (the conformance suite over `fixtures/php/`, the built-in data generator described in [builtin-data.md](builtin-data.md), `xtask`) supports development and is not part of the product. Any parser backend is judged against the same corpus; see [fixtures/php/README.md](../fixtures/php/README.md).
 - **Delivery** chooses and wires concrete implementations. Nothing depends on it.
 
 Ports are owned by the inner layer, so the dependency direction in Cargo is the direction of the abstraction.

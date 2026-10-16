@@ -10,9 +10,10 @@ cargo deny check                 # install once with: cargo install cargo-deny -
 cargo xtask check-layering       # layer rule, workspace inheritance, domain purity, parser isolation
 cargo xtask check-glossary       # public domain types name a glossary term
 cargo xtask check-api            # public-API snapshots (use --update for intended changes)
+cargo xtask check-builtins       # built-in data regenerates byte for byte (see docs/builtin-data.md)
 ```
 
-`cargo xtask check-all` runs the three `xtask` checks together.
+`cargo xtask check-all` runs the four `xtask` checks together.
 
 ## Rules of the road
 

@@ -56,6 +56,15 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo xtask check-glossary
 
+  builtins:
+    name: built-in data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      # Offline: regenerates from the vendored stubs and fixtures; never runs PHP or pulls images.
+      - run: cargo xtask check-builtins
+
   public-api:
     name: public API
     runs-on: ubuntu-latest

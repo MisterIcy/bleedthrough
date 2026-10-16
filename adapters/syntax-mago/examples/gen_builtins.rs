@@ -1,13 +1,14 @@
 //! Runs the built-in data generator with the Mago backend.
 //!
 //! ```text
-//! cargo run -p bleedthrough-syntax-mago --example gen_builtins -- [--root DIR] [--out DIR]
+//! cargo run -p bleedthrough-syntax-mago --example gen_builtins -- [--root DIR] [--out DIR] [--check]
 //! ```
 //!
 //! Reads `third_party/php-src/php-8.N.*`, `stubs/conflicts.toml` and `stubs/bundling.toml` and
 //! `stubs/reflection/php-8.N.json` under
 //! the root (default: the current directory) and writes `builtin.data` and `coverage.txt` into
-//! the output directory (default: `<root>/stubs`). `cargo xtask gen-builtins` runs this.
+//! the output directory (default: `<root>/stubs`). With `--check` it writes nothing and fails
+//! when the files there differ from what it generates or the data is not valid. `cargo xtask gen-builtins` runs this.
 
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
@@ -76,14 +77,43 @@ fn run() -> Result<(), Vec<String>> {
         &read(root.join("stubs/bundling.toml"))?,
         &fixtures,
     )?;
-    std::fs::create_dir_all(&out).map_err(|e| vec![e.to_string()])?;
-    for (name, text) in [
+    let files = [
         ("builtin.data", &generated.data),
         ("coverage.txt", &generated.coverage),
-    ] {
+    ];
+    if args.iter().any(|a| a == "--check") {
+        return check(&out, &files);
+    }
+    std::fs::create_dir_all(&out).map_err(|e| vec![e.to_string()])?;
+    for (name, text) in files {
         std::fs::write(out.join(name), text).map_err(|e| vec![format!("{name}: {e}")])?;
     }
     Ok(())
+}
+
+/// Compares the generated files byte for byte with the checked-in ones, and reads the checked-in
+/// data back to prove it is valid in the canonical format.
+fn check(dir: &Path, files: &[(&str, &String)]) -> Result<(), Vec<String>> {
+    let mut problems = Vec::new();
+    for (name, text) in files {
+        match std::fs::read_to_string(dir.join(name)) {
+            Ok(have) if have == **text => {}
+            Ok(_) => problems.push(format!(
+                "stubs/{name} differs from what the vendored sources and fixtures generate; run `cargo xtask gen-builtins` and review the diff"
+            )),
+            Err(e) => problems.push(format!("stubs/{name}: {e}")),
+        }
+    }
+    if let Ok(have) = std::fs::read_to_string(dir.join("builtin.data"))
+        && let Err(e) = bleedthrough_builtins_gen::model::format::read(&have)
+    {
+        problems.push(format!("stubs/builtin.data is not valid: {e}"));
+    }
+    if problems.is_empty() {
+        Ok(())
+    } else {
+        Err(problems)
+    }
 }
 
 fn main() -> ExitCode {

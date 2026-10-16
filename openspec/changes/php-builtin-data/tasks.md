@@ -52,7 +52,7 @@
 
 ## 7. Gates and docs
 
-- [ ] 7.1 Implement `cargo xtask check-builtins` (regenerate to temp and diff, manifest, NOTICE, format validity) and add it to `check-all`; verify each failure mode and that CI runs it offline
-- [ ] 7.2 Write `docs/builtin-data.md` (format, how to read it, regeneration, adding a PHP version, refreshing fixtures, known gaps); verify the add-a-version procedure with a dry run that leaves earlier lookups unchanged
-- [ ] 7.3 Update `docs/architecture.md` and its diagram for the new crates; regenerate API snapshots; verify the diagram matches `architecture.toml`
-- [ ] 7.4 Run `cargo fmt --check`, `cargo clippy --workspace --all-targets --locked -- -D warnings`, `cargo deny check`, `cargo xtask check-all` and `cargo test --workspace --locked`; verify all pass on the pinned toolchain
+- [x] 7.1 Implement `cargo xtask check-builtins` (regenerate to temp and diff, manifest, NOTICE, format validity) and add it to `check-all`; verify each failure mode and that CI runs it offline
+- [x] 7.2 Write `docs/builtin-data.md` (format, how to read it, regeneration, adding a PHP version, refreshing fixtures, known gaps); verify the add-a-version procedure with a dry run that leaves earlier lookups unchanged
+- [x] 7.3 Update `docs/architecture.md` and its diagram for the new crates; regenerate API snapshots; verify the diagram matches `architecture.toml`
+- [x] 7.4 Run `cargo fmt --check`, `cargo clippy --workspace --all-targets --locked -- -D warnings`, `cargo deny check`, `cargo xtask check-all` and `cargo test --workspace --locked`; verify all pass on the pinned toolchain
