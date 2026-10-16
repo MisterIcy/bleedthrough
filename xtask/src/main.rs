@@ -10,6 +10,7 @@ mod meta;
 mod notice;
 mod policy;
 mod reach;
+mod reflection;
 mod release;
 mod vendor;
 
@@ -31,6 +32,8 @@ commands:
   check-release    pre-release gate: the licensing decision on the built-in data is recorded
                    (not part of check-all; fails until the owner decides)
   gen-builtins     regenerate stubs/builtin.data and stubs/coverage.txt from the vendored stubs
+  refresh-reflection  record Reflection fixtures from the pinned PHP images (manual; dry run unless
+                   --run; needs Docker; `refresh-reflection --help`)
   gen-notice       rewrite NOTICE from the vendored licence files
   check-all        every check above
   vendor-php-src   fetch one php-src release's stubs into third_party/ and the manifest (network;
@@ -152,6 +155,17 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
             println!("{line}");
         }
         return Ok(Vec::new());
+    }
+    if command == "refresh-reflection" {
+        if rest.iter().any(|a| a == "--help") {
+            println!("{}", reflection::HELP);
+            return Ok(Vec::new());
+        }
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .map(PathBuf::from)
+            .unwrap_or_default();
+        return reflection::run_command(rest, &root);
     }
     let ws = load()?;
     let update = rest.iter().any(|a| a == "--update");
