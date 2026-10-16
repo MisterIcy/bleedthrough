@@ -28,13 +28,13 @@
 - [x] 4.2 Implement the survivor ledger comparison (`testing/mutants-survivors.toml`, key without line numbers, reason, equivalent flag, critical globs in `testing/mutants-critical.toml`) and verify new-survivor, stale-entry and critical-nonequivalent failures with unit tests
 - [x] 4.3 (baseline run done and recorded; killing the survivors moved to change `mutation-hardening` at the user's direction) Run the baseline on every domain crate; for survivors in critical areas (severity and confidence, taxonomy lookups, limits, fingerprint) write tests that kill them, and verify the re-run no longer reports them
 - [x] 4.4 (the baseline is ledgered as `baseline = true` debt; the full run passes against it; reasoned entries move to `mutation-hardening`) Ledger the remaining survivors with specific reasons and verify the full run passes against the ledger and gives identical results on a second run
-- [ ] 4.5 Add `.github/workflows/mutants.yml` (schedule and dispatch, sharded by crate, publishes JSON) and verify with a manual dispatch run that it is not in the `ci` job's `needs`
+- [x] 4.5 Add `.github/workflows/mutants.yml` (schedule and dispatch, sharded by crate, publishes JSON) and verify with a manual dispatch run that it is not in the `ci` job's `needs`
 
 ## 5. Traceability and determinism
 
 - [x] 5.1 Implement `cargo xtask spec-trace`: parse requirement titles from `openspec/specs/*/spec.md` and `spec:` markers from test sources; report uncovered scenarios, stale markers and property-only coverage in JSON and text; verify with a fixture spec and test file
 - [x] 5.2 Add markers to the tests of the most recently added capabilities (finding model, emitters, rule schema, taxonomy, corpus, evaluation) and verify the report shows them covered
-- [ ] 5.3 Add a scheduled determinism job running the suite with one thread and the default thread count plus long property runs (`BLEEDTHROUGH_PROPTEST_CASES` raised), failing on any difference; verify by a dispatch run
+- [x] 5.3 Add a scheduled determinism job running the suite with one thread and the default thread count plus long property runs (`BLEEDTHROUGH_PROPTEST_CASES` raised), failing on any difference; verify by a dispatch run
 - [x] 5.4 Add a line to the archive checklist in `docs/architecture-review.md` to read the traceability report for the change being archived
 
 ## 6. Final verification
