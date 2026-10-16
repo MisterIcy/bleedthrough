@@ -51,13 +51,15 @@ function bt_params(ReflectionFunctionAbstract $function): array
     return $params;
 }
 
+/** Version-dependent Reflection methods are guarded: the script runs on PHP 8.0 to 8.5. */
+
 /** @return array<string, mixed> */
 function bt_signature(ReflectionFunctionAbstract $function): array
 {
     return [
         'params' => bt_params($function),
         'return_type' => bt_type($function->getReturnType()),
-        'tentative_return_type' => bt_type($function->getTentativeReturnType()),
+        'tentative_return_type' => method_exists($function, 'getTentativeReturnType') ? bt_type($function->getTentativeReturnType()) : '',
         'returns_ref' => $function->returnsReference(),
     ];
 }
@@ -70,7 +72,8 @@ function bt_visibility(object $member): string
 /** @return array<string, mixed> */
 function bt_class(ReflectionClass $class): array
 {
-    $kind = $class->isInterface() ? 'interface' : ($class->isTrait() ? 'trait' : ($class->isEnum() ? 'enum' : 'class'));
+    $is_enum = method_exists($class, 'isEnum') && $class->isEnum();
+    $kind = $class->isInterface() ? 'interface' : ($class->isTrait() ? 'trait' : ($is_enum ? 'enum' : 'class'));
     $parent = $class->getParentClass();
     $out = [
         'kind' => $kind,
@@ -87,14 +90,14 @@ function bt_class(ReflectionClass $class): array
         'methods' => [],
     ];
     sort($out['interfaces']);
-    if ($class->isEnum()) {
+    if ($is_enum) {
         $out['backing_type'] = bt_type((new ReflectionEnum($class->getName()))->getBackingType());
     }
     foreach ($class->getReflectionConstants() as $constant) {
         if ($constant->getDeclaringClass()->getName() !== $class->getName()) {
             continue;
         }
-        if ($constant->isEnumCase()) {
+        if (method_exists($constant, 'isEnumCase') && $constant->isEnumCase()) {
             $case = $constant->getValue();
             $out['cases'][$constant->getName()] = $case instanceof BackedEnum ? bt_value($case->value) : '';
             continue;
@@ -103,7 +106,7 @@ function bt_class(ReflectionClass $class): array
             'value' => bt_value($constant->getValue()),
             'type' => method_exists($constant, 'getType') ? bt_type($constant->getType()) : '',
             'visibility' => bt_visibility($constant),
-            'final' => $constant->isFinal(),
+            'final' => method_exists($constant, 'isFinal') && $constant->isFinal(),
         ];
     }
     foreach ($class->getProperties() as $property) {
