@@ -29,3 +29,11 @@ It does not prove the following. Reviewers check them on every pull request.
 - [ ] Macro-generated or glob re-exported public items are reflected in the `api/` snapshot by hand if relevant.
 - [ ] Any new edge in `architecture.toml` carries a comment justifying it.
 - [ ] Any `#[allow(...)]` of a size or complexity lint is local and justified in a comment.
+
+## Tests
+- [ ] Every scenario the change adds or alters has a test with a `/// spec:` marker (`docs/testing.md`).
+- [ ] Each security decision (taint, sanitiser, trust, reachability, name or type resolution, parsing of untrusted text) has a negative test next to its positive one.
+- [ ] New pure logic carries properties: normalisation or ordering (idempotent, order-independent, absorbing as specified), resolution (never panics, stable, within the declared universe), parsers of untrusted text (arbitrary bytes and near-valid mutations never panic and respect limits).
+- [ ] Properties complement, and do not replace, an example test of each specified scenario.
+- [ ] New tests are hermetic and deterministic: no network, interpreter or clock; seeds fixed; anything else `#[ignore = "reason"]`.
+- [ ] Before archiving a change, read the spec traceability report (`cargo xtask spec-trace`): every scenario the change added has a marked test, or is listed as manual with its reason, and no marker is stale.

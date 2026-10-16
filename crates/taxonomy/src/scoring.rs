@@ -334,6 +334,7 @@ mod tests {
         ("CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N", 0),
     ];
 
+    /// spec: severity-scoring/A fixed formula derives the score
     #[test]
     fn reference_vectors_round_trip_and_score() {
         for (vector, tenths) in REFERENCE {
@@ -353,6 +354,7 @@ mod tests {
         assert_eq!(m.level(), SeverityLevel::Critical);
     }
 
+    /// spec: severity-scoring/Level is derived from the score
     #[test]
     fn level_boundaries() {
         use SeverityLevel::*;

@@ -16,6 +16,7 @@ fn reordered(report: &Report) -> Report {
     )
 }
 
+/// spec: report-emitters/Guarantees common to every format
 #[test]
 fn emitting_twice_is_byte_identical() {
     for (name, report) in common::all() {
@@ -29,6 +30,7 @@ fn emitting_twice_is_byte_identical() {
     }
 }
 
+/// spec: report-emitters/Guarantees common to every format
 #[test]
 fn shuffled_input_gives_identical_bytes() {
     for (name, report) in common::all() {

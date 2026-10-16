@@ -135,6 +135,7 @@ mod tests {
         })
     }
 
+    /// spec: finding-model/Severity is a level with an optional derived score
     #[test]
     fn severity_from_rule_metrics_is_independent_of_confidence() {
         let metrics = Metrics {

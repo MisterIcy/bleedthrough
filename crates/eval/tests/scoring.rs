@@ -43,6 +43,7 @@ fn findings(list: &[String]) -> Vec<Finding> {
     report::read(&document(list)).expect("valid report")
 }
 
+/// spec: accuracy-evaluation/Findings are matched to labels deterministically
 #[test]
 fn correct_finding_is_a_true_positive() {
     let corpus = corpus_with_two_classes("tp");
@@ -161,6 +162,7 @@ fn any_cwe_of_the_finding_counts() {
     assert_eq!(scored.per_cwe["CWE-89"].tp, 1);
 }
 
+/// spec: accuracy-evaluation/Findings are matched to labels deterministically
 #[test]
 fn order_of_findings_does_not_matter() {
     let corpus = corpus_with_two_classes("order");
@@ -185,6 +187,7 @@ fn order_of_findings_does_not_matter() {
     assert_eq!(a, b);
 }
 
+/// spec: accuracy-evaluation/Metrics are reported per weakness class and per rule
 #[test]
 fn undefined_metrics_are_null_not_zero_or_one() {
     let corpus = corpus_with_two_classes("undefined");
@@ -210,6 +213,7 @@ fn corpus_negatives(root: &std::path::Path) -> Corpus {
     )
 }
 
+/// spec: accuracy-evaluation/Evaluation consumes the public report
 #[test]
 fn malformed_reports_fail_with_the_validation_error_and_no_metrics() {
     let corpus = corpus_with_two_classes("invalid");
@@ -248,6 +252,7 @@ fn matching_expectations_pass() {
     assert_eq!(e.verdict, Verdict::Pass, "{:?}", e.problems);
 }
 
+/// spec: accuracy-evaluation/Results are compared with committed expectations
 #[test]
 fn regression_fails_and_names_case_and_class() {
     let corpus = corpus_with_two_classes("regression");
@@ -371,6 +376,7 @@ fn output_is_byte_identical_on_repeated_runs() {
     assert_eq!(table_a, table_b);
 }
 
+/// spec: accuracy-evaluation/Absence of a scan is explicit
 #[test]
 fn no_scan_is_not_evaluated_with_a_reason_and_a_distinct_status() {
     let corpus = corpus_with_two_classes("noscan");

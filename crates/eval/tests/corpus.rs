@@ -55,6 +55,7 @@ fn duplicate_ids_are_reported() {
     assert!(has(&e, "duplicate case id `v`"), "{e:?}");
 }
 
+/// spec: vulnerability-fixture-corpus/Vulnerable cases have safe twins
 #[test]
 fn unpaired_vulnerable_case_fails() {
     let cases = pair(EXPECT).replace("twin = \"s\"\n", "");
@@ -107,6 +108,7 @@ fn unknown_cwe_in_an_expectation_is_named() {
     assert!(has(&e, "expected finding `CWE-99999`"), "{e:?}");
 }
 
+/// spec: vulnerability-fixture-corpus/Every case declares its label and expectations
 #[test]
 fn vulnerable_case_without_expectation_fails() {
     let e = errors("noexpect", &pair(""), pair_files);
@@ -129,6 +131,7 @@ fn range_outside_the_file_fails() {
     );
 }
 
+/// spec: vulnerability-fixture-corpus/Known gaps are tracked, not hidden
 #[test]
 fn known_gap_needs_reason_and_tracking() {
     let cases = pair(EXPECT).replace(
@@ -145,6 +148,7 @@ fn known_gap_needs_reason_and_tracking() {
     );
 }
 
+/// spec: vulnerability-fixture-corpus/Cases are original, small and focused
 #[test]
 fn oversized_file_is_named() {
     let big = format!("<?php\n{}", "$a = 1;\n".repeat(150));
@@ -181,6 +185,7 @@ fn licence_must_be_allowed() {
     );
 }
 
+/// spec: vulnerability-fixture-corpus/Completeness is checked
 #[test]
 fn a_broken_copy_of_the_real_corpus_fails() {
     let root = scratch("broken-copy");
@@ -194,6 +199,7 @@ fn a_broken_copy_of_the_real_corpus_fails() {
     );
 }
 
+/// spec: vulnerability-fixture-corpus/Coverage of flow shapes
 #[test]
 fn coverage_lists_a_missing_wrong_sanitizer_case() {
     use bleedthrough_eval::coverage::{coverage, render};

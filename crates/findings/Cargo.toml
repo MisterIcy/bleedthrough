@@ -13,5 +13,8 @@ publish.workspace = true
 sha2 = "0.11"
 bleedthrough-taxonomy = { path = "../taxonomy" }
 
+[dev-dependencies]
+bleedthrough-testkit = { path = "../testkit" }
+
 [lints]
 workspace = true

@@ -193,6 +193,7 @@ mod tests {
         ]
     }
 
+    /// spec: finding-model/Findings are totally ordered and reports are deterministic
     #[test]
     fn ordered_by_path_start_rule_then_fingerprint() {
         let r = report(set());
@@ -224,6 +225,7 @@ mod tests {
         assert!(ties[0].fingerprint() < ties[1].fingerprint());
     }
 
+    /// spec: finding-model/Findings are totally ordered and reports are deterministic
     #[test]
     fn shuffled_input_gives_an_identical_report() {
         let forward = report(set());

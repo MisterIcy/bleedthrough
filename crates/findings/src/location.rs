@@ -149,6 +149,7 @@ impl Location {
 mod tests {
     use super::*;
 
+    /// spec: finding-model/Locations are portable and precise
     #[test]
     fn rejects_absolute_and_parent_paths() {
         for bad in [
@@ -166,6 +167,7 @@ mod tests {
         }
     }
 
+    /// spec: finding-model/Locations are portable and precise
     #[test]
     fn backslashes_become_forward_slashes() {
         assert_eq!(

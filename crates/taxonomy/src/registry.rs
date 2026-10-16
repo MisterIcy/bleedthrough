@@ -311,6 +311,7 @@ static WEAKNESSES: &[WeaknessEntry] = &[
 mod tests {
     use super::*;
 
+    /// spec: security-taxonomy/CWE identifiers are validated against a curated registry
     #[test]
     fn known_and_unknown_weaknesses() {
         let r = Registry::builtin();

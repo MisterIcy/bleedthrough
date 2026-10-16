@@ -252,6 +252,7 @@ mod tests {
         );
     }
 
+    /// spec: security-taxonomy/Tags have stable text forms
     #[test]
     fn text_forms_round_trip() {
         assert_eq!(cwe(89).to_string(), "CWE-89");
@@ -306,6 +307,7 @@ mod tests {
         );
     }
 
+    /// spec: security-taxonomy/Weakness to category mapping is checked, not assumed
     #[test]
     fn mapping_is_checked() {
         let r = Registry::builtin();

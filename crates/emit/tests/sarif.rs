@@ -10,6 +10,7 @@ fn log(report: &bleedthrough_findings::Report) -> Value {
     serde_json::from_slice(&common::emit(Format::Sarif, report).0).unwrap()
 }
 
+/// spec: report-emitters/SARIF 2.1.0 format
 #[test]
 fn log_shape_and_level_mapping() {
     let l = log(&common::mixed());

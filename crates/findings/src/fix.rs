@@ -157,6 +157,7 @@ mod tests {
         )
     }
 
+    /// spec: finding-model/Fixes are optional, explicit and non-overlapping
     #[test]
     fn overlapping_edits_fail() {
         let edits = vec![edit("a.php", 0, 5).unwrap(), edit("a.php", 4, 8).unwrap()];
@@ -166,6 +167,7 @@ mod tests {
         ));
     }
 
+    /// spec: finding-model/Fixes are optional, explicit and non-overlapping
     #[test]
     fn touching_edits_and_other_files_are_fine() {
         let edits = vec![

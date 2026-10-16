@@ -34,6 +34,7 @@ fn every_case_file_parses_cleanly() {
 }
 
 #[test]
+#[ignore = "needs a local PHP interpreter; run with `cargo test -- --ignored` where php is installed"]
 fn every_case_file_passes_php_lint_when_an_interpreter_exists() {
     let Some((minor, full)) = local_version() else {
         println!("no local php: skipping the interpreter check");

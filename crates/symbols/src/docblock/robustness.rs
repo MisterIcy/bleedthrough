@@ -109,3 +109,28 @@ fn pathological_nesting_and_length_complete() {
         &ctx,
     );
 }
+
+mod properties {
+    use bleedthrough_testkit::proptest::prelude::*;
+    use bleedthrough_testkit::{check, mutated};
+
+    use super::{SEEDS, exercise};
+
+    #[test]
+    fn arbitrary_text_never_panics_the_docblock_parsers() {
+        check(".{0,80}", |text| {
+            exercise(&text);
+            exercise(&format!("/** @param {text} */"));
+            Ok(())
+        });
+    }
+
+    #[test]
+    fn near_valid_docblocks_never_panic_the_docblock_parsers() {
+        let seeds = prop::sample::select(SEEDS.to_vec()).prop_map(str::to_string);
+        check(mutated(seeds), |bytes| {
+            exercise(&String::from_utf8_lossy(&bytes));
+            Ok(())
+        });
+    }
+}

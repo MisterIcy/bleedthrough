@@ -1,0 +1,60 @@
+name: determinism
+
+# Scheduled checks that the suite does not depend on thread count or chance (docs/testing.md, spec
+# `testing-strategy` and `property-testing`). Never part of the required `ci` status.
+on:
+  schedule:
+    - cron: "41 3 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  threads:
+    name: one thread and default threads agree
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - name: Run with one test thread
+        run: cargo test --workspace --locked -- --test-threads=1 2>&1 | grep -E '^test .* \.\.\. ' | sed -E 's/ \.\.\. (ok|FAILED|ignored.*)$/ \1/' | sort > one.txt
+      - name: Run with the default thread count
+        run: cargo test --workspace --locked 2>&1 | grep -E '^test .* \.\.\. ' | sed -E 's/ \.\.\. (ok|FAILED|ignored.*)$/ \1/' | sort > many.txt
+      - name: Compare
+        run: |
+          test -s one.txt
+          diff one.txt many.txt
+          ! grep -q FAILED one.txt
+
+  property-runs:
+    name: long property runs
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: ["1", "2", "3"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - name: Properties with many cases and a different seed
+        env:
+          BLEEDTHROUGH_PROPTEST_SEED: ${{ matrix.seed }}
+          BLEEDTHROUGH_PROPTEST_CASES: "10000"
+        run: cargo test --workspace --locked properties
+
+  interpreter:
+    name: tests that need a PHP interpreter
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - name: Install PHP
+        run: sudo apt-get update && sudo apt-get install -y php-cli
+      - run: cargo test --workspace --locked -- --ignored

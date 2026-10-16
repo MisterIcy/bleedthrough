@@ -115,6 +115,7 @@ mod tests {
         assert!(Fingerprint::parse("bt1:ABCDEF00000000000000000000000000").is_err());
     }
 
+    /// spec: finding-model/Fingerprints are stable
     #[test]
     fn independent_of_position_because_input_has_none() {
         // The input carries no line numbers or paths, so moving code cannot change it.
@@ -123,6 +124,7 @@ mod tests {
         assert_eq!(a, b);
     }
 
+    /// spec: finding-model/Fingerprints are stable
     #[test]
     fn changed_flow_or_occurrence_changes_it() {
         let base = fp(&input("A::b", &["$_GET['id']", "query($q)"], 0));

@@ -15,5 +15,8 @@ bleedthrough-builtins = { path = "../builtins" }
 # (decision of task 1.2: sha2 passes the domain-purity check, so no allow-list entry is needed).
 sha2 = "0.11"
 
+[dev-dependencies]
+bleedthrough-testkit = { path = "../testkit" }
+
 [lints]
 workspace = true

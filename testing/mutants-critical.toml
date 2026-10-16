@@ -1,0 +1,21 @@
+# Security-critical code: the survivor ledger admits only equivalent mutants here (spec `mutation-testing`:
+# taint, sanitisation, severity and confidence, name and type resolution, handling of limits).
+# Patterns are repository-relative globs: `*` within a path segment, `**` across segments.
+
+globs = [
+  # severity and confidence
+  "crates/taxonomy/src/scoring.rs",
+  "crates/taxonomy/src/severity.rs",
+  "crates/findings/src/confidence.rs",
+  "crates/findings/src/fingerprint.rs",
+  # limits
+  "crates/findings/src/coverage.rs",
+  # taxonomy lookups
+  "crates/taxonomy/src/registry.rs",
+  "crates/taxonomy/src/tags.rs",
+  # name and type resolution
+  "crates/symbols/src/name.rs",
+  "crates/symbols/src/table/lookup.rs",
+  "crates/symbols/src/table/hierarchy.rs",
+  "crates/symbols/src/types/**",
+]
