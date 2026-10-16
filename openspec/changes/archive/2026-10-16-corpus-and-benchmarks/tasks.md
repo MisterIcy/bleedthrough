@@ -45,7 +45,7 @@
 
 - [x] 6.1 Define `corpora/real-world.toml` and the checker (pin fields, tier coverage, framework/non-framework/legacy mix, licence recorded), and verify the check fails on a missing hash in a test
 - [x] 6.2 Implement `cargo xtask fetch-corpus` with hash verification, safe extraction (no traversal, no escaping symlinks) and the cache directory; verify with a local fixture archive including a traversal attempt and a hash mismatch
-- [ ] 6.3 Choose and pin the initial projects (at least one per tier) from the documented criteria, record commit, archive hash, licence and reason, and verify the fetch command succeeds and the pins are reviewed
+- [x] 6.3 Choose and pin the initial projects (at least one per tier) from the documented criteria, record commit, archive hash, licence and reason, and verify the fetch command succeeds and the pins are reviewed
 - [x] 6.4 Implement the parse-failure budget check (`corpora/parse-budget.toml`), excluding files PHP itself rejects with the recorded verdict, and verify a regression and an improvement are both reported with file lists
 - [x] 6.5 Implement the robustness and determinism check (twice, different worker counts, byte-identical reports; time limit; panic detection) that runs when a scan exists, and verify it reports unavailable today
 - [x] 6.6 Verify offline behaviour: with an empty cache and no network, all required-CI checks pass and corpus-dependent checks report unavailable
