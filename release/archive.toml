@@ -1,0 +1,6 @@
+# What a release archive contains besides the `bleedthrough` binary, relative to the repository
+# root. `cargo xtask check-builtins` fails if NOTICE (the PHP and Zend licence texts that the
+# built-in data requires) is missing from this list or from the Dockerfile.
+
+[archive]
+include = ["README.md", "LICENSE-MIT", "LICENSE-APACHE", "NOTICE"]

@@ -5,9 +5,13 @@ mod apiscan;
 mod declaration;
 mod glossary;
 mod layering;
+mod manifest;
 mod meta;
+mod notice;
 mod policy;
 mod reach;
+mod release;
+mod vendor;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -23,7 +27,13 @@ commands:
   check-layering   layer rule, workspace inheritance, domain purity, parser isolation and pins
   check-api        public-API snapshots (--update to rewrite; `check-api --help` for limits)
   check-glossary   public domain types name a glossary term
-  check-all        every check above";
+  check-builtins   vendored sources match the manifest (more as the pipeline grows)
+  check-release    pre-release gate: the licensing decision on the built-in data is recorded
+                   (not part of check-all; fails until the owner decides)
+  gen-notice       rewrite NOTICE from the vendored licence files
+  check-all        every check above
+  vendor-php-src   fetch one php-src release's stubs into third_party/ and the manifest (network;
+                   `vendor-php-src --help`)";
 
 struct Workspace {
     root: PathBuf,
@@ -83,9 +93,32 @@ fn check_glossary(ws: &Workspace) -> Result<Vec<String>, String> {
     Ok(errors)
 }
 
+/// Offline checks of the built-in data pipeline's inputs and outputs.
+fn check_builtins(ws: &Workspace) -> Result<Vec<String>, String> {
+    let releases = manifest::load(&ws.root)?;
+    let mut errors = manifest::verify(&ws.root, &releases)?;
+    errors.extend(notice::verify(&ws.root, &releases)?);
+    errors.extend(release::check_packaging(&ws.root));
+    Ok(errors)
+}
+
 fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
     if command == "check-api" && rest.iter().any(|a| a == "--help") {
         println!("{}", api::HELP);
+        return Ok(Vec::new());
+    }
+    if command == "vendor-php-src" {
+        if rest.iter().any(|a| a == "--help") {
+            println!("{}", vendor::HELP);
+            return Ok(Vec::new());
+        }
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .map(PathBuf::from)
+            .unwrap_or_default();
+        for line in vendor::run_command(rest, &root)? {
+            println!("{line}");
+        }
         return Ok(Vec::new());
     }
     let ws = load()?;
@@ -94,10 +127,17 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
         "check-layering" => check_layering(&ws),
         "check-api" => Ok(api::run(&ws.declaration, &ws.packages, &ws.root, update)),
         "check-glossary" => check_glossary(&ws),
+        "check-builtins" => check_builtins(&ws),
+        "check-release" => Ok(release::check_decision(&ws.root)),
+        "gen-notice" => {
+            notice::write(&ws.root, &manifest::load(&ws.root)?)?;
+            Ok(Vec::new())
+        }
         "check-all" => {
             let mut errors = check_layering(&ws)?;
             errors.extend(api::run(&ws.declaration, &ws.packages, &ws.root, false));
             errors.extend(check_glossary(&ws)?);
+            errors.extend(check_builtins(&ws)?);
             Ok(errors)
         }
         other => Err(format!("unknown command `{other}`\n{USAGE}")),

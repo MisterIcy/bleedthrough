@@ -1,6 +1,9 @@
 [workspace]
 resolver = "3"
 members = ["crates/*", "adapters/*", "xtask"]
+# Vendored upstream files and generated data are not crates: formatting, linting and compilation
+# never look at them (see docs/builtin-data.md).
+exclude = ["third_party", "stubs"]
 
 [workspace.package]
 edition = "2024"

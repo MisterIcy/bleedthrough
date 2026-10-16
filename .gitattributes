@@ -1,1 +1,3 @@
 fixtures/php/** -text
+# Vendored upstream files must stay byte-identical (see stubs/MANIFEST.toml).
+third_party/** -text
