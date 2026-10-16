@@ -118,3 +118,23 @@ The set of PHP versions (8.0 to 8.5) for which a built-in record applies. A symb
 ## Oracle
 
 A real PHP interpreter's Reflection output, kept as checked-in fixtures, used to fill what the stubs lack and to verify the generated built-in data. It is never needed to run the product.
+
+## Fully qualified name
+
+A class, function or constant name with its namespace written out in full and without a leading backslash, such as `App\Http\Request`. Classes and functions compare case-insensitively and keep the spelling they were declared with.
+
+## File summary
+
+The declarations of one file (classes with their members, functions, constants, and the class names the file refers to), computed from that file's syntax tree alone so it can be stored and reused while the file is unchanged. It is not the taint summary of a function.
+
+## Symbol table
+
+The immutable, project-wide index of declarations built from file summaries and the built-in data: classes with their hierarchy, functions and constants, and lookups through inheritance.
+
+## Type
+
+What the analysis knows about the values an expression can have: a normalised union of atoms such as `string`, `null` or `Foo`, with `unknown` kept apart from `mixed` so that missing knowledge is never mistaken for a real type.
+
+## Call resolution
+
+The outcome of resolving one call to declarations: the candidate declarations, a dynamic outcome, or an unresolved outcome with a reason.

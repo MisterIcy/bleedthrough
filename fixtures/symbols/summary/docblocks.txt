@@ -1,0 +1,10 @@
+file docblocks.php
+class Docs\Box []
+  method mixup($a: string (native); $b: string (native); $c: array<array-key, Docs\Foo> (docblock); $d: class-string<Docs\Box> (docblock)) -> int (native) [public] declared
+  method bad($x: array<array-key, mixed> (native)) -> unknown (absent) [public] declared
+references classes: Docs\Box, Docs\Foo
+references in declarations: Docs\Box, Docs\Foo
+diagnostic docblock_syntax 320..321: expected `}`
+diagnostic docblock_contradiction 232..241: docblock type `int` contradicts the native type `string`
+diagnostic docblock_unverified 210..282: docblock type `int|string` is not shown to refine the native type `int`
+diagnostic docblock_unverified 243..252: docblock type `int|string` is not shown to refine the native type `string`

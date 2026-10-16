@@ -212,7 +212,10 @@ dependencies = [
 name = "bleedthrough-fs"
 version = "0.0.0"
 dependencies = [
+ "bleedthrough-builtins",
  "bleedthrough-rules",
+ "bleedthrough-symbols",
+ "serde_json",
  "sha2",
  "tempfile",
  "toml",
@@ -236,6 +239,20 @@ dependencies = [
 [[package]]
 name = "bleedthrough-symbols"
 version = "0.0.0"
+dependencies = [
+ "bleedthrough-builtins",
+ "bleedthrough-syntax",
+ "sha2",
+]
+
+[[package]]
+name = "bleedthrough-symbols-suite"
+version = "0.0.0"
+dependencies = [
+ "bleedthrough-builtins",
+ "bleedthrough-symbols",
+ "bleedthrough-syntax",
+]
 
 [[package]]
 name = "bleedthrough-syntax"
@@ -256,6 +273,7 @@ dependencies = [
  "bleedthrough-bench",
  "bleedthrough-builtins-gen",
  "bleedthrough-eval",
+ "bleedthrough-symbols-suite",
  "bleedthrough-syntax",
  "bleedthrough-syntax-conformance",
  "dhat",

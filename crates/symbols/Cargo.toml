@@ -8,5 +8,12 @@ license.workspace = true
 repository.workspace = true
 publish.workspace = true
 
+[dependencies]
+bleedthrough-syntax = { path = "../syntax" }
+bleedthrough-builtins = { path = "../builtins" }
+# Pure hashing for the declaration fingerprint; the same crate and version the findings crate uses
+# (decision of task 1.2: sha2 passes the domain-purity check, so no allow-list entry is needed).
+sha2 = "0.11"
+
 [lints]
 workspace = true

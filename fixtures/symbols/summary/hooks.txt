@@ -1,0 +1,5 @@
+file hooks.php
+class Temperature []
+  property $celsius [public] declared: float (native) hooks get, set
+  property $reading [public(private-set)] promoted: int (native) hooks get
+  method __construct($reading: int (native)) -> unknown (absent) [public] declared

@@ -1,0 +1,25 @@
+file enums_interfaces.php
+interface Shop\HasPrice []
+  implements Stringable, JsonSerializable
+  const CURRENCY [public]: 'EUR'
+  method price() -> float (native) [public abstract] declared
+enum Shop\Suit []
+  implements Shop\HasPrice
+  backed by string
+  const Wild [public]: unknown
+  case Hearts = 'H'
+  case Spades = 'S'
+  method price() -> float (native) [public] declared
+  method fromChar($c: string (native)) -> Shop\Suit (native) [public static] declared
+enum Shop\Plain []
+  case One
+  case Two
+trait Shop\Counts []
+  property $count [private default] declared: int (native)
+  method limit() -> int (native) [public abstract] declared
+  method inc() -> static(Shop\Counts) (native) [public] declared
+class Other\Holder []
+  property $suit [public] promoted: Shop\Suit (native)
+  method __construct($suit: Shop\Suit (native) =) -> unknown (absent) [public] declared
+references classes: JsonSerializable, Shop\Counts, Shop\HasPrice, Shop\Suit, Stringable
+references in declarations: JsonSerializable, Shop\Counts, Shop\HasPrice, Shop\Suit, Stringable
