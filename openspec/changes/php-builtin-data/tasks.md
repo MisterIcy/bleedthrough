@@ -25,12 +25,12 @@
 
 ## 4. Generator crate
 
-- [ ] 4.1 Create `crates/builtins-gen` (tooling, may depend on `syntax`, `builtins`, `serde_json`) and the example `gen_builtins` in `adapters/syntax-mago` with a dev-dependency; verify layering (including the dev-dependency rule) passes
-- [ ] 4.2 Implement the guard scanner (guard stack by line) and its association with declarations; verify nested guards, `#else`, `#elif` and declarations spanning guard lines on excerpts of real stubs
-- [ ] 4.3 Implement the declaration extractor over the owned tree (functions, classes, interfaces, traits, enums, methods, properties, class and global constants) with attributes; verify against hand-checked stubs for one file per extension family
-- [ ] 4.4 Implement annotation interpretation with the known-tag table, unknown-tag failure, allow-list and prose discarding; verify every annotation listed in the spec, an unknown tag and a docblock containing prose
-- [ ] 4.5 Implement the declaration counter (via the syntax visitor) and the coverage report with exclusion rules (`zend_test`, `dl_test`, `skeleton`); verify that removing an extraction case makes the run fail
-- [ ] 4.6 Implement per-version extraction and normalisation; verify whitespace and attribute-order differences do not change normalised signatures
+- [x] 4.1 Create `crates/builtins-gen` (tooling, may depend on `syntax`, `builtins`, `serde_json`) and the example `gen_builtins` in `adapters/syntax-mago` with a dev-dependency; verify layering (including the dev-dependency rule) passes
+- [x] 4.2 Implement the guard scanner (guard stack by line) and its association with declarations; verify nested guards, `#else`, `#elif` and declarations spanning guard lines on excerpts of real stubs
+- [x] 4.3 Implement the declaration extractor over the owned tree (functions, classes, interfaces, traits, enums, methods, properties, class and global constants) with attributes; verify against hand-checked stubs for one file per extension family
+- [x] 4.4 Implement annotation interpretation with the known-tag table, unknown-tag failure, allow-list and prose discarding; verify every annotation listed in the spec, an unknown tag and a docblock containing prose
+- [x] 4.5 Implement the declaration counter (via the syntax visitor) and the coverage report with exclusion rules (`zend_test`, `dl_test`, `skeleton`); verify that removing an extraction case makes the run fail
+- [x] 4.6 Implement per-version extraction and normalisation; verify whitespace and attribute-order differences do not change normalised signatures
 
 ## 5. Merge and bundling
 

@@ -97,6 +97,12 @@ allow = ["bleedthrough-app", "bleedthrough-emit", "bleedthrough-fs", "bleedthrou
 layer = "tooling"
 allow = ["bleedthrough-syntax"]
 
+# Generates the built-in data from the vendored php-src stubs. It is generic over the parser backend
+# (the Mago adapter runs it from an example, as a dev-dependency) and owns no I/O format of its own.
+[crate.bleedthrough-builtins-gen]
+layer = "tooling"
+allow = ["bleedthrough-syntax", "bleedthrough-builtins"]
+
 [crate.xtask]
 layer = "tooling"
 allow = []

@@ -102,3 +102,14 @@ Vendored and generated directories are excluded from the formatting and lint ste
 - Exact type-spelling normalisation rules (settled while building the cross-check).
 - Whether `--no-default-features`-style build variants (Windows-only functions) should be represented beyond guard text; v1 records guard text only.
 - Licence decision by the owner or counsel before the first public release (a gate, not a design blocker).
+
+
+## Finding from extraction (task group 4): same-version conflicts
+
+Extracting each release on its own shows that a few symbols are declared more than once within one PHP version with details that differ. Counts per release (8.0 to 8.5): 4 to 5 symbols; 8.4 and 8.5 gain one constant. They are:
+
+- `getallheaders`, `apache_request_headers`, `apache_response_headers` in several SAPI stubs. Signatures are equal; only `@alias` differs (litespeed aliases to `litespeed_request_headers`, the others to `apache_request_headers`) and the extension, which is named after the SAPI.
+- `ldap_connect` in `ext/ldap`, declared in both branches of `#ifdef HAVE_ORALDAP` with different parameter lists (and a deprecation in one branch). A build has exactly one of them.
+- From 8.4: `PASSWORD_ARGON2_PROVIDER` declared in `ext/standard`, `ext/openssl` and `ext/sodium` with the values `"standard"`, `"openssl"`, `"sodium"` under different guards. A build provides one.
+
+The data model allows one record per key and version, so the merge (task group 5) needs a rule for these. Proposed, to be confirmed before the merge is written: equal signatures merge (SAPI list is the union, `alias_of` is kept only when all agree); differing signatures need an entry in a reviewed file `stubs/conflicts.toml` naming the variant that is kept and why (for `ldap_connect` the `!defined(HAVE_ORALDAP)` variant, for `PASSWORD_ARGON2_PROVIDER` no value), and an unlisted conflict fails generation. The extension of a SAPI-provided function is taken from the Reflection fixtures (task group 6), because the stubs only say which SAPI declares it.

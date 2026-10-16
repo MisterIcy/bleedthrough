@@ -1,0 +1,16 @@
+[package]
+name = "bleedthrough-builtins-gen"
+version = "0.0.0"
+description = "Bleedthrough tooling: generates the built-in data from the vendored php-src stubs"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bleedthrough-syntax = { path = "../syntax" }
+bleedthrough-builtins = { path = "../builtins" }

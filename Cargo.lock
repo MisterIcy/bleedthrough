@@ -105,6 +105,14 @@ name = "bleedthrough-builtins"
 version = "0.0.0"
 
 [[package]]
+name = "bleedthrough-builtins-gen"
+version = "0.0.0"
+dependencies = [
+ "bleedthrough-builtins",
+ "bleedthrough-syntax",
+]
+
+[[package]]
 name = "bleedthrough-cache"
 version = "0.0.0"
 
@@ -189,6 +197,7 @@ dependencies = [
 name = "bleedthrough-syntax-mago"
 version = "0.0.0"
 dependencies = [
+ "bleedthrough-builtins-gen",
  "bleedthrough-syntax",
  "bleedthrough-syntax-conformance",
  "mago-allocator",

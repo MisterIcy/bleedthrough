@@ -21,3 +21,4 @@ mago-allocator = "=1.57.0"
 
 [dev-dependencies]
 bleedthrough-syntax-conformance = { path = "../../crates/syntax-conformance" }
+bleedthrough-builtins-gen = { path = "../../crates/builtins-gen" }
