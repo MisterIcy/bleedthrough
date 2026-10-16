@@ -439,3 +439,51 @@ fn real_stubs_of_each_extension_family_match_hand_checked_facts() {
         assert_eq!(find(items, "strtolower").guard, None);
     });
 }
+
+#[test]
+fn bundling_must_agree_with_the_stubs() {
+    use bleedthrough_builtins_gen::generate::generate;
+    use bleedthrough_builtins_gen::release::ReleaseInput;
+
+    let root = std::env::temp_dir().join(format!("bundling-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&root);
+    let mut releases = Vec::new();
+    for minor in ["3", "4"] {
+        let dir = root.join(format!("php-8.{minor}.0"));
+        std::fs::create_dir_all(dir.join("ext/imap")).unwrap();
+        std::fs::write(
+            dir.join("ext/imap/imap.stub.php"),
+            "<?php\nfunction imap_x(): void {}\n",
+        )
+        .unwrap();
+        releases.push((
+            format!("php-8.{minor}.0"),
+            ReleaseInput {
+                version: v(&format!("8.{minor}")),
+                root: dir,
+            },
+        ));
+    }
+    let bundling = "[[extension]]\nname = \"imap\"\nunbundled = \"8.4-8.5\"\nsource = \"s\"\n";
+    // The 8.4 tree still has imap stubs: the file and the stubs disagree.
+    let errors = generate(&MagoBackend::new(), &releases, "", bundling).unwrap_err();
+    assert!(
+        errors
+            .iter()
+            .any(|e| e.contains("imap") && e.contains("unbundled")),
+        "{errors:?}"
+    );
+    // With the stubs gone from 8.4 the data is generated and lookups say "unbundled".
+    std::fs::remove_dir_all(root.join("php-8.4.0/ext/imap")).unwrap();
+    let generated = generate(&MagoBackend::new(), &releases, "", bundling).unwrap();
+    let data = model::format::read(&generated.data).unwrap();
+    assert_eq!(
+        data.lookup(model::Kind::Function, "imap_x", v("8.4")),
+        model::Lookup::Unbundled
+    );
+    assert!(matches!(
+        data.lookup(model::Kind::Function, "imap_x", v("8.3")),
+        model::Lookup::Found(_)
+    ));
+    let _ = std::fs::remove_dir_all(root);
+}

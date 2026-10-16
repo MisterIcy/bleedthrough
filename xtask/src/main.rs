@@ -30,6 +30,7 @@ commands:
   check-builtins   vendored sources match the manifest (more as the pipeline grows)
   check-release    pre-release gate: the licensing decision on the built-in data is recorded
                    (not part of check-all; fails until the owner decides)
+  gen-builtins     regenerate stubs/builtin.data and stubs/coverage.txt from the vendored stubs
   gen-notice       rewrite NOTICE from the vendored licence files
   check-all        every check above
   vendor-php-src   fetch one php-src release's stubs into third_party/ and the manifest (network;
@@ -102,6 +103,37 @@ fn check_builtins(ws: &Workspace) -> Result<Vec<String>, String> {
     Ok(errors)
 }
 
+/// Regenerates `stubs/builtin.data` and `stubs/coverage.txt` from the vendored stubs. The generator
+/// is an example of the parser adapter (tooling may not depend on an adapter), so it is run as one.
+fn gen_builtins(ws: &Workspace) -> Result<Vec<String>, String> {
+    let releases = manifest::load(&ws.root)?;
+    let problems = manifest::verify(&ws.root, &releases)?;
+    if !problems.is_empty() {
+        return Ok(problems);
+    }
+    let status = std::process::Command::new("cargo")
+        .args([
+            "run",
+            "--quiet",
+            "--locked",
+            "-p",
+            "bleedthrough-syntax-mago",
+            "--example",
+            "gen_builtins",
+            "--",
+        ])
+        .arg("--root")
+        .arg(&ws.root)
+        .current_dir(&ws.root)
+        .status()
+        .map_err(|e| format!("cannot run cargo: {e}"))?;
+    Ok(if status.success() {
+        Vec::new()
+    } else {
+        vec!["the generator failed (see above)".to_string()]
+    })
+}
+
 fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
     if command == "check-api" && rest.iter().any(|a| a == "--help") {
         println!("{}", api::HELP);
@@ -128,6 +160,7 @@ fn run(command: &str, rest: &[String]) -> Result<Vec<String>, String> {
         "check-api" => Ok(api::run(&ws.declaration, &ws.packages, &ws.root, update)),
         "check-glossary" => check_glossary(&ws),
         "check-builtins" => check_builtins(&ws),
+        "gen-builtins" => gen_builtins(&ws),
         "check-release" => Ok(release::check_decision(&ws.root)),
         "gen-notice" => {
             notice::write(&ws.root, &manifest::load(&ws.root)?)?;

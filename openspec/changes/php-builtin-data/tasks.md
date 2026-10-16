@@ -34,11 +34,11 @@
 
 ## 5. Merge and bundling
 
-- [ ] 5.1 Implement the merge into records with masks, one record per distinct signature, SAPI merging and alias linking; verify added-parameter, added-in-8.3, same-signature-two-SAPIs and alias scenarios
-- [ ] 5.2 Implement `stubs/bundling.toml` loading and the bundled/unbundled states, citing sources; verify the imap/pspell/oci8 unbundling case
-- [ ] 5.3 Implement guard-alternative merging for the same symbol in several branches; verify one record with both alternatives
-- [ ] 5.4 Wire `cargo xtask gen-builtins`; generate `stubs/builtin.data` and `stubs/coverage.txt` from stubs only; verify reproducibility (two runs, byte-identical) and measure the file size
-- [ ] 5.5 Add a lookup test over the generated data for well-known symbols across versions (for example `strlen`, `PDO::query`, `Exception::__construct`, a function added in 8.3 and one deprecated in 8.x); verify results against the PHP manual pages cited in the test
+- [x] 5.1 Implement the merge into records with masks, one record per distinct signature, SAPI merging and alias linking; verify added-parameter, added-in-8.3, same-signature-two-SAPIs and alias scenarios
+- [x] 5.2 Implement `stubs/bundling.toml` loading and the bundled/unbundled states, citing sources; verify the imap/pspell/oci8 unbundling case
+- [x] 5.3 Implement guard-alternative merging for the same symbol in several branches; verify one record with both alternatives
+- [x] 5.4 Wire `cargo xtask gen-builtins`; generate `stubs/builtin.data` and `stubs/coverage.txt` from stubs only; verify reproducibility (two runs, byte-identical) and measure the file size
+- [x] 5.5 Add a lookup test over the generated data for well-known symbols across versions (for example `strlen`, `PDO::query`, `Exception::__construct`, a function added in 8.3 and one deprecated in 8.x); verify results against the PHP manual pages cited in the test
 
 ## 6. Reflection oracle
 

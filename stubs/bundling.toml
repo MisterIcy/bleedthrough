@@ -1,0 +1,18 @@
+# Extensions that are not bundled with PHP in some versions. Bundling is a documented decision,
+# not something the presence of a stub proves. Each entry cites its source.
+# Extensions bundled in every version from 8.0 to 8.5 are not listed.
+
+[[extension]]
+name = "imap"
+unbundled = "8.4-8.5"
+source = "https://www.php.net/manual/en/migration84.removed-extensions.php (moved to PECL in PHP 8.4)"
+
+[[extension]]
+name = "oci8"
+unbundled = "8.4-8.5"
+source = "https://www.php.net/manual/en/migration84.removed-extensions.php (moved to PECL in PHP 8.4)"
+
+[[extension]]
+name = "pspell"
+unbundled = "8.4-8.5"
+source = "https://www.php.net/manual/en/migration84.removed-extensions.php (moved to PECL in PHP 8.4)"

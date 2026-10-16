@@ -11,9 +11,13 @@
 )]
 
 pub mod annotations;
+pub mod bundling;
+pub mod conflicts;
 pub mod count;
 pub mod extract;
+pub mod generate;
 pub mod guards;
+pub mod merge;
 pub mod origin;
 pub mod release;
 

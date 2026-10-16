@@ -18,6 +18,9 @@ pub struct ReleaseInput {
     pub root: PathBuf,
 }
 
+/// A release input with its directory name, for example `php-8.5.11`.
+pub type NamedRelease = (String, ReleaseInput);
+
 /// What happened to one stub file.
 #[derive(Debug, Clone)]
 pub struct FileReport {

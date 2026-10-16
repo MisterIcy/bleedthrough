@@ -14,3 +14,4 @@ workspace = true
 [dependencies]
 bleedthrough-syntax = { path = "../syntax" }
 bleedthrough-builtins = { path = "../builtins" }
+toml = "1.1.8"

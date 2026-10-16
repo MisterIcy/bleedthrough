@@ -1,0 +1,22 @@
+# Symbols that one PHP version declares more than once with different details.
+# Equal declarations (several SAPIs, both branches of a guard) merge without an entry. Every other
+# conflict needs an entry here, and an entry that resolves nothing is an error.
+
+[[conflict]]
+kind = "function"
+name = "ldap_connect"
+keep_guard = "!defined(HAVE_ORALDAP)"
+reason = "ext/ldap declares ldap_connect twice: a five-parameter, deprecated form for the Oracle LDAP library (HAVE_ORALDAP) and the two-parameter form for OpenLDAP. Default builds use OpenLDAP."
+
+[[conflict]]
+kind = "const"
+name = "PASSWORD_ARGON2_PROVIDER"
+clear_value = true
+extension = "standard"
+reason = "ext/standard, ext/openssl and ext/sodium each declare it with their own name as the value, under mutually exclusive guards; which one applies is a build choice, so no value is recorded."
+
+[[conflict]]
+kind = "function"
+name = "apache_response_headers"
+drop_sapi = "litespeed"
+reason = "the litespeed SAPI declares the return type array|false while apache2handler, cgi and cli declare array; the common form is kept and the litespeed difference is not recorded."
