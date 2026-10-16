@@ -86,20 +86,15 @@ struct Out<'a> {
     runs: Vec<(usize, usize)>,
 }
 
-impl<'a> std::ops::Deref for Out<'a> {
-    type Target = Vec<NodeRef<'a>>;
-    fn deref(&self) -> &Self::Target {
-        &self.nodes
-    }
-}
-
-impl std::ops::DerefMut for Out<'_> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.nodes
-    }
-}
-
 impl<'a> Out<'a> {
+    fn push(&mut self, node: NodeRef<'a>) {
+        self.nodes.push(node);
+    }
+
+    fn extend(&mut self, items: impl IntoIterator<Item = NodeRef<'a>>) {
+        self.nodes.extend(items);
+    }
+
     /// Appends a whole list and records it as one run.
     fn run(&mut self, items: impl Iterator<Item = NodeRef<'a>>) {
         let start = self.nodes.len();
