@@ -31,3 +31,9 @@ exclude_globs = ["**/tests/**", "**/examples/**", "**/benches/**", "**/generated
 [test_packages]
 bleedthrough-ir = ["bleedthrough-syntax-mago"]
 bleedthrough-engine = ["bleedthrough-syntax-mago"]
+
+# Their tests take about four minutes a pass (the baseline included), and a mutant only the slow tests
+# catch needs the same time, so the default timeout would report it as a timeout.
+[timeouts]
+bleedthrough-ir = 900
+bleedthrough-engine = 900

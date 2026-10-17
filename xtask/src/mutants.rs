@@ -25,6 +25,8 @@ pub struct Config {
     /// Crate to the packages whose tests exercise it, when they are not its own (the engine's
     /// tests need a parser, so they live in the adapter).
     pub test_packages: BTreeMap<String, Vec<String>>,
+    /// Crate to its own timeout in seconds, for crates whose tests are slower than the default.
+    pub timeouts: BTreeMap<String, u64>,
 }
 
 fn string_list(table: &toml::Table, key: &str, file: &str) -> Result<Vec<String>, String> {
@@ -56,6 +58,25 @@ fn test_packages(root: &toml::Table) -> Result<BTreeMap<String, Vec<String>>, St
         .collect()
 }
 
+fn timeouts(root: &toml::Table) -> Result<BTreeMap<String, u64>, String> {
+    let Some(value) = root.get("timeouts") else {
+        return Ok(BTreeMap::new());
+    };
+    let table = value
+        .as_table()
+        .ok_or_else(|| format!("{CONFIG}: `timeouts` must be a table"))?;
+    table
+        .iter()
+        .map(|(krate, secs)| {
+            secs.as_integer()
+                .and_then(|t| u64::try_from(t).ok())
+                .filter(|t| *t > 0)
+                .map(|t| (krate.clone(), t))
+                .ok_or_else(|| format!("{CONFIG}: `timeouts.{krate}` must be a positive integer"))
+        })
+        .collect()
+}
+
 impl Config {
     pub fn parse(text: &str) -> Result<Self, String> {
         let root: toml::Table = text.parse().map_err(|e| format!("{CONFIG}: {e}"))?;
@@ -75,6 +96,7 @@ impl Config {
             exclude_re: string_list(&root, "exclude_re", CONFIG)?,
             exclude_globs: string_list(&root, "exclude_globs", CONFIG)?,
             test_packages: test_packages(&root)?,
+            timeouts: timeouts(&root)?,
         })
     }
 }
@@ -469,6 +491,14 @@ fn git_diff(root: &Path, base: &str) -> Result<String, String> {
     Ok(String::from_utf8_lossy(&output.stdout).into_owned())
 }
 
+/// The timeout of a run: the longest any of its crates needs.
+fn timeout_for(config: &Config, packages: &[String]) -> u64 {
+    packages
+        .iter()
+        .filter_map(|p| config.timeouts.get(p).copied())
+        .fold(config.timeout_secs, u64::max)
+}
+
 fn run_mutants(
     root: &Path,
     config: &Config,
@@ -480,7 +510,7 @@ fn run_mutants(
     command.arg("mutants").current_dir(root);
     command
         .args(["--no-shuffle", "--timeout"])
-        .arg(config.timeout_secs.to_string());
+        .arg(timeout_for(config, packages).to_string());
     command
         .arg("--jobs")
         .arg(option(args, "--jobs").unwrap_or_else(|| "4".to_string()));
@@ -869,5 +899,17 @@ mod tests {
                 .is_empty()
         );
         assert!(Config::parse("crates = [\"a\"]\ntimeout_secs = 5\ntest_packages = 3\n").is_err());
+    }
+
+    #[test]
+    fn a_crate_can_have_its_own_timeout() {
+        let text = "crates = [\"a\", \"b\"]\ntimeout_secs = 5\n[timeouts]\nb = 90\n";
+        let config = Config::parse(text).unwrap();
+        assert_eq!(timeout_for(&config, &["a".to_string()]), 5);
+        assert_eq!(
+            timeout_for(&config, &["a".to_string(), "b".to_string()]),
+            90
+        );
+        assert!(Config::parse("crates = [\"a\"]\ntimeout_secs = 5\n[timeouts]\na = 0\n").is_err());
     }
 }
