@@ -14,7 +14,7 @@ use bleedthrough_symbols::{
 };
 use bleedthrough_syntax::{BinaryOp, CastKind, Span};
 
-use crate::callgraph::UnitId;
+use crate::callgraph::{CallGraph, CallOutcome, IncludeOutcome, UnitId};
 use crate::label::{Applied, HeapKey, Label, Origin, Taint};
 use crate::rule_index::{Matches, RuleIndex, Subject};
 
@@ -32,6 +32,10 @@ pub struct Limits {
     pub step_budget: u64,
     /// Deepest closure-in-closure analysis.
     pub closure_depth: u32,
+    /// Most passes over a recursive component before its summaries are widened.
+    pub iterations: u32,
+    /// Most rounds of the property, static property and global locations.
+    pub rounds: u32,
 }
 
 impl Default for Limits {
@@ -41,6 +45,8 @@ impl Default for Limits {
             block_visits: 32,
             step_budget: 2_000_000,
             closure_depth: 4,
+            iterations: 8,
+            rounds: 4,
         }
     }
 }
@@ -64,6 +70,22 @@ pub struct Context<'a> {
     pub limits: Limits,
     /// The abstract locations as of the previous round.
     pub heap: &'a Heap,
+    /// The call graph and the summaries computed so far, when calls are to be followed.
+    pub inter: Option<Inter<'a>>,
+}
+
+/// Term: Summary
+///
+/// What a call or include needs to apply the summary of its target.
+#[derive(Debug, Clone, Copy)]
+#[allow(clippy::exhaustive_structs, reason = "a plain record of references")]
+pub struct Inter<'a> {
+    /// Where every call and include goes.
+    pub graph: &'a CallGraph,
+    /// The graph of every unit, by unit identifier.
+    pub graphs: &'a [&'a Graph],
+    /// The summary of every unit computed so far, by unit identifier.
+    pub summaries: &'a [Option<UnitFlow>],
 }
 
 /// Term: Finding
@@ -78,7 +100,10 @@ pub struct UnitInput<'a> {
     /// The graph.
     pub graph: &'a Graph,
     /// Every graph of the file, this one included.
-    pub file_graphs: &'a [Graph],
+    pub file_graphs: &'a [&'a Graph],
+    /// Whether the unit is included by others: its locals are then symbolic inputs, and the state
+    /// they end in is part of its summary.
+    pub shared_scope: bool,
 }
 
 /// Term: Finding
@@ -98,6 +123,8 @@ pub struct SinkHit {
     pub span: Span,
     /// The vulnerable argument the taint arrived in.
     pub arg: Span,
+    /// The calls the taint went through to get there, outermost first (capped).
+    pub calls: Vec<(UnitId, Span)>,
 }
 
 /// Term: Analysis limit
@@ -112,12 +139,14 @@ pub struct FlowLimits {
     pub visits: bool,
     /// A value had more origins than the cap.
     pub origins: bool,
+    /// A recursive component did not settle within the iteration limit.
+    pub iterations: bool,
 }
 
 impl FlowLimits {
     /// Whether any bound was reached.
     pub fn any(&self) -> bool {
-        self.steps || self.visits || self.origins
+        self.steps || self.visits || self.origins || self.iterations
     }
 }
 
@@ -133,6 +162,10 @@ pub struct UnitFlow {
     pub returns: Taint,
     /// The unit's writes to properties, static properties and globals.
     pub writes: Heap,
+    /// The taint each by-reference parameter ends with, by position.
+    pub params: Vec<(u32, Taint)>,
+    /// For an included unit, the taint each variable ends with, by name.
+    pub scope: BTreeMap<Box<str>, Taint>,
     /// Bounds reached.
     pub limits: FlowLimits,
 }
@@ -157,7 +190,15 @@ pub fn analyse_unit(ctx: &Context<'_>, unit: &UnitInput<'_>) -> UnitFlow {
     {
         seed.insert(at as u32, Taint::of(Label::new(Origin::Receiver)));
     }
-    let mut run = Run::new(ctx, unit.id, graph, unit.file_graphs, 0);
+    if unit.shared_scope {
+        for (at, name) in graph.locals.iter().enumerate() {
+            if !name.starts_with('_') && &**name != "this" {
+                seed.insert(at as u32, Taint::of(Label::new(Origin::Param(at as u32))));
+            }
+        }
+    }
+    let mut run = Run::new(ctx, unit.id, unit.id, graph, unit.file_graphs, 0);
+    run.shared_scope = unit.shared_scope;
     run.run(seed);
     run.finish()
 }
@@ -166,8 +207,16 @@ struct Run<'a, 'c> {
     ctx: &'c Context<'a>,
     unit: UnitId,
     graph: &'a Graph,
-    file_graphs: &'a [Graph],
+    file_graphs: &'a [&'a Graph],
     depth: u32,
+    /// The unit whose call and include sites this graph's positions refer to.
+    site_unit: UnitId,
+    shared_scope: bool,
+    /// The block and position of the instruction being transferred.
+    at: (u32, u32),
+    /// Variables an include introduced that the graph itself never names.
+    extras: Vec<Box<str>>,
+    exit: Locals,
     defs: Vec<Option<&'a Instr>>,
     values: Vec<Taint>,
     hits: BTreeMap<HitKey, SinkHit>,
@@ -178,11 +227,16 @@ struct Run<'a, 'c> {
 }
 
 impl<'a, 'c> Run<'a, 'c> {
+    #[allow(
+        clippy::too_many_arguments,
+        reason = "the unit, where its sites are, and its graphs"
+    )]
     fn new(
         ctx: &'c Context<'a>,
         unit: UnitId,
+        site_unit: UnitId,
         graph: &'a Graph,
-        file_graphs: &'a [Graph],
+        file_graphs: &'a [&'a Graph],
         depth: u32,
     ) -> Self {
         let mut defs = vec![None; graph.value_count as usize];
@@ -201,6 +255,11 @@ impl<'a, 'c> Run<'a, 'c> {
             graph,
             file_graphs,
             depth,
+            site_unit,
+            shared_scope: false,
+            at: (0, 0),
+            extras: Vec::new(),
+            exit: Locals::new(),
             defs,
             values: vec![Taint::clean(); graph.value_count as usize],
             hits: BTreeMap::new(),
@@ -215,20 +274,64 @@ impl<'a, 'c> Run<'a, 'c> {
         self.ctx.limits.max_origins
     }
 
-    fn finish(self) -> UnitFlow {
+    fn finish(mut self) -> UnitFlow {
         let widened = self.limits.any();
-        let mut hits: Vec<SinkHit> = self.hits.into_values().collect();
+        let mut hits: Vec<SinkHit> = std::mem::take(&mut self.hits).into_values().collect();
         if widened {
             for hit in &mut hits {
                 hit.label.marks.widened = true;
+            }
+        }
+        let params = self
+            .graph
+            .params
+            .iter()
+            .enumerate()
+            .filter(|(_, p)| p.by_ref)
+            .map(|(at, p)| {
+                let taint = self.exit.get(&p.local.raw()).cloned().unwrap_or_default();
+                (at as u32, taint)
+            })
+            .collect();
+        let mut scope = BTreeMap::new();
+        if self.shared_scope {
+            for (id, taint) in &self.exit {
+                if let Some(name) = self.name_of(*id) {
+                    scope.insert(name.into(), taint.clone());
+                }
             }
         }
         UnitFlow {
             hits,
             returns: self.returns,
             writes: self.writes,
+            params,
+            scope,
             limits: self.limits,
         }
+    }
+
+    fn name_of(&self, local: u32) -> Option<&str> {
+        let at = local as usize;
+        match self.graph.locals.get(at) {
+            Some(name) => Some(name),
+            None => self.extras.get(at - self.graph.locals.len()).map(|n| &**n),
+        }
+    }
+
+    /// The variable called `name`, introduced if the graph never names it.
+    fn local_named(&mut self, name: &str) -> u32 {
+        if let Some(at) = self.graph.locals.iter().position(|n| &**n == name) {
+            return at as u32;
+        }
+        let at = match self.extras.iter().position(|n| &**n == name) {
+            Some(at) => at,
+            None => {
+                self.extras.push(name.into());
+                self.extras.len() - 1
+            }
+        };
+        (self.graph.locals.len() + at) as u32
     }
 
     // ---- the worklist ------------------------------------------------------------------
@@ -258,7 +361,8 @@ impl<'a, 'c> Run<'a, 'c> {
             };
             let mut state = entry_state.clone();
             let block = self.graph.block(block_id);
-            for instr in &block.instrs {
+            for (position, instr) in block.instrs.iter().enumerate() {
+                self.at = (block_id.index() as u32, position as u32);
                 self.steps += 1;
                 if self.steps > self.ctx.limits.step_budget {
                     self.limits.steps = true;
@@ -284,6 +388,9 @@ impl<'a, 'c> Run<'a, 'c> {
                     work.insert(position[h]);
                 }
             }
+        }
+        if let Some(state) = states[self.graph.exit.index()].take() {
+            self.exit = state;
         }
     }
 
@@ -349,12 +456,12 @@ impl<'a, 'c> Run<'a, 'c> {
             | InstrKind::ConstFetch(_)
             | InstrKind::ClassConst { .. }
             | InstrKind::CallableRef { .. }
-            | InstrKind::Include { .. }
             | InstrKind::Eval(_)
             | InstrKind::Print(_)
             | InstrKind::Test { .. }
             | InstrKind::Unary { .. } => Taint::clean(),
             InstrKind::Echo(_) | InstrKind::Exit(_) => Taint::clean(),
+            InstrKind::Include { .. } => self.include(ins, st),
             InstrKind::Superglobal(name) => self.superglobal(name, ins.span),
             InstrKind::Load(place) => self.load(place, st),
             InstrKind::LoadElem { base, .. } => self.tv(*base),
@@ -565,10 +672,21 @@ impl<'a, 'c> Run<'a, 'c> {
             self.limits.visits = true;
             return value;
         }
-        let Some(body) = self.file_graphs.iter().find(|g| g.key == *key) else {
+        let Some(body) = self.file_graphs.iter().copied().find(|g| g.key == *key) else {
             return value;
         };
-        let mut inner = Run::new(self.ctx, self.unit, body, self.file_graphs, self.depth + 1);
+        let site_unit = self.ctx.inter.and_then(|inter| {
+            let file = &inter.graph.unit(self.site_unit).file;
+            inter.graph.find(file, key)
+        });
+        let mut inner = Run::new(
+            self.ctx,
+            self.unit,
+            site_unit.unwrap_or(self.site_unit),
+            body,
+            self.file_graphs,
+            self.depth + 1,
+        );
         inner.run(seed);
         let flow = inner.finish();
         for hit in flow.hits {
@@ -608,6 +726,10 @@ impl<'a, 'c> Run<'a, 'c> {
     #[allow(
         clippy::too_many_arguments,
         reason = "the call's pieces, read together"
+    )]
+    #[allow(
+        clippy::cognitive_complexity,
+        reason = "the call policy, in the order it applies"
     )]
     fn call(
         &mut self,
@@ -658,28 +780,240 @@ impl<'a, 'c> Run<'a, 'c> {
                     result.join_in(&picked, cap);
                 }
             }
+            self.write_back_by_ref(args, params, &result, &arg_taints, st);
         } else if matches.sources.is_empty() {
-            let flow = self.all_inputs(&arg_taints, receiver_taint.as_ref());
-            let flow = match &info {
-                CallInfo::Unresolved | CallInfo::Resolved { partial: true, .. } => {
-                    flow.map_marks(|m| m.assumed_unresolved = true)
+            let applied =
+                self.apply_summaries(args, &arg_taints, receiver_taint.as_ref(), ins.span, st);
+            let default_needed = applied.as_ref().is_none_or(|a| a.partial);
+            if let Some(applied) = &applied {
+                result.join_in(&applied.result, cap);
+            }
+            if default_needed {
+                let flow = self.all_inputs(&arg_taints, receiver_taint.as_ref());
+                let flow = match &info {
+                    CallInfo::Unresolved
+                    | CallInfo::UnresolvedFunctionNotFound
+                    | CallInfo::Missing
+                    | CallInfo::Resolved { partial: true, .. } => {
+                        flow.map_marks(|m| m.assumed_unresolved = true)
+                    }
+                    _ if applied.is_some() => flow.map_marks(|m| m.assumed_unresolved = true),
+                    _ => flow,
+                };
+                let flow = match &info {
+                    CallInfo::Resolved { targets, .. } if multi_target(targets) => {
+                        let count = candidate_count(targets);
+                        flow.map_marks(|m| m.several = m.several.max(count))
+                    }
+                    _ => flow,
+                };
+                result.join_in(&flow, cap);
+                if let Some(Callee::Value(v)) = callee {
+                    result.join_in(&self.tv(*v), cap);
                 }
-                _ => flow,
-            };
-            let flow = match &info {
-                CallInfo::Resolved { targets, .. } if multi_target(targets) => {
-                    let count = candidate_count(targets);
-                    flow.map_marks(|m| m.several = m.several.max(count))
-                }
-                _ => flow,
-            };
-            result.join_in(&flow, cap);
-            if let Some(Callee::Value(v)) = callee {
-                result.join_in(&self.tv(*v), cap);
+            }
+            if applied.is_none() {
+                self.write_back_by_ref(args, params, &result, &arg_taints, st);
             }
         }
-        self.write_back_by_ref(args, params, &result, &arg_taints, st);
         result
+    }
+
+    /// The units this call goes to, whether dispatch may reach several, and whether part of the
+    /// call is not covered by them.
+    fn site_targets(&self) -> Option<SiteTargets> {
+        let inter = self.ctx.inter?;
+        let site = inter
+            .graph
+            .sites_of(self.site_unit)
+            .iter()
+            .find(|s| s.block.index() as u32 == self.at.0 && s.index == self.at.1)?;
+        match &site.outcome {
+            CallOutcome::Units {
+                targets,
+                multi_target,
+                truncated,
+                residual,
+            } if !targets.is_empty() => Some(SiteTargets {
+                targets: targets.clone(),
+                multi: *multi_target || targets.len() > 1,
+                partial: *truncated || !residual.is_empty(),
+            }),
+            _ => None,
+        }
+    }
+
+    /// Applies the summary of every target of the call at the current position; `None` when the
+    /// call has no analysed target.
+    #[allow(
+        clippy::too_many_arguments,
+        reason = "the call's pieces, read together"
+    )]
+    fn apply_summaries(
+        &mut self,
+        args: &[CallArg],
+        arg_taints: &[Taint],
+        receiver: Option<&Taint>,
+        call: Span,
+        st: &mut Locals,
+    ) -> Option<Summarised> {
+        let inter = self.ctx.inter?;
+        let SiteTargets {
+            targets,
+            multi,
+            partial,
+        } = self.site_targets()?;
+        let cap = self.cap();
+        let several = if multi {
+            u16::try_from(targets.len()).unwrap_or(u16::MAX).max(2)
+        } else {
+            0
+        };
+        let mut result = Taint::clean();
+        for target in targets {
+            let Some(flow) = inter.summaries.get(target.index()).and_then(Option::as_ref) else {
+                // Not summarised yet (the same recursive component): the empty summary.
+                continue;
+            };
+            let callee = inter.graphs[target.index()];
+            let (params, bound) = bind_args(callee, args, arg_taints);
+            let inputs = Inputs {
+                params,
+                receiver: receiver.cloned(),
+            };
+            let returned = self.apply(flow, &inputs, call, several);
+            result.join_in(&returned, cap);
+            for (position, effect) in &flow.params {
+                let landed = effect.substitute(cap, |o| inputs.get(o));
+                if landed.is_clean() {
+                    continue;
+                }
+                for at in bound.get(*position as usize).into_iter().flatten() {
+                    let Some(def) = self.defs.get(args[*at].value.index()).copied().flatten()
+                    else {
+                        continue;
+                    };
+                    if let InstrKind::Load(place) = &def.kind {
+                        let place = place.clone();
+                        self.store(&place, landed.clone(), true, st);
+                    }
+                }
+            }
+        }
+        Some(Summarised { result, partial })
+    }
+
+    /// Substitutes `inputs` into a callee's summary: sink hits and heap writes are recorded here,
+    /// and the returned taint is the callee's result.
+    fn apply(&mut self, flow: &UnitFlow, inputs: &Inputs, call: Span, several: u16) -> Taint {
+        let cap = self.cap();
+        for hit in &flow.hits {
+            if !hit.label.origin.is_symbolic() {
+                continue;
+            }
+            let Some(actual) = inputs.get(&hit.label.origin) else {
+                continue;
+            };
+            let entry = &self.ctx.index.sinks()[hit.sink as usize];
+            let (class, rule) = (entry.class, entry.rule);
+            for outer in actual.labels() {
+                let mut label = hit.label.compose(outer);
+                label.marks.several = label.marks.several.max(several);
+                if !self.fires(&label, class, rule) {
+                    continue;
+                }
+                let mut calls = vec![(self.site_unit, call)];
+                calls.extend(hit.calls.iter().copied());
+                calls.truncate(MAX_CALL_CHAIN);
+                self.record(SinkHit {
+                    sink: hit.sink,
+                    label,
+                    unit: hit.unit,
+                    span: hit.span,
+                    arg: hit.arg,
+                    calls,
+                });
+            }
+        }
+        for (location, taint) in &flow.writes {
+            let landed = taint.substitute(cap, |o| inputs.get(o));
+            if !landed.is_clean() {
+                self.writes
+                    .entry(location.clone())
+                    .or_default()
+                    .join_in(&landed, cap);
+            }
+        }
+        let returned = flow.returns.substitute(cap, |o| inputs.get(o));
+        if several > 1 {
+            returned.map_marks(|m| m.several = m.several.max(several))
+        } else {
+            returned
+        }
+    }
+
+    /// An `include` or `require` that resolved: the included files' top-level code runs in this
+    /// scope, so their variables are this unit's.
+    fn include(&mut self, ins: &Instr, st: &mut Locals) -> Taint {
+        let Some(inter) = self.ctx.inter else {
+            return Taint::clean();
+        };
+        let Some(site) = inter.graph.includes().iter().find(|s| {
+            s.caller == self.site_unit
+                && s.block.index() as u32 == self.at.0
+                && s.index == self.at.1
+        }) else {
+            return Taint::clean();
+        };
+        let IncludeOutcome::Resolved(targets) = &site.outcome else {
+            return Taint::clean();
+        };
+        let cap = self.cap();
+        let several = u16::try_from(targets.len()).unwrap_or(u16::MAX);
+        let mut result = Taint::clean();
+        for target in targets {
+            let Some(flow) = inter.summaries.get(target.index()).and_then(Option::as_ref) else {
+                continue;
+            };
+            let callee = inter.graphs[target.index()];
+            let params: Vec<Taint> = callee
+                .locals
+                .iter()
+                .map(|name| {
+                    self.find_local(name)
+                        .and_then(|id| st.get(&id))
+                        .cloned()
+                        .unwrap_or_default()
+                })
+                .collect();
+            let inputs = Inputs {
+                params,
+                receiver: None,
+            };
+            result.join_in(&self.apply(flow, &inputs, ins.span, several), cap);
+            for (name, taint) in &flow.scope {
+                let landed = taint.substitute(cap, |o| inputs.get(o));
+                let id = self.local_named(name);
+                if several > 1 {
+                    if !landed.is_clean() {
+                        st.entry(id).or_default().join_in(&landed, cap);
+                    }
+                } else if landed.is_clean() {
+                    st.remove(&id);
+                } else {
+                    st.insert(id, landed);
+                }
+            }
+        }
+        result
+    }
+
+    fn find_local(&self, name: &str) -> Option<u32> {
+        if let Some(at) = self.graph.locals.iter().position(|n| &**n == name) {
+            return Some(at as u32);
+        }
+        let at = self.extras.iter().position(|n| &**n == name)?;
+        Some((self.graph.locals.len() + at) as u32)
     }
 
     fn all_inputs(&self, args: &[Taint], receiver: Option<&Taint>) -> Taint {
@@ -844,6 +1178,7 @@ impl<'a, 'c> Run<'a, 'c> {
                         unit: self.unit,
                         span: call,
                         arg,
+                        calls: Vec::new(),
                     });
                 }
             }
@@ -904,6 +1239,85 @@ impl<'a, 'c> Run<'a, 'c> {
             }
         }
     }
+}
+
+/// The most calls a hit remembers it went through.
+const MAX_CALL_CHAIN: usize = 32;
+
+/// The units a call goes to.
+struct SiteTargets {
+    targets: Vec<UnitId>,
+    /// Dispatch may reach several of them.
+    multi: bool,
+    /// Part of the call is not covered by them.
+    partial: bool,
+}
+
+/// What applying the summaries of a call's targets produced.
+struct Summarised {
+    result: Taint,
+    /// Part of the call is not covered by the targets, so the default policy applies as well.
+    partial: bool,
+}
+
+/// What stands for a callee's symbolic origins at a call.
+struct Inputs {
+    params: Vec<Taint>,
+    receiver: Option<Taint>,
+}
+
+impl Inputs {
+    fn get(&self, origin: &Origin) -> Option<&Taint> {
+        match origin {
+            Origin::Param(at) => self.params.get(*at as usize),
+            Origin::Receiver => self.receiver.as_ref(),
+            _ => None,
+        }
+    }
+}
+
+/// The taint of each parameter of `callee` given the arguments, and the arguments that bind to
+/// each. A spread argument binds to every parameter from its position on; surplus positional
+/// arguments go to a trailing variadic parameter.
+fn bind_args(callee: &Graph, args: &[CallArg], taints: &[Taint]) -> (Vec<Taint>, Vec<Vec<usize>>) {
+    let count = callee.params.len();
+    let mut bound: Vec<Vec<usize>> = vec![Vec::new(); count];
+    let mut positional = 0usize;
+    for (at, arg) in args.iter().enumerate() {
+        if let Some(name) = &arg.name {
+            if let Some(p) = callee.params.iter().position(|p| *p.name == **name) {
+                bound[p].push(at);
+            }
+        } else if arg.spread {
+            for slot in bound.iter_mut().skip(positional) {
+                slot.push(at);
+            }
+            positional = count;
+        } else {
+            let slot = if positional < count {
+                Some(positional)
+            } else {
+                callee
+                    .params
+                    .last()
+                    .filter(|p| p.variadic)
+                    .map(|_| count - 1)
+            };
+            if let Some(slot) = slot {
+                bound[slot].push(at);
+            }
+            positional += 1;
+        }
+    }
+    let mut params = Vec::with_capacity(count);
+    for list in &bound {
+        let mut taint = Taint::clean();
+        for at in list {
+            taint.join_in(&taints[*at], usize::MAX);
+        }
+        params.push(taint);
+    }
+    (params, bound)
 }
 
 enum OwnedSubject {

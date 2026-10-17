@@ -178,6 +178,22 @@ impl Label {
         }
     }
 
+    /// This label seen through `outer`, the label of the value that stood for its symbolic origin:
+    /// the origin is the outer one, and what was cleared, applied and marked on either side holds.
+    #[must_use]
+    pub fn compose(&self, outer: &Self) -> Self {
+        let mut out = outer.clone();
+        out.cleared = outer.cleared.union(self.cleared);
+        for a in &self.applied {
+            if let Err(at) = out.applied.binary_search(a) {
+                out.applied.insert(at, *a);
+            }
+        }
+        out.applied.truncate(MAX_APPLIED);
+        out.marks = outer.marks.join(self.marks);
+        out
+    }
+
     /// The label for the same origin as seen through both `self` and `other`: only as clean as the
     /// dirtier of the two.
     fn merge(&mut self, other: &Self) {
@@ -223,6 +239,49 @@ impl Taint {
     /// The labels, in origin order.
     pub fn labels(&self) -> &[Label] {
         &self.labels
+    }
+
+    /// The taint with each symbolic origin replaced by what `inputs` gives for it: the composition of
+    /// each of its labels with the label itself. A symbolic origin `inputs` does not know is
+    /// dropped; concrete origins stay.
+    #[must_use]
+    pub fn substitute<'t>(
+        &self,
+        cap: usize,
+        inputs: impl Fn(&Origin) -> Option<&'t Taint>,
+    ) -> Self {
+        let mut out = Self::clean();
+        out.widened = self.widened;
+        for label in &self.labels {
+            if !label.origin.is_symbolic() {
+                out.join_in(&Self::of(label.clone()), cap);
+                continue;
+            }
+            let Some(actual) = inputs(&label.origin) else {
+                continue;
+            };
+            for outer in &actual.labels {
+                out.join_in(&Self::of(label.compose(outer)), cap);
+            }
+            if actual.widened {
+                out.widened = true;
+            }
+        }
+        out
+    }
+
+    /// Only the labels whose origin is a concrete source.
+    #[must_use]
+    pub fn concrete_only(&self) -> Self {
+        Self {
+            labels: self
+                .labels
+                .iter()
+                .filter(|l| !l.origin.is_symbolic())
+                .cloned()
+                .collect(),
+            widened: self.widened,
+        }
     }
 
     /// Whether the origin cap cut labels away.

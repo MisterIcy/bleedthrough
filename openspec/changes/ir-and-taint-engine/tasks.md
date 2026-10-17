@@ -27,11 +27,11 @@
 
 ## 4. Summaries and inter-procedural flow
 
-- [ ] 4.1 Implement summaries (returns, writes, sinks per symbolic origin, introduced sources) and substitution at calls; verify helper-flow and sanitising-helper scenarios
-- [ ] 4.2 Implement component-ordered summarisation with fixpoint inside recursive components and the iteration limit; verify the recursive-function scenario and non-convergence widening
-- [ ] 4.3 Implement multi-target application with the several-candidates mark and unresolved-callee propagation with its mark; verify the confidence reasons attach
-- [ ] 4.4 Implement the outer property/global rounds (pure, bounded, deterministic) and the shared-scope include modelling; verify property flow across methods and a literal-include flow across files
-- [ ] 4.5 Run the whole `fixtures/vuln` corpus through lowering, call graph and summaries in `adapters/syntax-mago/tests/engine.rs`, record expectations per CWE with known gaps, and verify no unexplained failure
+- [x] 4.1 Implement summaries (returns, writes, sinks per symbolic origin, introduced sources) and substitution at calls; verify helper-flow and sanitising-helper scenarios
+- [x] 4.2 Implement component-ordered summarisation with fixpoint inside recursive components and the iteration limit; verify the recursive-function scenario and non-convergence widening
+- [x] 4.3 Implement multi-target application with the several-candidates mark and unresolved-callee propagation with its mark; verify the confidence reasons attach
+- [x] 4.4 Implement the outer property/global rounds (pure, bounded, deterministic) and the shared-scope include modelling; verify property flow across methods and a literal-include flow across files
+- [x] 4.5 Run the whole `fixtures/vuln` corpus through lowering, call graph and summaries in `adapters/syntax-mago/tests/engine.rs`, record expectations per CWE with known gaps, and verify no unexplained failure
 
 ## 5. Pattern rules
 

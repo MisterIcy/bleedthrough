@@ -221,9 +221,11 @@ impl Project {
             index,
             limits: engine::Limits::default(),
             heap: &heap,
+            inter: None,
         };
         let mut lines: Vec<String> = Vec::new();
         for (file, graphs) in &self.units {
+            let refs: Vec<&ir::Graph> = graphs.iter().collect();
             for g in graphs {
                 let Some(id) = graph.find(file, &g.key) else {
                     continue;
@@ -233,14 +235,15 @@ impl Project {
                     &engine::UnitInput {
                         id,
                         graph: g,
-                        file_graphs: graphs,
+                        file_graphs: &refs,
+                        shared_scope: false,
                     },
                 );
                 for hit in &flow.hits {
                     let engine::Origin::Source { .. } = hit.label.origin else {
                         continue;
                     };
-                    lines.push(self.describe_hit(index, &graph, file, hit));
+                    lines.push(self.describe_hit(index, &graph, hit));
                 }
             }
         }
@@ -249,11 +252,51 @@ impl Project {
         lines
     }
 
+    /// The whole-project analysis: every flow from a concrete source to a sink, with calls and
+    /// includes followed, one line each in the format of [`Self::intra_flows`].
+    pub fn project_flows(&self, index: &engine::RuleIndex) -> Vec<String> {
+        self.project_flows_with(index, engine::Limits::default())
+    }
+
+    /// [`Self::project_flows`] with the given bounds.
+    pub fn project_flows_with(
+        &self,
+        index: &engine::RuleIndex,
+        limits: engine::Limits,
+    ) -> Vec<String> {
+        let (graph, result) = self.analyse(index, limits);
+        let mut lines: Vec<String> = result
+            .hits
+            .iter()
+            .map(|hit| self.describe_hit(index, &graph, hit))
+            .collect();
+        lines.sort();
+        lines.dedup();
+        lines
+    }
+
+    /// The call graph and the whole-project analysis.
+    pub fn analyse(
+        &self,
+        index: &engine::RuleIndex,
+        limits: engine::Limits,
+    ) -> (engine::CallGraph, engine::ProjectFlow) {
+        let graph = self.call_graph();
+        let units = self.source_units();
+        let result = engine::analyse_project(&engine::ProjectInput {
+            table: &self.table,
+            index,
+            limits,
+            graph: &graph,
+            units: &units,
+        });
+        (graph, result)
+    }
+
     fn describe_hit(
         &self,
         index: &engine::RuleIndex,
         graph: &engine::CallGraph,
-        file: &str,
         hit: &engine::SinkHit,
     ) -> String {
         let sink = &index.sinks()[hit.sink as usize];
@@ -261,6 +304,7 @@ impl Project {
             unreachable!("concrete origins only");
         };
         let source_file = &graph.unit(unit).file;
+        let file = &graph.unit(hit.unit).file;
         format!(
             "{} {}: {}@{}:{} -> {}@{}:{}",
             index.rules()[sink.rule as usize],

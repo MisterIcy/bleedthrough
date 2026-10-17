@@ -5,5 +5,6 @@ crate::{use} use dataflow :: { Context , FlowLimits , Heap , Limits , SinkHit , 
 crate::{use} use fold :: { Folded , Folder }
 crate::{use} use include :: { FoldedPath , IncludeResolver , NoIncludes , normalise_path }
 crate::{use} use label :: { Applied , ClassSet , HeapKey , Label , Marks , Origin , Taint }
+crate::{use} use project :: { ProjectFlow , ProjectInput , analyse_project }
 crate::{use} use rule_index :: { Gate , Matches , PropagatorEntry , RuleIndex , SanitizerEntry , SinkEntry , SourceDef , Subject , }
 crate::{use} use scc :: strongly_connected

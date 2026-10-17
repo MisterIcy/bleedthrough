@@ -14,6 +14,7 @@ mod dataflow;
 mod fold;
 mod include;
 mod label;
+mod project;
 mod rule_index;
 mod scc;
 
@@ -26,6 +27,7 @@ pub use dataflow::{Context, FlowLimits, Heap, Limits, SinkHit, UnitFlow, UnitInp
 pub use fold::{Folded, Folder};
 pub use include::{FoldedPath, IncludeResolver, NoIncludes, normalise_path};
 pub use label::{Applied, ClassSet, HeapKey, Label, Marks, Origin, Taint};
+pub use project::{ProjectFlow, ProjectInput, analyse_project};
 pub use rule_index::{
     Gate, Matches, PropagatorEntry, RuleIndex, SanitizerEntry, SinkEntry, SourceDef, Subject,
 };
