@@ -1,6 +1,6 @@
 ## Context
 
-See proposal.md. The ledger (`testing/mutants-survivors.toml`) holds 1371 entries, all `baseline = true`, 1109 of them in `bleedthrough-symbols` and 134 in `bleedthrough-syntax`; the proposal's figure of 1482 survivors was measured at recording time and differs from the entry count, so the first task re-runs the mutants to get the real starting set. `xtask/src/mutants.rs` parses the ledger (a `baseline` field), compares it with a run, and today tolerates `baseline` entries in critical code (`compare`, with a test for exactly that). Critical globs are in `testing/mutants-critical.toml`. `mutants.yml` and `determinism.yml` both have `workflow_dispatch`.
+See proposal.md. The ledger (`testing/mutants-survivors.toml`) holds 1371 entries, all `baseline = true`, 1109 of them in `bleedthrough-symbols` and 134 in `bleedthrough-syntax`; the proposal's figure of 1482 survivors was measured at recording time and is the sum of the entries' `count`s (1370 entries, 1482 survivors), so the first task re-runs the mutants to get the real starting set. `xtask/src/mutants.rs` parses the ledger (a `baseline` field), compares it with a run, and today tolerates `baseline` entries in critical code (`compare`, with a test for exactly that). Critical globs are in `testing/mutants-critical.toml`. `mutants.yml` and `determinism.yml` both have `workflow_dispatch`.
 
 ## Goals / Non-Goals
 

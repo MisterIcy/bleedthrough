@@ -3,9 +3,8 @@
 # it until removed. Keys carry no line numbers. In security-critical code (testing/mutants-critical.toml)
 # only `equivalent = true` entries are accepted: anything else is fixed with a test.
 #
-# `baseline = true` entries are the debt recorded when mutation testing was introduced (1482 survivors at
-# 2026-10-16). They have not been analysed: the change `mutation-hardening` kills them with tests or
-# replaces them with reasoned entries, and no new `baseline` entry may be added.
+# Every entry is analysed: a survivor is either equivalent (with the proof), a bound tested elsewhere (naming the
+# test), or a timeout-only case. The loader refuses `baseline` entries and reasons that admit no analysis.
 
 [[survivor]]
 crate = "bleedthrough-builtins"

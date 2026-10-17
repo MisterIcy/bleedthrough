@@ -26,16 +26,16 @@ floor = 0.0
 reason = "no executable lines yet (placeholder crate); the stale-floor rule forces a real floor when code lands"
 
 [crate.bleedthrough-rules]
-floor = 89.0
-reason = "measured 90.48% when recorded; floor one point below"
+floor = 94.0
+reason = "measured 95.52% after the mutation-hardening change; floor one point below"
 
 [crate.bleedthrough-symbols]
-floor = 83.0
-reason = "measured 84.74% when recorded; floor one point below"
+floor = 96.0
+reason = "measured 97.62% after the mutation-hardening change; floor one point below"
 
 [crate.bleedthrough-syntax]
-floor = 95.0
-reason = "measured 96.63% when recorded; floor one point below"
+floor = 97.0
+reason = "measured 98.32% after the mutation-hardening change; floor one point below"
 
 [crate.bleedthrough-taxonomy]
 floor = 94.0
