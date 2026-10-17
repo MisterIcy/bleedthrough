@@ -41,7 +41,7 @@ file = "crates/symbols/src/docblock/tags.rs"
 mutant = "replace + with - in Collector<'_, '_>::method_decl"
 reason = "Equivalent. The type parser reports its consumed length up to the start of the next token, so the text after a parsed return type never begins with white space; the white space width that is added is always 0."
 equivalent = true
-count = 2
+count = 1
 
 [[survivor]]
 crate = "bleedthrough-symbols"
