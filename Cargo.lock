@@ -193,6 +193,7 @@ dependencies = [
 name = "bleedthrough-engine"
 version = "0.0.0"
 dependencies = [
+ "bleedthrough-findings",
  "bleedthrough-ir",
  "bleedthrough-rules",
  "bleedthrough-symbols",
@@ -206,6 +207,7 @@ version = "0.0.0"
 dependencies = [
  "bleedthrough-builtins",
  "bleedthrough-engine",
+ "bleedthrough-findings",
  "bleedthrough-ir",
  "bleedthrough-rules",
  "bleedthrough-symbols",

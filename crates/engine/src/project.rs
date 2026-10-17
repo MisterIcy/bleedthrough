@@ -205,9 +205,6 @@ fn concrete_hits(flows: &[UnitFlow]) -> Vec<SinkHit> {
                     if let Some(label) = both.labels().first() {
                         existing.label = label.clone();
                     }
-                    if hit.calls.len() < existing.calls.len() {
-                        existing.calls = hit.calls.clone();
-                    }
                 }
                 None => {
                     merged.insert(key, hit.clone());
@@ -216,4 +213,18 @@ fn concrete_hits(flows: &[UnitFlow]) -> Vec<SinkHit> {
         }
     }
     merged.into_values().collect()
+}
+
+/// The graph of every unit, by unit identifier; `None` when a unit of the call graph was not given.
+pub(crate) fn unit_graphs<'a>(
+    graph: &CallGraph,
+    units: &[SourceUnit<'a>],
+) -> Option<Vec<&'a Graph>> {
+    let mut graphs: Vec<Option<&'a Graph>> = vec![None; graph.units().len()];
+    for unit in units {
+        if let Some(id) = graph.find(unit.file, &unit.graph.key) {
+            graphs[id.index()] = Some(unit.graph);
+        }
+    }
+    graphs.into_iter().collect()
 }

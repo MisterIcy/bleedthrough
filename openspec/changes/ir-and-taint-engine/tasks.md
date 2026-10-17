@@ -41,8 +41,8 @@
 
 ## 6. Findings, determinism and limits
 
-- [ ] 6.1 Produce findings from sink hits with traces assembled from label provenance (source, propagation, call, considered sanitizer, sink), de-duplication per (rule, source, sink) and the trace length cut; verify the two-sources, two-paths and long-trace scenarios
-- [ ] 6.2 Implement the confidence mapping and reasons, severity and taxonomy from rules, fingerprints via the findings model, and coverage counters; verify the clean, multiple-reason, medium-only and fingerprint-stability scenarios
+- [x] 6.1 Produce findings from sink hits with traces assembled from label provenance (source, propagation, call, considered sanitizer, sink), de-duplication per (rule, source, sink) and the trace length cut; verify the two-sources, two-paths and long-trace scenarios
+- [x] 6.2 Implement the confidence mapping and reasons, severity and taxonomy from rules, fingerprints via the findings model, and coverage counters; verify the clean, multiple-reason, medium-only and fingerprint-stability scenarios
 - [ ] 6.3 Implement the order-independent work-unit API (`lower_file`, `summarise_component`, `scan_unit`, `merge`) and canonical ordering; verify with a test that shuffles files and unit order and compares results byte for byte
 - [ ] 6.4 Implement every limit with widening, counters and the widening reason, using explicit work stacks in graph algorithms and bounded expression-depth lowering; verify one test per limit kind and the deep-nesting, long-chain and 1,000-function-cycle adversarial cases
 - [ ] 6.5 Convert internal faults in one unit into a skipped-unit record without aborting the run and verify with an injected fault test

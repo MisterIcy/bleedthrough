@@ -5,11 +5,13 @@
 //! parser.
 //!
 //! **Permitted workspace dependencies:** `bleedthrough-syntax`, `bleedthrough-symbols`,
-//! `bleedthrough-builtins`, `bleedthrough-ir`, `bleedthrough-engine`.
+//! `bleedthrough-builtins`, `bleedthrough-ir`, `bleedthrough-engine`, `bleedthrough-rules`,
+//! `bleedthrough-findings`.
 
 use std::path::{Path, PathBuf};
 
 pub use bleedthrough_engine as engine;
+pub use bleedthrough_findings as findings;
 pub use bleedthrough_ir as ir;
 pub use bleedthrough_rules as rules;
 pub use bleedthrough_symbols as symbols;
@@ -273,6 +275,61 @@ impl Project {
         lines.sort();
         lines.dedup();
         lines
+    }
+
+    /// The findings of the whole-project analysis under `limits`.
+    pub fn findings(
+        &self,
+        rules: &rules::RuleSet,
+        index: &engine::RuleIndex,
+        limits: engine::Limits,
+    ) -> Vec<findings::Finding> {
+        let (graph, flow) = self.analyse(index, limits);
+        let units = self.source_units();
+        let texts: std::collections::BTreeMap<&str, &str> = self
+            .sources
+            .iter()
+            .map(|(p, t)| (p.as_str(), t.as_str()))
+            .collect();
+        engine::build_findings(
+            &engine::FindingsInput {
+                rules,
+                index,
+                graph: &graph,
+                units: &units,
+                texts: &texts,
+                limits,
+            },
+            &flow,
+        )
+    }
+
+    /// The coverage of the project analysis for PHP `version`, and the calls left unresolved by
+    /// reason.
+    pub fn coverage(
+        &self,
+        index: &engine::RuleIndex,
+        rules: &rules::RuleSet,
+        version: &str,
+    ) -> (findings::Coverage, engine::CallCoverage) {
+        let graph = self.call_graph();
+        let units = self.source_units();
+        let texts: std::collections::BTreeMap<&str, &str> = self
+            .sources
+            .iter()
+            .map(|(p, t)| (p.as_str(), t.as_str()))
+            .collect();
+        engine::build_coverage(
+            &engine::FindingsInput {
+                rules,
+                index,
+                graph: &graph,
+                units: &units,
+                texts: &texts,
+                limits: engine::Limits::default(),
+            },
+            version,
+        )
     }
 
     /// The call graph and the whole-project analysis.

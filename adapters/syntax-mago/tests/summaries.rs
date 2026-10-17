@@ -1,6 +1,6 @@
 //! Inter-procedural taint: summaries, recursion, multi-target calls, locations and includes.
 
-use bleedthrough_engine_suite::engine::{Gate, Limits, RuleIndex};
+use bleedthrough_engine_suite::engine::{Gate, Limits, RuleIndex, StepMark};
 use bleedthrough_engine_suite::rules::RuleSet;
 use bleedthrough_engine_suite::{Project, workspace_root};
 use bleedthrough_syntax_mago::MagoBackend;
@@ -107,9 +107,11 @@ fn a_hit_remembers_the_calls_it_went_through() {
     let (_, result) = p.analyse(&index(), Limits::default());
     assert_eq!(result.hits.len(), 1);
     let lines: Vec<usize> = result.hits[0]
-        .calls
+        .label
+        .steps
         .iter()
-        .map(|(_, span)| p.line("a.php", span.start))
+        .filter(|step| step.mark == StepMark::Call)
+        .map(|step| p.line("a.php", step.span.start))
         .collect();
     assert_eq!(lines, [4, 3]);
 }

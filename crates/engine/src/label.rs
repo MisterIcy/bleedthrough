@@ -10,6 +10,8 @@ use crate::callgraph::UnitId;
 
 /// The most sanitizers a label remembers.
 const MAX_APPLIED: usize = 4;
+/// Most trace steps a label remembers; past it the middle ones are dropped.
+const MAX_STEPS: usize = 64;
 
 /// Term: Taint label
 ///
@@ -113,6 +115,34 @@ impl Origin {
 
 /// Term: Taint label
 ///
+/// What a recorded trace step is.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[non_exhaustive]
+pub enum StepMark {
+    /// The value changed representation here (a concatenation, a cast, a sum).
+    Propagation,
+    /// The flow crossed a call here, into or out of a callee.
+    Call,
+    /// The sanitizer entry in the rule index was applied here.
+    Sanitizer(u32),
+}
+
+/// Term: Taint label
+///
+/// One step of a flow: where in which unit, and what happened.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[allow(clippy::exhaustive_structs, reason = "a plain record")]
+pub struct FlowStep {
+    /// The unit whose file the span is in.
+    pub unit: UnitId,
+    /// Where.
+    pub span: Span,
+    /// What.
+    pub mark: StepMark,
+}
+
+/// Term: Taint label
+///
 /// A sanitizer a label passed through.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[allow(clippy::exhaustive_structs, reason = "a plain record")]
@@ -137,6 +167,8 @@ pub struct Marks {
     pub several: u16,
     /// A limit widened the analysis before this flow was found.
     pub widened: bool,
+    /// A value of unknown type kept its taint on the way.
+    pub unknown_type: bool,
 }
 
 impl Marks {
@@ -146,6 +178,7 @@ impl Marks {
             inferred_source: self.inferred_source || other.inferred_source,
             several: self.several.max(other.several),
             widened: self.widened || other.widened,
+            unknown_type: self.unknown_type || other.unknown_type,
         }
     }
 }
@@ -165,6 +198,9 @@ pub struct Label {
     pub applied: Vec<Applied>,
     /// The marks collected.
     pub marks: Marks,
+    /// The steps of the flow in order, capped. Of two paths to the same origin the shorter is
+    /// kept, ties broken by the steps themselves, so joins stay commutative and idempotent.
+    pub steps: Vec<FlowStep>,
 }
 
 impl Label {
@@ -175,13 +211,25 @@ impl Label {
             cleared: ClassSet::EMPTY,
             applied: Vec::new(),
             marks: Marks::default(),
+            steps: Vec::new(),
         }
+    }
+
+    /// This label after one more step.
+    fn stepped(&mut self, step: FlowStep) {
+        if self.steps.last() == Some(&step) {
+            return;
+        }
+        if self.steps.len() >= MAX_STEPS {
+            self.steps.remove(MAX_STEPS / 2);
+        }
+        self.steps.push(step);
     }
 
     /// This label seen through `outer`, the label of the value that stood for its symbolic origin:
     /// the origin is the outer one, and what was cleared, applied and marked on either side holds.
     #[must_use]
-    pub fn compose(&self, outer: &Self) -> Self {
+    pub fn compose(&self, outer: &Self, via: FlowStep) -> Self {
         let mut out = outer.clone();
         out.cleared = outer.cleared.union(self.cleared);
         for a in &self.applied {
@@ -191,6 +239,10 @@ impl Label {
         }
         out.applied.truncate(MAX_APPLIED);
         out.marks = outer.marks.join(self.marks);
+        out.stepped(via);
+        for step in &self.steps {
+            out.stepped(*step);
+        }
         out
     }
 
@@ -205,6 +257,9 @@ impl Label {
         }
         self.applied.truncate(MAX_APPLIED);
         self.marks = self.marks.join(other.marks);
+        if (other.steps.len(), &other.steps) < (self.steps.len(), &self.steps) {
+            self.steps.clone_from(&other.steps);
+        }
     }
 }
 
@@ -231,6 +286,15 @@ impl Taint {
         }
     }
 
+    /// The taint after one more step.
+    #[must_use]
+    pub fn stepped(mut self, step: FlowStep) -> Self {
+        for label in &mut self.labels {
+            label.stepped(step);
+        }
+        self
+    }
+
     /// Whether no label is present.
     pub fn is_clean(&self) -> bool {
         self.labels.is_empty()
@@ -248,20 +312,23 @@ impl Taint {
     pub fn substitute<'t>(
         &self,
         cap: usize,
+        via: FlowStep,
         inputs: impl Fn(&Origin) -> Option<&'t Taint>,
     ) -> Self {
         let mut out = Self::clean();
         out.widened = self.widened;
         for label in &self.labels {
             if !label.origin.is_symbolic() {
-                out.join_in(&Self::of(label.clone()), cap);
+                let mut through = label.clone();
+                through.stepped(via);
+                out.join_in(&Self::of(through), cap);
                 continue;
             }
             let Some(actual) = inputs(&label.origin) else {
                 continue;
             };
             for outer in &actual.labels {
-                out.join_in(&Self::of(label.compose(outer)), cap);
+                out.join_in(&Self::of(label.compose(outer, via)), cap);
             }
             if actual.widened {
                 out.widened = true;
@@ -339,7 +406,7 @@ impl Taint {
     /// The same taint after a sanitizer: every label is additionally cleared for `classes` and
     /// remembers the sanitizer.
     #[must_use]
-    pub fn cleared_for(&self, classes: ClassSet, applied: Applied) -> Self {
+    pub fn cleared_for(&self, unit: UnitId, classes: ClassSet, applied: Applied) -> Self {
         let mut out = self.clone();
         for label in &mut out.labels {
             label.cleared = label.cleared.union(classes);
@@ -347,6 +414,11 @@ impl Taint {
                 label.applied.insert(at, applied);
             }
             label.applied.truncate(MAX_APPLIED);
+            label.stepped(FlowStep {
+                unit,
+                span: applied.span,
+                mark: StepMark::Sanitizer(applied.entry),
+            });
         }
         out
     }
@@ -459,8 +531,9 @@ mod tests {
             0u16..(1 << 12),
             bleedthrough_testkit::proptest::collection::vec((0u32..4, 0u32..4), 0..4),
             (any::<bool>(), any::<bool>(), 0u16..4, any::<bool>()),
+            bleedthrough_testkit::proptest::collection::vec(0u32..4, 0..4),
         )
-            .prop_map(|(origin, cleared, applied, marks)| {
+            .prop_map(|(origin, cleared, applied, marks, steps)| {
                 let mut label = Label::new(origin);
                 label.cleared = ClassSet(cleared);
                 let mut applied: Vec<Applied> = applied
@@ -473,11 +546,20 @@ mod tests {
                 applied.sort();
                 applied.dedup();
                 label.applied = applied;
+                label.steps = steps
+                    .into_iter()
+                    .map(|at| FlowStep {
+                        unit: UnitId::from_index(0),
+                        span: Span::new(at, at + 1),
+                        mark: StepMark::Propagation,
+                    })
+                    .collect();
                 label.marks = Marks {
                     assumed_unresolved: marks.0,
                     inferred_source: marks.1,
                     several: marks.2,
                     widened: marks.3,
+                    unknown_type: false,
                 };
                 label
             })
@@ -528,7 +610,7 @@ mod tests {
                     entry,
                     span: Span::new(0, 1),
                 };
-                let cleared = a.cleared_for(ClassSet(classes), applied);
+                let cleared = a.cleared_for(UnitId::from_index(0), ClassSet(classes), applied);
                 prop_assert_eq!(cleared.labels().len(), a.labels().len());
                 for (before, after) in a.labels().iter().zip(cleared.labels()) {
                     prop_assert_eq!(before.origin, after.origin);

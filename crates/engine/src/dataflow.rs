@@ -16,7 +16,7 @@ use crate::callgraph::{CallGraph, CallOutcome, IncludeOutcome, UnitId};
 use crate::calls::{
     CallInfo, candidate_count, merge_matches, multi_target, param_decls, selected_args, subjects,
 };
-use crate::label::{Applied, HeapKey, Label, Origin, Taint};
+use crate::label::{Applied, FlowStep, HeapKey, Label, Origin, StepMark, Taint};
 use crate::rule_index::{Matches, RuleIndex, Subject};
 
 /// Term: Analysis limit
@@ -37,6 +37,9 @@ pub struct Limits {
     pub iterations: u32,
     /// Most rounds of the property, static property and global locations.
     pub rounds: u32,
+    /// Most steps a finding's trace keeps (at least 2, at most 62); longer ones are cut in the
+    /// middle and marked.
+    pub trace_steps: usize,
 }
 
 impl Default for Limits {
@@ -48,6 +51,7 @@ impl Default for Limits {
             closure_depth: 4,
             iterations: 8,
             rounds: 4,
+            trace_steps: 24,
         }
     }
 }
@@ -124,8 +128,6 @@ pub struct SinkHit {
     pub span: Span,
     /// The vulnerable argument the taint arrived in.
     pub arg: Span,
-    /// The calls the taint went through to get there, outermost first (capped).
-    pub calls: Vec<(UnitId, Span)>,
 }
 
 /// Term: Analysis limit
@@ -437,10 +439,19 @@ impl<'a, 'c> Run<'a, 'c> {
     fn instr(&mut self, ins: &'a Instr, st: &mut Locals) {
         let result = self.transfer(ins, st);
         if let Some(dest) = ins.dest {
-            let pruned = if ins.ty == TypeClass::Inert {
-                Taint::clean()
-            } else {
-                result
+            let pruned = match ins.ty {
+                TypeClass::Inert => Taint::clean(),
+                // Only a computed result is a decision a known type could have changed: reading a
+                // source or a variable forwards what is already there.
+                TypeClass::Unknown
+                    if matches!(
+                        ins.kind,
+                        InstrKind::Call { .. } | InstrKind::New { .. } | InstrKind::Unknown { .. }
+                    ) =>
+                {
+                    result.map_marks(|m| m.unknown_type = true)
+                }
+                _ => result,
             };
             if pruned.widened() {
                 self.limits.origins = true;
@@ -467,22 +478,24 @@ impl<'a, 'c> Run<'a, 'c> {
             InstrKind::Load(place) => self.load(place, st),
             InstrKind::LoadElem { base, .. } => self.tv(*base),
             InstrKind::Store { place, value, weak } => {
-                let t = self.tv(*value);
+                let t = self.tv(*value).stepped(self.prop(ins.span));
                 self.store(place, t, *weak, st);
                 Taint::clean()
             }
-            InstrKind::Concat(parts) => self.join_values(parts.iter().map(|p| p.value)),
-            InstrKind::Interp { parts, .. } => {
-                self.join_values(parts.iter().filter_map(|p| match p {
+            InstrKind::Concat(parts) => self
+                .join_values(parts.iter().map(|p| p.value))
+                .stepped(self.prop(ins.span)),
+            InstrKind::Interp { parts, .. } => self
+                .join_values(parts.iter().filter_map(|p| match p {
                     InterpPart::Value(o) => Some(o.value),
                     _ => None,
                 }))
-            }
+                .stepped(self.prop(ins.span)),
             InstrKind::Binary {
                 op: BinaryOp::Add,
                 lhs,
                 rhs,
-            } => self.join_values([*lhs, *rhs]),
+            } => self.join_values([*lhs, *rhs]).stepped(self.prop(ins.span)),
             InstrKind::Binary { .. } => Taint::clean(),
             InstrKind::Cast { kind, operand } => match kind {
                 CastKind::Int
@@ -490,7 +503,7 @@ impl<'a, 'c> Run<'a, 'c> {
                 | CastKind::Bool
                 | CastKind::Unset
                 | CastKind::Void => Taint::clean(),
-                _ => self.tv(*operand),
+                _ => self.tv(*operand).stepped(self.prop(ins.span)),
             },
             InstrKind::Copy(v) | InstrKind::YieldFrom(v) => {
                 let t = self.tv(*v);
@@ -706,6 +719,24 @@ impl<'a, 'c> Run<'a, 'c> {
         value
     }
 
+    /// A propagation step at `span` in the unit being analysed.
+    fn prop(&self, span: Span) -> FlowStep {
+        FlowStep {
+            unit: self.unit,
+            span,
+            mark: StepMark::Propagation,
+        }
+    }
+
+    /// The step of crossing the call at `span` from the unit being analysed.
+    fn call_step(&self, span: Span) -> FlowStep {
+        FlowStep {
+            unit: self.unit,
+            span,
+            mark: StepMark::Call,
+        }
+    }
+
     fn record(&mut self, hit: SinkHit) {
         let key = (hit.sink, hit.label.origin, hit.span);
         match self.hits.get_mut(&key) {
@@ -769,7 +800,7 @@ impl<'a, 'c> Run<'a, 'c> {
                     entry: *entry,
                     span: ins.span,
                 };
-                flow = flow.cleared_for(clears, applied);
+                flow = flow.cleared_for(self.unit, clears, applied);
             }
             result.join_in(&flow, cap);
         } else if !matches.propagators.is_empty() {
@@ -885,7 +916,7 @@ impl<'a, 'c> Run<'a, 'c> {
             let returned = self.apply(flow, &inputs, call, several);
             result.join_in(&returned, cap);
             for (position, effect) in &flow.params {
-                let landed = effect.substitute(cap, |o| inputs.get(o));
+                let landed = effect.substitute(cap, self.call_step(call), |o| inputs.get(o));
                 if landed.is_clean() {
                     continue;
                 }
@@ -908,6 +939,7 @@ impl<'a, 'c> Run<'a, 'c> {
     /// and the returned taint is the callee's result.
     fn apply(&mut self, flow: &UnitFlow, inputs: &Inputs, call: Span, several: u16) -> Taint {
         let cap = self.cap();
+        let via = self.call_step(call);
         for hit in &flow.hits {
             if !hit.label.origin.is_symbolic() {
                 continue;
@@ -918,26 +950,22 @@ impl<'a, 'c> Run<'a, 'c> {
             let entry = &self.ctx.index.sinks()[hit.sink as usize];
             let (class, rule) = (entry.class, entry.rule);
             for outer in actual.labels() {
-                let mut label = hit.label.compose(outer);
+                let mut label = hit.label.compose(outer, via);
                 label.marks.several = label.marks.several.max(several);
                 if !self.fires(&label, class, rule) {
                     continue;
                 }
-                let mut calls = vec![(self.site_unit, call)];
-                calls.extend(hit.calls.iter().copied());
-                calls.truncate(MAX_CALL_CHAIN);
                 self.record(SinkHit {
                     sink: hit.sink,
                     label,
                     unit: hit.unit,
                     span: hit.span,
                     arg: hit.arg,
-                    calls,
                 });
             }
         }
         for (location, taint) in &flow.writes {
-            let landed = taint.substitute(cap, |o| inputs.get(o));
+            let landed = taint.substitute(cap, via, |o| inputs.get(o));
             if !landed.is_clean() {
                 self.writes
                     .entry(location.clone())
@@ -945,7 +973,7 @@ impl<'a, 'c> Run<'a, 'c> {
                     .join_in(&landed, cap);
             }
         }
-        let returned = flow.returns.substitute(cap, |o| inputs.get(o));
+        let returned = flow.returns.substitute(cap, via, |o| inputs.get(o));
         if several > 1 {
             returned.map_marks(|m| m.several = m.several.max(several))
         } else {
@@ -993,7 +1021,7 @@ impl<'a, 'c> Run<'a, 'c> {
             };
             result.join_in(&self.apply(flow, &inputs, ins.span, several), cap);
             for (name, taint) in &flow.scope {
-                let landed = taint.substitute(cap, |o| inputs.get(o));
+                let landed = taint.substitute(cap, self.call_step(ins.span), |o| inputs.get(o));
                 let id = self.local_named(name);
                 if several > 1 {
                     if !landed.is_clean() {
@@ -1097,7 +1125,6 @@ impl<'a, 'c> Run<'a, 'c> {
                         unit: self.unit,
                         span: call,
                         arg,
-                        calls: Vec::new(),
                     });
                 }
             }
@@ -1159,9 +1186,6 @@ impl<'a, 'c> Run<'a, 'c> {
         }
     }
 }
-
-/// The most calls a hit remembers it went through.
-const MAX_CALL_CHAIN: usize = 32;
 
 /// The units a call goes to.
 struct SiteTargets {

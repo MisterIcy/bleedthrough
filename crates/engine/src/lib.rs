@@ -12,6 +12,7 @@ mod callgraph;
 mod calls;
 mod coverage;
 mod dataflow;
+mod findings;
 mod fold;
 mod include;
 mod label;
@@ -26,9 +27,10 @@ pub use callgraph::{
 };
 pub use coverage::CallCoverage;
 pub use dataflow::{Context, FlowLimits, Heap, Limits, SinkHit, UnitFlow, UnitInput, analyse_unit};
+pub use findings::{FindingsInput, build_coverage, build_findings};
 pub use fold::{Folded, Folder};
 pub use include::{FoldedPath, IncludeResolver, NoIncludes, normalise_path};
-pub use label::{Applied, ClassSet, HeapKey, Label, Marks, Origin, Taint};
+pub use label::{Applied, ClassSet, FlowStep, HeapKey, Label, Marks, Origin, StepMark, Taint};
 pub use pattern::{PatternHit, scan_patterns};
 pub use project::{ProjectFlow, ProjectInput, analyse_project};
 pub use rule_index::{

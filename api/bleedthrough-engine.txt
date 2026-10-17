@@ -2,9 +2,10 @@
 crate::{use} use callgraph :: { CallGraph , CallGraphConfig , CallOutcome , CallSite , Component , IncludeOutcome , IncludeSite , SourceUnit , UnitId , UnitInfo , Unresolved , }
 crate::{use} use coverage :: CallCoverage
 crate::{use} use dataflow :: { Context , FlowLimits , Heap , Limits , SinkHit , UnitFlow , UnitInput , analyse_unit }
+crate::{use} use findings :: { FindingsInput , build_coverage , build_findings }
 crate::{use} use fold :: { Folded , Folder }
 crate::{use} use include :: { FoldedPath , IncludeResolver , NoIncludes , normalise_path }
-crate::{use} use label :: { Applied , ClassSet , HeapKey , Label , Marks , Origin , Taint }
+crate::{use} use label :: { Applied , ClassSet , FlowStep , HeapKey , Label , Marks , Origin , StepMark , Taint }
 crate::{use} use pattern :: { PatternHit , scan_patterns }
 crate::{use} use project :: { ProjectFlow , ProjectInput , analyse_project }
 crate::{use} use rule_index :: { Gate , Matches , PatternEntry , PatternKind , PropagatorEntry , RuleIndex , SanitizerEntry , SinkEntry , SourceDef , Subject , }

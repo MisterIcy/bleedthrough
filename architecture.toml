@@ -148,7 +148,7 @@ allow = []
 layer = "tooling"
 allow = [
   "bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins", "bleedthrough-ir",
-  "bleedthrough-engine", "bleedthrough-rules",
+  "bleedthrough-engine", "bleedthrough-rules", "bleedthrough-findings",
 ]
 
 [crate.xtask]
