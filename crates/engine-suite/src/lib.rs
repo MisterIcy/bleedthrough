@@ -5,10 +5,11 @@
 //! parser.
 //!
 //! **Permitted workspace dependencies:** `bleedthrough-syntax`, `bleedthrough-symbols`,
-//! `bleedthrough-builtins`, `bleedthrough-ir`.
+//! `bleedthrough-builtins`, `bleedthrough-ir`, `bleedthrough-engine`.
 
 use std::path::{Path, PathBuf};
 
+pub use bleedthrough_engine as engine;
 pub use bleedthrough_ir as ir;
 pub use bleedthrough_symbols as symbols;
 use bleedthrough_symbols::{
@@ -136,4 +137,74 @@ pub fn php_files(dir: &Path) -> Vec<PathBuf> {
         .unwrap_or_default();
     files.sort();
     files
+}
+
+/// An include resolver over a fixed file list: a path matches a file by its exact normalised name, or
+/// relative to the directory of the including file.
+#[derive(Debug, Clone)]
+pub struct FileList(pub Vec<Box<str>>);
+
+impl engine::IncludeResolver for FileList {
+    fn resolve(&self, from: &str, path: &engine::FoldedPath) -> Vec<Box<str>> {
+        let relative = from.rsplit_once('/').map_or_else(
+            || path.as_str().to_string(),
+            |(dir, _)| engine::normalise_path(&format!("{dir}/{}", path.as_str())),
+        );
+        let mut found: Vec<Box<str>> = self
+            .0
+            .iter()
+            .filter(|f| f.as_ref() == path.as_str() || f.as_ref() == relative)
+            .cloned()
+            .collect();
+        found.sort();
+        found
+    }
+}
+
+/// The lowered units of a project: the graphs of every file, in file order.
+pub struct Project {
+    /// The table the files were analysed against.
+    pub table: SymbolTable,
+    /// Each file's path and graphs, in the order the files were given.
+    pub units: Vec<(String, Vec<ir::Graph>)>,
+}
+
+impl Project {
+    /// Parses, summarises, infers and lowers every file; the built-ins are part of the table.
+    pub fn load(backend: &dyn ParserBackend, files: &[(&str, &str)]) -> Self {
+        let table = table_with_builtins(backend, files);
+        let units = files
+            .iter()
+            .map(|(path, source)| {
+                (
+                    (*path).to_string(),
+                    lower_source(backend, &table, path, source),
+                )
+            })
+            .collect();
+        Self { table, units }
+    }
+
+    /// Every unit with its file, in the order the files were given.
+    pub fn source_units(&self) -> Vec<engine::SourceUnit<'_>> {
+        self.units
+            .iter()
+            .flat_map(|(file, graphs)| {
+                graphs
+                    .iter()
+                    .map(move |graph| engine::SourceUnit { file, graph })
+            })
+            .collect()
+    }
+
+    /// The call graph, resolving includes among the project's own files.
+    pub fn call_graph(&self) -> engine::CallGraph {
+        self.call_graph_with(&engine::CallGraphConfig::default())
+    }
+
+    /// The call graph with the given bounds.
+    pub fn call_graph_with(&self, config: &engine::CallGraphConfig) -> engine::CallGraph {
+        let resolver = FileList(self.units.iter().map(|(f, _)| f.as_str().into()).collect());
+        engine::CallGraph::build(&self.source_units(), &self.table, &resolver, config)
+    }
 }

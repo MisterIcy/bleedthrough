@@ -10,10 +10,10 @@
 
 ## 2. Call graph and includes
 
-- [ ] 2.1 Define the engine's include-resolver port and the constant folder (literals, concatenation, `__DIR__`, `__FILE__`, `dirname(__FILE__)`, known constants); verify folding and non-folding cases with unit tests including negative cases
-- [ ] 2.2 Build the call graph from lowered units and resolutions (single, multi-target with cap and truncation flag, built-in, unresolved with reasons); verify with tests for each scenario in the `call-graph` spec
-- [ ] 2.3 Implement iterative Tarjan SCC with deterministic order and verify mutual recursion, self-recursion, file-order independence and a 100,000-node chain without stack overflow
-- [ ] 2.4 Record unresolved calls and includes in the coverage structure and verify counts by reason in a test
+- [x] 2.1 Define the engine's include-resolver port and the constant folder (literals, concatenation, `__DIR__`, `__FILE__`, `dirname(__FILE__)`, known constants); verify folding and non-folding cases with unit tests including negative cases
+- [x] 2.2 Build the call graph from lowered units and resolutions (single, multi-target with cap and truncation flag, built-in, unresolved with reasons); verify with tests for each scenario in the `call-graph` spec
+- [x] 2.3 Implement iterative Tarjan SCC with deterministic order and verify mutual recursion, self-recursion, file-order independence and a 100,000-node chain without stack overflow
+- [x] 2.4 Record unresolved calls and includes in the coverage structure and verify counts by reason in a test
 
 ## 3. Intra-procedural taint
 

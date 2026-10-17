@@ -119,17 +119,20 @@ allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins"]
 
 # The accuracy evaluator: loads the vulnerability corpus, scores a `json` report against its labels
 # and compares the result with the committed expectations. It reads the report as text (it never links
-# the engine or the CLI); xtask runs it as a subprocess, like the built-in data generator.
+# the engine or the CLI); xtask runs it as a subprocess, like the built-in data generator. It also scores
+# domain `Finding` values directly, so the engine tests can measure accuracy without serialising.
 [crate.bleedthrough-eval]
 layer = "tooling"
-allow = ["bleedthrough-taxonomy"]
+allow = ["bleedthrough-taxonomy", "bleedthrough-findings"]
 
 # The benchmark harness and the synthetic tree generator. The parse stage is generic over the parser
 # backend (the Mago adapter binds it in an example); the end-to-end stage runs the built binary as a
 # subprocess, so no tooling crate depends on the CLI or an adapter.
+# The analysis stage is generic over the parser backend too: it lowers and analyses synthetic trees
+# through the engine.
 [crate.bleedthrough-bench]
 layer = "tooling"
-allow = ["bleedthrough-syntax"]
+allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-ir", "bleedthrough-engine"]
 
 # Shared test support (proptest strategies, seed and case-count settings). No workspace dependencies, so any
 # crate may use it as a dev-dependency without a cycle; it is never a normal dependency (docs/testing.md).
@@ -142,7 +145,7 @@ allow = []
 # tested end to end.
 [crate.bleedthrough-engine-suite]
 layer = "tooling"
-allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins", "bleedthrough-ir"]
+allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins", "bleedthrough-ir", "bleedthrough-engine"]
 
 [crate.xtask]
 layer = "tooling"
