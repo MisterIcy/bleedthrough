@@ -263,8 +263,6 @@ pub struct Entry {
     pub mutant: String,
     pub reason: String,
     pub equivalent: bool,
-    /// Recorded when the ledger was first created and not yet analysed; the follow-up change removes these.
-    pub baseline: bool,
     pub count: u64,
 }
 
@@ -288,9 +286,34 @@ pub fn parse_ledger(text: &str) -> Result<Vec<Entry>, String> {
                 .map(str::to_string)
                 .ok_or_else(|| format!("{LEDGER}: survivor #{index} needs `{key}`"))
         };
+        let name = format!(
+            "{} `{}`",
+            table
+                .get("file")
+                .and_then(toml::Value::as_str)
+                .unwrap_or("?"),
+            table
+                .get("mutant")
+                .and_then(toml::Value::as_str)
+                .unwrap_or("?")
+        );
+        if table.contains_key("baseline") {
+            return Err(format!(
+                "{LEDGER}: survivor #{index} ({name}) is a `baseline` entry; analyse it: kill it with a test or give a specific reason"
+            ));
+        }
         let reason = text_of("reason")?;
         if reason.trim().is_empty() {
             return Err(format!("{LEDGER}: survivor #{index} has an empty reason"));
+        }
+        let lower = reason.to_lowercase();
+        if ["not analysed", "not analyzed", "unanalysed", "unanalyzed"]
+            .iter()
+            .any(|w| lower.contains(w))
+        {
+            return Err(format!(
+                "{LEDGER}: survivor #{index} ({name}) has a reason that admits it was not analysed"
+            ));
         }
         out.push(Entry {
             krate: text_of("crate")?,
@@ -303,10 +326,6 @@ pub fn parse_ledger(text: &str) -> Result<Vec<Entry>, String> {
                 .ok_or_else(|| {
                     format!("{LEDGER}: survivor #{index} needs `equivalent = true|false`")
                 })?,
-            baseline: table
-                .get("baseline")
-                .and_then(toml::Value::as_bool)
-                .unwrap_or(false),
             count: table
                 .get("count")
                 .map_or(Ok(1), |v| {
@@ -359,7 +378,7 @@ pub fn compare(
                 entry.krate, entry.file, entry.mutant
             ));
         }
-        if is_critical(&entry.file) && !entry.equivalent && !entry.baseline {
+        if is_critical(&entry.file) && !entry.equivalent {
             errors.push(format!(
                 "ledger entry in security-critical code must be an equivalent mutant (fix it with a test): {} `{}`",
                 entry.file, entry.mutant
@@ -572,7 +591,6 @@ mod tests {
             mutant: mutant.into(),
             reason: "why".into(),
             equivalent,
-            baseline: false,
             count: 1,
         }
     }
@@ -708,14 +726,23 @@ mod tests {
     }
 
     #[test]
-    fn a_baseline_entry_is_tolerated_in_critical_code_but_still_goes_stale() {
-        let critical = vec!["src/sev*.rs".to_string()];
-        let mut e = entry("src/severity.rs", "m", false);
-        e.baseline = true;
-        let missed = [mutant("src/severity.rs", "m", Outcome::Missed)];
-        assert!(compare(std::slice::from_ref(&e), &missed, &critical, &scope(), true).is_empty());
-        let caught = [mutant("src/severity.rs", "m", Outcome::Caught)];
-        assert_eq!(compare(&[e], &caught, &critical, &scope(), true).len(), 1);
+    fn a_baseline_entry_is_refused() {
+        let text = "[[survivor]]\ncrate=\"c\"\nfile=\"f\"\nmutant=\"m\"\nreason=\"why\"\nequivalent=false\nbaseline=true\n";
+        let error = parse_ledger(text).unwrap_err();
+        assert!(
+            error.contains("baseline") && error.contains("`m`"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn a_reason_that_admits_no_analysis_is_refused() {
+        let text = "[[survivor]]\ncrate=\"c\"\nfile=\"f\"\nmutant=\"m\"\nreason=\"Not analysed yet\"\nequivalent=false\n";
+        let error = parse_ledger(text).unwrap_err();
+        assert!(
+            error.contains("not analysed") && error.contains("`m`"),
+            "{error}"
+        );
     }
 
     #[test]

@@ -1,0 +1,36 @@
+file <builtin>
+class Child [abstract]
+  extends Exception
+  implements Countable, Both
+  method count($self: Child (native); $p: Exception (native)) -> int (native) [public] declared
+class Exception []
+  implements Stringable
+  const CODE [protected final]: int
+  const SECRET [private]: string
+  property $message [protected default] declared: string (native)
+  property $trace [private static readonly] declared: list<int> (docblock)
+  method getMessage() -> string (native) [public final] declared
+  method make() -> static(Exception) (native) [private static] declared
+  method tent() -> int (native) [protected abstract] declared
+class Sealed [final readonly]
+interface Both []
+  implements Countable, Stringable
+interface Countable []
+interface Stringable []
+trait Helper []
+  method me() -> static(Helper) (native) [public] declared
+enum Suit []
+  backed by string
+  case Hearts
+function bare() -> unknown (absent)
+function checked($clash: int (native); $vague: Exception (native)) -> void (native)
+function mapper($callback: callable|null (native) =; &$arr: list<int> (docblock); ...$rest: unknown (absent) =; $withdefault: int (native) =) -> list<string> (docblock) [by-ref]
+function old_fn() -> string (native)
+function strlen($string: string (native)) -> int (native)
+function tentative() -> unknown (absent)
+constant BROKEN [const]: unknown
+constant E_ALL [const]: int
+references classes: Both, Child, Countable, Exception, Helper, Stringable
+references in declarations: Both, Child, Countable, Exception, Helper, Stringable
+diagnostic docblock_contradiction 0..0: docblock type `string` contradicts the native type `int`
+diagnostic builtin_data 0..0: cannot read the type `<<` of `BROKEN`

@@ -24,7 +24,8 @@ pass, before further systems are built on these crates.
 None.
 
 ### Modified Capabilities
-None: `mutation-testing` already requires this; the change is test and ledger work.
+- `mutation-testing`: the ledger no longer admits unanalysed (`baseline`) entries. The rest of the change is test and
+  ledger work that the existing requirements already demand.
 
 ## Impact
 

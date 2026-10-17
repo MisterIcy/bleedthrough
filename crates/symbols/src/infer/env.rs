@@ -2,7 +2,7 @@
 
 use std::collections::BTreeMap;
 
-use crate::types::{Atom, Relation, Type};
+use crate::types::{Atom, Relation, ShapeEntry, ShapeKey, Type};
 
 /// The variable types in force at one point, and whether the point is reachable.
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -118,12 +118,84 @@ impl Env {
     }
 }
 
+/// A non-empty shape that keeps changing at a loop head, as the list or array it grows into, so
+/// that appending in a loop converges instead of adding an entry every pass.
+fn generalise_shape(entries: &[ShapeEntry]) -> Type {
+    let value = Type::union_all(
+        entries
+            .iter()
+            .map(|e| generalise(&e.value))
+            .collect::<Vec<_>>()
+            .iter(),
+    );
+    let non_empty = entries.iter().any(|e| !e.optional);
+    let is_list = entries.iter().enumerate().all(
+        |(i, e)| matches!(&e.key, ShapeKey::Int(k) if usize::try_from(*k).is_ok_and(|k| k == i)),
+    );
+    if is_list {
+        return Type::of(Atom::List {
+            value: Box::new(value),
+            non_empty,
+        });
+    }
+    let key = Type::union_all(
+        entries
+            .iter()
+            .map(|e| match e.key {
+                ShapeKey::Int(_) => Type::int(),
+                _ => Type::string(),
+            })
+            .collect::<Vec<_>>()
+            .iter(),
+    );
+    Type::of(Atom::Array {
+        key: Box::new(key),
+        value: Box::new(value),
+        non_empty,
+    })
+}
+
 /// A type with literals replaced by their general kind.
 pub(super) fn generalise(ty: &Type) -> Type {
     ty.flat_map(|atom| match atom {
         Atom::StringLiteral(_) => Type::string(),
         Atom::IntLiteral(_) => Type::int(),
         Atom::True | Atom::False => Type::bool(),
+        Atom::Shape { entries, .. } if !entries.is_empty() => generalise_shape(entries),
         other => Type::of(other.clone()),
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn with(name: &str, ty: Type) -> Env {
+        let mut env = Env::new();
+        env.set(name, ty);
+        env
+    }
+
+    #[test]
+    fn a_state_is_within_a_head_that_holds_every_type_of_it() {
+        let wide = with("x", Type::int().union(&Type::string()));
+        // equal, and strictly narrower
+        assert!(with("x", Type::int().union(&Type::string())).is_within(&wide));
+        assert!(with("x", Type::int()).is_within(&wide));
+        // wider, unrelated, or a variable the head lacks
+        assert!(!wide.is_within(&with("x", Type::int())));
+        assert!(!with("x", Type::float()).is_within(&wide));
+        assert!(!with("y", Type::int()).is_within(&wide));
+        // a variable only the head has adds nothing
+        assert!(Env::new().is_within(&wide));
+    }
+
+    #[test]
+    fn a_dead_state_is_within_everything_and_nothing_is_within_a_dead_head() {
+        let live = with("x", Type::int());
+        assert!(Env::unreachable().is_within(&live));
+        assert!(Env::unreachable().is_within(&Env::unreachable()));
+        assert!(!live.is_within(&Env::unreachable()));
+        assert!(!Env::new().is_within(&Env::unreachable()));
+    }
 }

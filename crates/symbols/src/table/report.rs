@@ -48,6 +48,7 @@ impl SymbolTable {
                 }
                 match builtins.class(class) {
                     Availability::Unknown => report.classes.push(class.clone()),
+                    Availability::Available { .. } => {}
                     other => report.unavailable.push(Unavailable {
                         name: class.clone(),
                         availability: other,
@@ -66,6 +67,7 @@ impl SymbolTable {
                 let name = call.fallback.as_ref().unwrap_or(&call.primary);
                 match builtins.function(name) {
                     Availability::Unknown => report.functions.push(name.clone()),
+                    Availability::Available { .. } => {}
                     other => report.unavailable.push(Unavailable {
                         name: name.clone(),
                         availability: other,

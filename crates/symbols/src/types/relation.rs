@@ -308,9 +308,9 @@ fn shape_relation(a: &Atom, b: &Atom) -> Relation {
             })
             || (want.optional && *sa && !ea.iter().any(|h| h.key == want.key))
     });
-    let extras_ok = *sb || (ea.iter().all(|h| eb.iter().any(|w| w.key == h.key)) && *sa);
-    let openness_ok = *sb || *sa;
-    if required_ok && extras_ok && openness_ok {
+    // A sealed target admits only the keys it lists, so the source must be sealed and add none.
+    let extras_ok = !*sb || (*sa && ea.iter().all(|h| eb.iter().any(|w| w.key == h.key)));
+    if required_ok && extras_ok {
         Relation::Subtype
     } else {
         Relation::Undetermined
