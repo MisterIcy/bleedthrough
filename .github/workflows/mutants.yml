@@ -43,11 +43,12 @@ jobs:
           - crate: bleedthrough-findings
           - crate: bleedthrough-symbols
           # The tests of ir and engine run through the parser adapter (about four minutes a pass), so
-          # their mutants are sharded to keep each job within its time limit.
+          # their mutants are sharded (cargo-mutants counts shards from 0) to keep each job within its time limit.
+          - { crate: bleedthrough-ir, shard: "0/4", part: "0" }
           - { crate: bleedthrough-ir, shard: "1/4", part: "1" }
           - { crate: bleedthrough-ir, shard: "2/4", part: "2" }
           - { crate: bleedthrough-ir, shard: "3/4", part: "3" }
-          - { crate: bleedthrough-ir, shard: "4/4", part: "4" }
+          - { crate: bleedthrough-engine, shard: "0/8", part: "0" }
           - { crate: bleedthrough-engine, shard: "1/8", part: "1" }
           - { crate: bleedthrough-engine, shard: "2/8", part: "2" }
           - { crate: bleedthrough-engine, shard: "3/8", part: "3" }
@@ -55,7 +56,6 @@ jobs:
           - { crate: bleedthrough-engine, shard: "5/8", part: "5" }
           - { crate: bleedthrough-engine, shard: "6/8", part: "6" }
           - { crate: bleedthrough-engine, shard: "7/8", part: "7" }
-          - { crate: bleedthrough-engine, shard: "8/8", part: "8" }
     steps:
       - uses: actions/checkout@v4
         with:
