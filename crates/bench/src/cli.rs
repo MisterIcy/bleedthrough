@@ -8,6 +8,7 @@ use std::path::{Path, PathBuf};
 
 use bleedthrough_syntax::ParserBackend;
 
+use crate::analysis_stage::{AnalysisSetup, AnalysisStage};
 use crate::baseline::{Baselines, Entries, with_allocation};
 use crate::parse_stage::{ParseStage, SourceFile, describe};
 use crate::realworld::{Budgets, List, Observed, is_fetched, tree_dir};
@@ -19,6 +20,11 @@ use crate::timing::Config;
 /// The reference input of the committed baseline: small, so the allocation check is fast.
 pub const REFERENCE_INPUT: &str =
     "synthetic:seed=1,files=200,avg_bytes=2048,class_pm=600,depth=3,include_pm=100,vuln_pm=0";
+
+/// The input of the analysis allocation baseline: smaller than the parse reference, with planted
+/// vulnerable patterns so the finding count is not zero.
+pub const ANALYSIS_INPUT: &str =
+    "synthetic:seed=1,files=60,avg_bytes=2048,class_pm=600,depth=3,include_pm=100,vuln_pm=200";
 
 /// Runs a pass under an allocation counter and returns what it allocated.
 pub type Counter = dyn Fn(&mut dyn FnMut()) -> Allocation;
@@ -157,7 +163,11 @@ fn write_out(out: Option<&Path>, text: &str) -> Result<(), String> {
 
 /// The wall-time program: measures the parse stage (and the end-to-end stage when `--binary` is
 /// given) and writes a result document.
-pub fn time_main<B: ParserBackend>(backend: &B, args: &[String]) -> Result<(), String> {
+pub fn time_main<B: ParserBackend>(
+    backend: &B,
+    args: &[String],
+    analysis: &AnalysisSetup<'_>,
+) -> Result<(), String> {
     let args = parse_args(args)?;
     let defaults = Config::default();
     let config = Config {
@@ -169,6 +179,11 @@ pub fn time_main<B: ParserBackend>(backend: &B, args: &[String]) -> Result<(), S
     let input = describe(&loaded.name, &loaded.files);
     let mut registry = Registry::new();
     registry.register(Box::new(ParseStage::new(backend, &loaded.files)));
+    registry.register(Box::new(AnalysisStage::new(
+        backend,
+        &loaded.files,
+        analysis,
+    )));
     if let Some(binary) = &args.binary {
         let dir = loaded
             .dir
@@ -195,7 +210,7 @@ pub fn time_main<B: ParserBackend>(backend: &B, args: &[String]) -> Result<(), S
     write_out(args.out.as_deref(), &document.to_json())
 }
 
-/// The allocation program: counts what one parse pass allocates through `measure` (which the example
+/// The allocation program: counts what one parse pass and one analysis pass allocate through `measure` (which the example
 /// implements with its allocator) and checks or updates the committed baseline.
 ///
 /// With `--baseline FILE` the counters are compared with the file (exit status 1 on any difference
@@ -205,6 +220,7 @@ pub fn alloc_main<B: ParserBackend>(
     backend: &B,
     args: &[String],
     measure: &Counter,
+    analysis: &AnalysisSetup<'_>,
 ) -> Result<i32, String> {
     let args = parse_args(args)?;
     let loaded = load(&args)?;
@@ -215,6 +231,18 @@ pub fn alloc_main<B: ParserBackend>(
     let mut now = Entries::new();
     now.insert(
         ("parse".to_string(), input.name.clone()),
+        with_allocation(&counters, allocation),
+    );
+    let analysed = load(&Args {
+        input: Some(ANALYSIS_INPUT.to_string()),
+        ..Args::default()
+    })?;
+    let analysed_input = describe(&analysed.name, &analysed.files);
+    let mut stage = AnalysisStage::new(backend, &analysed.files, analysis);
+    let counters = stage.counters();
+    let allocation = measure(&mut || stage.pass());
+    now.insert(
+        ("analysis".to_string(), analysed_input.name.clone()),
         with_allocation(&counters, allocation),
     );
     let Some(path) = &args.baseline else {

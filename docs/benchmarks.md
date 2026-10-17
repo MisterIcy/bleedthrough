@@ -16,6 +16,11 @@ change shows up where it happened. It is tooling: nothing here ships.
 * **parse**: parsing every file of the input with the backend, from bytes already in memory. File
   reading, input generation and node counting are outside the timed region (counters are taken
   untimed, before and after sampling, and must agree).
+* **analysis**: for every file, parsing, summarising, inferring and lowering, then the symbol table, the
+  call graph, the whole-project taint analysis and finding production, on one thread under the default
+  limits (see [engine.md](engine.md)). The built-in data and the rules are loaded outside the timed region.
+  Counters: `files`, `units`, `findings`. `bench-counters` also records its allocation counters, on a
+  smaller input with planted vulnerabilities (`cli::ANALYSIS_INPUT`), so the finding count is not zero.
 * **end-to-end**: running `bleedthrough scan <dir> --format json` as a subprocess, start to exit.
   It reports `unavailable` with its reason until the binary has a `scan` command.
 

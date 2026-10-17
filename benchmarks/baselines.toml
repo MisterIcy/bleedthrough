@@ -3,6 +3,14 @@
 # Change only with `cargo xtask bench-counters --update` and review the printed diff.
 tolerance_pct = 2
 
+[analysis."synthetic:seed=1,files=60,avg_bytes=2048,class_pm=600,depth=3,include_pm=100,vuln_pm=200"]
+alloc_count = 921571
+alloc_peak_bytes = 14840891
+alloc_total_bytes = 97468586
+files = 69
+findings = 17
+units = 399
+
 [parse."synthetic:seed=1,files=200,avg_bytes=2048,class_pm=600,depth=3,include_pm=100,vuln_pm=0"]
 alloc_count = 154421
 alloc_peak_bytes = 721161

@@ -4,7 +4,7 @@
 //! accuracy evaluator: it reads the `json` report of a scan, matches findings to the corpus labels,
 //! computes metrics, and compares them with the committed expectations.
 //!
-//! **Permitted workspace dependencies:** `bleedthrough-taxonomy`.
+//! **Permitted workspace dependencies:** `bleedthrough-taxonomy`, `bleedthrough-findings`.
 
 pub mod corpus;
 pub mod coverage;

@@ -134,6 +134,10 @@ dependencies = [
 name = "bleedthrough-bench"
 version = "0.0.0"
 dependencies = [
+ "bleedthrough-engine",
+ "bleedthrough-ir",
+ "bleedthrough-rules",
+ "bleedthrough-symbols",
  "bleedthrough-syntax",
  "flate2",
  "jsonschema",
@@ -179,6 +183,7 @@ name = "bleedthrough-emit"
 version = "0.0.0"
 dependencies = [
  "bleedthrough-app",
+ "bleedthrough-eval",
  "bleedthrough-findings",
  "bleedthrough-taxonomy",
  "bleedthrough-testkit",
@@ -219,6 +224,7 @@ name = "bleedthrough-eval"
 version = "0.0.0"
 dependencies = [
  "bleedthrough-bench",
+ "bleedthrough-findings",
  "bleedthrough-taxonomy",
  "jsonschema",
  "serde_json",

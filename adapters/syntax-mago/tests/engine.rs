@@ -113,3 +113,61 @@ fn the_corpus_matches_the_recorded_expectations() {
         assert_eq!(found.get(cwe), Some(&(tp, fp)), "CWE-{cwe}");
     }
 }
+
+/// The corpus scored in process by `bleedthrough-eval`, from domain findings, with no report in
+/// between. Each case is analysed as its own project, its paths relative to the corpus root.
+#[test]
+fn the_corpus_scores_in_process() {
+    use bleedthrough_eval::corpus::Corpus;
+    use bleedthrough_eval::matching::score_domain;
+
+    let root = workspace_root().join("fixtures/vuln");
+    let rules = test_rules();
+    let index = RuleIndex::build(&rules, &Gate::default());
+    let mut findings = Vec::new();
+    let mut cwes: Vec<_> = std::fs::read_dir(&root).unwrap().flatten().collect();
+    cwes.sort_by_key(std::fs::DirEntry::file_name);
+    for cwe_dir in cwes {
+        let name = cwe_dir.file_name().to_string_lossy().into_owned();
+        if !name.starts_with("cwe-") {
+            continue;
+        }
+        let mut cases: Vec<_> = std::fs::read_dir(cwe_dir.path())
+            .unwrap()
+            .flatten()
+            .collect();
+        cases.sort_by_key(std::fs::DirEntry::file_name);
+        for case in cases {
+            let id = case.file_name().to_string_lossy().into_owned();
+            let mut files = Vec::new();
+            php_files(&case.path(), &format!("{name}/{id}/"), &mut files);
+            let refs: Vec<(&str, &str)> = files
+                .iter()
+                .map(|(p, t)| (p.as_str(), t.as_str()))
+                .collect();
+            let project = Project::load(&MagoBackend::new(), &refs);
+            findings.extend(project.findings(
+                &rules,
+                &index,
+                bleedthrough_engine_suite::engine::Limits::default(),
+            ));
+        }
+    }
+    let corpus = Corpus::load(&root).expect("the corpus loads");
+    let scored = score_domain(&corpus, &findings);
+    for number in ["22", "78", "89", "502", "601", "918"] {
+        let counts = scored
+            .per_cwe
+            .get(&format!("CWE-{number}"))
+            .copied()
+            .unwrap_or_default();
+        assert_eq!(counts.fn_, 0, "CWE-{number}: {counts:?}");
+        assert_eq!(counts.tp, 9, "CWE-{number}: {counts:?}");
+        // The guard and sink-option twins are the known gap.
+        assert_eq!(
+            counts.fp == 0,
+            ["22", "78", "89"].contains(&number),
+            "CWE-{number}: {counts:?}"
+        );
+    }
+}

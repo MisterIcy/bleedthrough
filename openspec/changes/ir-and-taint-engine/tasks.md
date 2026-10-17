@@ -50,9 +50,9 @@
 
 ## 7. Validation and integration
 
-- [ ] 7.1 Add the in-process scoring entry point to `bleedthrough-eval` (score `Finding` values against the corpus labels) and verify it agrees with the JSON path on a sample
-- [ ] 7.2 Register the `analysis` stage in `bleedthrough-bench` using the synthetic generator and verify the stage reports file, unit and finding counts and an allocation baseline, updating `benchmarks/baselines.toml` deliberately
-- [ ] 7.3 Write `docs/engine.md` covering the IR, the taint model, the default call policy and its known weaknesses, confidence mapping, every limit with its default, and the work-unit API; verify the `analysis-limits` documentation scenario
-- [ ] 7.4 Update `architecture.toml` comments, `docs/architecture.md`, `docs/glossary.md` (terms: Label, Summary if public) and API snapshots; verify `cargo xtask check-layering`, `check-glossary` and `check-api` pass
+- [x] 7.1 Add the in-process scoring entry point to `bleedthrough-eval` (score `Finding` values against the corpus labels) and verify it agrees with the JSON path on a sample
+- [x] 7.2 Register the `analysis` stage in `bleedthrough-bench` using the synthetic generator and verify the stage reports file, unit and finding counts and an allocation baseline, updating `benchmarks/baselines.toml` deliberately
+- [x] 7.3 Write `docs/engine.md` covering the IR, the taint model, the default call policy and its known weaknesses, confidence mapping, every limit with its default, and the work-unit API; verify the `analysis-limits` documentation scenario
+- [x] 7.4 Update `architecture.toml` comments, `docs/architecture.md`, `docs/glossary.md` (terms: Label, Summary if public) and API snapshots; verify `cargo xtask check-layering`, `check-glossary` and `check-api` pass
 - [ ] 7.5 Run the mutation baseline on `bleedthrough-ir` and `bleedthrough-engine`, kill survivors in taint, sanitiser, confidence and limit code, and ledger the rest with specific reasons; record coverage floors
 - [ ] 7.6 Final check: `cargo build --workspace --all-targets --locked`, `cargo test --workspace --locked`, `cargo clippy --workspace --all-targets --locked -- -D warnings`, `cargo fmt --all --check`, `cargo deny check`, `cargo xtask check-all` all pass

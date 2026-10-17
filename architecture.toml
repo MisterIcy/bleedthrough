@@ -70,7 +70,8 @@ allow = [
 # ---- Infrastructure (implements ports owned by inner layers) ----
 [crate.bleedthrough-emit]
 layer = "infrastructure"
-allow = ["bleedthrough-app", "bleedthrough-findings", "bleedthrough-taxonomy"]
+# bleedthrough-eval: a dev-dependency only, to check the in-process and JSON scoring agree.
+allow = ["bleedthrough-app", "bleedthrough-findings", "bleedthrough-taxonomy", "bleedthrough-eval"]
 
 # fs implements the class-locator port the symbols crate owns (Composer autoload) and embeds the
 # built-in data behind the `BuiltinDataSource` port the builtins crate owns.
@@ -134,7 +135,7 @@ allow = ["bleedthrough-taxonomy", "bleedthrough-findings"]
 # through the engine.
 [crate.bleedthrough-bench]
 layer = "tooling"
-allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-ir", "bleedthrough-engine"]
+allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-ir", "bleedthrough-engine", "bleedthrough-rules"]
 
 # Shared test support (proptest strategies, seed and case-count settings). No workspace dependencies, so any
 # crate may use it as a dev-dependency without a cycle; it is never a normal dependency (docs/testing.md).
