@@ -5,16 +5,17 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use bleedthrough_ir::{
-    CallArg, Callee, ClassForm, ClassOperand, Graph, Instr, InstrKind, InterpPart, MemberRef,
-    Place, Resolution, Terminator, TypeClass, ValueId,
+    CallArg, Callee, ClassOperand, Graph, Instr, InstrKind, InterpPart, MemberRef, Place,
+    Resolution, Terminator, TypeClass, ValueId,
 };
 use bleedthrough_rules::{ArgSel, SinkClass};
-use bleedthrough_symbols::{
-    CallResolution, Fqn, ParamDecl, SymbolTable, Target, TargetKind, UnresolvedReason,
-};
+use bleedthrough_symbols::{Fqn, ParamDecl, SymbolTable};
 use bleedthrough_syntax::{BinaryOp, CastKind, Span};
 
 use crate::callgraph::{CallGraph, CallOutcome, IncludeOutcome, UnitId};
+use crate::calls::{
+    CallInfo, candidate_count, merge_matches, multi_target, param_decls, selected_args, subjects,
+};
 use crate::label::{Applied, HeapKey, Label, Origin, Taint};
 use crate::rule_index::{Matches, RuleIndex, Subject};
 
@@ -746,7 +747,7 @@ impl<'a, 'c> Run<'a, 'c> {
             Some(Callee::Method { receiver, .. }) => Some(*receiver),
             _ => None,
         };
-        let subjects = self.subjects(callee, new_class, &info);
+        let subjects = subjects(callee, new_class, &info);
         let mut matches = Matches::default();
         for subject in &subjects {
             let found = self.ctx.index.lookup(self.ctx.table, subject.as_subject());
@@ -1026,94 +1027,12 @@ impl<'a, 'c> Run<'a, 'c> {
     }
 
     /// The symbols the call may reach, for the rule lookup.
-    fn subjects(
-        &self,
-        callee: Option<&Callee>,
-        new_class: Option<&ClassOperand>,
-        info: &CallInfo<'_>,
-    ) -> Vec<OwnedSubject> {
-        let mut out: Vec<OwnedSubject> = Vec::new();
-        let targets: &[Target] = match info {
-            CallInfo::Resolved { targets, .. } => targets,
-            _ => &[],
-        };
-        match callee {
-            Some(Callee::Function(name)) => {
-                if targets.is_empty() {
-                    if matches!(
-                        info,
-                        CallInfo::Missing | CallInfo::UnresolvedFunctionNotFound
-                    ) {
-                        out.push(OwnedSubject::Function(name.text.to_string()));
-                    }
-                } else {
-                    out.extend(
-                        targets
-                            .iter()
-                            .filter(|t| t.kind == TargetKind::Function)
-                            .map(|t| OwnedSubject::Function(t.name.to_string())),
-                    );
-                }
-            }
-            Some(Callee::Method { .. }) => {
-                for t in targets.iter().filter(|t| t.kind == TargetKind::Method) {
-                    for class in t.owner.iter().chain(&t.implementors) {
-                        out.push(OwnedSubject::Instance(class.clone(), t.name.to_string()));
-                    }
-                }
-            }
-            Some(Callee::Static { .. }) => {
-                for t in targets.iter().filter(|t| t.kind == TargetKind::Method) {
-                    for class in t.owner.iter().chain(&t.implementors) {
-                        out.push(OwnedSubject::Static(class.clone(), t.name.to_string()));
-                    }
-                }
-            }
-            Some(Callee::Value(_)) | None => {}
-            Some(_) => {}
-        }
-        if let Some(class) = new_class {
-            let owners: Vec<&Fqn> = targets
-                .iter()
-                .filter(|t| t.kind == TargetKind::Constructor)
-                .filter_map(|t| t.owner.as_ref())
-                .collect();
-            if owners.is_empty() {
-                if matches!(class.form, ClassForm::Named(_)) {
-                    out.extend(class.classes.iter().cloned().map(OwnedSubject::Constructor));
-                }
-            } else {
-                out.extend(owners.into_iter().cloned().map(OwnedSubject::Constructor));
-            }
-        }
-        out
-    }
-
     fn param_decls(&self, info: &CallInfo<'_>) -> Option<&'c [ParamDecl]>
     where
         'a: 'c,
     {
-        let CallInfo::Resolved { targets, .. } = info else {
-            return None;
-        };
-        let target = targets.first()?;
         let table: &'a SymbolTable = self.ctx.table;
-        match (target.kind, &target.owner) {
-            (TargetKind::Function, _) => table
-                .function(&Fqn::new(&target.name))
-                .map(|f| f.params.as_slice()),
-            (TargetKind::Method, Some(owner)) => table
-                .method(owner, &target.name, None)
-                .candidates
-                .first()
-                .map(|c| c.member.params.as_slice()),
-            (TargetKind::Constructor, Some(owner)) => table
-                .method(owner, "__construct", None)
-                .candidates
-                .first()
-                .map(|c| c.member.params.as_slice()),
-            _ => None,
-        }
+        param_decls(table, info)
     }
 
     /// The taint of the inputs a selector names.
@@ -1320,59 +1239,6 @@ fn bind_args(callee: &Graph, args: &[CallArg], taints: &[Taint]) -> (Vec<Taint>,
     (params, bound)
 }
 
-enum OwnedSubject {
-    Function(String),
-    Static(Fqn, String),
-    Instance(Fqn, String),
-    Constructor(Fqn),
-}
-
-impl OwnedSubject {
-    fn as_subject(&self) -> Subject<'_> {
-        match self {
-            Self::Function(n) => Subject::Function(n),
-            Self::Static(c, m) => Subject::Static {
-                class: c,
-                method: m,
-            },
-            Self::Instance(c, m) => Subject::Instance {
-                class: c,
-                method: m,
-            },
-            Self::Constructor(c) => Subject::Constructor { class: c },
-        }
-    }
-}
-
-/// A call resolution seen as the dataflow needs it.
-enum CallInfo<'r> {
-    Resolved {
-        targets: &'r [Target],
-        /// Part of the receiver did not resolve.
-        partial: bool,
-    },
-    UnresolvedFunctionNotFound,
-    Unresolved,
-    Missing,
-}
-
-impl<'r> CallInfo<'r> {
-    fn of(resolution: &'r Resolution) -> Self {
-        match resolution {
-            Resolution::Missing => Self::Missing,
-            Resolution::Facts(CallResolution::Resolved { targets, residual }) => Self::Resolved {
-                targets,
-                partial: !residual.is_empty(),
-            },
-            Resolution::Facts(CallResolution::Unresolved(UnresolvedReason::FunctionNotFound)) => {
-                Self::UnresolvedFunctionNotFound
-            }
-            Resolution::Facts(_) => Self::Unresolved,
-            _ => Self::Missing,
-        }
-    }
-}
-
 /// The taints stored for a location. A property of an unknown class reads that name in every
 /// class, and a property of a known class also reads what was stored under the unknown class.
 fn read_location<'h>(heap: &'h Heap, key: &HeapKey) -> Vec<&'h Taint> {
@@ -1410,63 +1276,6 @@ fn read_location<'h>(heap: &'h Heap, key: &HeapKey) -> Vec<&'h Taint> {
     } else {
         out.extend(heap.get(key));
         out.extend(heap.get(&make("?")));
-    }
-    out
-}
-
-fn merge_matches(into: &mut Matches, from: Matches) {
-    for (list, more) in [
-        (&mut into.sources, from.sources),
-        (&mut into.sinks, from.sinks),
-        (&mut into.sanitizers, from.sanitizers),
-        (&mut into.propagators, from.propagators),
-    ] {
-        for at in more {
-            if !list.contains(&at) {
-                list.push(at);
-            }
-        }
-    }
-}
-
-fn multi_target(targets: &[Target]) -> bool {
-    targets.len() > 1 || targets.iter().any(|t| t.implementors.len() > 1)
-}
-
-fn candidate_count(targets: &[Target]) -> u16 {
-    let n: usize = targets.iter().map(|t| 1 + t.implementors.len()).sum();
-    u16::try_from(n).unwrap_or(u16::MAX)
-}
-
-/// The positions in `args` a selector denotes. A spread argument covers every position from its
-/// own onwards.
-fn selected_args(sel: &ArgSel, args: &[CallArg], params: Option<&[ParamDecl]>) -> Vec<usize> {
-    let mut out = Vec::new();
-    let mut positional = 0usize;
-    for (at, arg) in args.iter().enumerate() {
-        let is_named = arg.name.is_some();
-        let position = positional;
-        if !is_named {
-            positional += 1;
-        }
-        let hit = match sel {
-            ArgSel::Position(n) => {
-                let wanted = (*n as usize).saturating_sub(1);
-                !is_named && (position == wanted || (arg.spread && position <= wanted))
-            }
-            ArgSel::Name(name) => {
-                arg.name.as_deref() == Some(name.as_str())
-                    || (!is_named
-                        && !arg.spread
-                        && params
-                            .and_then(|p| p.get(position))
-                            .is_some_and(|p| *p.name == **name))
-            }
-            _ => false,
-        };
-        if hit {
-            out.push(at);
-        }
     }
     out
 }

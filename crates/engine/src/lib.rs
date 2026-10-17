@@ -9,11 +9,13 @@
 #![warn(clippy::exhaustive_enums, clippy::exhaustive_structs)]
 
 mod callgraph;
+mod calls;
 mod coverage;
 mod dataflow;
 mod fold;
 mod include;
 mod label;
+mod pattern;
 mod project;
 mod rule_index;
 mod scc;
@@ -27,8 +29,10 @@ pub use dataflow::{Context, FlowLimits, Heap, Limits, SinkHit, UnitFlow, UnitInp
 pub use fold::{Folded, Folder};
 pub use include::{FoldedPath, IncludeResolver, NoIncludes, normalise_path};
 pub use label::{Applied, ClassSet, HeapKey, Label, Marks, Origin, Taint};
+pub use pattern::{PatternHit, scan_patterns};
 pub use project::{ProjectFlow, ProjectInput, analyse_project};
 pub use rule_index::{
-    Gate, Matches, PropagatorEntry, RuleIndex, SanitizerEntry, SinkEntry, SourceDef, Subject,
+    Gate, Matches, PatternEntry, PatternKind, PropagatorEntry, RuleIndex, SanitizerEntry,
+    SinkEntry, SourceDef, Subject,
 };
 pub use scc::strongly_connected;

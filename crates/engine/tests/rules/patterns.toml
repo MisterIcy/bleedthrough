@@ -1,0 +1,275 @@
+schema = 1
+
+[[rule]]
+id = "BT9201"
+title = "Cookie with a computed name"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "call"
+symbol = "setcookie"
+
+[[rule.pattern.args]]
+arg = 1
+test = "non-literal"
+
+[[rule]]
+id = "BT9202"
+title = "htmlspecialchars without flags"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "call"
+symbol = "htmlspecialchars"
+
+[[rule.pattern.args]]
+arg = 2
+test = "absent"
+
+[[rule]]
+id = "BT9203"
+title = "Weak hash"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "call"
+symbol = "hash"
+
+[[rule.pattern.args]]
+arg = 1
+test = "equals"
+value = "md5"
+
+[[rule]]
+id = "BT9204"
+title = "Display errors switched on"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "call"
+symbol = "ini_set"
+
+[[rule.pattern.args]]
+arg = 1
+test = "matches"
+value = "^display_"
+
+[[rule]]
+id = "BT9205"
+title = "Use of create_function"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "use"
+symbol = "create_function"
+
+[[rule]]
+id = "BT9206"
+title = "Use of a legacy class"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "use"
+symbol = "class Legacy\\Mailer"
+
+[[rule]]
+id = "BT9207"
+title = "Use of a dangerous static method"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "use"
+symbol = "Util::danger"
+
+[[rule]]
+id = "BT9208"
+title = "Include of a computed path"
+area = "injection"
+description = "Test rule: a risky construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "include-non-literal"
+
+
+[[rule]]
+id = "BT9209"
+title = "Needs PHP 8.0"
+area = "injection"
+description = "Test rule: a gated construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+php_min = "8.0"
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "use"
+symbol = "gate_min"
+
+[[rule]]
+id = "BT9210"
+title = "Stops at PHP 7.4"
+area = "injection"
+description = "Test rule: a gated construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+php_max = "7.4"
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "use"
+symbol = "gate_max"
+
+[[rule]]
+id = "BT9211"
+title = "Paranoid only"
+area = "injection"
+description = "Test rule: a gated construct."
+remediation = "Avoid the construct."
+cwe = ["CWE-1004"]
+owasp = ["OWASP:2021:A05"]
+paranoid = true
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "low"
+integrity = "low"
+availability = "none"
+
+[rule.pattern]
+shape = "use"
+symbol = "gate_paranoid"

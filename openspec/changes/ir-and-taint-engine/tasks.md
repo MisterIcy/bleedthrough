@@ -35,9 +35,9 @@
 
 ## 5. Pattern rules
 
-- [ ] 5.1 Implement `call` patterns with argument conditions on folded values and resolved targets; verify the function-match, same-short-name and absent-argument scenarios
-- [ ] 5.2 Implement `use` patterns (calls, `new`, static access, literal callable strings, first-class callables) and `include-non-literal`; verify the callable-string and folded-path scenarios
-- [ ] 5.3 Apply version and paranoid gating to taint and pattern rules and verify both gating scenarios
+- [x] 5.1 Implement `call` patterns with argument conditions on folded values and resolved targets; verify the function-match, same-short-name and absent-argument scenarios
+- [x] 5.2 Implement `use` patterns (calls, `new`, static access, literal callable strings, first-class callables) and `include-non-literal`; verify the callable-string and folded-path scenarios
+- [x] 5.3 Apply version and paranoid gating to taint and pattern rules and verify both gating scenarios
 
 ## 6. Findings, determinism and limits
 

@@ -3,7 +3,7 @@ crate::{use} use body :: { ArgCondition , ArgTest , PatternBody , PatternShape ,
 crate::{use} use draft :: { ArgConditionDraft , BodyDraft , ExtraCategoryDraft , MetricsDraft , PatternDraft , PropagatorDraft , RuleDraft , SanitizerDraft , SinkDraft , TaintDraft , }
 crate::{use} use error :: RuleError
 crate::{use} use id :: RuleId
-crate::{use} use regex :: validate_regex
+crate::{use} use regex :: { regex_matches , validate_regex }
 crate::{use} use rule :: { Origin , PhpVersion , Rule }
 crate::{use} use set :: { RuleSet , SCHEMA_VERSION }
 crate::{use} use source :: { LocatedError , LocatedRule , RuleSource , SourceOutput , load_rule_set }

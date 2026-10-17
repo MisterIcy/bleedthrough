@@ -9,6 +9,7 @@ use bleedthrough_symbols::SymbolTable;
 use crate::callgraph::{CallGraph, IncludeOutcome, SourceUnit, UnitId};
 use crate::dataflow::{Context, Heap, Inter, Limits, SinkHit, UnitFlow, UnitInput, analyse_unit};
 use crate::label::Taint;
+use crate::pattern::{PatternHit, scan_patterns};
 use crate::rule_index::RuleIndex;
 
 /// Term: Summary
@@ -39,6 +40,8 @@ pub struct ProjectFlow {
     pub flows: Vec<UnitFlow>,
     /// The sinks concrete sources reach, de-duplicated by (sink, source, location).
     pub hits: Vec<SinkHit>,
+    /// Where pattern rules matched, by unit and position.
+    pub patterns: Vec<PatternHit>,
     /// The abstract locations at the end.
     pub heap: Heap,
     /// The rounds that ran.
@@ -146,7 +149,14 @@ pub fn analyse_project(input: &ProjectInput<'_>) -> ProjectFlow {
         }
         heap = next;
     }
+    let mut patterns = Vec::new();
+    for (at, graph) in graphs.iter().enumerate() {
+        let id = UnitId::from_index(at);
+        let file = &input.graph.unit(id).file;
+        patterns.extend(scan_patterns(input.index, input.table, id, file, graph));
+    }
     ProjectFlow {
+        patterns,
         hits: concrete_hits(&flows),
         flows,
         heap,

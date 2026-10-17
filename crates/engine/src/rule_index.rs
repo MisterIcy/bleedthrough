@@ -3,7 +3,8 @@
 use std::collections::BTreeMap;
 
 use bleedthrough_rules::{
-    ArgSel, PhpVersion, RuleBody, RuleId, RuleSet, SinkClass, SymbolKind, SymbolRef,
+    ArgCondition, ArgSel, PatternShape, PhpVersion, RuleBody, RuleId, RuleSet, SinkClass,
+    SymbolKind, SymbolRef,
 };
 use bleedthrough_symbols::{Fqn, Subtyping, SymbolTable};
 
@@ -121,6 +122,8 @@ pub enum Subject<'a> {
     },
     /// A superglobal, written with its `$`.
     Superglobal(&'a str),
+    /// A class, for the patterns that match any use of it.
+    Class(&'a Fqn),
 }
 
 /// Term: Rule
@@ -137,6 +140,10 @@ pub struct Matches {
     pub sanitizers: Vec<u32>,
     /// Propagator entries.
     pub propagators: Vec<u32>,
+    /// `call` pattern entries.
+    pub calls: Vec<u32>,
+    /// `use` pattern entries.
+    pub uses: Vec<u32>,
 }
 
 impl Matches {
@@ -146,6 +153,8 @@ impl Matches {
             && self.sinks.is_empty()
             && self.sanitizers.is_empty()
             && self.propagators.is_empty()
+            && self.calls.is_empty()
+            && self.uses.is_empty()
     }
 
     fn push(&mut self, role: Role, at: u32) {
@@ -154,6 +163,8 @@ impl Matches {
             Role::Sink => self.sinks.push(at),
             Role::Sanitizer => self.sanitizers.push(at),
             Role::Propagator => self.propagators.push(at),
+            Role::Call => self.calls.push(at),
+            Role::Use => self.uses.push(at),
         }
     }
 }
@@ -164,6 +175,8 @@ enum Role {
     Sink,
     Sanitizer,
     Propagator,
+    Call,
+    Use,
 }
 
 /// One class-qualified entry under a method name.
@@ -180,6 +193,40 @@ type Entries = Vec<(Role, u32)>;
 
 /// Term: Rule
 ///
+/// What a pattern rule looks for.
+#[derive(Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum PatternKind {
+    /// A call to `symbol` whose arguments meet every condition.
+    Call {
+        /// The called symbol.
+        symbol: SymbolRef,
+        /// All must hold.
+        conditions: Vec<ArgCondition>,
+    },
+    /// Any use of `symbol`.
+    Use {
+        /// The used symbol.
+        symbol: SymbolRef,
+    },
+    /// An include whose path cannot be folded.
+    IncludeNonLiteral,
+}
+
+/// Term: Rule
+///
+/// One active pattern rule.
+#[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(clippy::exhaustive_structs, reason = "a plain record")]
+pub struct PatternEntry {
+    /// The rule, as a position in [`RuleIndex::rules`].
+    pub rule: u32,
+    /// What it looks for.
+    pub kind: PatternKind,
+}
+
+/// Term: Rule
+///
 /// The active taint rules, indexed by symbol.
 #[derive(Debug, Clone, Default)]
 pub struct RuleIndex {
@@ -188,25 +235,33 @@ pub struct RuleIndex {
     sinks: Vec<SinkEntry>,
     sanitizers: Vec<SanitizerEntry>,
     propagators: Vec<PropagatorEntry>,
+    patterns: Vec<PatternEntry>,
+    include_patterns: Vec<u32>,
+    classes: BTreeMap<String, Entries>,
     functions: BTreeMap<String, Entries>,
     superglobals: BTreeMap<String, Entries>,
     methods: BTreeMap<String, Vec<MethodRule>>,
 }
 
 impl RuleIndex {
-    /// Indexes the taint rules of `set` that `gate` admits. Pattern rules are not part of it.
+    /// Indexes the rules of `set` that `gate` admits.
     pub fn build(set: &RuleSet, gate: &Gate) -> Self {
         let mut index = Self::default();
         let mut source_at: BTreeMap<SymbolRef, u32> = BTreeMap::new();
         for rule in set.iter() {
-            let RuleBody::Taint(body) = rule.body() else {
-                continue;
-            };
             if !gate.admits(rule) {
                 continue;
             }
             let rule_at = index.rules.len() as u32;
             index.rules.push(rule.id().clone());
+            let body = match rule.body() {
+                RuleBody::Taint(body) => body,
+                RuleBody::Pattern(body) => {
+                    index.add_pattern(rule_at, body.shape());
+                    continue;
+                }
+                _ => continue,
+            };
             for symbol in body.sources() {
                 let (at, fresh) = match source_at.get(symbol) {
                     Some(at) => (*at, false),
@@ -260,8 +315,51 @@ impl RuleIndex {
         index
     }
 
+    fn add_pattern(&mut self, rule: u32, shape: &PatternShape) {
+        let at = self.patterns.len() as u32;
+        match shape {
+            PatternShape::Call { symbol, conditions } => {
+                self.patterns.push(PatternEntry {
+                    rule,
+                    kind: PatternKind::Call {
+                        symbol: symbol.clone(),
+                        conditions: conditions.clone(),
+                    },
+                });
+                self.register(symbol, Role::Call, at);
+            }
+            PatternShape::Use { symbol } => {
+                self.patterns.push(PatternEntry {
+                    rule,
+                    kind: PatternKind::Use {
+                        symbol: symbol.clone(),
+                    },
+                });
+                self.register(symbol, Role::Use, at);
+            }
+            PatternShape::IncludeNonLiteral => {
+                self.patterns.push(PatternEntry {
+                    rule,
+                    kind: PatternKind::IncludeNonLiteral,
+                });
+                self.include_patterns.push(at);
+            }
+            _ => {}
+        }
+    }
+
     fn register(&mut self, symbol: &SymbolRef, role: Role, at: u32) {
         match symbol.kind() {
+            SymbolKind::Class => {
+                let class = Fqn::in_namespace(
+                    &symbol.namespace().join("\\"),
+                    symbol.class().unwrap_or_default(),
+                );
+                self.classes
+                    .entry(class.key().to_string())
+                    .or_default()
+                    .push((role, at));
+            }
             SymbolKind::Function => self
                 .functions
                 .entry(qualified_key(symbol, symbol.name()))
@@ -294,6 +392,16 @@ impl RuleIndex {
     /// The active rules, in the order their positions refer to.
     pub fn rules(&self) -> &[RuleId] {
         &self.rules
+    }
+
+    /// The pattern rules.
+    pub fn patterns(&self) -> &[PatternEntry] {
+        &self.patterns
+    }
+
+    /// The entries of the `include-non-literal` rules, as positions into [`Self::patterns`].
+    pub fn include_patterns(&self) -> &[u32] {
+        &self.include_patterns
     }
 
     /// The sources.
@@ -334,6 +442,11 @@ impl RuleIndex {
             }
             Subject::Superglobal(name) => {
                 for (role, at) in self.superglobals.get(name).into_iter().flatten() {
+                    out.push(*role, *at);
+                }
+            }
+            Subject::Class(class) => {
+                for (role, at) in self.classes.get(class.key()).into_iter().flatten() {
                     out.push(*role, *at);
                 }
             }

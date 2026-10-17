@@ -375,8 +375,8 @@ mod index {
 
     /// spec: rule-index/Rule gating
     #[test]
-    fn the_default_gate_admits_every_taint_rule() {
+    fn the_default_gate_admits_every_rule_but_the_paranoid_one() {
         let index = RuleIndex::build(&test_rules(), &Gate::default());
-        assert_eq!(index.rules().len(), 7);
+        assert_eq!(index.rules().len(), 17, "all but the paranoid rule");
     }
 }
