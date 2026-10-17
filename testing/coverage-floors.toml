@@ -10,16 +10,16 @@ floor = 96.0
 reason = "measured 97.55% when recorded; floor one point below"
 
 [crate.bleedthrough-engine]
-floor = 0.0
-reason = "no executable lines yet (placeholder crate); the stale-floor rule forces a real floor when code lands"
+floor = 91.0
+reason = "measured 92.19% when the engine change landed (tests run through the parser adapter); floor about one point below"
 
 [crate.bleedthrough-findings]
 floor = 93.0
 reason = "measured 94.31% when recorded; floor one point below"
 
 [crate.bleedthrough-ir]
-floor = 0.0
-reason = "no executable lines yet (placeholder crate); the stale-floor rule forces a real floor when code lands"
+floor = 92.0
+reason = "measured 93.24% when the engine change landed (tests run through the parser adapter); floor about one point below"
 
 [crate.bleedthrough-packs]
 floor = 0.0
