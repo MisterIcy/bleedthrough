@@ -78,9 +78,20 @@ pub fn lower_source(
     path: &str,
     source: &str,
 ) -> Vec<ir::Graph> {
+    lower_source_with(backend, table, path, source, &ir::LowerConfig::default())
+}
+
+/// [`lower_source`] under the given lowering bounds.
+pub fn lower_source_with(
+    backend: &dyn ParserBackend,
+    table: &SymbolTable,
+    path: &str,
+    source: &str,
+    config: &ir::LowerConfig,
+) -> Vec<ir::Graph> {
     let parsed = parse(backend, path, source);
     let facts: Vec<FunctionFacts> = infer_file(parsed.tree(), table, &InferLimits::default());
-    ir::lower_file(parsed.tree(), &facts)
+    ir::lower_file_with(parsed.tree(), &facts, config)
 }
 
 /// Lowers `source` alone (its own declarations and the built-ins form the table).
@@ -172,18 +183,31 @@ pub struct Project {
     pub sources: Vec<(String, String)>,
     /// Each file's path and graphs, in the order the files were given.
     pub units: Vec<(String, Vec<ir::Graph>)>,
+    /// The bounds the call graph is built under.
+    pub call_config: engine::CallGraphConfig,
+    /// A fault injected into the analysis of the units it returns true for.
+    pub fail_units: Option<engine::FaultHook>,
 }
 
 impl Project {
     /// Parses, summarises, infers and lowers every file; the built-ins are part of the table.
     pub fn load(backend: &dyn ParserBackend, files: &[(&str, &str)]) -> Self {
+        Self::load_with(backend, files, &ir::LowerConfig::default())
+    }
+
+    /// [`Self::load`] under the given lowering bounds.
+    pub fn load_with(
+        backend: &dyn ParserBackend,
+        files: &[(&str, &str)],
+        config: &ir::LowerConfig,
+    ) -> Self {
         let table = table_with_builtins(backend, files);
         let units = files
             .iter()
             .map(|(path, source)| {
                 (
                     (*path).to_string(),
-                    lower_source(backend, &table, path, source),
+                    lower_source_with(backend, &table, path, source, config),
                 )
             })
             .collect();
@@ -195,6 +219,8 @@ impl Project {
             table,
             sources,
             units,
+            call_config: engine::CallGraphConfig::default(),
+            fail_units: None,
         }
     }
 
@@ -312,7 +338,18 @@ impl Project {
         rules: &rules::RuleSet,
         version: &str,
     ) -> (findings::Coverage, engine::CallCoverage) {
-        let graph = self.call_graph();
+        self.coverage_with(index, rules, version, engine::Limits::default())
+    }
+
+    /// [`Self::coverage`] under the given bounds.
+    pub fn coverage_with(
+        &self,
+        index: &engine::RuleIndex,
+        rules: &rules::RuleSet,
+        version: &str,
+        limits: engine::Limits,
+    ) -> (findings::Coverage, engine::CallCoverage) {
+        let (graph, flow) = self.analyse(index, limits);
         let units = self.source_units();
         let texts: std::collections::BTreeMap<&str, &str> = self
             .sources
@@ -326,8 +363,9 @@ impl Project {
                 graph: &graph,
                 units: &units,
                 texts: &texts,
-                limits: engine::Limits::default(),
+                limits,
             },
+            &flow,
             version,
         )
     }
@@ -346,6 +384,7 @@ impl Project {
             limits,
             graph: &graph,
             units: &units,
+            fail_units: self.fail_units,
         });
         (graph, result)
     }
@@ -389,7 +428,7 @@ impl Project {
 
     /// The call graph, resolving includes among the project's own files.
     pub fn call_graph(&self) -> engine::CallGraph {
-        self.call_graph_with(&engine::CallGraphConfig::default())
+        self.call_graph_with(&self.call_config)
     }
 
     /// The call graph with the given bounds.

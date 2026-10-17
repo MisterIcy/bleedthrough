@@ -40,6 +40,9 @@ pub struct Limits {
     /// Most steps a finding's trace keeps (at least 2, at most 62); longer ones are cut in the
     /// middle and marked.
     pub trace_steps: usize,
+    /// Most units of a recursive component iterated to the full iteration limit; a larger one
+    /// iterates twice.
+    pub component_size: usize,
 }
 
 impl Default for Limits {
@@ -52,6 +55,7 @@ impl Default for Limits {
             iterations: 8,
             rounds: 4,
             trace_steps: 24,
+            component_size: 512,
         }
     }
 }
@@ -89,8 +93,30 @@ pub struct Inter<'a> {
     pub graph: &'a CallGraph,
     /// The graph of every unit, by unit identifier.
     pub graphs: &'a [&'a Graph],
-    /// The summary of every unit computed so far, by unit identifier.
-    pub summaries: &'a [Option<UnitFlow>],
+    /// The summaries computed so far.
+    pub summaries: Summaries<'a>,
+}
+
+/// Term: Summary
+///
+/// The summaries a unit can use: those of components already done, and those of the component being
+/// computed, which take precedence.
+#[derive(Debug, Clone, Copy)]
+#[allow(clippy::exhaustive_structs, reason = "a plain record of references")]
+pub struct Summaries<'a> {
+    /// The summary of every finished unit, by unit identifier.
+    pub done: &'a [Option<UnitFlow>],
+    /// The summaries of the component being computed, as of the previous pass.
+    pub local: &'a BTreeMap<UnitId, UnitFlow>,
+}
+
+impl<'a> Summaries<'a> {
+    /// The summary of `unit`, if it has one yet.
+    pub fn get(&self, unit: UnitId) -> Option<&'a UnitFlow> {
+        self.local
+            .get(&unit)
+            .or_else(|| self.done.get(unit.index()).and_then(Option::as_ref))
+    }
 }
 
 /// Term: Finding
@@ -144,12 +170,16 @@ pub struct FlowLimits {
     pub origins: bool,
     /// A recursive component did not settle within the iteration limit.
     pub iterations: bool,
+    /// Closures nested deeper than the closure depth were not followed.
+    pub depth: bool,
+    /// The unit is in a component larger than the component limit, which iterated fewer times.
+    pub component: bool,
 }
 
 impl FlowLimits {
     /// Whether any bound was reached.
     pub fn any(&self) -> bool {
-        self.steps || self.visits || self.origins || self.iterations
+        self.steps || self.visits || self.origins || self.iterations || self.depth || self.component
     }
 }
 
@@ -683,7 +713,7 @@ impl<'a, 'c> Run<'a, 'c> {
             }
         }
         if self.depth >= self.ctx.limits.closure_depth {
-            self.limits.visits = true;
+            self.limits.depth = true;
             return value;
         }
         let Some(body) = self.file_graphs.iter().copied().find(|g| g.key == *key) else {
@@ -716,6 +746,7 @@ impl<'a, 'c> Run<'a, 'c> {
         self.limits.steps |= flow.limits.steps;
         self.limits.visits |= flow.limits.visits;
         self.limits.origins |= flow.limits.origins;
+        self.limits.depth |= flow.limits.depth;
         value
     }
 
@@ -903,7 +934,7 @@ impl<'a, 'c> Run<'a, 'c> {
         };
         let mut result = Taint::clean();
         for target in targets {
-            let Some(flow) = inter.summaries.get(target.index()).and_then(Option::as_ref) else {
+            let Some(flow) = inter.summaries.get(target) else {
                 // Not summarised yet (the same recursive component): the empty summary.
                 continue;
             };
@@ -1001,7 +1032,7 @@ impl<'a, 'c> Run<'a, 'c> {
         let several = u16::try_from(targets.len()).unwrap_or(u16::MAX);
         let mut result = Taint::clean();
         for target in targets {
-            let Some(flow) = inter.summaries.get(target.index()).and_then(Option::as_ref) else {
+            let Some(flow) = inter.summaries.get(*target) else {
                 continue;
             };
             let callee = inter.graphs[target.index()];

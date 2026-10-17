@@ -6,7 +6,8 @@ use std::collections::BTreeMap;
 
 use bleedthrough_findings::{
     Confidence, ConfidenceTier, Coverage, Finding, FindingParts, Fingerprint, FingerprintInput,
-    Location, Message, Reason, ReasonCode, RelPath, RuleId, Step, StepKind, Trace,
+    LimitHit, LimitKind, Location, Message, Reason, ReasonCode, RelPath, RuleId, SkipReason,
+    SkippedFile, Step, StepKind, Trace,
 };
 use bleedthrough_ir::Graph;
 use bleedthrough_rules::{Rule, RuleSet};
@@ -56,9 +57,13 @@ pub fn build_findings(input: &FindingsInput<'_>, flow: &ProjectFlow) -> Vec<Find
 /// Term: Coverage
 ///
 /// What the analysis could and could not see, in the form the report consumes, with the unresolved
-/// calls and includes broken down by reason. Failed and skipped files and the limits hit are the
-/// application's and the limit tracking's to add.
-pub fn build_coverage(input: &FindingsInput<'_>, php_version: &str) -> (Coverage, CallCoverage) {
+/// calls and includes broken down by reason and every limit reached, by kind and file. Failed and
+/// skipped files are the application's to add.
+pub fn build_coverage(
+    input: &FindingsInput<'_>,
+    flow: &ProjectFlow,
+    php_version: &str,
+) -> (Coverage, CallCoverage) {
     let mut files: BTreeMap<&str, bool> = BTreeMap::new();
     if let Some(graphs) = unit_graphs(input.graph, input.units) {
         for (at, graph) in graphs.iter().enumerate() {
@@ -67,7 +72,57 @@ pub fn build_coverage(input: &FindingsInput<'_>, php_version: &str) -> (Coverage
         }
     }
     let calls = input.graph.coverage().clone();
+    let mut limits_hit = Vec::new();
+    if let Some(graphs) = unit_graphs(input.graph, input.units) {
+        for (at, graph) in graphs.iter().enumerate() {
+            let path = RelPath::new(&*input.graph.unit(UnitId::from_index(at)).file).ok();
+            let mut hit = |kind| limits_hit.push(LimitHit::new(kind, path.clone()));
+            let lowered = graph.limits;
+            if lowered.depth {
+                hit(LimitKind::ExpressionDepth);
+            }
+            if lowered.blocks {
+                hit(LimitKind::BlockLimit);
+            }
+            if lowered.instructions {
+                hit(LimitKind::InstructionLimit);
+            }
+            let Some(unit) = flow.flows.get(at) else {
+                continue;
+            };
+            for (reached, kind) in [
+                (unit.limits.steps, LimitKind::StepBudget),
+                (unit.limits.visits, LimitKind::BlockVisits),
+                (unit.limits.origins, LimitKind::OriginCap),
+                (unit.limits.iterations, LimitKind::Iterations),
+                (unit.limits.depth, LimitKind::SummaryDepth),
+                (unit.limits.component, LimitKind::ComponentSize),
+            ] {
+                if reached {
+                    hit(kind);
+                }
+            }
+        }
+    }
+    let mut skipped: Vec<SkippedFile> = flow
+        .skipped
+        .iter()
+        .filter_map(|(unit, _)| {
+            let path = RelPath::new(&*input.graph.unit(*unit).file).ok()?;
+            Some(SkippedFile::new(path, SkipReason::InternalFault))
+        })
+        .collect();
+    skipped.sort();
+    skipped.dedup();
+    if calls.truncated_calls > 0 {
+        limits_hit.push(LimitHit::new(LimitKind::Candidates, None));
+    }
+    if !flow.settled && flow.rounds > 0 {
+        limits_hit.push(LimitHit::new(LimitKind::Iterations, None));
+    }
     let mut coverage = Coverage::new(php_version);
+    coverage.limits_hit = limits_hit;
+    coverage.skipped = skipped;
     coverage.files_recovered = files.values().filter(|r| **r).count() as u64;
     coverage.files_clean = files.len() as u64 - coverage.files_recovered;
     coverage.unresolved_calls = calls.total_unresolved_calls();
@@ -100,6 +155,8 @@ struct Builder<'a> {
     input: &'a FindingsInput<'a>,
     flow: &'a ProjectFlow,
     recovered_files: Vec<&'a str>,
+    /// Units whose lowering reached a bound, by unit identifier.
+    lowering_limited: Vec<bool>,
 }
 
 impl<'a> Builder<'a> {
@@ -116,6 +173,7 @@ impl<'a> Builder<'a> {
             input,
             flow,
             recovered_files,
+            lowering_limited: graphs.iter().map(|g| g.limits.any()).collect(),
         }
     }
 
@@ -254,10 +312,15 @@ impl<'a> Builder<'a> {
     /// Every condition the flow met that lowers confidence, each with its reason.
     fn reasons(&self, hit: &SinkHit, source_unit: UnitId, wrong_sanitizer: bool) -> Vec<Reason> {
         let unit_limits = |unit: UnitId| {
-            self.flow
-                .flows
+            self.lowering_limited
                 .get(unit.index())
-                .is_some_and(|f| f.limits.any())
+                .copied()
+                .unwrap_or(false)
+                || self
+                    .flow
+                    .flows
+                    .get(unit.index())
+                    .is_some_and(|f| f.limits.any())
         };
         let marks = hit.label.marks;
         let mut reasons = Vec::new();

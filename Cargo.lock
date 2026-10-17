@@ -312,6 +312,7 @@ dependencies = [
  "bleedthrough-symbols-suite",
  "bleedthrough-syntax",
  "bleedthrough-syntax-conformance",
+ "bleedthrough-testkit",
  "dhat",
  "mago-allocator",
  "mago-database",

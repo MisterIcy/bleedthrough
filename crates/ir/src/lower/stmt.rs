@@ -8,7 +8,7 @@ use bleedthrough_syntax::{
 use super::builder::{Fb, Job, JobBody, JumpKind, Scope};
 use super::captures::flatten_variables;
 use crate::graph::{Terminator, UnitKind};
-use crate::instr::{InstrKind, IterPart, Operand, Place, TestKind, TypeClass};
+use crate::instr::{InstrKind, IterPart, Operand, TestKind, TypeClass};
 
 impl<'a> Fb<'a, '_, '_> {
     pub fn stmts(&mut self, stmts: &'a [Stmt]) {
@@ -22,12 +22,7 @@ impl<'a> Fb<'a, '_, '_> {
             self.hit.depth = true;
             let mut operands = Vec::new();
             for (name, span) in flatten_variables(NodeRef::Stmt(stmt)) {
-                let local = self.local(&name);
-                operands.push(self.emit(
-                    span,
-                    TypeClass::Unknown,
-                    InstrKind::Load(Place::Local(local)),
-                ));
+                operands.push(self.variable(span, TypeClass::Unknown, &name));
             }
             self.unknown(stmt.span, "depth-limit", operands);
             return;

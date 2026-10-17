@@ -286,3 +286,29 @@ fn unresolved_calls_and_recovered_files_are_counted() {
     assert!(coverage.unresolved_calls >= 2, "{calls:?}");
     assert!(calls.unresolved_calls.len() >= 2, "by reason: {calls:?}");
 }
+
+// ---- internal faults ---------------------------------------------------------------------
+
+/// spec: finding-production/Internal fault in one unit
+#[test]
+fn a_fault_in_one_unit_skips_it_and_leaves_the_others() {
+    let php = "<?php\nmysqli_query($l, $_GET['a']);\n";
+    let rules = test_rules();
+    let index = RuleIndex::build(&rules, &Gate::default());
+    let mut project = Project::load(
+        &MagoBackend::new(),
+        &[("a.php", php), ("b.php", php), ("c.php", php)],
+    );
+    project.fail_units = Some(|unit| unit.index() == 1);
+    let found = project.findings(&rules, &index, Limits::default());
+    let files: Vec<&str> = found.iter().map(|f| f.location().path().as_str()).collect();
+    assert_eq!(files, ["a.php", "c.php"]);
+    let (coverage, _) = project.coverage(&index, &rules, "8.3");
+    let skipped: Vec<(&str, &str)> = coverage
+        .skipped
+        .iter()
+        .map(|s| (s.path().as_str(), s.reason().as_str()))
+        .collect();
+    assert_eq!(skipped, [("b.php", "internal_fault")]);
+    assert!(coverage.is_incomplete());
+}

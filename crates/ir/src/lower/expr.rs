@@ -76,12 +76,7 @@ impl<'a> Fb<'a, '_, '_> {
         self.hit.depth = true;
         let mut operands = Vec::new();
         for (name, span) in flatten_variables(NodeRef::Expr(e)) {
-            let local = self.local(&name);
-            operands.push(self.emit(
-                span,
-                TypeClass::Unknown,
-                InstrKind::Load(Place::Local(local)),
-            ));
+            operands.push(self.variable(span, TypeClass::Unknown, &name));
         }
         self.unknown(e.span, "depth-limit", operands)
     }
@@ -310,7 +305,7 @@ impl<'a> Fb<'a, '_, '_> {
         self.emit(span, ty, kind)
     }
 
-    fn variable(&mut self, span: Span, ty: TypeClass, name: &str) -> ValueId {
+    pub(super) fn variable(&mut self, span: Span, ty: TypeClass, name: &str) -> ValueId {
         if is_superglobal(name) {
             return self.emit(span, ty, InstrKind::Superglobal(name.into()));
         }

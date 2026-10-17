@@ -26,13 +26,18 @@ pub use callgraph::{
     SourceUnit, UnitId, UnitInfo, Unresolved,
 };
 pub use coverage::CallCoverage;
-pub use dataflow::{Context, FlowLimits, Heap, Limits, SinkHit, UnitFlow, UnitInput, analyse_unit};
+pub use dataflow::{
+    Context, FlowLimits, Heap, Inter, Limits, SinkHit, Summaries, UnitFlow, UnitInput, analyse_unit,
+};
 pub use findings::{FindingsInput, build_coverage, build_findings};
 pub use fold::{Folded, Folder};
 pub use include::{FoldedPath, IncludeResolver, NoIncludes, normalise_path};
 pub use label::{Applied, ClassSet, FlowStep, HeapKey, Label, Marks, Origin, StepMark, Taint};
 pub use pattern::{PatternHit, scan_patterns};
-pub use project::{ProjectFlow, ProjectInput, analyse_project};
+pub use project::{
+    ComponentSummaries, FaultHook, ProjectFlow, ProjectInput, ProjectView, UnitResult,
+    analyse_project, merge,
+};
 pub use rule_index::{
     Gate, Matches, PatternEntry, PatternKind, PropagatorEntry, RuleIndex, SanitizerEntry,
     SinkEntry, SourceDef, Subject,

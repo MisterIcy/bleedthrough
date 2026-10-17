@@ -16,6 +16,8 @@ pub enum SkipReason {
     NotUtf8,
     /// The per-file time limit stopped the analysis.
     TimeLimit,
+    /// The analysis of the file failed an internal invariant.
+    InternalFault,
 }
 
 impl SkipReason {
@@ -27,6 +29,7 @@ impl SkipReason {
             Self::Unreadable => "unreadable",
             Self::NotUtf8 => "not_utf8",
             Self::TimeLimit => "time_limit",
+            Self::InternalFault => "internal_fault",
         }
     }
 }
@@ -71,6 +74,26 @@ pub enum LimitKind {
     CallDepth,
     /// The whole-run time limit.
     TotalTime,
+    /// Blocks per unit.
+    BlockLimit,
+    /// Instructions per unit.
+    InstructionLimit,
+    /// The step budget of a unit.
+    StepBudget,
+    /// Visits of one block in a fixpoint.
+    BlockVisits,
+    /// Distinct origins held by one value.
+    OriginCap,
+    /// Fixpoint iterations of a recursive component.
+    Iterations,
+    /// Depth of summary or closure application.
+    SummaryDepth,
+    /// Dispatch candidates per call.
+    Candidates,
+    /// Expression nesting depth.
+    ExpressionDepth,
+    /// Units analysed together in one component.
+    ComponentSize,
 }
 
 impl LimitKind {
@@ -81,6 +104,16 @@ impl LimitKind {
             Self::FileSize => "file_size",
             Self::CallDepth => "call_depth",
             Self::TotalTime => "total_time",
+            Self::BlockLimit => "block_limit",
+            Self::InstructionLimit => "instruction_limit",
+            Self::StepBudget => "step_budget",
+            Self::BlockVisits => "block_visits",
+            Self::OriginCap => "origin_cap",
+            Self::Iterations => "iterations",
+            Self::SummaryDepth => "summary_depth",
+            Self::Candidates => "candidates",
+            Self::ExpressionDepth => "expression_depth",
+            Self::ComponentSize => "component_size",
         }
     }
 }
