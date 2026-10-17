@@ -29,19 +29,33 @@ env:
 jobs:
   mutants:
     if: github.event_name != 'pull_request' || github.event.label.name == 'run-mutants'
-    name: mutants (${{ matrix.crate }})
+    name: mutants (${{ matrix.crate }}${{ matrix.shard && format(' {0}', matrix.shard) || '' }})
     runs-on: ubuntu-latest
     timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
-        crate:
-          - bleedthrough-taxonomy
-          - bleedthrough-builtins
-          - bleedthrough-syntax
-          - bleedthrough-rules
-          - bleedthrough-findings
-          - bleedthrough-symbols
+        include:
+          - crate: bleedthrough-taxonomy
+          - crate: bleedthrough-builtins
+          - crate: bleedthrough-syntax
+          - crate: bleedthrough-rules
+          - crate: bleedthrough-findings
+          - crate: bleedthrough-symbols
+          # The tests of ir and engine run through the parser adapter (about four minutes a pass), so
+          # their mutants are sharded to keep each job within its time limit.
+          - { crate: bleedthrough-ir, shard: "1/4", part: "1" }
+          - { crate: bleedthrough-ir, shard: "2/4", part: "2" }
+          - { crate: bleedthrough-ir, shard: "3/4", part: "3" }
+          - { crate: bleedthrough-ir, shard: "4/4", part: "4" }
+          - { crate: bleedthrough-engine, shard: "1/8", part: "1" }
+          - { crate: bleedthrough-engine, shard: "2/8", part: "2" }
+          - { crate: bleedthrough-engine, shard: "3/8", part: "3" }
+          - { crate: bleedthrough-engine, shard: "4/8", part: "4" }
+          - { crate: bleedthrough-engine, shard: "5/8", part: "5" }
+          - { crate: bleedthrough-engine, shard: "6/8", part: "6" }
+          - { crate: bleedthrough-engine, shard: "7/8", part: "7" }
+          - { crate: bleedthrough-engine, shard: "8/8", part: "8" }
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,6 +68,7 @@ jobs:
         shell: bash
         run: |
           args=(--package "${{ matrix.crate }}" --jobs 2 --out target/mutants)
+          if [ -n "${{ matrix.shard }}" ]; then args+=(--shard "${{ matrix.shard }}"); fi
           only="${{ github.event.inputs.package }}"
           if [ -n "$only" ] && [ "$only" != "${{ matrix.crate }}" ]; then
             echo "skipped: $only was requested"; exit 0
@@ -67,7 +82,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: mutants-${{ matrix.crate }}
+          name: mutants-${{ matrix.crate }}-${{ matrix.part }}
           path: |
             target/mutants/report.json
             target/mutants/outcomes.txt

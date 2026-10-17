@@ -495,8 +495,10 @@ fn run_mutants(
         .collect();
     tested.sort();
     tested.dedup();
+    // `--test-package` is ignored next to `--package`, so the extra packages join the `cargo test`
+    // command line, which already names the mutated package.
     for package in tested {
-        command.args(["--test-package", package]);
+        command.arg(format!("--cargo-test-arg=--package={package}"));
     }
     for re in &config.exclude_re {
         command.args(["--exclude-re", re]);

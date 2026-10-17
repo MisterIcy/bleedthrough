@@ -27,7 +27,7 @@ exclude_re = [
 exclude_globs = ["**/tests/**", "**/examples/**", "**/benches/**", "**/generated/**"]
 
 # The tests of ir and engine need a parser, so they live in the adapter; a mutant of these crates is
-# judged by their own tests and the adapter's.
+# judged by their own tests and the adapter's (the listed packages are added to the mutated one).
 [test_packages]
-bleedthrough-ir = ["bleedthrough-ir", "bleedthrough-syntax-mago"]
-bleedthrough-engine = ["bleedthrough-engine", "bleedthrough-syntax-mago"]
+bleedthrough-ir = ["bleedthrough-syntax-mago"]
+bleedthrough-engine = ["bleedthrough-syntax-mago"]
