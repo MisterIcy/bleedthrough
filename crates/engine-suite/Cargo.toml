@@ -17,3 +17,4 @@ bleedthrough-symbols = { path = "../symbols" }
 bleedthrough-builtins = { path = "../builtins" }
 bleedthrough-ir = { path = "../ir" }
 bleedthrough-engine = { path = "../engine" }
+bleedthrough-rules = { path = "../rules" }

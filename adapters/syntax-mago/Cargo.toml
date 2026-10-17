@@ -26,6 +26,8 @@ bleedthrough-eval = { path = "../../crates/eval" }
 bleedthrough-bench = { path = "../../crates/bench" }
 bleedthrough-symbols-suite = { path = "../../crates/symbols-suite" }
 bleedthrough-engine-suite = { path = "../../crates/engine-suite" }
+# Loads the engine's TOML test rule sets for the taint tests.
+bleedthrough-fs = { path = "../../crates/fs" }
 # Allocation counting for the `bench_alloc` example: the counting allocator lives in this crate, so
 # no `unsafe` appears in ours (see docs/benchmarks.md).
 dhat = "0.3"

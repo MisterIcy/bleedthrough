@@ -86,7 +86,8 @@ allow = [
 [crate.bleedthrough-syntax-mago]
 layer = "infrastructure"
 adapter = true
-allow = ["bleedthrough-syntax"]
+# bleedthrough-fs: a dev-dependency only, for loading the engine's TOML test rules in the taint tests.
+allow = ["bleedthrough-syntax", "bleedthrough-fs"]
 
 [crate.bleedthrough-cache]
 layer = "infrastructure"
@@ -145,7 +146,10 @@ allow = []
 # tested end to end.
 [crate.bleedthrough-engine-suite]
 layer = "tooling"
-allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins", "bleedthrough-ir", "bleedthrough-engine"]
+allow = [
+  "bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins", "bleedthrough-ir",
+  "bleedthrough-engine", "bleedthrough-rules",
+]
 
 [crate.xtask]
 layer = "tooling"

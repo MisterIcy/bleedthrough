@@ -17,12 +17,12 @@
 
 ## 3. Intra-procedural taint
 
-- [ ] 3.1 Build the rule index (sources, sinks, sanitizers, propagators keyed by resolved symbol, with `+` subclass matching through the table) and verify lookups by function, static and instance method, constructor and superglobal
-- [ ] 3.2 Implement the label domain (origin, cleared bitset over `SinkClass`, capped origin set, join rules) and verify join and clearing properties with proptest (commutative, associative, idempotent, clearing never adds taint)
-- [ ] 3.3 Implement the forward dataflow over blocks with strong updates and join by union, array collapsing, and the abstract locations for properties, static properties and globals; verify the flow-sensitivity scenarios (overwrite, one-branch taint)
-- [ ] 3.4 Implement sinks with vulnerable-argument selection, sanitizer clearing by class, partial sanitisation and applied-sanitizer tracking; verify right-sanitizer, wrong-sanitizer, partial and non-vulnerable-argument scenarios with negative tests
-- [ ] 3.5 Implement the default call policy, propagators, the type prune and the cast rules; verify `strlen`, `strtoupper`, int cast, unknown type scenarios
-- [ ] 3.6 Handle `foreach`, `list` destructuring, `yield`, closure captures, by-reference arguments and `match`/ternary/coalesce; verify each with a small program in the Mago-hosted tests
+- [x] 3.1 Build the rule index (sources, sinks, sanitizers, propagators keyed by resolved symbol, with `+` subclass matching through the table) and verify lookups by function, static and instance method, constructor and superglobal
+- [x] 3.2 Implement the label domain (origin, cleared bitset over `SinkClass`, capped origin set, join rules) and verify join and clearing properties with proptest (commutative, associative, idempotent, clearing never adds taint)
+- [x] 3.3 Implement the forward dataflow over blocks with strong updates and join by union, array collapsing, and the abstract locations for properties, static properties and globals; verify the flow-sensitivity scenarios (overwrite, one-branch taint)
+- [x] 3.4 Implement sinks with vulnerable-argument selection, sanitizer clearing by class, partial sanitisation and applied-sanitizer tracking; verify right-sanitizer, wrong-sanitizer, partial and non-vulnerable-argument scenarios with negative tests
+- [x] 3.5 Implement the default call policy, propagators, the type prune and the cast rules; verify `strlen`, `strtoupper`, int cast, unknown type scenarios
+- [x] 3.6 Handle `foreach`, `list` destructuring, `yield`, closure captures, by-reference arguments and `match`/ternary/coalesce; verify each with a small program in the Mago-hosted tests
 - [ ] 3.7 Add the engine test rule sets under `crates/engine/tests/rules/` and an intra-procedural test over `fixtures/vuln` cases that need no calls; verify the expected findings and no findings on safe twins
 
 ## 4. Summaries and inter-procedural flow

@@ -194,6 +194,7 @@ name = "bleedthrough-engine"
 version = "0.0.0"
 dependencies = [
  "bleedthrough-ir",
+ "bleedthrough-rules",
  "bleedthrough-symbols",
  "bleedthrough-syntax",
  "bleedthrough-testkit",
@@ -206,6 +207,7 @@ dependencies = [
  "bleedthrough-builtins",
  "bleedthrough-engine",
  "bleedthrough-ir",
+ "bleedthrough-rules",
  "bleedthrough-symbols",
  "bleedthrough-syntax",
 ]
@@ -304,6 +306,7 @@ dependencies = [
  "bleedthrough-builtins-gen",
  "bleedthrough-engine-suite",
  "bleedthrough-eval",
+ "bleedthrough-fs",
  "bleedthrough-symbols-suite",
  "bleedthrough-syntax",
  "bleedthrough-syntax-conformance",

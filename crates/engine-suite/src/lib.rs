@@ -11,6 +11,7 @@ use std::path::{Path, PathBuf};
 
 pub use bleedthrough_engine as engine;
 pub use bleedthrough_ir as ir;
+pub use bleedthrough_rules as rules;
 pub use bleedthrough_symbols as symbols;
 use bleedthrough_symbols::{
     FileSummary, FunctionFacts, InferLimits, SymbolTable, infer_file, summarize,
@@ -165,6 +166,8 @@ impl engine::IncludeResolver for FileList {
 pub struct Project {
     /// The table the files were analysed against.
     pub table: SymbolTable,
+    /// Each file's path and text, in the order the files were given.
+    pub sources: Vec<(String, String)>,
     /// Each file's path and graphs, in the order the files were given.
     pub units: Vec<(String, Vec<ir::Graph>)>,
 }
@@ -182,7 +185,93 @@ impl Project {
                 )
             })
             .collect();
-        Self { table, units }
+        let sources = files
+            .iter()
+            .map(|(p, t)| ((*p).to_string(), (*t).to_string()))
+            .collect();
+        Self {
+            table,
+            sources,
+            units,
+        }
+    }
+
+    /// The 1-based line of a byte offset in `file`.
+    pub fn line(&self, file: &str, offset: u32) -> usize {
+        let text = self
+            .sources
+            .iter()
+            .find(|(p, _)| p == file)
+            .map_or("", |(_, t)| t.as_str());
+        let end = (offset as usize).min(text.len());
+        text.as_bytes()[..end]
+            .iter()
+            .filter(|b| **b == b'\n')
+            .count()
+            + 1
+    }
+
+    /// The flows from concrete sources to sinks found by analysing every unit on its own, one
+    /// line each, sorted: `RULE class: source@file:line -> sink@file:line`.
+    pub fn intra_flows(&self, index: &engine::RuleIndex) -> Vec<String> {
+        let graph = self.call_graph();
+        let heap = engine::Heap::new();
+        let ctx = engine::Context {
+            table: &self.table,
+            index,
+            limits: engine::Limits::default(),
+            heap: &heap,
+        };
+        let mut lines: Vec<String> = Vec::new();
+        for (file, graphs) in &self.units {
+            for g in graphs {
+                let Some(id) = graph.find(file, &g.key) else {
+                    continue;
+                };
+                let flow = engine::analyse_unit(
+                    &ctx,
+                    &engine::UnitInput {
+                        id,
+                        graph: g,
+                        file_graphs: graphs,
+                    },
+                );
+                for hit in &flow.hits {
+                    let engine::Origin::Source { .. } = hit.label.origin else {
+                        continue;
+                    };
+                    lines.push(self.describe_hit(index, &graph, file, hit));
+                }
+            }
+        }
+        lines.sort();
+        lines.dedup();
+        lines
+    }
+
+    fn describe_hit(
+        &self,
+        index: &engine::RuleIndex,
+        graph: &engine::CallGraph,
+        file: &str,
+        hit: &engine::SinkHit,
+    ) -> String {
+        let sink = &index.sinks()[hit.sink as usize];
+        let engine::Origin::Source { source, unit, span } = hit.label.origin else {
+            unreachable!("concrete origins only");
+        };
+        let source_file = &graph.unit(unit).file;
+        format!(
+            "{} {}: {}@{}:{} -> {}@{}:{}",
+            index.rules()[sink.rule as usize],
+            sink.class,
+            index.sources()[source as usize].symbol,
+            source_file,
+            self.line(source_file, span.start),
+            sink.symbol,
+            file,
+            self.line(file, hit.span.start),
+        )
     }
 
     /// Every unit with its file, in the order the files were given.

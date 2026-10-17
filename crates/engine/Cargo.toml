@@ -13,6 +13,7 @@ workspace = true
 
 [dependencies]
 bleedthrough-ir = { path = "../ir" }
+bleedthrough-rules = { path = "../rules" }
 bleedthrough-symbols = { path = "../symbols" }
 bleedthrough-syntax = { path = "../syntax" }
 
