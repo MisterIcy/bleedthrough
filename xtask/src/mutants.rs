@@ -22,6 +22,9 @@ pub struct Config {
     pub timeout_secs: u64,
     pub exclude_re: Vec<String>,
     pub exclude_globs: Vec<String>,
+    /// Crate to the packages whose tests exercise it, when they are not its own (the engine's
+    /// tests need a parser, so they live in the adapter).
+    pub test_packages: BTreeMap<String, Vec<String>>,
 }
 
 fn string_list(table: &toml::Table, key: &str, file: &str) -> Result<Vec<String>, String> {
@@ -38,6 +41,19 @@ fn string_list(table: &toml::Table, key: &str, file: &str) -> Result<Vec<String>
             })
             .collect(),
     }
+}
+
+fn test_packages(root: &toml::Table) -> Result<BTreeMap<String, Vec<String>>, String> {
+    let Some(value) = root.get("test_packages") else {
+        return Ok(BTreeMap::new());
+    };
+    let table = value
+        .as_table()
+        .ok_or_else(|| format!("{CONFIG}: `test_packages` must be a table"))?;
+    table
+        .keys()
+        .map(|krate| Ok((krate.clone(), string_list(table, krate, CONFIG)?)))
+        .collect()
 }
 
 impl Config {
@@ -58,6 +74,7 @@ impl Config {
             timeout_secs: timeout,
             exclude_re: string_list(&root, "exclude_re", CONFIG)?,
             exclude_globs: string_list(&root, "exclude_globs", CONFIG)?,
+            test_packages: test_packages(&root)?,
         })
     }
 }
@@ -471,6 +488,16 @@ fn run_mutants(
     for package in packages {
         command.args(["--package", package]);
     }
+    let mut tested: Vec<&String> = packages
+        .iter()
+        .filter_map(|p| config.test_packages.get(p))
+        .flatten()
+        .collect();
+    tested.sort();
+    tested.dedup();
+    for package in tested {
+        command.args(["--test-package", package]);
+    }
     for re in &config.exclude_re {
         command.args(["--exclude-re", re]);
     }
@@ -826,5 +853,19 @@ mod tests {
         let read = |name: &str| fs::read_to_string(root.join(name)).unwrap();
         assert!(!Config::parse(&read(CONFIG)).unwrap().crates.is_empty());
         assert!(!parse_critical(&read(CRITICAL)).unwrap().is_empty());
+    }
+
+    #[test]
+    fn test_packages_are_read_per_crate() {
+        let text = "crates = [\"a\"]\ntimeout_secs = 5\n[test_packages]\na = [\"a\", \"b\"]\n";
+        let config = Config::parse(text).unwrap();
+        assert_eq!(config.test_packages["a"], ["a", "b"]);
+        assert!(
+            Config::parse("crates = [\"a\"]\ntimeout_secs = 5\n")
+                .unwrap()
+                .test_packages
+                .is_empty()
+        );
+        assert!(Config::parse("crates = [\"a\"]\ntimeout_secs = 5\ntest_packages = 3\n").is_err());
     }
 }
