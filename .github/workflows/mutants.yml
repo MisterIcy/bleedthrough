@@ -1,12 +1,10 @@
 name: mutants
 
-# Mutation testing of the domain crates (docs/testing.md, spec `mutation-testing`). Never part of the required
-# `ci` status: it runs weekly, on demand, and on a pull request only when the `run-mutants` label is added
-# (then limited to the code the pull request changes). One job per crate; each publishes its report and fails
-# when a surviving mutant is not in testing/mutants-survivors.toml or a ledger entry is stale.
+# Mutation testing of the domain crates (docs/testing.md, spec `mutation-testing`). Too slow for routine CI, so
+# it runs only on demand, once before a release (docs/release-checklist.md); it is never part of the required
+# `ci` status. One job per crate (ir and engine sharded); each publishes its report and fails when a surviving
+# mutant is not in testing/mutants-survivors.toml or a ledger entry is stale.
 on:
-  schedule:
-    - cron: "23 2 * * 0"
   workflow_dispatch:
     inputs:
       package:
@@ -15,8 +13,6 @@ on:
       base:
         description: "Mutate only code changed since this revision (default: everything)"
         required: false
-  pull_request:
-    types: [labeled]
 
 permissions:
   contents: read
@@ -28,7 +24,6 @@ env:
 
 jobs:
   mutants:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'run-mutants'
     name: mutants (${{ matrix.crate }}${{ matrix.shard && format(' {0}', matrix.shard) || '' }})
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -79,9 +74,7 @@ jobs:
           if [ -n "$only" ] && [ "$only" != "${{ matrix.crate }}" ]; then
             echo "skipped: $only was requested"; exit 0
           fi
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            args+=(--in-diff "$(git merge-base "origin/${{ github.base_ref }}" HEAD)")
-          elif [ -n "${{ github.event.inputs.base }}" ]; then
+          if [ -n "${{ github.event.inputs.base }}" ]; then
             args+=(--in-diff "${{ github.event.inputs.base }}")
           fi
           cargo xtask mutants "${args[@]}" | tee -a "$GITHUB_STEP_SUMMARY"

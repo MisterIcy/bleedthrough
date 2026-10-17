@@ -169,8 +169,8 @@ numbers: two runs on one commit are byte-identical) to `target/mutants/`. Option
 - **Critical code** (`testing/mutants-critical.toml`): severity and confidence, fingerprints, limits, taxonomy
   lookups, name and type resolution. A survivor there is killed with a test; the ledger accepts only mutants
   proved equivalent, and says why.
-- **Where it runs.** `mutants.yml`: weekly, on demand, and on a pull request labelled `run-mutants` (limited to the
-  changed code); one job per crate. It is never part of the required `ci` status. On GitHub runners (2 jobs each) a manual dispatch took 2 to 9 minutes per crate, but about 3 hours for symbols. A full run of the six crates
+- **Where it runs.** `mutants.yml`, on demand only: a full run is too slow for routine CI, so it is dispatched once before a
+  release (see the release checklist), and locally with `--in-diff` while developing; one job per crate. It is never part of the required `ci` status. On GitHub runners (2 jobs each) a manual dispatch took 2 to 9 minutes per crate, but about 3 hours for symbols. A full run of the six crates
   took about 20 minutes with 8 parallel jobs on a development machine.
 - **No unanalysed debt.** The ledger holds only analysed survivors: each is equivalent (with the proof), a bound
   tested elsewhere (naming the test), or a timeout-only case. The loader refuses `baseline` entries and reasons that
