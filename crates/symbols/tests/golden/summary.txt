@@ -1,0 +1,108 @@
+file a.php
+class App\Model\Item [final]
+  extends Lib\Base
+  implements Lib\Contracts\Jsonable, Lib\Contracts\Arrayable
+  templates T
+  inherits Lib\Base<T>, Lib\Contracts\Arrayable<string, int>
+  attributes App\Model\Entity, App\Model\Table
+  use App\Model\Loggable, App\Model\Cacheable
+    App\Model\Loggable::log insteadof App\Model\Cacheable
+    App\Model\Cacheable::log as protected cacheLog
+    log as public
+  const A [public]: 1
+  const B [public final]: 'b'
+  const C [protected]: unknown
+  property $id [public default] declared: int (native)
+  property $name [public default] declared: string|null (native)
+  property $registry [protected static default] declared: array<array-key, mixed> (native)
+  property $ratio [private readonly] declared: float (native)
+  property $guarded [public default(private-set)] declared: int (native)
+  property $semi [public default(protected-set)] declared: int (native)
+  property $open [public default(public-set)] declared: int (native)
+  property $ids [public default] declared: list<int> (docblock)
+  property $named [public] declared: int (docblock)
+  property $other [public] declared: unknown (absent)
+  property $x [public] promoted: int (native)
+  property $base [protected readonly] promoted: Lib\Base|null (native)
+  property $untyped [private] promoted: unknown (absent)
+  property $magic [public] docblock: int (docblock)
+  property $ro [public readonly] docblock: string (docblock)
+  property $wo [public] docblock: bool (docblock)
+  method __construct($x: int (native) =; $base: Lib\Base|null (native) =; $plain: string (native) =; $untyped: unknown (absent) =) -> unknown (absent) [public] declared
+  method pass($value: T (docblock)) -> T (docblock) [public] declared
+  method build(&$ref: int (native); ...$rest: string (native)) -> static(App\Model\Item) (native) [public static] declared
+  method nothing() -> void (native) [protected abstract] declared
+  method secret($a: int|null (native) =; $u: int|string (native) =) -> int|null (native) [private final] declared
+  method nullDefault($a: int|null (native) =; $b: int|null (native) =; $c: int|null (native) =; $d: int (native) =) -> unknown (absent) [public] declared
+  method make($a: int (docblock); ...$rest: string (docblock)) -> App\Model\Item (docblock) [public static] docblock
+  method name() -> string (docblock) [public] docblock
+class App\Model\Shape [abstract]
+  method area() -> float (native) [public abstract] declared
+class App\Model\Frozen [readonly]
+interface App\Model\Jsonable2 []
+  implements Lib\Contracts\Jsonable, Lib\Contracts\Arrayable
+  const I [public]: 1
+  method go() -> void (native) [public abstract] declared
+trait App\Model\Loggable []
+  property $log [public] declared: unknown (absent)
+  method log() -> unknown (absent) [public] declared
+  method need() -> unknown (absent) [public abstract] declared
+  method stat() -> unknown (absent) [public static] declared
+enum App\Model\Suit []
+  implements Lib\Contracts\Jsonable
+  backed by string
+  const D [public]: unknown
+  case H = 'h'
+  case S = 's'
+  method label() -> string (native) [public] declared
+enum App\Model\Plain []
+  case One
+  case Two
+class App\Model\Promo []
+  property $z [public readonly] promoted: int (native)
+  property $secret [private] promoted: string (native)
+  method __construct($z: int (native); $notprom: int (native); $secret: string (native) =) -> unknown (absent) [public] declared
+  method other($q: int (native) =) -> unknown (absent) [public] declared
+class App\Model\Refs []
+  extends Fully\Qualified
+  implements App\Model\Rel
+  method m($a: App\Model\Typed (native); $b: App\Model\Nullable|null (native); $c: App\Model\A|App\Model\B (native); $d: App\Model\Refs (native)) -> App\Model\Ret (native) [public] declared
+class App\Model\Odd []
+  method bare() -> unknown (absent) [public] declared
+interface App\Model\Bodied []
+  method with() -> unknown (absent) [public] declared
+  method without() -> unknown (absent) [public abstract] declared
+function App\Model\cond() -> unknown (absent)
+function App\Model\declared() -> unknown (absent)
+function App\Model\blocky() -> unknown (absent)
+function App\Model\helper2($a: int (native); ...$rest: unknown (absent)) -> void (native)
+function App\Model\typed($xs: list<int> (docblock)) -> unknown (absent)
+function App\Model\byRefReturn() -> unknown (absent) [by-ref]
+constant App\Model\TOP [const]: -5
+constant App\Model\FLOAT [const]: float
+constant App\Model\TRUE_CONST [const]: true
+constant App\Model\PAREN [const]: 7
+constant App\Model\BIG [const]: int
+constant App\Model\LIST [const]: array<array-key, mixed>
+constant App\Model\STR [const]: 'plain'
+constant App\Model\ESC [const]: 'it\'s'
+constant App\Model\DQ [const]: 'dq'
+constant App\Model\NIL [const]: null
+constant App\Model\T2 [const]: true
+constant App\Model\F2 [const]: false
+constant App\Model\N2 [const]: null
+constant App\Model\NEGF [const]: float
+constant App\Model\NEGX [const]: unknown
+constant App\Model\OCT [const]: 8
+constant App\Model\HEX [const]: 31
+constant App\Model\BIN [const]: 5
+constant App\Model\NEWOCT [const]: 15
+constant App\Model\UND [const]: 1000
+constant App\Model\ZERO [const]: 0
+constant App\Model\DQE [const]: string
+constant App\Model\FQ [const]: unknown
+constant DEFINED [define]: 'x'
+constant Lib\NS_DEFINED [define]: 3
+references classes: App\Model\A, App\Model\Anon, App\Model\B, App\Model\Cacheable, App\Model\Caught, App\Model\Cls, App\Model\Created, App\Model\Entity, App\Model\Inst, App\Model\Item, App\Model\Loggable, App\Model\Nullable, App\Model\Other, App\Model\Refs, App\Model\Rel, App\Model\Ret, App\Model\SensitiveParameter, App\Model\Stat, App\Model\Table, App\Model\Typed, Fully\Qualified, Lib\Base, Lib\Contracts\Arrayable, Lib\Contracts\Jsonable
+references in declarations: App\Model\A, App\Model\B, App\Model\Cacheable, App\Model\Entity, App\Model\Item, App\Model\Loggable, App\Model\Nullable, App\Model\Refs, App\Model\Rel, App\Model\Ret, App\Model\Table, App\Model\Typed, Fully\Qualified, Lib\Base, Lib\Contracts\Arrayable, Lib\Contracts\Jsonable
+references functions: App\Model\define | define, App\Model\Lib\sub\func, App\Model\strlen | strlen, global_fn, Lib\helper
