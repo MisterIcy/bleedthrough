@@ -1,0 +1,203 @@
+unit {main} kind=main span=0..1272 owner=- static=true recovered=false
+b0 (entry):
+  v0 = const-fetch E_ALL :inert @103..108  ; E_ALL
+  v1 = call fn error_reporting(v0) res=resolved [function error_reporting] :inert @87..109  ; error_reporting(E_ALL)
+  v2 = call fn session_start() res=resolved [function session_start] :inert @111..126  ; session_start()
+  v3 = const str "config.php" :data @142..154  ; 'config.php'
+  v4 = include IncludeOnce v3 @129..154  ; include_once 'config.php'
+  v5 = const str "lib/db.php" :data @164..176  ; 'lib/db.php'
+  v6 = include Require v5 @156..176  ; require 'lib/db.php'
+  v7 = superglobal _REQUEST :data @195..204  ; $_REQUEST
+  v8 = const str "action" :data @205..213  ; 'action'
+  v9 = load-elem v7[v8] @195..214  ; $_REQUEST['action']
+  v10 = test isset [v9] :inert @189..215  ; isset($_REQUEST['action'])
+  term branch v10 ? b1 : b2
+b1:
+  v11 = superglobal _REQUEST :data @218..227  ; $_REQUEST
+  v12 = const str "action" :data @228..236  ; 'action'
+  v13 = load-elem v11[v12] @218..237  ; $_REQUEST['action']
+  store local %t0 = v13 @189..246  ; isset($_REQUEST['action']) ? $_REQUEST['action'...
+  term goto b3
+b2:
+  v14 = const str "list" :data @240..246  ; 'list'
+  store local %t0 = v14 @189..246  ; isset($_REQUEST['action']) ? $_REQUEST['action'...
+  term goto b3
+b3:
+  v15 = load local %t0 @189..246  ; isset($_REQUEST['action']) ? $_REQUEST['action'...
+  store local $action = v15 @179..246  ; $action = isset($_REQUEST['action']) ? $_REQUES...
+  v16 = superglobal _GET :data @260..265  ; $_GET
+  v17 = const str "id" :data @266..270  ; 'id'
+  v18 = load-elem v16[v17] @260..271  ; $_GET['id']
+  v19 = test isset [v18] :inert @254..272  ; isset($_GET['id'])
+  term branch v19 ? b4 : b5
+b4:
+  v20 = superglobal _GET :data @282..287  ; $_GET
+  v21 = const str "id" :data @288..292  ; 'id'
+  v22 = load-elem v20[v21] @282..293  ; $_GET['id']
+  v23 = call fn intval(v22) res=resolved [function intval] :inert @275..294  ; intval($_GET['id'])
+  store local %t1 = v23 @254..298  ; isset($_GET['id']) ? intval($_GET['id']) : 0
+  term goto b6
+b5:
+  v24 = const int 0 :inert @297..298  ; 0
+  store local %t1 = v24 @254..298  ; isset($_GET['id']) ? intval($_GET['id']) : 0
+  term goto b6
+b6:
+  v25 = load local %t1 @254..298  ; isset($_GET['id']) ? intval($_GET['id']) : 0
+  store local $id = v25 @248..298  ; $id = isset($_GET['id']) ? intval($_GET['id']) : 0
+  v26 = load local $action @554..561  ; $action
+  v27 = const str "view" :data @574..580  ; 'view'
+  v28 = binary Eq v26, v27 :inert @574..580  ; 'view'
+  term branch v28 ? b8 : b11
+b7:
+  v58 = const int 0 :inert @1115..1116  ; 0
+  store local $i = v58 @1110..1116  ; $i = 0
+  v59 = superglobal _SESSION :data @1129..1138  ; $_SESSION
+  v60 = call fn count(v59) res=resolved [function count] :inert @1123..1139  ; count($_SESSION)
+  store local $n = v60 @1118..1139  ; $n = count($_SESSION)
+  term goto b23
+b8:
+  v31 = load local $id :inert @644..647  ; $id
+  v32 = interp DoubleQuoted ["SELECT * FROM items WHERE id = " v31@644..647] :data @612..648  ; "SELECT * FROM items WHERE id = $id"
+  v33 = call fn mysql_query(v32) res=unresolved(function_not_found) @600..649  ; mysql_query("SELECT * FROM items WHERE id = $id")
+  store local $result = v33 @590..649  ; $result = mysql_query("SELECT * FROM items WHER...
+  v34 = load local $result @684..691  ; $result
+  v35 = call fn mysql_fetch_assoc(v34) res=unresolved(function_not_found) @666..692  ; mysql_fetch_assoc($result)
+  store local $row = v35 @659..692  ; $row = mysql_fetch_assoc($result)
+  v36 = load local $row @718..722  ; $row
+  v37 = call fn render_row(v36) res=resolved [function render_row] @707..723  ; render_row($row)
+  echo v37@707..723 @707..723  ; render_row($row)
+  term goto b7
+b9:
+  v38 = load local $id :inert @771..774  ; $id
+  v39 = const int 0 :inert @777..778  ; 0
+  v40 = binary Gt v38, v39 :inert @771..778  ; $id > 0
+  term branch v40 ? b15 : b16
+b10:
+  v52 = const str "SELECT * FROM items" :data @974..995  ; 'SELECT * FROM items'
+  v53 = call fn mysql_query(v52) res=unresolved(function_not_found) @962..996  ; mysql_query('SELECT * FROM items')
+  store local $result = v53 @952..996  ; $result = mysql_query('SELECT * FROM items')
+  term goto b20
+b11:
+  v29 = const str "delete" :data @749..757  ; 'delete'
+  v30 = binary Eq v26, v29 :inert @749..757  ; 'delete'
+  term branch v30 ? b9 : b12
+b12:
+  term goto b10
+b13:
+  term goto b9
+b14:
+  v49 = const str "Location: index.php" :data @893..914  ; 'Location: index.php'
+  v50 = call fn header(v49) res=resolved [function header] :inert @886..915  ; header('Location: index.php')
+  exit @925..929  ; exit
+  term unreachable
+b15:
+  v41 = superglobal _SESSION :data @782..791  ; $_SESSION
+  v42 = const str "admin" :data @792..799  ; 'admin'
+  v43 = load-elem v41[v42] @782..800  ; $_SESSION['admin']
+  term goto b16
+b16:
+  v44 = test logical [] :inert @771..800  ; $id > 0 && $_SESSION['admin']
+  term branch v44 ? b17 : b18
+b17:
+  v45 = const str "DELETE FROM items WHERE id = " :data @828..859  ; 'DELETE FROM items WHERE id = '
+  v46 = load local $id :inert @862..865  ; $id
+  v47 = concat v45@828..859, v46@862..865 :data @828..865  ; 'DELETE FROM items WHERE id = ' . $id
+  v48 = call fn mysql_query(v47) res=unresolved(function_not_found) @816..866  ; mysql_query('DELETE FROM items WHERE id = ' . $id)
+  term goto b14
+b18:
+  term goto b14
+b19:
+  v51 = const null :inert @925..929  ; exit
+  term goto b10
+b20:
+  v54 = load local $result @1038..1045  ; $result
+  v55 = call fn mysql_fetch_assoc(v54) res=unresolved(function_not_found) @1020..1046  ; mysql_fetch_assoc($result)
+  store local $row = v55 @1013..1046  ; $row = mysql_fetch_assoc($result)
+  term branch v55 ? b21 : b22
+b21:
+  v56 = load local $row @1077..1081  ; $row
+  v57 = call fn render_row(v56) res=resolved [function render_row] @1066..1082  ; render_row($row)
+  echo v57@1066..1082 @1066..1082  ; render_row($row)
+  term goto b20
+b22:
+  term goto b7
+b23:
+  v61 = load local $i :inert @1141..1143  ; $i
+  v62 = load local $n :inert @1146..1148  ; $n
+  v63 = binary Lt v61, v62 :inert @1141..1148  ; $i < $n
+  term branch v63 ? b24 : b26
+b24:
+  v64 = load local $i :inert @1183..1185  ; $i
+  v65 = load local $i :inert @1187..1189  ; $i
+  v66 = const int 2 :inert @1192..1193  ; 2
+  v67 = binary Mul v65, v66 :inert @1187..1193  ; $i * 2
+  v68 = array [v64, v67] :data @1177..1194  ; array($i, $i * 2)
+  v69 = const int 0 :inert @1167..1169  ; $a
+  v70 = load-elem v68[v69] @1167..1169  ; $a
+  store local $a = v70 @1167..1169  ; $a
+  v71 = const int 1 :inert @1171..1173  ; $b
+  v72 = load-elem v68[v71] @1171..1173  ; $b
+  store local $b = v72 @1171..1173  ; $b
+  term goto b25
+b25:
+  v73 = load local $i :inert @1150..1152  ; $i
+  v74 = unary PostInc v73 :inert @1150..1154  ; $i++
+  store local $i = v74 @1150..1154  ; $i++
+  term goto b23
+b26:
+  v75 = load local $n :inert @1222..1224  ; $n
+  v76 = superglobal _SESSION :data @1237..1246  ; $_SESSION
+  v77 = const str "user" :data @1247..1253  ; 'user'
+  v78 = load-elem v76[v77] @1237..1254  ; $_SESSION['user']
+  v79 = interp Heredoc ["Total: " v75@1221..1225 " items for " v78@1236..1255] :data @1207..1259  ; <<<EOT Total: {$n} items for {$_SESSION['user']...
+  store local $text = v79 @1199..1259  ; $text = <<<EOT Total: {$n} items for {$_SESSION...
+  v80 = load local $text :data @1266..1271  ; $text
+  echo v80@1266..1271 @1266..1271  ; $text
+  term return
+b27 (exit):
+  term exit
+
+unit render_row kind=function span=301..544 owner=- static=true recovered=false
+params: l0 $row
+b0 (entry):
+  v0 = const str "<tr>" :data @360..366  ; '<tr>'
+  store local $out = v0 @353..366  ; $out = '<tr>'
+  v1 = load local $row @381..385  ; $row
+  term goto b1
+b1:
+  v2 = test synthetic [v1] :inert @381..385  ; $row
+  term branch v2 ? b2 : b3
+b2:
+  v3 = iter v1 Value @397..403  ; $value
+  store local $value = v3 @397..403  ; $value
+  v4 = iter v1 Key @389..393  ; $key
+  store local $key = v4 @389..393  ; $key
+  v5 = load local $key @419..423  ; $key
+  v6 = const str "password" :data @427..437  ; 'password'
+  v7 = binary Eq v5, v6 :inert @419..437  ; $key == 'password'
+  term branch v7 ? b5 : b6
+b3:
+  v15 = load local $out :data @527..531  ; $out
+  v16 = const str "</tr>" :data @534..541  ; '</tr>'
+  v17 = concat v15@527..531, v16@534..541 :data @527..541  ; $out . '</tr>'
+  term return v17
+b4:
+  v8 = load local $out :data @457..461  ; $out
+  v9 = const str "<td>" :data @465..471  ; '<td>'
+  v10 = load local $value @491..497  ; $value
+  v11 = call fn htmlspecialchars(v10) res=resolved [function htmlspecialchars] :data @474..498  ; htmlspecialchars($value)
+  v12 = const str "</td>" :data @501..508  ; '</td>'
+  v13 = concat v9@465..471, v11@474..498, v12@501..508 :data @465..508  ; '<td>' . htmlspecialchars($value) . '</td>'
+  v14 = concat v8@457..461, v13@465..508 :data @457..508  ; $out .= '<td>' . htmlspecialchars($value) . '</...
+  store local $out = v14 @457..508  ; $out .= '<td>' . htmlspecialchars($value) . '</...
+  term goto b1
+b5:
+  term goto b1
+b6:
+  term goto b4
+b7:
+  term goto b4
+b8:
+  term return
+b9 (exit):
+  term exit

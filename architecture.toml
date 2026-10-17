@@ -137,6 +137,13 @@ allow = ["bleedthrough-syntax"]
 layer = "tooling"
 allow = []
 
+# The engine suite: PHP-source scenarios and golden dumps for the IR and the taint engine. Generic over the
+# parser backend (the Mago adapter runs it as a dev-dependency), so the domain crates need no parser to be
+# tested end to end.
+[crate.bleedthrough-engine-suite]
+layer = "tooling"
+allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins", "bleedthrough-ir"]
+
 [crate.xtask]
 layer = "tooling"
 allow = []

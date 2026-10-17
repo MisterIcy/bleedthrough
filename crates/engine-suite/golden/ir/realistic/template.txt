@@ -1,0 +1,62 @@
+unit {main} kind=main span=0..742 owner=- static=true recovered=false
+b0 (entry):
+  v0 = const str "Tasks" :data @79..86  ; 'Tasks'
+  store local $title = v0 @70..86  ; $title = 'Tasks'
+  v1 = load local $title :data @190..196  ; $title
+  v2 = call fn htmlspecialchars(v1) res=resolved [function htmlspecialchars] :data @173..197  ; htmlspecialchars($title)
+  echo v2@173..197 @173..197  ; htmlspecialchars($title)
+  v3 = load local $title :data @323..329  ; $title
+  v4 = call fn htmlspecialchars(v3) res=resolved [function htmlspecialchars] :data @306..330  ; htmlspecialchars($title)
+  echo v4@306..330 @306..330  ; htmlspecialchars($title)
+  v5 = load local $tasks @355..361  ; $tasks
+  v6 = call fn count(v5) res=resolved [function count] :inert @349..362  ; count($tasks)
+  v7 = const int 0 :inert @367..368  ; 0
+  v8 = binary Identical v6, v7 :inert @349..368  ; count($tasks) === 0
+  term branch v8 ? b2 : b3
+b1:
+  v26 = load local $title :data @703..709  ; $title
+  v27 = call fn addslashes(v26) res=resolved [function addslashes] :data @692..710  ; addslashes($title)
+  echo v27@692..710 @692..710  ; addslashes($title)
+  term return
+b2:
+  term goto b1
+b3:
+  v9 = load local $tasks @443..449  ; $tasks
+  term goto b4
+b4:
+  v10 = test synthetic [v9] :inert @443..449  ; $tasks
+  term branch v10 ? b5 : b6
+b5:
+  v11 = iter v9 Value @459..464  ; $task
+  store local $task = v11 @459..464  ; $task
+  v12 = iter v9 Key @453..455  ; $i
+  store local $i = v12 @453..455  ; $i
+  v13 = load local $task @493..498  ; $task
+  v14 = const str "done" :data @499..505  ; 'done'
+  v15 = load-elem v13[v14] @493..506  ; $task['done']
+  term branch v15 ? b7 : b8
+b6:
+  term goto b1
+b7:
+  v16 = const str "done" :data @509..515  ; 'done'
+  store local %t0 = v16 @493..520  ; $task['done'] ? 'done' : ''
+  term goto b9
+b8:
+  v17 = const str "" :data @518..520  ; ''
+  store local %t0 = v17 @493..520  ; $task['done'] ? 'done' : ''
+  term goto b9
+b9:
+  v18 = load local %t0 @493..520  ; $task['done'] ? 'done' : ''
+  echo v18@493..520 @493..520  ; $task['done'] ? 'done' : ''
+  v19 = load local $i @542..544  ; $i
+  v20 = const int 1 :inert @547..548  ; 1
+  v21 = binary Add v19, v20 @542..548  ; $i + 1
+  echo v21@542..548 @542..548  ; $i + 1
+  v22 = load local $task @574..579  ; $task
+  v23 = const str "title" :data @580..587  ; 'title'
+  v24 = load-elem v22[v23] @574..588  ; $task['title']
+  v25 = call fn htmlspecialchars(v24) res=resolved [function htmlspecialchars] :data @557..589  ; htmlspecialchars($task['title'])
+  echo v25@557..589 @557..589  ; htmlspecialchars($task['title'])
+  term goto b4
+b10 (exit):
+  term exit

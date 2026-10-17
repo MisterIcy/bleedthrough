@@ -1,0 +1,146 @@
+unit {main} kind=main span=0..1614 owner=- static=true recovered=false
+b0 (entry):
+  term return
+b1 (exit):
+  term exit
+
+unit App\Persistence\PdoRepository::__construct kind=method span=332..416 owner=App\Persistence\PdoRepository static=false recovered=false
+params: l0 $pdo, l1 $table
+b0 (entry):
+  v0 = load local $this @360..378  ; protected PDO $pdo
+  v1 = load local $pdo @360..378  ; protected PDO $pdo
+  store prop v0<App\Persistence\PdoRepository>->pdo = v1 @360..378  ; protected PDO $pdo
+  v2 = load local $this @380..403  ; protected string $table
+  v3 = load local $table @380..403  ; protected string $table
+  store prop v2<App\Persistence\PdoRepository>->table = v3 @380..403  ; protected string $table
+  term return
+b1 (exit):
+  term exit
+
+unit App\Persistence\PdoRepository::find kind=method span=422..716 owner=App\Persistence\PdoRepository static=false recovered=false
+params: l0 $id
+b0 (entry):
+  v0 = load local $this :data @482..487  ; $this
+  v1 = load prop v0<App\Persistence\PdoRepository>->pdo :data @482..492  ; $this->pdo
+  v2 = load local $this :data @518..523  ; $this
+  v3 = load prop v2<App\Persistence\PdoRepository>->table :data @518..530  ; $this->table
+  v4 = interp DoubleQuoted ["SELECT * FROM " v3@517..531 " WHERE id = :id"] :data @502..547  ; "SELECT * FROM {$this->table} WHERE id = :id"
+  v5 = call method v1->prepare(v4) res=resolved [method PDO::prepare] :data @482..548  ; $this->pdo->prepare("SELECT * FROM {$this->tabl...
+  store local $stmt = v5 @474..548  ; $stmt = $this->pdo->prepare("SELECT * FROM {$th...
+  v6 = load local $stmt :data @558..563  ; $stmt
+  v7 = const str "id" :data @574..578  ; 'id'
+  v8 = load local $id :inert @582..585  ; $id
+  v9 = array [v7 => v8] :data @573..586  ; ['id' => $id]
+  v10 = call method v6->execute(v9) res=resolved [method PDOStatement::execute] residual(method_not_found) @558..587  ; $stmt->execute(['id' => $id])
+  v11 = load static static<App\Persistence\PdoRepository>::$queries :inert @597..613  ; static::$queries
+  v12 = unary PostInc v11 :inert @597..615  ; static::$queries++
+  store static static<App\Persistence\PdoRepository>::$queries = v12 @597..615  ; static::$queries++
+  v13 = load local $stmt :data @633..638  ; $stmt
+  v14 = class-const PDO<PDO>::FETCH_ASSOC :inert @646..662  ; PDO::FETCH_ASSOC
+  v15 = call method v13->fetch(v14) res=resolved [method PDOStatement::fetch] residual(method_not_found) @633..663  ; $stmt->fetch(PDO::FETCH_ASSOC)
+  store local $row = v15 @626..663  ; $row = $stmt->fetch(PDO::FETCH_ASSOC)
+  v16 = load local $row @681..685  ; $row
+  v17 = const bool false :inert @690..695  ; false
+  v18 = binary Identical v16, v17 :inert @681..695  ; $row === false
+  term branch v18 ? b1 : b2
+b1:
+  v19 = const null :inert @698..702  ; null
+  store local %t0 = v19 @681..709  ; $row === false ? null : $row
+  term goto b3
+b2:
+  v20 = load local $row @705..709  ; $row
+  store local %t0 = v20 @681..709  ; $row === false ? null : $row
+  term goto b3
+b3:
+  v21 = load local %t0 @681..709  ; $row === false ? null : $row
+  term return v21
+b4:
+  term return
+b5 (exit):
+  term exit
+
+unit App\Persistence\PdoRepository::all kind=method span=722..898 owner=App\Persistence\PdoRepository static=false recovered=false
+b0 (entry):
+  v0 = load local $this :data @778..783  ; $this
+  v1 = load prop v0<App\Persistence\PdoRepository>->pdo :data @778..788  ; $this->pdo
+  v2 = load local $this :data @812..817  ; $this
+  v3 = load prop v2<App\Persistence\PdoRepository>->table :data @812..824  ; $this->table
+  v4 = interp DoubleQuoted ["SELECT * FROM " v3@811..825] :data @796..826  ; "SELECT * FROM {$this->table}"
+  v5 = call method v1->query(v4) res=resolved [method PDO::query] :data @778..827  ; $this->pdo->query("SELECT * FROM {$this->table}")
+  term goto b1
+b1:
+  v6 = test synthetic [v5] :inert @778..827  ; $this->pdo->query("SELECT * FROM {$this->table}")
+  term branch v6 ? b2 : b3
+b2:
+  v7 = iter v5 Value @831..835  ; $row
+  store local $row = v7 @831..835  ; $row
+  v8 = load local $row @863..867  ; $row
+  v9 = const str "id" :data @868..872  ; 'id'
+  v10 = load-elem v8[v9] @863..873  ; $row['id']
+  v11 = cast Int v10 :inert @857..873  ; (int) $row['id']
+  v12 = load local $row @877..881  ; $row
+  v13 = yield v11 => v12 @851..881  ; yield (int) $row['id'] => $row
+  term goto b1
+b3:
+  term return
+b4 (exit):
+  term exit
+
+unit App\Persistence\UserRepository::__construct kind=method span=1019..1112 owner=App\Persistence\UserRepository static=false recovered=false
+params: l0 $pdo
+b0 (entry):
+  v0 = load local $pdo :data @1091..1095  ; $pdo
+  v1 = const str "users" :data @1097..1104  ; 'users'
+  v2 = call static parent<App\Persistence\PdoRepository>::__construct(v0, v1) res=resolved [method App\Persistence\PdoRepository::__construct] @1071..1105  ; parent::__construct($pdo, 'users')
+  term return
+b1 (exit):
+  term exit
+
+unit App\Persistence\UserRepository::hydrate kind=method span=1118..1415 owner=App\Persistence\UserRepository static=false recovered=false
+params: l0 $row
+b0 (entry):
+  v0 = load local $row :data @1247..1251  ; $row
+  v1 = const str "id" :data @1193..1197  ; 'id'
+  v2 = load-elem v0[v1] @1193..1204  ; 'id' => $id
+  store local $id = v2 @1201..1204  ; $id
+  v3 = const str "name" :data @1218..1224  ; 'name'
+  v4 = load-elem v0[v3] @1218..1233  ; 'name' => $name
+  store local $name = v4 @1228..1233  ; $name
+  v5 = load local $id @1280..1283  ; $id
+  v6 = load local $name @1285..1290  ; $name
+  v7 = new <anonymous>(v5, v6) res=none :data @1269..1408  ; new class ($id, $name) { public function __cons...
+  term return v7
+b1:
+  term return
+b2 (exit):
+  term exit
+unknowns: anonymous-class-body=1
+
+unit App\Persistence\UserRepository::names kind=method span=1421..1612 owner=App\Persistence\UserRepository static=false recovered=false
+b0 (entry):
+  v0 = array [] :data @1475..1477  ; []
+  store local $names = v0 @1466..1477  ; $names = []
+  v1 = load local $this :data @1496..1501  ; $this
+  v2 = call method v1->all() res=resolved [method App\Persistence\PdoRepository::all] :data @1496..1508  ; $this->all()
+  term goto b1
+b1:
+  v3 = test synthetic [v2] :inert @1496..1508  ; $this->all()
+  term branch v3 ? b2 : b3
+b2:
+  v4 = iter v2 Value @1519..1536  ; ['name' => $name]
+  v5 = const str "name" :data @1520..1526  ; 'name'
+  v6 = load-elem v4[v5] @1520..1535  ; 'name' => $name
+  store local $name = v6 @1530..1535  ; $name
+  v7 = iter v2 Key @1512..1515  ; $id
+  store local $id = v7 @1512..1515  ; $id
+  v8 = load local $id @1559..1562  ; $id
+  v9 = load local $name @1566..1571  ; $name
+  store.weak local $names = v9 @1552..1571  ; $names[$id] = $name
+  term goto b1
+b3:
+  v10 = load local $names :data @1599..1605  ; $names
+  term return v10
+b4:
+  term return
+b5 (exit):
+  term exit

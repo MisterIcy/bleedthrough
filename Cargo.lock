@@ -194,6 +194,16 @@ name = "bleedthrough-engine"
 version = "0.0.0"
 
 [[package]]
+name = "bleedthrough-engine-suite"
+version = "0.0.0"
+dependencies = [
+ "bleedthrough-builtins",
+ "bleedthrough-ir",
+ "bleedthrough-symbols",
+ "bleedthrough-syntax",
+]
+
+[[package]]
 name = "bleedthrough-eval"
 version = "0.0.0"
 dependencies = [
@@ -230,6 +240,11 @@ dependencies = [
 [[package]]
 name = "bleedthrough-ir"
 version = "0.0.0"
+dependencies = [
+ "bleedthrough-symbols",
+ "bleedthrough-syntax",
+ "bleedthrough-testkit",
+]
 
 [[package]]
 name = "bleedthrough-packs"
@@ -280,6 +295,7 @@ version = "0.0.0"
 dependencies = [
  "bleedthrough-bench",
  "bleedthrough-builtins-gen",
+ "bleedthrough-engine-suite",
  "bleedthrough-eval",
  "bleedthrough-symbols-suite",
  "bleedthrough-syntax",

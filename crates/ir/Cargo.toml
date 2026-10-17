@@ -10,3 +10,10 @@ publish.workspace = true
 
 [lints]
 workspace = true
+
+[dependencies]
+bleedthrough-syntax = { path = "../syntax" }
+bleedthrough-symbols = { path = "../symbols" }
+
+[dev-dependencies]
+bleedthrough-testkit = { path = "../testkit" }
