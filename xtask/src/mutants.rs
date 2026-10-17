@@ -286,9 +286,20 @@ pub fn parse_ledger(text: &str) -> Result<Vec<Entry>, String> {
                 .map(str::to_string)
                 .ok_or_else(|| format!("{LEDGER}: survivor #{index} needs `{key}`"))
         };
+        let name = format!(
+            "{} `{}`",
+            table
+                .get("file")
+                .and_then(toml::Value::as_str)
+                .unwrap_or("?"),
+            table
+                .get("mutant")
+                .and_then(toml::Value::as_str)
+                .unwrap_or("?")
+        );
         if table.contains_key("baseline") {
             return Err(format!(
-                "{LEDGER}: survivor #{index} is a `baseline` entry; analyse it: kill it with a test or give a specific reason"
+                "{LEDGER}: survivor #{index} ({name}) is a `baseline` entry; analyse it: kill it with a test or give a specific reason"
             ));
         }
         let reason = text_of("reason")?;
@@ -301,7 +312,7 @@ pub fn parse_ledger(text: &str) -> Result<Vec<Entry>, String> {
             .any(|w| lower.contains(w))
         {
             return Err(format!(
-                "{LEDGER}: survivor #{index} has a reason that admits it was not analysed"
+                "{LEDGER}: survivor #{index} ({name}) has a reason that admits it was not analysed"
             ));
         }
         out.push(Entry {
@@ -718,14 +729,20 @@ mod tests {
     fn a_baseline_entry_is_refused() {
         let text = "[[survivor]]\ncrate=\"c\"\nfile=\"f\"\nmutant=\"m\"\nreason=\"why\"\nequivalent=false\nbaseline=true\n";
         let error = parse_ledger(text).unwrap_err();
-        assert!(error.contains("baseline"), "{error}");
+        assert!(
+            error.contains("baseline") && error.contains("`m`"),
+            "{error}"
+        );
     }
 
     #[test]
     fn a_reason_that_admits_no_analysis_is_refused() {
         let text = "[[survivor]]\ncrate=\"c\"\nfile=\"f\"\nmutant=\"m\"\nreason=\"Not analysed yet\"\nequivalent=false\n";
         let error = parse_ledger(text).unwrap_err();
-        assert!(error.contains("not analysed"), "{error}");
+        assert!(
+            error.contains("not analysed") && error.contains("`m`"),
+            "{error}"
+        );
     }
 
     #[test]
