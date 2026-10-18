@@ -12,6 +12,7 @@ publish.workspace = true
 workspace = true
 
 [dependencies]
+bleedthrough-findings = { path = "../findings" }
 bleedthrough-taxonomy = { path = "../taxonomy" }
 serde_json = "1.0.154"
 toml = "1.1.8"

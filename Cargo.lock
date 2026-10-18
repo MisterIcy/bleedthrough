@@ -134,6 +134,10 @@ dependencies = [
 name = "bleedthrough-bench"
 version = "0.0.0"
 dependencies = [
+ "bleedthrough-engine",
+ "bleedthrough-ir",
+ "bleedthrough-rules",
+ "bleedthrough-symbols",
  "bleedthrough-syntax",
  "flate2",
  "jsonschema",
@@ -179,6 +183,7 @@ name = "bleedthrough-emit"
 version = "0.0.0"
 dependencies = [
  "bleedthrough-app",
+ "bleedthrough-eval",
  "bleedthrough-findings",
  "bleedthrough-taxonomy",
  "bleedthrough-testkit",
@@ -192,12 +197,34 @@ dependencies = [
 [[package]]
 name = "bleedthrough-engine"
 version = "0.0.0"
+dependencies = [
+ "bleedthrough-findings",
+ "bleedthrough-ir",
+ "bleedthrough-rules",
+ "bleedthrough-symbols",
+ "bleedthrough-syntax",
+ "bleedthrough-testkit",
+]
+
+[[package]]
+name = "bleedthrough-engine-suite"
+version = "0.0.0"
+dependencies = [
+ "bleedthrough-builtins",
+ "bleedthrough-engine",
+ "bleedthrough-findings",
+ "bleedthrough-ir",
+ "bleedthrough-rules",
+ "bleedthrough-symbols",
+ "bleedthrough-syntax",
+]
 
 [[package]]
 name = "bleedthrough-eval"
 version = "0.0.0"
 dependencies = [
  "bleedthrough-bench",
+ "bleedthrough-findings",
  "bleedthrough-taxonomy",
  "jsonschema",
  "serde_json",
@@ -230,6 +257,11 @@ dependencies = [
 [[package]]
 name = "bleedthrough-ir"
 version = "0.0.0"
+dependencies = [
+ "bleedthrough-symbols",
+ "bleedthrough-syntax",
+ "bleedthrough-testkit",
+]
 
 [[package]]
 name = "bleedthrough-packs"
@@ -280,10 +312,13 @@ version = "0.0.0"
 dependencies = [
  "bleedthrough-bench",
  "bleedthrough-builtins-gen",
+ "bleedthrough-engine-suite",
  "bleedthrough-eval",
+ "bleedthrough-fs",
  "bleedthrough-symbols-suite",
  "bleedthrough-syntax",
  "bleedthrough-syntax-conformance",
+ "bleedthrough-testkit",
  "dhat",
  "mago-allocator",
  "mago-database",

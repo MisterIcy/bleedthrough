@@ -1,0 +1,147 @@
+unit {main} kind=main span=0..1131 owner=- static=true recovered=false
+b0 (entry):
+  term return
+b1 (exit):
+  term exit
+
+unit Billing\BaseGateway::log kind=method span=198..240 owner=Billing\BaseGateway static=false recovered=false
+params: l0 $m
+b0 (entry):
+  term return
+b1 (exit):
+  term exit
+
+unit Billing\Stripe::charge kind=method span=289..368 owner=Billing\Stripe static=false recovered=false
+params: l0 $cents
+b0 (entry):
+  v0 = load local $this :data @332..337  ; $this
+  v1 = const str "stripe" :data @343..351  ; 'stripe'
+  v2 = call method v0->log(v1) res=resolved [method Billing\BaseGateway::log] :inert @332..352  ; $this->log('stripe')
+  v3 = const bool true :inert @361..365  ; true
+  term return v3
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit Billing\Paypal::charge kind=method span=417..475 owner=Billing\Paypal static=false recovered=false
+params: l0 $cents
+b0 (entry):
+  v0 = const bool false :inert @467..472  ; false
+  term return v0
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit Billing\Magic::__call kind=method span=497..557 owner=Billing\Magic static=false recovered=false
+params: l0 $n, l1 $a
+b0 (entry):
+  v0 = const null :inert @550..554  ; null
+  term return v0
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit Billing\Invoice::__construct kind=method span=581..659 owner=Billing\Invoice static=false recovered=false
+params: l0 $gateway, l1 $magic
+b0 (entry):
+  v0 = load local $this @609..633  ; private Gateway $gateway
+  v1 = load local $gateway @609..633  ; private Gateway $gateway
+  store prop v0<Billing\Invoice>->gateway = v1 @609..633  ; private Gateway $gateway
+  v2 = load local $this @635..655  ; private Magic $magic
+  v3 = load local $magic @635..655  ; private Magic $magic
+  store prop v2<Billing\Invoice>->magic = v3 @635..655  ; private Magic $magic
+  term return
+b1 (exit):
+  term exit
+
+unit Billing\Invoice::pay kind=method span=665..1129 owner=Billing\Invoice static=false recovered=false
+params: l0 $cents
+b0 (entry):
+  v0 = load local $this :data @725..730  ; $this
+  v1 = load prop v0<Billing\Invoice>->gateway :data @725..739  ; $this->gateway
+  v2 = load local $cents :inert @748..754  ; $cents
+  v3 = call method v1->charge(v2) res=resolved [method Billing\Gateway::charge implementors(Billing\BaseGateway, Billing\Paypal, Billing\Stripe)] :inert @725..755  ; $this->gateway->charge($cents)
+  store local $ok = v3 @719..755  ; $ok = $this->gateway->charge($cents)
+  v4 = load local $this :data @765..770  ; $this
+  v5 = load prop v4<Billing\Invoice>->magic :data @765..777  ; $this->magic
+  v6 = call method v5->anything() res=unresolved(magic_method) @765..789  ; $this->magic->anything()
+  v7 = load local $cents :inert @808..814  ; $cents
+  v8 = const int 0 :inert @817..818  ; 0
+  v9 = binary Gt v7, v8 :inert @808..818  ; $cents > 0
+  term branch v9 ? b1 : b2
+b1:
+  v10 = load local $cents :inert @821..827  ; $cents
+  store local %t0 = v10 @808..831  ; $cents > 0 ? $cents : 0
+  term goto b3
+b2:
+  v11 = const int 0 :inert @830..831  ; 0
+  store local %t0 = v11 @808..831  ; $cents > 0 ? $cents : 0
+  term goto b3
+b3:
+  v12 = load local %t0 @808..831  ; $cents > 0 ? $cents : 0
+  store local $total = v12 @799..831  ; $total = $cents > 0 ? $cents : 0
+  v13 = const str "inv-" :data @850..856  ; 'inv-'
+  v14 = load local $total :inert @859..865  ; $total
+  v15 = concat v13@850..856, v14@859..865 :data @850..865  ; 'inv-' . $total
+  store local $label = v15 @841..865  ; $label = 'inv-' . $total
+  v16 = closure {closure}@885 @885..924 captures [] :data @885..924  ; fn(int $n): string => sprintf('%d', $n)
+  store local $format = v16 @875..924  ; $format = fn(int $n): string => sprintf('%d', $n)
+  v17 = load local $format :data @934..941  ; $format
+  v18 = load local $total :inert @942..948  ; $total
+  v19 = call value v17(v18) res=resolved [closure {closure}] :data @934..949  ; $format($total)
+  v20 = load local $ok :inert @965..968  ; $ok
+  term branch v20 ? b4 : b5
+b4:
+  v21 = const str "strlen" :data @971..979  ; 'strlen'
+  store local %t1 = v21 @965..994  ; $ok ? 'strlen' : 'strtoupper'
+  term goto b6
+b5:
+  v22 = const str "strtoupper" :data @982..994  ; 'strtoupper'
+  store local %t1 = v22 @965..994  ; $ok ? 'strlen' : 'strtoupper'
+  term goto b6
+b6:
+  v23 = load local %t1 @965..994  ; $ok ? 'strlen' : 'strtoupper'
+  store local $fn = v23 @959..994  ; $fn = $ok ? 'strlen' : 'strtoupper'
+  v24 = load local $fn :data @1004..1007  ; $fn
+  v25 = load local $label :data @1008..1014  ; $label
+  v26 = call value v24(v25) res=resolved [function strlen; function strtoupper] :data @1004..1015  ; $fn($label)
+  v27 = new Stripe<Billing\Stripe>() res=resolved [] :data @1034..1046  ; new Stripe()
+  v28 = const str "charge" :data @1048..1056  ; 'charge'
+  v29 = array [v27, v28] :data @1033..1057  ; [new Stripe(), 'charge']
+  store local $make = v29 @1025..1057  ; $make = [new Stripe(), 'charge']
+  v30 = load local $make :data @1067..1072  ; $make
+  v31 = const int 1 :inert @1073..1074  ; 1
+  v32 = call value v30(v31) res=dynamic(variable_function) @1067..1075  ; $make(1)
+  v33 = load local $ok :inert @1092..1095  ; $ok
+  term branch v33 ? b7 : b8
+b7:
+  v34 = load local $label :data @1098..1104  ; $label
+  store local %t2 = v34 @1092..1122  ; $ok ? $label : (string) $total
+  term goto b9
+b8:
+  v35 = load local $total :inert @1116..1122  ; $total
+  v36 = cast String v35 :data @1107..1122  ; (string) $total
+  store local %t2 = v36 @1092..1122  ; $ok ? $label : (string) $total
+  term goto b9
+b9:
+  v37 = load local %t2 @1092..1122  ; $ok ? $label : (string) $total
+  term return v37
+b10:
+  term return
+b11 (exit):
+  term exit
+
+unit {closure}@885 kind=arrow-fn span=885..924 owner=- static=false recovered=false
+params: l0 $n
+b0 (entry):
+  v0 = const str "%d" :data @915..919  ; '%d'
+  v1 = load local $n :inert @921..923  ; $n
+  v2 = call fn sprintf(v0, v1) res=resolved [function sprintf] :data @907..924  ; sprintf('%d', $n)
+  term return v2
+b1:
+  term return
+b2 (exit):
+  term exit

@@ -1,0 +1,46 @@
+schema = 1
+
+[[rule]]
+id = "BT9101"
+title = "SQL injection through a framework request"
+area = "injection"
+description = "Test rule: request data reaches a sensitive operation."
+remediation = "Neutralise the data for the operation before using it."
+cwe = ["CWE-89"]
+owasp = ["OWASP:2021:A03"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "high"
+integrity = "high"
+availability = "high"
+
+[rule.taint]
+sources = ["Request->get+", "new Reader"]
+
+[[rule.taint.sinks]]
+symbol = "Db::run"
+args = [2]
+class = "sql"
+
+[[rule.taint.sinks]]
+symbol = "Db->exec+"
+args = ["query"]
+class = "sql"
+
+[[rule.taint.propagators]]
+symbol = "Util::join"
+from = [1, 2]
+
+[[rule.taint.propagators]]
+symbol = "Box->get+"
+from = ["this"]
+
+[[rule.taint.sanitizers]]
+symbol = "Db::escape"
+clears = ["sql"]
+

@@ -17,6 +17,7 @@ serde_json = { version = "1" }
 similar = "2"
 
 [dev-dependencies]
+bleedthrough-eval = { path = "../eval" }
 bleedthrough-testkit = { path = "../testkit" }
 jsonschema = { version = "0.33", default-features = false }
 tempfile = "3"

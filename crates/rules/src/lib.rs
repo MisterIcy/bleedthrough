@@ -30,7 +30,7 @@ pub use draft::{
 };
 pub use error::RuleError;
 pub use id::RuleId;
-pub use regex::validate_regex;
+pub use regex::{regex_matches, validate_regex};
 pub use rule::{Origin, PhpVersion, Rule};
 pub use set::{RuleSet, SCHEMA_VERSION};
 pub use source::{LocatedError, LocatedRule, RuleSource, SourceOutput, load_rule_set};

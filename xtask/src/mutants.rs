@@ -22,6 +22,11 @@ pub struct Config {
     pub timeout_secs: u64,
     pub exclude_re: Vec<String>,
     pub exclude_globs: Vec<String>,
+    /// Crate to the packages whose tests exercise it, when they are not its own (the engine's
+    /// tests need a parser, so they live in the adapter).
+    pub test_packages: BTreeMap<String, Vec<String>>,
+    /// Crate to its own timeout in seconds, for crates whose tests are slower than the default.
+    pub timeouts: BTreeMap<String, u64>,
 }
 
 fn string_list(table: &toml::Table, key: &str, file: &str) -> Result<Vec<String>, String> {
@@ -38,6 +43,38 @@ fn string_list(table: &toml::Table, key: &str, file: &str) -> Result<Vec<String>
             })
             .collect(),
     }
+}
+
+fn test_packages(root: &toml::Table) -> Result<BTreeMap<String, Vec<String>>, String> {
+    let Some(value) = root.get("test_packages") else {
+        return Ok(BTreeMap::new());
+    };
+    let table = value
+        .as_table()
+        .ok_or_else(|| format!("{CONFIG}: `test_packages` must be a table"))?;
+    table
+        .keys()
+        .map(|krate| Ok((krate.clone(), string_list(table, krate, CONFIG)?)))
+        .collect()
+}
+
+fn timeouts(root: &toml::Table) -> Result<BTreeMap<String, u64>, String> {
+    let Some(value) = root.get("timeouts") else {
+        return Ok(BTreeMap::new());
+    };
+    let table = value
+        .as_table()
+        .ok_or_else(|| format!("{CONFIG}: `timeouts` must be a table"))?;
+    table
+        .iter()
+        .map(|(krate, secs)| {
+            secs.as_integer()
+                .and_then(|t| u64::try_from(t).ok())
+                .filter(|t| *t > 0)
+                .map(|t| (krate.clone(), t))
+                .ok_or_else(|| format!("{CONFIG}: `timeouts.{krate}` must be a positive integer"))
+        })
+        .collect()
 }
 
 impl Config {
@@ -58,6 +95,8 @@ impl Config {
             timeout_secs: timeout,
             exclude_re: string_list(&root, "exclude_re", CONFIG)?,
             exclude_globs: string_list(&root, "exclude_globs", CONFIG)?,
+            test_packages: test_packages(&root)?,
+            timeouts: timeouts(&root)?,
         })
     }
 }
@@ -452,6 +491,14 @@ fn git_diff(root: &Path, base: &str) -> Result<String, String> {
     Ok(String::from_utf8_lossy(&output.stdout).into_owned())
 }
 
+/// The timeout of a run: the longest any of its crates needs.
+fn timeout_for(config: &Config, packages: &[String]) -> u64 {
+    packages
+        .iter()
+        .filter_map(|p| config.timeouts.get(p).copied())
+        .fold(config.timeout_secs, u64::max)
+}
+
 fn run_mutants(
     root: &Path,
     config: &Config,
@@ -463,13 +510,25 @@ fn run_mutants(
     command.arg("mutants").current_dir(root);
     command
         .args(["--no-shuffle", "--timeout"])
-        .arg(config.timeout_secs.to_string());
+        .arg(timeout_for(config, packages).to_string());
     command
         .arg("--jobs")
         .arg(option(args, "--jobs").unwrap_or_else(|| "4".to_string()));
     command.arg("--output").arg(out);
     for package in packages {
         command.args(["--package", package]);
+    }
+    let mut tested: Vec<&String> = packages
+        .iter()
+        .filter_map(|p| config.test_packages.get(p))
+        .flatten()
+        .collect();
+    tested.sort();
+    tested.dedup();
+    // `--test-package` is ignored next to `--package`, so the extra packages join the `cargo test`
+    // command line, which already names the mutated package.
+    for package in tested {
+        command.arg(format!("--cargo-test-arg=--package={package}"));
     }
     for re in &config.exclude_re {
         command.args(["--exclude-re", re]);
@@ -826,5 +885,31 @@ mod tests {
         let read = |name: &str| fs::read_to_string(root.join(name)).unwrap();
         assert!(!Config::parse(&read(CONFIG)).unwrap().crates.is_empty());
         assert!(!parse_critical(&read(CRITICAL)).unwrap().is_empty());
+    }
+
+    #[test]
+    fn test_packages_are_read_per_crate() {
+        let text = "crates = [\"a\"]\ntimeout_secs = 5\n[test_packages]\na = [\"a\", \"b\"]\n";
+        let config = Config::parse(text).unwrap();
+        assert_eq!(config.test_packages["a"], ["a", "b"]);
+        assert!(
+            Config::parse("crates = [\"a\"]\ntimeout_secs = 5\n")
+                .unwrap()
+                .test_packages
+                .is_empty()
+        );
+        assert!(Config::parse("crates = [\"a\"]\ntimeout_secs = 5\ntest_packages = 3\n").is_err());
+    }
+
+    #[test]
+    fn a_crate_can_have_its_own_timeout() {
+        let text = "crates = [\"a\", \"b\"]\ntimeout_secs = 5\n[timeouts]\nb = 90\n";
+        let config = Config::parse(text).unwrap();
+        assert_eq!(timeout_for(&config, &["a".to_string()]), 5);
+        assert_eq!(
+            timeout_for(&config, &["a".to_string(), "b".to_string()]),
+            90
+        );
+        assert!(Config::parse("crates = [\"a\"]\ntimeout_secs = 5\n[timeouts]\na = 0\n").is_err());
     }
 }

@@ -419,7 +419,8 @@
                   "too_large",
                   "unreadable",
                   "not_utf8",
-                  "time_limit"
+                  "time_limit",
+                  "internal_fault"
                 ]
               }
             },
@@ -440,7 +441,17 @@
                   "per_file_time",
                   "file_size",
                   "call_depth",
-                  "total_time"
+                  "total_time",
+                  "block_limit",
+                  "instruction_limit",
+                  "step_budget",
+                  "block_visits",
+                  "origin_cap",
+                  "iterations",
+                  "summary_depth",
+                  "candidates",
+                  "expression_depth",
+                  "component_size"
                 ]
               },
               "path": {

@@ -10,6 +10,8 @@
 //! Allocation counting is a separate program (`bench_alloc`): it replaces the global allocator, which
 //! would distort every time measured here.
 
+mod support;
+
 use std::process::ExitCode;
 
 use bleedthrough_bench::cli::time_main;
@@ -17,7 +19,9 @@ use bleedthrough_syntax_mago::MagoBackend;
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    match time_main(&MagoBackend::new(), &args) {
+    let rules = support::rules();
+    let index = support::index(&rules);
+    match time_main(&MagoBackend::new(), &args, &support::setup(&rules, &index)) {
         Ok(()) => ExitCode::SUCCESS,
         Err(e) => {
             eprintln!("error: {e}");

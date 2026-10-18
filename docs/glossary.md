@@ -138,3 +138,23 @@ What the analysis knows about the values an expression can have: a normalised un
 ## Call resolution
 
 The outcome of resolving one call to declarations: the candidate declarations, a dynamic outcome, or an unresolved outcome with a reason.
+
+## Call graph
+
+The project-wide map from every call and include in the lowered units to the units it may reach, with the calls and includes that could not be resolved and why. Recursive groups of units form its components.
+
+## Taint label
+
+What is known about one tainted value: where it came from (its origin), which sink classes sanitisers have cleared, the steps it passed through, and the marks that lower confidence. Labels join without losing a possible flow.
+
+## Analysis limit
+
+A bound on one unbounded dimension of the analysis (blocks, visits, origins, iterations, depth, steps and so on). Reaching one widens the result conservatively, marks what depends on it, and is reported in the coverage.
+
+## Abstract location
+
+A place the analysis tracks taint in other than a local variable: a property, a static property or a global, one entry for all instances of the class.
+
+## Pattern match
+
+One place a pattern rule matched: a call, a use of a symbol, or a non-literal include, with the conditions on its arguments evaluated exactly.

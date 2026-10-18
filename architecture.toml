@@ -70,7 +70,8 @@ allow = [
 # ---- Infrastructure (implements ports owned by inner layers) ----
 [crate.bleedthrough-emit]
 layer = "infrastructure"
-allow = ["bleedthrough-app", "bleedthrough-findings", "bleedthrough-taxonomy"]
+# bleedthrough-eval: a dev-dependency only, to check the in-process and JSON scoring agree.
+allow = ["bleedthrough-app", "bleedthrough-findings", "bleedthrough-taxonomy", "bleedthrough-eval"]
 
 # fs implements the class-locator port the symbols crate owns (Composer autoload) and embeds the
 # built-in data behind the `BuiltinDataSource` port the builtins crate owns.
@@ -86,7 +87,9 @@ allow = [
 [crate.bleedthrough-syntax-mago]
 layer = "infrastructure"
 adapter = true
-allow = ["bleedthrough-syntax"]
+# bleedthrough-fs: a dev-dependency only, for loading the engine's TOML test rules in the taint tests;
+# bleedthrough-testkit: a dev-dependency only, for the property tests.
+allow = ["bleedthrough-syntax", "bleedthrough-fs", "bleedthrough-testkit"]
 
 [crate.bleedthrough-cache]
 layer = "infrastructure"
@@ -119,23 +122,36 @@ allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins"]
 
 # The accuracy evaluator: loads the vulnerability corpus, scores a `json` report against its labels
 # and compares the result with the committed expectations. It reads the report as text (it never links
-# the engine or the CLI); xtask runs it as a subprocess, like the built-in data generator.
+# the engine or the CLI); xtask runs it as a subprocess, like the built-in data generator. It also scores
+# domain `Finding` values directly, so the engine tests can measure accuracy without serialising.
 [crate.bleedthrough-eval]
 layer = "tooling"
-allow = ["bleedthrough-taxonomy"]
+allow = ["bleedthrough-taxonomy", "bleedthrough-findings"]
 
 # The benchmark harness and the synthetic tree generator. The parse stage is generic over the parser
 # backend (the Mago adapter binds it in an example); the end-to-end stage runs the built binary as a
 # subprocess, so no tooling crate depends on the CLI or an adapter.
+# The analysis stage is generic over the parser backend too: it lowers and analyses synthetic trees
+# through the engine.
 [crate.bleedthrough-bench]
 layer = "tooling"
-allow = ["bleedthrough-syntax"]
+allow = ["bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-ir", "bleedthrough-engine", "bleedthrough-rules"]
 
 # Shared test support (proptest strategies, seed and case-count settings). No workspace dependencies, so any
 # crate may use it as a dev-dependency without a cycle; it is never a normal dependency (docs/testing.md).
 [crate.bleedthrough-testkit]
 layer = "tooling"
 allow = []
+
+# The engine suite: PHP-source scenarios and golden dumps for the IR and the taint engine. Generic over the
+# parser backend (the Mago adapter runs it as a dev-dependency), so the domain crates need no parser to be
+# tested end to end.
+[crate.bleedthrough-engine-suite]
+layer = "tooling"
+allow = [
+  "bleedthrough-syntax", "bleedthrough-symbols", "bleedthrough-builtins", "bleedthrough-ir",
+  "bleedthrough-engine", "bleedthrough-rules", "bleedthrough-findings",
+]
 
 [crate.xtask]
 layer = "tooling"

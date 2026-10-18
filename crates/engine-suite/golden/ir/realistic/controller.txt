@@ -1,0 +1,185 @@
+unit {main} kind=main span=0..1698 owner=- static=true recovered=false
+b0 (entry):
+  term return
+b1 (exit):
+  term exit
+
+unit App\Http\Controller\OrderController::__construct kind=method span=273..405 owner=App\Http\Controller\OrderController static=false recovered=false
+params: l0 $orders, l1 $locale
+b0 (entry):
+  v0 = load local $this @310..350  ; private readonly OrderRepository $orders
+  v1 = load local $orders @310..350  ; private readonly OrderRepository $orders
+  store prop v0<App\Http\Controller\OrderController>->orders = v1 @310..350  ; private readonly OrderRepository $orders
+  v2 = load local $this @360..390  ; private ?string $locale = null
+  v3 = load local $locale @360..390  ; private ?string $locale = null
+  store prop v2<App\Http\Controller\OrderController>->locale = v3 @360..390  ; private ?string $locale = null
+  term return
+b1 (exit):
+  term exit
+
+unit App\Http\Controller\OrderController::index kind=method span=411..786 owner=App\Http\Controller\OrderController static=false recovered=false
+params: l0 $request
+b0 (entry):
+  v0 = const int 1 :inert @523..524  ; 1
+  v1 = load local $request :data @533..541  ; $request
+  v2 = load prop v1<App\Http\Request>->query @533..548  ; $request->query
+  v3 = const str "page" :data @549..555  ; 'page'
+  v4 = load-elem v2[v3] @533..556  ; $request->query['page']
+  store local %t0 = v4 @533..556  ; $request->query['page']
+  v5 = test isset [v4] :inert @533..556  ; $request->query['page']
+  term branch v5 ? b2 : b1
+b1:
+  v6 = const int 1 :inert @560..561  ; 1
+  store local %t0 = v6 @560..561  ; 1
+  term goto b2
+b2:
+  v7 = load local %t0 @533..561  ; $request->query['page'] ?? 1
+  v8 = cast Int v7 :inert @526..562  ; (int) ($request->query['page'] ?? 1)
+  v9 = call fn max(v0, v8) res=resolved [function max] @519..563  ; max(1, (int) ($request->query['page'] ?? 1))
+  store local $page = v9 @511..563  ; $page = max(1, (int) ($request->query['page'] ?...
+  v10 = load local $this :data @582..587  ; $this
+  v11 = load prop v10<App\Http\Controller\OrderController>->orders :data @582..595  ; $this->orders
+  v12 = load local $page @602..607  ; $page
+  v13 = class-const self<App\Http\Controller\OrderController>::PAGE_SIZE :inert @609..624  ; self::PAGE_SIZE
+  v14 = call method v11->page(v12, v13) res=unresolved(class_not_loaded) @582..625  ; $this->orders->page($page, self::PAGE_SIZE)
+  store local $items = v14 @573..625  ; $items = $this->orders->page($page, self::PAGE_...
+  v15 = const str "page" :data @672..678  ; 'page'
+  v16 = load local $page @682..687  ; $page
+  v17 = const str "items" :data @701..708  ; 'items'
+  v18 = closure {closure}@722 @722..758 captures [] :data @722..758  ; fn(Order $o): array => $o->toArray()
+  v19 = load local $items @760..766  ; $items
+  v20 = call fn array_map(v18, v19) res=resolved [function array_map] :data @712..767  ; array_map(fn(Order $o): array => $o->toArray(),...
+  v21 = array [v15 => v16, v17 => v20] :data @658..778  ; [ 'page' => $page, 'items' => array_map(fn(Orde...
+  v22 = call static Response<App\Http\Response>::json(v21) res=unresolved(class_not_loaded) @643..779  ; Response::json([ 'page' => $page, 'items' => ar...
+  term return v22
+b3:
+  term return
+b4 (exit):
+  term exit
+
+unit {closure}@722 kind=arrow-fn span=722..758 owner=- static=false recovered=false
+params: l0 $o
+b0 (entry):
+  v0 = load local $o :data @745..747  ; $o
+  v1 = call method v0->toArray() res=unresolved(class_not_loaded) @745..758  ; $o->toArray()
+  term return v1
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit App\Http\Controller\OrderController::show kind=method span=792..1242 owner=App\Http\Controller\OrderController static=false recovered=false
+params: l0 $request, l1 $id
+b0 (entry):
+  v0 = load local $this :data @913..918  ; $this
+  v1 = load prop v0<App\Http\Controller\OrderController>->orders :data @913..926  ; $this->orders
+  v2 = load local $id :inert @933..936  ; $id
+  v3 = call method v1->find(v2) res=unresolved(class_not_loaded) @913..937  ; $this->orders->find($id)
+  store local %t0 = v3 @913..937  ; $this->orders->find($id)
+  v4 = test isset [v3] :inert @913..937  ; $this->orders->find($id)
+  term branch v4 ? b2 : b1
+b1:
+  v5 = load local $id :inert @986..989  ; $id
+  v6 = interp DoubleQuoted ["No order " v5@986..989] :data @976..990  ; "No order $id"
+  v7 = new InvalidArgumentException<InvalidArgumentException>(v6) res=resolved [constructor Exception::__construct] :data @947..991  ; new InvalidArgumentException("No order $id")
+  term throw v7
+b2:
+  v9 = load local %t0 @913..991  ; $this->orders->find($id) ?? throw new InvalidAr...
+  store local $order = v9 @904..991  ; $order = $this->orders->find($id) ?? throw new ...
+  v10 = const bool true :inert @1016..1020  ; true
+  v11 = load local $order @1036..1042  ; $order
+  v12 = call method v11->isCancelled() res=unresolved(unknown_receiver_type) @1036..1057  ; $order->isCancelled()
+  v13 = binary Identical v10, v12 :inert @1036..1057  ; $order->isCancelled()
+  term branch v13 ? b5 : b6
+b3:
+  v8 = const null :inert @941..991  ; throw new InvalidArgumentException("No order $id")
+  store local %t0 = v8 @941..991  ; throw new InvalidArgumentException("No order $id")
+  term goto b2
+b4:
+  v28 = load local %t1 @1009..1235  ; match (true) { $order->isCancelled() => Respons...
+  term return v28
+b5:
+  v14 = call static Response<App\Http\Response>::gone() res=unresolved(class_not_loaded) @1061..1077  ; Response::gone()
+  store local %t1 = v14 @1061..1077  ; Response::gone()
+  term goto b4
+b6:
+  v15 = load local $order @1091..1097  ; $order
+  v16 = call method v15->isPaid() res=unresolved(unknown_receiver_type) @1091..1107  ; $order->isPaid()
+  v17 = binary Identical v10, v16 :inert @1091..1107  ; $order->isPaid()
+  term branch v17 ? b7 : b8
+b7:
+  v18 = load local $order @1126..1132  ; $order
+  v19 = call method v18->toArray() res=unresolved(unknown_receiver_type) @1126..1143  ; $order->toArray()
+  v20 = call static Response<App\Http\Response>::json(v19) res=unresolved(class_not_loaded) @1111..1144  ; Response::json($order->toArray())
+  store local %t1 = v20 @1111..1144  ; Response::json($order->toArray())
+  term goto b4
+b8:
+  v21 = load local $order @1184..1190  ; $order
+  v22 = call method v21->toArray() res=unresolved(unknown_receiver_type) @1184..1201  ; $order->toArray()
+  v23 = const str "payable" :data @1205..1214  ; 'payable'
+  v24 = const bool true :inert @1218..1222  ; true
+  v25 = array [v23 => v24] :data @1204..1223  ; ['payable' => true]
+  v26 = binary Add v22, v25 @1184..1223  ; $order->toArray() + ['payable' => true]
+  v27 = call static Response<App\Http\Response>::json(v26) res=unresolved(class_not_loaded) @1169..1224  ; Response::json($order->toArray() + ['payable' =...
+  store local %t1 = v27 @1169..1224  ; Response::json($order->toArray() + ['payable' =...
+  term goto b4
+b9:
+  term return
+b10 (exit):
+  term exit
+
+unit App\Http\Controller\OrderController::create kind=method span=1248..1696 owner=App\Http\Controller\OrderController static=false recovered=false
+params: l0 $request
+b0 (entry):
+  term goto b4
+b1:
+  v20 = load local $order @1658..1664  ; $order
+  v21 = call method v20->toArray() res=unresolved(unknown_receiver_type) @1658..1675  ; $order->toArray()
+  v22 = const int 201 :inert @1685..1688  ; 201
+  v23 = call static Response<App\Http\Response>::json(v21, status: v22) res=unresolved(class_not_loaded) @1643..1689  ; Response::json($order->toArray(), status: 201)
+  term return v23
+b2:
+  v15 = load local $this :data @1593..1598  ; $this
+  v16 = load prop v15<App\Http\Controller\OrderController>->locale :data @1593..1606  ; $this->locale
+  v17 = test isset [v16] :inert @1593..1606  ; $this->locale
+  term branch v17 ? b8 : b7
+b3:
+  v7 = const null :inert @1425..1570  ; catch (InvalidArgumentException | \DomainExcept...
+  store local $e = v7 @1425..1570  ; catch (InvalidArgumentException | \DomainExcept...
+  v8 = const str "error" :data @1517..1524  ; 'error'
+  v9 = load local $e :data @1528..1530  ; $e
+  v10 = call method v9->getMessage() res=resolved [method Exception::getMessage] :data @1528..1544  ; $e->getMessage()
+  v11 = array [v8 => v10] :data @1516..1545  ; ['error' => $e->getMessage()]
+  v12 = const int 422 :inert @1555..1558  ; 422
+  v13 = call static Response<App\Http\Response>::json(v11, status: v12) res=unresolved(class_not_loaded) @1501..1559  ; Response::json(['error' => $e->getMessage()], s...
+  store local %ret = v13 @1494..1560  ; return Response::json(['error' => $e->getMessag...
+  handlers b2
+  term goto b2
+b4:
+  v0 = load local $request :data @1357..1365  ; $request
+  v1 = load prop v0<App\Http\Request>->body @1357..1371  ; $request->body
+  v2 = call static Order<App\Domain\Order>::fromInput(v1) res=unresolved(class_not_loaded) @1340..1372  ; Order::fromInput($request->body)
+  store local $order = v2 @1331..1372  ; $order = Order::fromInput($request->body)
+  v3 = load local $this :data @1386..1391  ; $this
+  v4 = load prop v3<App\Http\Controller\OrderController>->orders :data @1386..1399  ; $this->orders
+  v5 = load local $order @1406..1412  ; $order
+  v6 = call method v4->save(v5) res=unresolved(class_not_loaded) @1386..1413  ; $this->orders->save($order)
+  handlers b3, b2
+  term goto b2
+b5:
+  v14 = load local %ret @1494..1560  ; return Response::json(['error' => $e->getMessag...
+  term return v14
+b6:
+  handlers b2
+  term goto b2
+b7:
+  v18 = const str "en" :data @1611..1615  ; 'en'
+  store prop v15<App\Http\Controller\OrderController>->locale = v18 @1593..1615  ; $this->locale ??= 'en'
+  term goto b8
+b8:
+  v19 = load prop v15<App\Http\Controller\OrderController>->locale :data @1593..1615  ; $this->locale ??= 'en'
+  term choice b1, b5
+b9:
+  term return
+b10 (exit):
+  term exit

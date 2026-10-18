@@ -34,6 +34,23 @@ pub fn tier_rank(tier: &str) -> Option<u8> {
         .and_then(|p| u8::try_from(p).ok())
 }
 
+/// The findings of an in-process analysis, reduced to what matching uses: the same reduction
+/// [`read`] makes of a `json` report, without serialising.
+pub fn from_domain(findings: &[bleedthrough_findings::Finding]) -> Vec<Finding> {
+    findings
+        .iter()
+        .map(|f| Finding {
+            rule: f.rule().as_str().to_string(),
+            path: f.location().path().as_str().to_string(),
+            start: f.location().start().line(),
+            end: f.location().end().line(),
+            cwes: f.taxonomy().cwe().iter().map(ToString::to_string).collect(),
+            tier: tier_rank(f.confidence().tier().as_str()).unwrap_or_default(),
+            fingerprint: f.fingerprint().as_str().to_string(),
+        })
+        .collect()
+}
+
 /// Validates `text` against the report schema and reads its findings.
 pub fn read(text: &str) -> Result<Vec<Finding>, String> {
     let instance: Value =

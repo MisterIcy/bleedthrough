@@ -9,6 +9,8 @@
 //! The counting allocator is `dhat`'s; it is installed only in this program and counts one
 //! single-threaded pass over an input that is already loaded. Never use this program for wall time.
 
+mod support;
+
 use std::process::ExitCode;
 
 use bleedthrough_bench::cli::alloc_main;
@@ -34,7 +36,14 @@ fn measure(pass: &mut dyn FnMut()) -> Allocation {
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    match alloc_main(&MagoBackend::new(), &args, &measure) {
+    let rules = support::rules();
+    let index = support::index(&rules);
+    match alloc_main(
+        &MagoBackend::new(),
+        &args,
+        &measure,
+        &support::setup(&rules, &index),
+    ) {
         Ok(code) => ExitCode::from(u8::try_from(code).unwrap_or(1)),
         Err(e) => {
             eprintln!("error: {e}");

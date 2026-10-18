@@ -1,12 +1,10 @@
 name: mutants
 
-# Mutation testing of the domain crates (docs/testing.md, spec `mutation-testing`). Never part of the required
-# `ci` status: it runs weekly, on demand, and on a pull request only when the `run-mutants` label is added
-# (then limited to the code the pull request changes). One job per crate; each publishes its report and fails
-# when a surviving mutant is not in testing/mutants-survivors.toml or a ledger entry is stale.
+# Mutation testing of the domain crates (docs/testing.md, spec `mutation-testing`). Too slow for routine CI, so
+# it runs only on demand, once before a release (docs/release-checklist.md); it is never part of the required
+# `ci` status. One job per crate (ir and engine sharded); each publishes its report and fails when a surviving
+# mutant is not in testing/mutants-survivors.toml or a ledger entry is stale.
 on:
-  schedule:
-    - cron: "23 2 * * 0"
   workflow_dispatch:
     inputs:
       package:
@@ -15,8 +13,6 @@ on:
       base:
         description: "Mutate only code changed since this revision (default: everything)"
         required: false
-  pull_request:
-    types: [labeled]
 
 permissions:
   contents: read
@@ -28,20 +24,39 @@ env:
 
 jobs:
   mutants:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'run-mutants'
-    name: mutants (${{ matrix.crate }})
+    name: mutants (${{ matrix.crate }}${{ matrix.shard && format(' {0}', matrix.shard) || '' }})
     runs-on: ubuntu-latest
     timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
-        crate:
-          - bleedthrough-taxonomy
-          - bleedthrough-builtins
-          - bleedthrough-syntax
-          - bleedthrough-rules
-          - bleedthrough-findings
-          - bleedthrough-symbols
+        include:
+          - crate: bleedthrough-taxonomy
+          - crate: bleedthrough-builtins
+          - crate: bleedthrough-syntax
+          - crate: bleedthrough-rules
+          - crate: bleedthrough-findings
+          - crate: bleedthrough-symbols
+          # The tests of ir and engine run through the parser adapter (about four minutes a pass), so
+          # their mutants are sharded (cargo-mutants counts shards from 0) to keep each job within its time limit.
+          - { crate: bleedthrough-ir, shard: "0/6", part: "0" }
+          - { crate: bleedthrough-ir, shard: "1/6", part: "1" }
+          - { crate: bleedthrough-ir, shard: "2/6", part: "2" }
+          - { crate: bleedthrough-ir, shard: "3/6", part: "3" }
+          - { crate: bleedthrough-ir, shard: "4/6", part: "4" }
+          - { crate: bleedthrough-ir, shard: "5/6", part: "5" }
+          - { crate: bleedthrough-engine, shard: "0/12", part: "0" }
+          - { crate: bleedthrough-engine, shard: "1/12", part: "1" }
+          - { crate: bleedthrough-engine, shard: "2/12", part: "2" }
+          - { crate: bleedthrough-engine, shard: "3/12", part: "3" }
+          - { crate: bleedthrough-engine, shard: "4/12", part: "4" }
+          - { crate: bleedthrough-engine, shard: "5/12", part: "5" }
+          - { crate: bleedthrough-engine, shard: "6/12", part: "6" }
+          - { crate: bleedthrough-engine, shard: "7/12", part: "7" }
+          - { crate: bleedthrough-engine, shard: "8/12", part: "8" }
+          - { crate: bleedthrough-engine, shard: "9/12", part: "9" }
+          - { crate: bleedthrough-engine, shard: "10/12", part: "10" }
+          - { crate: bleedthrough-engine, shard: "11/12", part: "11" }
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,20 +69,19 @@ jobs:
         shell: bash
         run: |
           args=(--package "${{ matrix.crate }}" --jobs 2 --out target/mutants)
+          if [ -n "${{ matrix.shard }}" ]; then args+=(--shard "${{ matrix.shard }}"); fi
           only="${{ github.event.inputs.package }}"
           if [ -n "$only" ] && [ "$only" != "${{ matrix.crate }}" ]; then
             echo "skipped: $only was requested"; exit 0
           fi
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            args+=(--in-diff "$(git merge-base "origin/${{ github.base_ref }}" HEAD)")
-          elif [ -n "${{ github.event.inputs.base }}" ]; then
+          if [ -n "${{ github.event.inputs.base }}" ]; then
             args+=(--in-diff "${{ github.event.inputs.base }}")
           fi
           cargo xtask mutants "${args[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: mutants-${{ matrix.crate }}
+          name: mutants-${{ matrix.crate }}-${{ matrix.part }}
           path: |
             target/mutants/report.json
             target/mutants/outcomes.txt

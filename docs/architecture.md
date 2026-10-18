@@ -56,6 +56,11 @@ flowchart TB
   suite --> syntax
   suite --> symbols
   suite --> builtins
+  eval --> findings
+  bench --> engine
+  bench --> ir
+  bench --> symbols
+  bench --> rules
   gen --> syntax
   gen --> builtins
   app --> engine
@@ -87,6 +92,7 @@ A language-server front-end is **reserved and not created**; like the CLI it wou
 - **Application** holds the scan use cases and owns the ports for sources, caching, lock files and emitting reports.
 - **Infrastructure** implements ports. Parser adapters (today `bleedthrough-syntax-mago`, in `adapters/`) are the only crates allowed to depend on a third-party PHP parser, at an exact version. The check follows the resolved dependency graph, so a parser cannot be reached through another crate either.
 - **Symbols and types** (name resolution, file summaries, the symbol table, the type model and local inference, with their limits and provisional defaults) are described in [symbols-and-types.md](symbols-and-types.md).
+- **IR and engine** (lowering to control-flow graphs, the call graph, taint analysis, pattern matching, finding production, the analysis limits and the order-independent work-unit API) are described in [engine.md](engine.md).
 - **Tooling** (the conformance suite over `fixtures/php/`, the built-in data generator described in [builtin-data.md](builtin-data.md), the accuracy evaluator and vulnerability corpus described in [evaluation.md](evaluation.md), the benchmark harness and real-world corpus described in [benchmarks.md](benchmarks.md), `xtask`) supports development and is not part of the product. Any parser backend is judged against the same corpus; see [fixtures/php/README.md](../fixtures/php/README.md).
 - **Delivery** chooses and wires concrete implementations. Nothing depends on it.
 

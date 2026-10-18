@@ -13,6 +13,10 @@ workspace = true
 
 [dependencies]
 bleedthrough-syntax = { path = "../syntax" }
+bleedthrough-symbols = { path = "../symbols" }
+bleedthrough-ir = { path = "../ir" }
+bleedthrough-engine = { path = "../engine" }
+bleedthrough-rules = { path = "../rules" }
 serde_json = "1.0.154"
 flate2 = "1.1.10"
 sha2 = "0.11.1"

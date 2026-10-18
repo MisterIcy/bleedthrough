@@ -1,0 +1,248 @@
+schema = 1
+
+[[rule]]
+id = "BT9001"
+title = "SQL injection"
+area = "injection"
+description = "Test rule: request data reaches a sensitive operation."
+remediation = "Neutralise the data for the operation before using it."
+cwe = ["CWE-89"]
+owasp = ["OWASP:2021:A03"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "high"
+integrity = "high"
+availability = "high"
+
+[rule.taint]
+sources = ["$_GET", "$_POST", "$_COOKIE", "$_REQUEST"]
+
+[[rule.taint.sinks]]
+symbol = "mysqli_query"
+args = [2]
+class = "sql"
+
+[[rule.taint.sinks]]
+symbol = "mysqli->query+"
+args = [1]
+class = "sql"
+
+[[rule.taint.sinks]]
+symbol = "PDO->query+"
+args = [1]
+class = "sql"
+
+[[rule.taint.sinks]]
+symbol = "PDO->exec+"
+args = [1]
+class = "sql"
+
+[[rule.taint.sanitizers]]
+symbol = "mysqli_real_escape_string"
+clears = ["sql"]
+
+[[rule.taint.sanitizers]]
+symbol = "PDO->quote+"
+clears = ["sql"]
+
+[[rule.taint.propagators]]
+symbol = "trim"
+from = [1]
+
+[[rule]]
+id = "BT9002"
+title = "OS command injection"
+area = "injection"
+description = "Test rule: request data reaches a sensitive operation."
+remediation = "Neutralise the data for the operation before using it."
+cwe = ["CWE-78"]
+owasp = ["OWASP:2021:A03"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "high"
+integrity = "high"
+availability = "high"
+
+[rule.taint]
+sources = ["$_GET", "$_POST", "$_COOKIE", "$_REQUEST"]
+
+[[rule.taint.sinks]]
+symbol = "system"
+args = [1]
+class = "os-command"
+
+[[rule.taint.sinks]]
+symbol = "exec"
+args = [1]
+class = "os-command"
+
+[[rule.taint.sinks]]
+symbol = "shell_exec"
+args = [1]
+class = "os-command"
+
+[[rule.taint.sinks]]
+symbol = "passthru"
+args = [1]
+class = "os-command"
+
+[[rule.taint.sinks]]
+symbol = "popen"
+args = [1]
+class = "os-command"
+
+[[rule.taint.sanitizers]]
+symbol = "escapeshellarg"
+clears = ["os-command"]
+
+[[rule.taint.sanitizers]]
+symbol = "escapeshellcmd"
+clears = ["os-command"]
+
+[[rule]]
+id = "BT9003"
+title = "Path traversal"
+area = "injection"
+description = "Test rule: request data reaches a sensitive operation."
+remediation = "Neutralise the data for the operation before using it."
+cwe = ["CWE-22"]
+owasp = ["OWASP:2021:A01"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "high"
+integrity = "high"
+availability = "high"
+
+[rule.taint]
+sources = ["$_GET", "$_POST", "$_COOKIE", "$_REQUEST"]
+
+[[rule.taint.sinks]]
+symbol = "readfile"
+args = [1]
+class = "file-path"
+
+[[rule.taint.sinks]]
+symbol = "fopen"
+args = [1]
+class = "file-path"
+
+[[rule.taint.sinks]]
+symbol = "file_put_contents"
+args = [1]
+class = "file-path"
+
+[[rule.taint.sinks]]
+symbol = "unlink"
+args = [1]
+class = "file-path"
+
+[[rule.taint.sinks]]
+symbol = "file_get_contents"
+args = [1]
+class = "file-path"
+
+[[rule.taint.sanitizers]]
+symbol = "basename"
+clears = ["file-path"]
+
+[[rule]]
+id = "BT9004"
+title = "Unsafe deserialization"
+area = "injection"
+description = "Test rule: request data reaches a sensitive operation."
+remediation = "Neutralise the data for the operation before using it."
+cwe = ["CWE-502"]
+owasp = ["OWASP:2021:A08"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "high"
+integrity = "high"
+availability = "high"
+
+[rule.taint]
+sources = ["$_GET", "$_POST", "$_COOKIE", "$_REQUEST"]
+
+[[rule.taint.sinks]]
+symbol = "unserialize"
+args = [1]
+class = "deserialization"
+
+[[rule]]
+id = "BT9005"
+title = "Open redirect"
+area = "injection"
+description = "Test rule: request data reaches a sensitive operation."
+remediation = "Neutralise the data for the operation before using it."
+cwe = ["CWE-601"]
+owasp = ["OWASP:2021:A01"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "high"
+integrity = "high"
+availability = "high"
+
+[rule.taint]
+sources = ["$_GET", "$_POST", "$_COOKIE", "$_REQUEST"]
+
+[[rule.taint.sinks]]
+symbol = "header"
+args = [1]
+class = "redirect-target"
+
+[[rule]]
+id = "BT9006"
+title = "Server-side request forgery"
+area = "injection"
+description = "Test rule: request data reaches a sensitive operation."
+remediation = "Neutralise the data for the operation before using it."
+cwe = ["CWE-918"]
+owasp = ["OWASP:2021:A10"]
+
+[rule.metrics]
+attack_vector = "network"
+attack_complexity = "low"
+privileges_required = "none"
+user_interaction = "none"
+scope = "unchanged"
+confidentiality = "high"
+integrity = "high"
+availability = "high"
+
+[rule.taint]
+sources = ["$_GET", "$_POST", "$_COOKIE", "$_REQUEST"]
+
+[[rule.taint.sinks]]
+symbol = "file_get_contents"
+args = [1]
+class = "outgoing-request"
+
+[[rule.taint.sinks]]
+symbol = "curl_setopt"
+args = [3]
+class = "outgoing-request"
+

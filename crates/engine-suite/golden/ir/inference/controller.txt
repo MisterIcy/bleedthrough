@@ -1,0 +1,170 @@
+unit {main} kind=main span=0..1490 owner=- static=true recovered=false
+b0 (entry):
+  term return
+b1 (exit):
+  term exit
+
+unit App\User::__construct kind=method span=175..243 owner=App\User static=false recovered=false
+params: l0 $id, l1 $name
+b0 (entry):
+  v0 = load local $this @203..217  ; public int $id
+  v1 = load local $id @203..217  ; public int $id
+  store prop v0<App\User>->id = v1 @203..217  ; public int $id
+  v2 = load local $this @219..239  ; private string $name
+  v3 = load local $name @219..239  ; private string $name
+  store prop v2<App\User>->name = v3 @219..239  ; private string $name
+  term return
+b1 (exit):
+  term exit
+
+unit App\User::name kind=method span=248..302 owner=App\User static=false recovered=false
+b0 (entry):
+  v0 = load local $this :data @288..293  ; $this
+  v1 = load prop v0<App\User>->name :data @288..299  ; $this->name
+  term return v1
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit App\SqlUserRepository::find kind=method span=362..415 owner=App\SqlUserRepository static=false recovered=false
+params: l0 $id
+b0 (entry):
+  v0 = const null :inert @408..412  ; null
+  term return v0
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit App\SqlUserRepository::all kind=method span=420..463 owner=App\SqlUserRepository static=false recovered=false
+b0 (entry):
+  v0 = array [] :data @458..460  ; []
+  term return v0
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit App\CachedUserRepository::find kind=method span=526..579 owner=App\CachedUserRepository static=false recovered=false
+params: l0 $id
+b0 (entry):
+  v0 = const null :inert @572..576  ; null
+  term return v0
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit App\CachedUserRepository::all kind=method span=584..627 owner=App\CachedUserRepository static=false recovered=false
+b0 (entry):
+  v0 = array [] :data @622..624  ; []
+  term return v0
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit App\Response::json kind=method span=652..725 owner=App\Response static=true recovered=false
+params: l0 $data
+b0 (entry):
+  v0 = new static<App\Response>() res=resolved [] :data @710..722  ; new static()
+  term return v0
+b1:
+  term return
+b2 (exit):
+  term exit
+
+unit App\UserController::__construct kind=method span=756..817 owner=App\UserController static=false recovered=false
+params: l0 $users
+b0 (entry):
+  v0 = load local $this @784..813  ; private UserRepository $users
+  v1 = load local $users @784..813  ; private UserRepository $users
+  store prop v0<App\UserController>->users = v1 @784..813  ; private UserRepository $users
+  term return
+b1 (exit):
+  term exit
+
+unit App\UserController::show kind=method span=823..1114 owner=App\UserController static=false recovered=false
+params: l0 $id
+b0 (entry):
+  v0 = load local $this :data @885..890  ; $this
+  v1 = load prop v0<App\UserController>->users :data @885..897  ; $this->users
+  v2 = load local $id :inert @904..907  ; $id
+  v3 = call method v1->find(v2) res=resolved [method App\UserRepository::find implementors(App\CachedUserRepository, App\SqlUserRepository)] :data @885..908  ; $this->users->find($id)
+  store local $user = v3 @877..908  ; $user = $this->users->find($id)
+  v4 = load local $user :data @922..927  ; $user
+  v5 = const null :inert @932..936  ; null
+  v6 = binary Identical v4, v5 :inert @922..936  ; $user === null
+  term branch v6 ? b2 : b3
+b1:
+  v11 = load local $user :data @1025..1030  ; $user
+  v12 = call method v11->name() res=resolved [method App\User::name] :data @1025..1038  ; $user->name()
+  store local $name = v12 @1017..1038  ; $name = $user->name()
+  v13 = const str "name" :data @1071..1077  ; 'name'
+  v14 = load local $name :data @1081..1086  ; $name
+  v15 = const str "id" :data @1088..1092  ; 'id'
+  v16 = load local $user :data @1096..1101  ; $user
+  v17 = load prop v16<App\User>->id :inert @1096..1105  ; $user->id
+  v18 = array [v13 => v14, v15 => v17] :data @1070..1106  ; ['name' => $name, 'id' => $user->id]
+  v19 = call static Response<App\Response>::json(v18) res=resolved [method App\Response::json] :data @1055..1107  ; Response::json(['name' => $name, 'id' => $user-...
+  term return v19
+b2:
+  v7 = const str "error" :data @975..982  ; 'error'
+  v8 = const str "missing" :data @986..995  ; 'missing'
+  v9 = array [v7 => v8] :data @974..996  ; ['error' => 'missing']
+  v10 = call static Response<App\Response>::json(v9) res=resolved [method App\Response::json] :data @959..997  ; Response::json(['error' => 'missing'])
+  term return v10
+b3:
+  term goto b1
+b4:
+  term goto b1
+b5:
+  term return
+b6 (exit):
+  term exit
+
+unit App\UserController::index kind=method span=1120..1316 owner=App\UserController static=false recovered=false
+b0 (entry):
+  v0 = array [] :data @1175..1177  ; []
+  store local $out = v0 @1168..1177  ; $out = []
+  v1 = load local $this :data @1196..1201  ; $this
+  v2 = load prop v1<App\UserController>->users :data @1196..1208  ; $this->users
+  v3 = call method v2->all() res=resolved [method App\UserRepository::all implementors(App\CachedUserRepository, App\SqlUserRepository)] :data @1196..1215  ; $this->users->all()
+  term goto b1
+b1:
+  v4 = test synthetic [v3] :inert @1196..1215  ; $this->users->all()
+  term branch v4 ? b2 : b3
+b2:
+  v5 = iter v3 Value @1219..1224  ; $user
+  store local $user = v5 @1219..1224  ; $user
+  v6 = load local $user :data @1249..1254  ; $user
+  v7 = call method v6->name() res=resolved [method App\User::name] :data @1249..1262  ; $user->name()
+  store.weak local $out = v7 @1240..1262  ; $out[] = $user->name()
+  term goto b1
+b3:
+  v8 = load local $out :data @1304..1308  ; $out
+  v9 = call static Response<App\Response>::json(v8) res=resolved [method App\Response::json] :data @1289..1309  ; Response::json($out)
+  term return v9
+b4:
+  term return
+b5 (exit):
+  term exit
+
+unit App\UserController::dynamic kind=method span=1322..1488 owner=App\UserController static=false recovered=false
+params: l0 $handler, l1 $method
+b0 (entry):
+  v0 = load local $handler @1379..1387  ; $handler
+  v1 = call method v0->handle() res=unresolved(unknown_receiver_type) @1379..1397  ; $handler->handle()
+  v2 = load local $this :data @1407..1412  ; $this
+  v3 = load local $method @1414..1421  ; $method
+  v4 = call method v2->{v3}() res=dynamic(variable_method) @1407..1423  ; $this->$method()
+  v5 = load local $this :data @1433..1438  ; $this
+  v6 = call method v5->missing() res=unresolved(method_not_found) @1433..1449  ; $this->missing()
+  v7 = const str "x" :data @1477..1480  ; 'x'
+  v8 = call fn strtoupper(v7) res=resolved [function strtoupper] :data @1466..1481  ; strtoupper('x')
+  term return v8
+b1:
+  term return
+b2 (exit):
+  term exit

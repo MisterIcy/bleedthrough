@@ -1,6 +1,6 @@
 # Configuration of `cargo xtask mutants` (docs/testing.md, spec `mutation-testing`).
 
-# Domain crates that are mutated. Placeholder crates (ir, packs, engine) join when they have code.
+# Domain crates that are mutated. The placeholder crate packs joins when it has code.
 crates = [
   "bleedthrough-taxonomy",
   "bleedthrough-builtins",
@@ -8,6 +8,8 @@ crates = [
   "bleedthrough-rules",
   "bleedthrough-findings",
   "bleedthrough-symbols",
+  "bleedthrough-ir",
+  "bleedthrough-engine",
 ]
 
 # Per-mutant timeout in seconds. Fixed (not derived from the baseline) so that runs are reproducible.
@@ -23,3 +25,15 @@ exclude_re = [
 
 # Files that are not product logic: test code, generated code and vendored data.
 exclude_globs = ["**/tests/**", "**/examples/**", "**/benches/**", "**/generated/**"]
+
+# The tests of ir and engine need a parser, so they live in the adapter; a mutant of these crates is
+# judged by their own tests and the adapter's (the listed packages are added to the mutated one).
+[test_packages]
+bleedthrough-ir = ["bleedthrough-syntax-mago"]
+bleedthrough-engine = ["bleedthrough-syntax-mago"]
+
+# Their tests take about four minutes a pass (the baseline included), and a mutant only the slow tests
+# catch needs the same time, so the default timeout would report it as a timeout.
+[timeouts]
+bleedthrough-ir = 900
+bleedthrough-engine = 900

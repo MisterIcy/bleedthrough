@@ -174,6 +174,12 @@ fn match_expectations(
     }
 }
 
+/// Scores the findings of an in-process analysis against the corpus: the same result as scoring
+/// the `json` report of the same findings.
+pub fn score_domain(corpus: &Corpus, findings: &[bleedthrough_findings::Finding]) -> Scored {
+    score(corpus, &crate::report::from_domain(findings))
+}
+
 /// Scores `findings` against the corpus.
 pub fn score(corpus: &Corpus, findings: &[Finding]) -> Scored {
     let mut findings: Vec<&Finding> = findings.iter().collect();

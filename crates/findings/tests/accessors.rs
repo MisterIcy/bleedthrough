@@ -55,6 +55,7 @@ fn wire_names_are_stable_lowercase_words() {
         (SkipReason::Unreadable, "unreadable"),
         (SkipReason::NotUtf8, "not_utf8"),
         (SkipReason::TimeLimit, "time_limit"),
+        (SkipReason::InternalFault, "internal_fault"),
     ];
     for (reason, name) in skips {
         assert_eq!(reason.as_str(), name);
@@ -65,6 +66,16 @@ fn wire_names_are_stable_lowercase_words() {
         (LimitKind::FileSize, "file_size"),
         (LimitKind::CallDepth, "call_depth"),
         (LimitKind::TotalTime, "total_time"),
+        (LimitKind::BlockLimit, "block_limit"),
+        (LimitKind::InstructionLimit, "instruction_limit"),
+        (LimitKind::StepBudget, "step_budget"),
+        (LimitKind::BlockVisits, "block_visits"),
+        (LimitKind::OriginCap, "origin_cap"),
+        (LimitKind::Iterations, "iterations"),
+        (LimitKind::SummaryDepth, "summary_depth"),
+        (LimitKind::Candidates, "candidates"),
+        (LimitKind::ExpressionDepth, "expression_depth"),
+        (LimitKind::ComponentSize, "component_size"),
     ];
     for (kind, name) in limits {
         assert_eq!(kind.as_str(), name);

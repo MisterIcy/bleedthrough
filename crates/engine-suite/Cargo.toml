@@ -1,0 +1,21 @@
+[package]
+name = "bleedthrough-engine-suite"
+version = "0.0.0"
+description = "Bleedthrough tooling: PHP-source scenarios, golden dumps and corpus checks for the IR and the taint engine"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+bleedthrough-syntax = { path = "../syntax" }
+bleedthrough-symbols = { path = "../symbols" }
+bleedthrough-builtins = { path = "../builtins" }
+bleedthrough-ir = { path = "../ir" }
+bleedthrough-engine = { path = "../engine" }
+bleedthrough-rules = { path = "../rules" }
+bleedthrough-findings = { path = "../findings" }

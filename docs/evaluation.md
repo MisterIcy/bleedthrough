@@ -79,6 +79,13 @@ reference (`known_gap = { reason, tracking }`); the expectations record which ca
 The committed counts are all zero today because no scan exists; the first change that produces a report
 runs `--update` and commits the result.
 
+## In-process scoring
+
+`matching::score_domain` scores `bleedthrough_findings::Finding` values directly, reducing them with
+`report::from_domain` exactly as `report::read` reduces a `json` report (a test in `bleedthrough-emit`
+checks the two agree on every sample report). The engine tests use it to score the corpus without a
+scan command; the `scan-switch` stays false until the `scan-pipeline` change.
+
 ## The scan switch
 
 While `bleedthrough` has no scan command (it prints no report, exits with usage status 2, or says

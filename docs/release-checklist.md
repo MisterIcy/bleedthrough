@@ -2,6 +2,9 @@
 
 Work through this before tagging a release. Items that a command can check name the command.
 
+- [ ] **Mutation testing is clean.** Dispatch the `mutants` workflow on the release commit (it is not part of
+      routine CI). Every job passes: each survivor is killed or in `testing/mutants-survivors.toml` with its
+      analysis, and no ledger entry is stale. See [testing.md](testing.md).
 - [ ] `cargo xtask check-all` and the rest of the gates in [CONTRIBUTING.md](../CONTRIBUTING.md) pass.
 - [ ] **Licensing of the built-in data is decided.** The project owner has recorded a decision in
       [licensing-builtins.md](licensing-builtins.md). `cargo xtask check-release` fails while the
